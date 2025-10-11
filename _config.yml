@@ -4,8 +4,8 @@ url: "https://joseph-gad-code.github.io"
 baseurl: "/Gurjao-Lab-Website"
 
 permalink: pretty
+markdown: kramdown
 
-# Our “folder-per-page” convention
 collections_dir: pages
 collections:
   pages:

@@ -1,0 +1,19 @@
+title: "GURJAOLAB"
+url: "https://gurjaolab"
+baseurl: ""
+
+# Treat /pages as a buildable collection
+collections:
+  pages:
+    output: true
+    permalink: /:name/
+
+collections_dir: pages
+
+sass:
+  style: compressed
+
+exclude:
+  - node_modules
+  - vendor
+  - README.md

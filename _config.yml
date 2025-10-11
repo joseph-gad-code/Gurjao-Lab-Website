@@ -5,7 +5,6 @@ baseurl: "/Gurjao-Lab-Website"
 
 permalink: pretty
 
-# Our “folder-per-page” convention
 collections_dir: pages
 collections:
   pages:
@@ -15,7 +14,6 @@ collections:
 sass:
   style: compressed
 
-# Default layout for everything in the repo
 defaults:
   - scope: { path: "" }
     values:

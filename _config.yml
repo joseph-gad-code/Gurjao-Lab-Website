@@ -1,14 +1,10 @@
 title: "GURJAOLAB"
+
+# Project site (no custom domain):
 url: "https://joseph-gad-code.github.io"
 baseurl: "/Gurjao-Lab-Website"
+
 permalink: pretty
-
-collections:
-  pages:
-    output: true
-    permalink: /:name/
-
-collections_dir: pages
 
 sass:
   style: compressed
@@ -17,3 +13,4 @@ exclude:
   - node_modules
   - vendor
   - README.md
+  

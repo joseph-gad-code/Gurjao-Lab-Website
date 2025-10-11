@@ -1,25 +1,5 @@
 title: "GURJAOLAB"
-description: "GURJAOLAB website"
-url: "https://joseph-gad-code.github.io"
-baseurl: "/Gurjao-Lab-Website"
-
+description: ""
+url: "https://<your-username>.github.io"
+baseurl: "/Gurjao-Lab-Website"   # project site
 permalink: pretty
-markdown: kramdown
-
-collections_dir: pages
-collections:
-  pages:
-    output: true
-    permalink: /:name/
-
-sass:
-  style: compressed
-
-# Default layout for everything in the repo
-defaults:
-  - scope: { path: "" }
-    values:
-      layout: default
-
-exclude:
-  - README.md

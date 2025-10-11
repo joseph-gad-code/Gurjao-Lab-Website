@@ -1,8 +1,8 @@
 title: "GURJAOLAB"
-url: "https://gurjaolab"
-baseurl: ""
+url: "https://joseph-gad-code.github.io"
+baseurl: "/Gurjao-Lab-Website"
+permalink: pretty
 
-# Treat /pages as a buildable collection
 collections:
   pages:
     output: true

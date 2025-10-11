@@ -1,0 +1,14 @@
+<nav class="site-nav">
+  <div class="site-nav__inner">
+    <a class="brand" href="{{ '/' | relative_url }}">{{ site.data.settings.site_title }}</a>
+    <ul class="menu">
+      {% assign here = page.permalink | default: page.url | replace: 'index.html','' %}
+      {% for item in site.data.settings.nav %}
+        {% assign is_active = (here == item.url) or (item.url != '/' and here contains item.url) %}
+        <li class="menu__item{% if is_active %} is-active{% endif %}">
+          <a href="{{ item.url | relative_url }}">{{ item.label }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</nav>

@@ -7,8 +7,9 @@ $color-brand: #0D5295 !default;
 /* Navbar behavior */
 $nav-bg: #fff !default;
 $nav-height: 72px !default;
-$nav-link-color: #666 !default;
-$nav-link-hover-color: #000 !default;
+$nav-link-color: #666 !default;        // gray by default
+$nav-link-hover-color: #000 !default;  // black on hover
+$nav-link-hover-weight: 700 !default;  // bold on hover
 $nav-active-underline-width: 2px !default;
 $nav-item-xpadding: 22px !default;
 

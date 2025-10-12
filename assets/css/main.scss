@@ -3,11 +3,16 @@
 
 /* Base */
 :root {
-  /* Colors: */
+  /* colors */
   --blue: #0D5295;
   --gray: #666666;
   --black: #111111;
+
+  /* font weights */
+  --weight-normal: 400;
+  --weight-bold: 700;
 }
+
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
@@ -19,18 +24,49 @@ body {
 
 /* Header / Navigation Bar */
 .site-header {
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 16px 20px;
 }
+
 .brand a {
-  font-size: 28px; font-weight: 800; color: var(--blue); text-decoration: none;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--blue);
+  text-decoration: none;
 }
-.site-nav ul { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
+
+.site-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+}
+
 .site-nav a {
-  text-decoration: none; color: var(--gray); font-weight: 400;
+  text-decoration: none;
+  color: var(--gray);
+  font-weight: var(--weight-normal);
+  transition: color .15s ease, font-weight .05s linear;
 }
-.site-nav a:hover { color: var(--black); font-weight: 400 }
-.site-nav li.active > a { text-decoration: underline; }
+.site-nav a:hover,
+.site-nav a:focus {
+  color: var(--black);
+}
+.site-nav li.active > a {
+  color: var(--black);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+  font-weight: var(--weight-normal);
+}
 
 /* Footer */
-.site-footer { border-top: 1px solid #eee; padding: 20px; text-align: center; color: #666; }
+.site-footer {
+  border-top: 1px solid #eee;
+  padding: 20px;
+  text-align: center;
+  color: var(--gray);
+}

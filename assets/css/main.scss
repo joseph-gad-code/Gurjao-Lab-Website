@@ -14,7 +14,18 @@ body {
   color: $color-text;
 }
 
-/* ======= NAVBAR (framework-agnostic) ======= */
+/* ======= NAVBAR (framework-agnostic) =======
+   Works with a simple header like:
+   <header class="site-header">
+     <div class="container">
+       <a class="site-brand" href="/">GURJAOLAB</a>
+       <ul class="site-nav">
+         <li class="{% raw %}{% if page.url == '/' %}active{% endif %}{% endraw %}"><a href="{{ '/' | relative_url }}">Home</a></li>
+         ...
+       </ul>
+     </div>
+   </header>
+*/
 .site-header {
   background: $nav-bg;
   box-shadow: $shadow-sm;
@@ -49,7 +60,7 @@ body {
   transition: color $transition-fast, font-weight $transition-fast, border-color $transition-fast;
 }
 .site-nav a:hover,
-.site-nav a:focus { color: $nav-link-hover-color; }
+.site-nav a:focus { color: $nav-link-hover-color; font-weight: $nav-link-hover-weight; }
 .site-nav li.active > a,
 .site-nav a.active,
 .site-nav a[aria-current="page"] { border-bottom-color: $nav-link-hover-color; }
@@ -70,6 +81,7 @@ body {
     border-bottom: $nav-active-underline-width solid transparent;
     &:hover, &:focus {
       color: $nav-link-hover-color;
+      font-weight: $nav-link-hover-weight;
       background: transparent;
     }
   }

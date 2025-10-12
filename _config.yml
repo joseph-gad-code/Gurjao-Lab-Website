@@ -4,6 +4,8 @@ baseurl: "/Gurjao-Lab-Website/"
 permalink: pretty
 timezone: America/New_York
 
+footer_text: "We acknowledge that we are located on the territory of the Kanien’kehá:ka (Mohawk) Nation, which has never been ceded by treaty."
+
 sass:
   style: compressed
 

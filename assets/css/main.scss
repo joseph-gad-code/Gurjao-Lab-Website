@@ -1,34 +1,83 @@
 ---
 ---
 
+/* Pull in variables first */
+@import "variables";
+
 /* Base */
-:root {
-  --blue: #0D5295;
-  --text: #111;
-}
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+html { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+
 body {
-  font-family: "Nunito", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color: var(--text);
-  line-height: 1.6;
+  margin: 0;
+  font-family: $font-family-base;
+  color: $color-text;
 }
-.container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
 
-/* Header / nav */
+/* ======= NAVBAR (framework-agnostic) ======= */
 .site-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 20px;
+  background: $nav-bg;
+  box-shadow: $shadow-sm;
 }
-.brand a {
-  font-size: 28px; font-weight: 800; color: var(--blue); text-decoration: none;
+.site-header .container {
+  max-width: $container-max;
+  margin: 0 auto;
+  padding: 0 16px;
+  height: $nav-height;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.site-nav ul { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
-.site-nav a {
-  text-decoration: none; color: var(--text); font-weight: 400;
-}
-.site-nav a:hover { font-weight: 700; }                /* bold on hover */
-.site-nav li.active > a { text-decoration: underline; } /* underline active */
 
-/* Footer */
-.site-footer { border-top: 1px solid #eee; padding: 20px; text-align: center; color: #666; }
+.site-brand {
+  font-weight: 800;
+  text-decoration: none;
+  color: $color-brand;
+  letter-spacing: .2px;
+}
+.site-brand:hover { color: darken($color-brand, 8%); }
+
+.site-nav { display: flex; list-style: none; margin: 0; padding: 0; }
+.site-nav li { margin: 0; }
+.site-nav a {
+  display: inline-block;
+  padding: 0 $nav-item-xpadding;
+  line-height: $nav-height;
+  color: $nav-link-color;
+  text-decoration: none;
+  border-bottom: $nav-active-underline-width solid transparent;
+  transition: color $transition-fast, font-weight $transition-fast, border-color $transition-fast;
+}
+.site-nav a:hover,
+.site-nav a:focus { color: $nav-link-hover-color; }
+.site-nav li.active > a,
+.site-nav a.active,
+.site-nav a[aria-current="page"] { border-bottom-color: $nav-link-hover-color; }
+
+/* ======= BOOTSTRAP FALLBACK (if you use .navbar-default) ======= */
+.navbar-default {
+  background: $nav-bg;
+  .navbar-brand {
+    color: $color-brand;
+    font-weight: 800;
+    &:hover, &:focus { color: darken($color-brand, 8%); }
+  }
+  .navbar-nav > li > a {
+    color: $nav-link-color;
+    padding-left: $nav-item-xpadding;
+    padding-right: $nav-item-xpadding;
+    line-height: $nav-height;
+    border-bottom: $nav-active-underline-width solid transparent;
+    &:hover, &:focus {
+      color: $nav-link-hover-color;
+      background: transparent;
+    }
+  }
+  .navbar-nav > .active > a,
+  .navbar-nav > .active > a:hover,
+  .navbar-nav > .active > a:focus {
+    color: $nav-link-hover-color;
+    background: transparent;
+    border-bottom-color: $nav-link-hover-color; /* underline current page */
+  }
+}

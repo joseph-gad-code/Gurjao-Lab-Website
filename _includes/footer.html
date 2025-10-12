@@ -1,3 +1,10 @@
 <footer class="site-footer">
-  <p>© {{ "now" | date: "%Y" }} GURJAOLAB</p>
+  <div class="container">
+    <p class="site-footer__brand">{{ site.title }}</p>
+
+    <!-- Optional line driven from _config.yml -->
+    {% if site.footer_text %}
+      <p class="site-footer__note">{{ site.footer_text }}</p>
+    {% endif %}
+  </div>
 </footer>

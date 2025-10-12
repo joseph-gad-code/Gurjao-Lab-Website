@@ -1,51 +1,146 @@
 ---
 ---
-/* ----------------------------------------------------------
-   Base
----------------------------------------------------------- */
+
+// Main stylesheet for GURJAOLAB
+
+/* =========================================
+   Variables
+   ========================================= */
 :root {
+  /* colors */
   --blue: #0D5295;
-  --gray: #666;
-  --black: #000;
+  --black: #111111;
+  --gray: #666666;
+  --border: #eeeeee;
+  --page-bg: #ffffff;
 
+  /* font weights */
   --weight-normal: 400;
+  --weight-semibold: 600;
   --weight-bold: 700;
+
+  /* layout */
+  --container-max: 1100px;
+  --container-pad-x: 20px;
 }
 
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; }
+/* =========================================
+   Base / Reset
+   ========================================= */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
 body {
-  font-family: "Nunito", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  margin: 0;
   color: var(--black);
+  background: var(--page-bg);
+  font-family: "Nunito", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   line-height: 1.6;
+  text-rendering: optimizeLegibility;
 }
 
-/* Shared width wrapper for home content */
-.home-wrap {
-  max-width: 1100px;
+img { max-width: 100%; display: block; height: auto; }
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+a:hover,
+a:focus { text-decoration: underline; }
+
+.container {
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 24px var(--container-pad-x);
 }
 
-/* ----------------------------------------------------------
-   Hero image
----------------------------------------------------------- */
-.home-hero {
+/* Keep normal list bullets in content areas.
+   Navigation lists are explicitly reset below. */
+main ul { padding-left: 1.2rem; }
+
+/* =========================================
+   Header / Navigation
+   ========================================= */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px var(--container-pad-x);
+}
+
+.brand a {
+  color: var(--blue);
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: 0.3px;
+}
+
+.site-nav ul {
+  list-style: none;
+  display: flex;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav a {
+  color: var(--black);
+  font-weight: var(--weight-normal);
+  transition: color .15s ease, font-weight .08s linear, text-decoration-color .15s;
+}
+
+.site-nav a:hover,
+.site-nav a:focus {
+  color: var(--black);
+  font-weight: var(--weight-bold);   /* bold on hover */
+}
+
+/* underline current page */
+.site-nav li.active > a,
+.site-nav a[aria-current="page"] {
+  color: var(--black);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 2px;
+  font-weight: var(--weight-normal);
+}
+
+/* Stack nav on very small screens */
+@media (max-width: 520px) {
+  .site-header { flex-direction: column; gap: 10px; align-items: flex-start; }
+  .site-nav ul { gap: 16px; flex-wrap: wrap; }
+}
+
+/* =========================================
+   Footer
+   ========================================= */
+.site-footer {
+  border-top: 1px solid var(--border);
+  padding: 20px var(--container-pad-x);
+  text-align: center;
+  color: var(--gray);
+}
+
+/* =========================================
+   Home: Hero
+   ========================================= */
+.homepage-hero {
   margin: 0 0 2rem;
 }
-.home-hero img {
-  display: block;
+.homepage-hero img {
   width: 100%;
-  height: auto;
   border-radius: 8px;
 }
 
-/* ----------------------------------------------------------
-   Tagline + arrow anchors
----------------------------------------------------------- */
-.homepage-tagline-text {
-  position: relative;
-  margin: 1.25rem auto 3.25rem;
+/* =========================================
+   Home: Tagline (no arrows)
+   ========================================= */
+.homepage-tagline {
+  margin: 1.25rem auto 3rem;
+  max-width: var(--container-max);
   text-align: center;
   line-height: 1.25;
   font-weight: var(--weight-normal);
@@ -53,91 +148,63 @@ body {
   color: var(--black);
 }
 
-.homepage-tagline-text .emphasized-tagline-text {
-  position: relative;               /* anchor for the arrow */
-  display: inline-block;
+.homepage-tagline .tagline-emph {
   text-decoration: underline;
   text-decoration-thickness: 3px;
   text-underline-offset: 6px;
   font-weight: var(--weight-normal);
 }
 
-/* Arrow base (drawn as a background SVG) */
-.homepage-tagline-text .emphasized-tagline-text::after {
-  content: "";
-  position: absolute;
-  pointer-events: none;
-  width: 260px;
-  height: 120px;
-  top: 2.35rem;                      /* vertical drop from the word */
-  background-repeat: no-repeat;
-  background-size: contain;
-  opacity: .95;
-}
-
-/* Left arrow (from “Prevention” to left blurb) */
-.homepage-tagline-text .emphasized-tagline-text.point-left::after {
-  left: 50%;
-  transform: translateX(-58%);
-  background-image: url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 120'>\
-  <defs>\
-    <marker id='a' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto'>\
-      <path d='M0 0 L10 5 L0 10 Z' fill='%230D5295'/>\
-    </marker>\
-  </defs>\
-  <path d='M230 15 C130 10 130 90 40 110' fill='none' \
-        stroke='%230D5295' stroke-width='4' stroke-dasharray='8,10' marker-end='url(%23a)'/>\
-</svg>");
-}
-
-/* Right arrow (from “Treatment” to right blurb) */
-.homepage-tagline-text .emphasized-tagline-text.point-right::after {
-  left: 50%;
-  transform: translateX(-42%);
-  background-image: url("data:image/svg+xml;utf8,\
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 120'>\
-  <defs>\
-    <marker id='a' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto'>\
-      <path d='M0 0 L10 5 L0 10 Z' fill='%230D5295'/>\
-    </marker>\
-  </defs>\
-  <path d='M10 15 C110 10 110 90 200 110' fill='none' \
-        stroke='%230D5295' stroke-width='4' stroke-dasharray='8,10' marker-end='url(%23a)'/>\
-</svg>");
-}
-
-/* Hide the arrows on narrow screens to avoid overlap */
-@media (max-width: 700px) {
-  .homepage-tagline-text .emphasized-tagline-text::after { display: none; }
-}
-
-/* ----------------------------------------------------------
-   Two blurbs
----------------------------------------------------------- */
+/* =========================================
+   Home: Two blurbs
+   ========================================= */
 .homepage-blurbs {
   display: grid;
-  grid-template-columns: repeat(2, minmax(280px, 1fr));
-  gap: clamp(14px, 3vw, 28px);
-  align-items: start;
-  margin: 1.2rem auto 2.2rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+  max-width: var(--container-max);
+  margin: 0 auto 2.5rem;
+  padding: 0 var(--container-pad-x);
 }
 
-.homepage-blurbs .blurb { min-width: 0; }
-
-.homepage-blurbs p {
-  margin: 0 0 .8rem;
-  font-size: clamp(1rem, 1.4vw, 1.125rem);
+.homepage-blurb {
+  background: #fff;
+  border-radius: 10px;
   color: var(--black);
 }
 
-.homepage-blurbs .emphasized-blurb-text {
-  font-weight: 800; /* Nunito extra-bold reads clearly */
-  font-size: clamp(1.125rem, 2vw, 1.35rem);
-  line-height: 1.35;
+.blurb-strong {
+  font-weight: 800;
+  font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+  line-height: 1.45;
+  margin: 0 0 .5rem;
 }
 
-/* Stack the blurbs on phones */
+.homepage-blurb p {
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  line-height: 1.6;
+  margin: 0 0 .6rem;
+}
+
+/* Stack blurbs on small screens */
 @media (max-width: 800px) {
-  .homepage-blurbs { grid-template-columns: 1fr; }
+  .homepage-blurbs {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   Misc helpers
+   ========================================= */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0);
+  white-space: nowrap; border: 0;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
 }

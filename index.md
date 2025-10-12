@@ -3,4 +3,11 @@ layout: default
 title: Home
 ---
 
-Welcome to **GURJAOLAB**. This is the home page.
+<div class="homepage-hero-image">
+  <img
+    class="homepage-hero-image"
+    src="{{ '/assets/img/home/hero-image.jpg' | relative_url }}"
+    alt="GURJAOLAB - Hero Image"
+    decoding="async"
+    fetchpriority="high">
+</div>

@@ -1,14 +1,11 @@
----
----
-
-/* Base */
+/* ----------------------------------------------------------
+   Base
+---------------------------------------------------------- */
 :root {
-  /* colors */
   --blue: #0D5295;
-  --gray: #666666;
-  --black: #000000;
+  --gray: #666;
+  --black: #000;
 
-  /* font weights */
   --weight-normal: 400;
   --weight-bold: 700;
 }
@@ -20,71 +17,33 @@ body {
   color: var(--black);
   line-height: 1.6;
 }
-.container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
 
-/* Header / Navigation Bar */
-.site-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
+/* Shared width wrapper for home content */
+.home-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.brand a {
-  font-size: 28px;
-  font-weight: 800;
-  color: var(--blue);
-  text-decoration: none;
+/* ----------------------------------------------------------
+   Hero image
+---------------------------------------------------------- */
+.home-hero {
+  margin: 0 0 2rem;
 }
-
-.site-nav ul {
-  list-style: none;
-  display: flex;
-  gap: 28px;
-  margin: 0;
-  padding: 0;
-}
-
-.site-nav a {
-  text-decoration: none;
-  color: var(--gray);
-  font-weight: var(--weight-normal);
-  transition: color .15s ease, font-weight .05s linear;
-}
-.site-nav a:hover,
-.site-nav a:focus {
-  color: var(--black);
-}
-.site-nav li.active > a {
-  color: var(--black);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 2px;
-  font-weight: var(--weight-normal);
-}
-
-/* Footer */
-.site-footer {
-  border-top: 1px solid #eee;
-  padding: 20px;
-  text-align: center;
-  color: var(--gray);
-}
-
-/* Homepage Hero Image */
-.homepage-hero-image { margin: 0 0 2rem; }
-.homepage-hero-image {
+.home-hero img {
   display: block;
   width: 100%;
   height: auto;
   border-radius: 8px;
 }
 
-/* Tagline */
+/* ----------------------------------------------------------
+   Tagline + arrow anchors
+---------------------------------------------------------- */
 .homepage-tagline-text {
   position: relative;
   margin: 1.25rem auto 3.25rem;
-  max-width: 1100px;
   text-align: center;
   line-height: 1.25;
   font-weight: var(--weight-normal);
@@ -93,7 +52,7 @@ body {
 }
 
 .homepage-tagline-text .emphasized-tagline-text {
-  position: relative;
+  position: relative;               /* anchor for the arrow */
   display: inline-block;
   text-decoration: underline;
   text-decoration-thickness: 3px;
@@ -101,18 +60,20 @@ body {
   font-weight: var(--weight-normal);
 }
 
+/* Arrow base (drawn as a background SVG) */
 .homepage-tagline-text .emphasized-tagline-text::after {
   content: "";
   position: absolute;
   pointer-events: none;
   width: 260px;
   height: 120px;
-  top: 2.35rem;
+  top: 2.35rem;                      /* vertical drop from the word */
   background-repeat: no-repeat;
   background-size: contain;
   opacity: .95;
 }
 
+/* Left arrow (from “Prevention” to left blurb) */
 .homepage-tagline-text .emphasized-tagline-text.point-left::after {
   left: 50%;
   transform: translateX(-58%);
@@ -128,6 +89,7 @@ body {
 </svg>");
 }
 
+/* Right arrow (from “Treatment” to right blurb) */
 .homepage-tagline-text .emphasized-tagline-text.point-right::after {
   left: 50%;
   transform: translateX(-42%);
@@ -141,4 +103,39 @@ body {
   <path d='M10 15 C110 10 110 90 200 110' fill='none' \
         stroke='%230D5295' stroke-width='4' stroke-dasharray='8,10' marker-end='url(%23a)'/>\
 </svg>");
+}
+
+/* Hide the arrows on narrow screens to avoid overlap */
+@media (max-width: 700px) {
+  .homepage-tagline-text .emphasized-tagline-text::after { display: none; }
+}
+
+/* ----------------------------------------------------------
+   Two blurbs
+---------------------------------------------------------- */
+.homepage-blurbs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 1fr));
+  gap: clamp(14px, 3vw, 28px);
+  align-items: start;
+  margin: 1.2rem auto 2.2rem;
+}
+
+.homepage-blurbs .blurb { min-width: 0; }
+
+.homepage-blurbs p {
+  margin: 0 0 .8rem;
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
+  color: var(--black);
+}
+
+.homepage-blurbs .emphasized-blurb-text {
+  font-weight: 800; /* Nunito extra-bold reads clearly */
+  font-size: clamp(1.125rem, 2vw, 1.35rem);
+  line-height: 1.35;
+}
+
+/* Stack the blurbs on phones */
+@media (max-width: 800px) {
+  .homepage-blurbs { grid-template-columns: 1fr; }
 }

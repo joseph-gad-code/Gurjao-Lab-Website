@@ -66,14 +66,18 @@ main ul { padding-left: 1.2rem; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px var(--container-pad-x);
+  padding: 18px var(--container-pad-x);
 }
 
 .brand a {
+  display: inline-block;
   color: var(--blue);
-  font-weight: 800;
-  font-size: 50px;
+  font-weight: 900;
+  font-size: clamp(34px, 4.6vw, 56px);
   letter-spacing: 0.3px;
+  line-height: 1.05;
+  letter-spacing: 0.3px;
+  text-decoration: none;
 }
 
 .site-nav ul {

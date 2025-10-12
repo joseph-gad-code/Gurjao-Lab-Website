@@ -80,9 +80,10 @@ body {
   border-radius: 8px;
 }
 
-/* Homepage Tagline */
+/* Tagline */
 .homepage-tagline-text {
-  margin: 1.25rem auto 2.25rem;
+  position: relative;
+  margin: 1.25rem auto 3.25rem;
   max-width: 1100px;
   text-align: center;
   line-height: 1.25;
@@ -91,35 +92,52 @@ body {
 }
 
 .homepage-tagline-text .emphasized-tagline-text {
+  position: relative;
+  display: inline-block;
   text-decoration: underline;
   text-decoration-thickness: 3px;
   text-underline-offset: 6px;
+  font-weight: var(--weight-normal);
 }
 
-/* Homepage Blurbs*/
-section.homepage-blurb-text {
-  margin: 1.75rem auto 2.75rem;
-  max-width: 1100px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(18px, 4vw, 56px);
-  align-items: start;
+.homepage-tagline-text .emphasized-tagline-text::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  width: 260px;
+  height: 120px;
+  top: 2.35rem;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: .95;
 }
 
-section.homepage-blurb-text > .homepage-blurb-text {
-  text-align: center;
-  font-size: clamp(1rem, 2.2vw, 1.25rem);
-  line-height: 1.6;
-  min-width: 0;
+.homepage-tagline-text .emphasized-tagline-text.point-left::after {
+  left: 50%;
+  transform: translateX(-58%);
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 120'>\
+  <defs>\
+    <marker id='a' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto'>\
+      <path d='M0 0 L10 5 L0 10 Z' fill='%230D5295'/>\
+    </marker>\
+  </defs>\
+  <path d='M230 15 C130 10 130 90 40 110' fill='none' \
+        stroke='%230D5295' stroke-width='4' stroke-dasharray='8,10' marker-end='url(%23a)'/>\
+</svg>");
 }
 
-section.homepage-blurb-text > .homepage-blurb-text p {
-  margin: 0;
-}
-
-.emphasized-blurb-text {
-  font-weight: var(--weight-bold);
-  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
-  line-height: 1.4;
-  margin-bottom: .6rem;
+.homepage-tagline-text .emphasized-tagline-text.point-right::after {
+  left: 50%;
+  transform: translateX(-42%);
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 120'>\
+  <defs>\
+    <marker id='a' viewBox='0 0 10 10' refX='9' refY='5' markerWidth='6' markerHeight='6' orient='auto'>\
+      <path d='M0 0 L10 5 L0 10 Z' fill='%230D5295'/>\
+    </marker>\
+  </defs>\
+  <path d='M10 15 C110 10 110 90 200 110' fill='none' \
+        stroke='%230D5295' stroke-width='4' stroke-dasharray='8,10' marker-end='url(%23a)'/>\
+</svg>");
 }

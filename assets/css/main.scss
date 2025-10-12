@@ -1,0 +1,34 @@
+---
+---
+
+/* Base */
+:root {
+  --blue: #0D5295;
+  --text: #111;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: "Nunito", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+}
+.container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
+
+/* Header / nav */
+.site-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px;
+}
+.brand a {
+  font-size: 28px; font-weight: 800; color: var(--blue); text-decoration: none;
+}
+.site-nav ul { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
+.site-nav a {
+  text-decoration: none; color: var(--text); font-weight: 400;
+}
+.site-nav a:hover { font-weight: 700; }                /* bold on hover */
+.site-nav li.active > a { text-decoration: underline; } /* underline active */
+
+/* Footer */
+.site-footer { border-top: 1px solid #eee; padding: 20px; text-align: center; color: #666; }

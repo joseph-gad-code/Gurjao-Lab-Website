@@ -11,3 +11,8 @@ title: Home
     decoding="async"
     fetchpriority="high">
 </div>
+
+<div class="home-tagline-text">
+  We study cancer genomes for
+  <span class="emphasized-tagline-text">Prevention</span> and <span class="emphasized-tagline-text">Treatment</span>
+</div>

@@ -1,0 +1,13 @@
+title: "GURJAOLAB"
+url: "https://joseph-gad-code.github.io"
+baseurl: "/Gurjao-Lab-Website"
+permalink: pretty
+timezone: America/New_York
+
+sass:
+  style: compressed
+
+exclude:
+  - node_modules
+  - vendor
+  - README.md

@@ -18,7 +18,9 @@ title: Home
 
 <div class="homepage-tagline-text">
   We study cancer genomes for<br>
-  <span class="emphasized-tagline-text">Prevention</span> and <span class="emphasized-tagline-text">Treatment</span>
+  <span class="emphasized-tagline-text point-left">Prevention</span>
+  and
+  <span class="emphasized-tagline-text point-right">Treatment</span>
 </div>
 
 

@@ -81,7 +81,7 @@ body {
 }
 
 /* Homepage Tagline */
-.home-tagline-text {
+.homepage-tagline-text {
   margin: 1.25rem auto 2.25rem;
   max-width: 1100px;
   text-align: center;
@@ -90,7 +90,7 @@ body {
   font-size: clamp(1.9rem, 4vw, 3.25rem);
 }
 
-.home-tagline-text .emphasized-tagline-text {
+.homepage-tagline-text .emphasized-tagline-text {
   text-decoration: underline;
   text-decoration-thickness: 3px;
   text-underline-offset: 6px;

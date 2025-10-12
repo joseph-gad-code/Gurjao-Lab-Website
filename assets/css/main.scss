@@ -96,3 +96,30 @@ body {
   text-underline-offset: 6px;
 }
 
+/* Homepage Blurbs*/
+section.homepage-blurb-text {
+  margin: 1.75rem auto 2.75rem;
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(18px, 4vw, 56px);
+  align-items: start;
+}
+
+section.homepage-blurb-text > .homepage-blurb-text {
+  text-align: center;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  line-height: 1.6;
+  min-width: 0;
+}
+
+section.homepage-blurb-text > .homepage-blurb-text p {
+  margin: 0;
+}
+
+.emphasized-blurb-text {
+  font-weight: var(--weight-bold);
+  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  line-height: 1.4;
+  margin-bottom: .6rem;
+}

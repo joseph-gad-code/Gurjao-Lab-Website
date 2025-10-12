@@ -70,3 +70,12 @@ body {
   text-align: center;
   color: var(--gray);
 }
+
+/* Homepage Hero Image */
+.homepage-hero-image { margin: 0 0 2rem; }
+.homepage-hero-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}

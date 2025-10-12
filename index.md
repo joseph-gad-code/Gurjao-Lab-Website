@@ -1,29 +1,28 @@
 ---
 layout: default
-title: Home
+title: GURJAOLAB - Home
 ---
 
-<!-- Hero image -->
-<div class="home-hero">
+<!-- Hero -->
+<div class="homepage-hero">
   <img
     src="{{ '/assets/img/home/hero-image.png' | relative_url }}"
-    alt="GURJAOLAB hero"
-    decoding="async"
-    fetchpriority="high">
+    alt="GURJAOLAB – Hero image"
+    loading="eager"
+    decoding="async">
 </div>
 
-<!-- Tagline with arrow anchors -->
-<div class="home-wrap homepage-tagline-text">
+<!-- Tagline (no arrows) -->
+<div class="homepage-tagline">
   We study cancer genomes for<br>
-  <span class="emphasized-tagline-text point-left">Prevention</span>
-  and
-  <span class="emphasized-tagline-text point-right">Treatment</span>
+  <span class="tagline-emph">Prevention</span> and
+  <span class="tagline-emph">Treatment</span>
 </div>
 
 <!-- Two blurbs -->
-<section class="home-wrap homepage-blurbs">
-  <div class="blurb">
-    <p class="emphasized-blurb-text">
+<section class="homepage-blurbs">
+  <article class="homepage-blurb">
+    <p class="blurb-strong">
       While 80% of cancers are thought to be preventable, only about 5% of cancer
       funding goes toward prevention.
     </p>
@@ -31,10 +30,10 @@ title: Home
       By understanding how mutations occur, we are moving science closer to
       stopping cancer before it starts and spreads.
     </p>
-  </div>
+  </article>
 
-  <div class="blurb">
-    <p class="emphasized-blurb-text">
+  <article class="homepage-blurb">
+    <p class="blurb-strong">
       The number of cancer treatments has exploded in recent years, creating a
       new challenge: ensuring each patient is matched with the right drug(s).
     </p>
@@ -42,5 +41,5 @@ title: Home
       By decoding each tumor’s genetic profile, we are informing tailored cancer
       treatments.
     </p>
-  </div>
+  </article>
 </section>

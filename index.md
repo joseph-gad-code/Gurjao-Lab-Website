@@ -36,6 +36,8 @@ title: Home
     </p>
   </div>
 
+
+  
   <div class="homepage-blurb-text">
     <p class="emphasized-blurb-text">
       The number of cancer treatments has exploded in recent years, creating a

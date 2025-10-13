@@ -1,13 +1,14 @@
 ---
 ---
-
-/* Base */
+/* STYLE VARIABLES */
 :root {
   --blue: #0D5295;
   --black: #000000;
   --gray: #666666;
   
 }
+
+/* STYLES FOR GLOBAL WEBSITE ELEMENTS */
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
 body {
@@ -36,3 +37,13 @@ body {
 
 /* Footer */
 .site-footer { border-top: 1px solid #eee; padding: 20px; text-align: center; color: var(--gray); }
+
+/* STYLES FOR HOMEPAGE WEBSITE ELEMENTS */
+/* Homepage Hero Image */
+.homepage-hero-image { margin: 0 0 2rem; }
+.hero-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}

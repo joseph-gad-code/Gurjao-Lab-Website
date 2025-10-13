@@ -158,7 +158,7 @@ $lead-into-left:  $li-indent + $li-dash-left - $pre-dash-offset;
 .body-text .read-more{
   display: block;
   margin: .8rem 0 0 $li-indent;  /* aligns with LI text column */
-  padding-left: 0;
+  padding-left: $lead-into-left;
 }
 .body-text .read-more a{
   display: inline;

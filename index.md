@@ -59,7 +59,7 @@ title: Home
         <li>How this knowledge guides treatment: Using tumor mutations to predict which therapies will work best.</li>
         <li>Building new tools: Developing computational and experimental approaches with clinicians and physicists to push cancer research forward.</li>
       </ul>
-      <p class="link"><a href="/research/">Read more about our research…</a></p>
+      <p class="read-more"><a href="/research/">Read more about our research…</a></p>
     </div>
 
     <!-- RIGHT: News column for the homepage -->

@@ -1,8 +1,3 @@
-/**
- * Lightweight Google Scholar sync (no headless browser).
- * Scrapes the public profile pages and merges into _data/publications.yml
- * while preserving custom fields (selected_publication, image, blurb, etc.).
- */
 const fs = require('fs');
 const path = require('path');
 const yaml = require('js-yaml');

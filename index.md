@@ -64,7 +64,7 @@ title: Home
 
     <!-- RIGHT: News column for the homepage -->
     <aside class="home-news">
-      <h3>News</h3>
+      <h2>Latest News</h2>
       <ul class="news-list">
         <li>
           <time datetime="2025-09-15">Sep 15, 2025</time>

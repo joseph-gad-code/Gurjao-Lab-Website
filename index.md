@@ -63,18 +63,23 @@ title: Home
     </div>
 
     <!-- RIGHT: News column for the homepage -->
-    <aside class="home-news">
-      <h2>Latest News</h2>
-      <ul class="news-list">
-        <li>
-          <time datetime="2025-09-15">Sep 15, 2025</time>
-          We welcomed two new members to the lab.
-        </li>
-        <li>
-          <time datetime="2025-07-28">Jul 28, 2025</time>
-          Paper accepted at Journal X on mutational processes.
-        </li>
-      </ul>
-    </aside>
-  </div>
-</section>
+      <aside class="home-news">
+        <h3>News</h3>
+        {% assign items = site.data.news | sort: "date" | reverse %}
+        <div class="news-scroller">
+          {% for n in items %}
+            <article class="news-card">
+              <h4 class="news-headline">
+                {% if n.link %}
+                  <a href="{{ n.link }}" target="_blank" rel="noopener">{{ n.headline }}</a>
+                {% else %}
+                  {{ n.headline }}
+                {% endif %}
+              </h4>
+              <div class="news-meta">{{ n.date | date: "%b %-d, %Y" }}</div>
+              {% if n.body %}<p class="news-text">{{ n.body }}</p>{% endif %}
+            </article>
+          {% endfor %}
+        </div>
+      </aside>
+    </section>

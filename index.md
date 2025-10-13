@@ -26,7 +26,6 @@ title: Home
       While 80% of cancers are thought to be preventable, only about 5% of cancer
       funding goes toward prevention.
     </p>
-    <br>
     <p>
       By understanding how mutations occur, we are moving science closer to
       stopping cancer before it starts and spreads.
@@ -37,7 +36,6 @@ title: Home
       The number of cancer treatments has exploded in recent years, creating a
       new challenge: ensuring each patient is matched with the right drug(s).
     </p>
-    <br>
     <p>
       By decoding each tumor’s genetic profile, we are informing tailored cancer
       treatments.

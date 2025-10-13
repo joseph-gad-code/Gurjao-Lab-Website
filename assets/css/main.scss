@@ -63,3 +63,28 @@ body {
   text-decoration-thickness: 3px;
   text-underline-offset: 6px;
 }
+
+
+
+/* Homepage Blurbs */
+.homepage-blurbs {
+  margin: 1.75rem auto 2.75rem;
+  max-width: 1100px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(18px, 4vw, 56px);
+  align-items: start;
+}
+
+.homepage-blurbs .secondary-blurb {
+  text-align: center;
+  font-size: clamp(1rem, 2.2vw, 1.25rem);
+  line-height: 1.6;
+}
+
+.homepage-blurbs .main-blurb {
+  margin: 0 0 .6rem;
+  font-weight: 800; /* Nunito extra-bold for the lead line */
+  font-size: clamp(1.15rem, 2.4vw, 1.45rem);
+  line-height: 1.4;
+}

@@ -156,6 +156,7 @@ $lead-into-left:  $li-indent + $li-dash-left - $pre-dash-offset;
 }
 
 .link a { 
+  margin-top: .8rem;
   text-decoration: none;
   color: var(--lightblue);
   padding-left: $lead-into-left;

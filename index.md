@@ -91,3 +91,4 @@ title: Home
           {% endfor %}
         </div>
       </aside>
+</section>

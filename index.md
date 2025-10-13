@@ -49,7 +49,7 @@ title: Home
   <div class="homepage-body">
     <!-- LEFT: Main body text for the homepage -->
     <div class="body-text">
-      <h3>Our mission</h3>
+      <h2>Our mission</h2>
       <p>
         We aim to deliver data-driven precision prevention and precision treatment. Our work broadly focuses on:
       </p>

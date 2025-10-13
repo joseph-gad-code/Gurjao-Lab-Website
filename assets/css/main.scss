@@ -155,7 +155,7 @@ $lead-into-left:  $li-indent + $li-dash-left - $pre-dash-offset;
   opacity: .9;
 }
 
-.link a { 
+.body-text .link a { 
   margin-top: .8rem;
   text-decoration: none;
   color: var(--lightblue);

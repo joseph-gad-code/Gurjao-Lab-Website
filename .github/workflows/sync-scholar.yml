@@ -1,14 +1,16 @@
 name: Sync Google Scholar to publications.yml
+
 on:
   workflow_dispatch:
   schedule:
-    - cron: "15 6 * * 1"   # weekly (Mon 06:15 UTC)
+    - cron: "15 6 * * 1"   # weekly
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+
     steps:
       - uses: actions/checkout@v4
 
@@ -17,11 +19,10 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install deps
+      - name: Install minimal deps
         run: |
           npm init -y
-          npm i playwright@1 js-yaml
-          npx playwright install --with-deps chromium
+          npm i cheerio js-yaml
 
       - name: Run sync
         env:

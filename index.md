@@ -12,6 +12,7 @@ title: Home
 </div>
 
 <div class="homepage-tagline">
-  We study cancer genomes for
+  We study cancer genomes for <br>
   <span class="underlined-tagline-text">Prevention</span> and <span class="underlined-tagline-text">Treatment</span>
 </div>
+

@@ -1,78 +1,47 @@
 ---
-title: "Research"
+title: Contact
 layout: default
-permalink: /research/
+permalink: /contact/
 ---
 
-<section class="research-section img-right">
-  <div class="row">
-    <div class="research-copy">
-      <h2 class="section-title">What causes cancer mutations?</h2>
+<section class="contact-page">
+  <div class="contact-grid">
 
-      <p>Every person’s tumour tells a story—our lifestyle habits, our microbes, even our immune system shape the tumour’s DNA and can leave marks. We aim to discover and study such marks to understand how cancer develops.</p>
+    <!-- ROW 1 · LEFT: logo/media (same height as the text on the right) -->
+    <figure class="contact-media">
+      <div class="media-box">
+        <img src="{{ '/assets/images/logos/udem-iric.png' | relative_url }}" alt="IRIC · Université de Montréal">
+      </div>
+    </figure>
 
-      <p><em>Our discoveries so far:</em></p>
-      <ul class="dash-list">
-        <li>Discovered a mutational pattern linked to dietary habits, in particular red meat intake.</li>
-        <li>Identified a subpopulation that is particularly susceptible to DNA damage from such habits.</li>
-        <li>Assessed the long-term effects of smoking on the colorectal cancer genomes.</li>
+    <!-- ROW 1 · RIGHT: main details (beside the image) -->
+    <div class="contact-details contact-top">
+      <h2>Contact</h2>
+
+      <h3>Affiliations:</h3>
+      <ul class="contact-list">
+        <li>Institut de recherche en immunologie et en cancérologie (IRIC)</li>
+        <li>Department of Medicine, Faculty of Medicine, Université de Montréal</li>
       </ul>
 
-      <p>In collaborations, we also assessed how alcohol and certain bacterial strains leave mutational marks.</p>
+      <h3>Address:</h3>
+      <address class="contact-address">
+        Marcelle-Coutu Pavilion<br>
+        2950 Chemin de Polytechnique,<br>
+        Montréal, QC H3T 1J4, Canada<br>
+        Phone: (514) 343-6111, ext. 17206<br>
+        E-mail: <a href="mailto:carino.gurjao@umontreal.ca">carino.gurjao@umontreal.ca</a>
+      </address>
     </div>
 
-    <div class="research-figure">
-      <div class="figure-box">
-        <img class="rot-90-cw" src="{{ '/assets/images/research/causes.svg' | relative_url }}" alt="Factors shaping the mutational landscape: genome architecture, microbiota, lifestyle, immune system">
-      </div>
-    </div>
-  </div>
-</section>
+    <!-- ROW 2 · FULL WIDTH: content below the image -->
+    <div class="contact-details contact-lower">
+      <h3>Open position</h3>
+      <p>We are currently open to hiring at all levels. Please send applications to the e-mail address above.</p>
 
-<section class="research-section img-left">
-  <div class="row">
-    <div class="research-figure">
-      <div class="figure-box">
-        <img class="rot-90-ccw" src="{{ '/assets/images/research/treatment.svg' | relative_url }}" alt="Mutational landscape informing aggressiveness, responders, and drug synergies">
-      </div>
+      <h3>Contribute</h3>
+      <p>We welcome all types of contributions—collaborations, donations, or ideas to make our science more accessible and open source. Get in touch by e-mail!</p>
     </div>
 
-    <div class="research-copy">
-      <h2 class="section-title">How can tumor mutations guide treatment?</h2>
-
-      <p>Cancer immunotherapies are transforming treatment, yet not all patients respond the same way. Studying the mutational landscape of tumors can inform the best course of treatment and predict aggressiveness.</p>
-
-      <p><em>Our discoveries so far:</em></p>
-      <ul class="dash-list">
-        <li>Resistance to immunotherapy: identified intrinsic resistance to immune checkpoint blockade in mismatch repair–deficient colorectal cancer.</li>
-        <li>Hidden cancers: clinically and genomically characterized interval colorectal cancers across three prospective cohorts.</li>
-        <li>Germline predisposition to oncogenic alkylating damage in colorectal cancer.</li>
-      </ul>
-
-      <p>We have also contributed to studies on how tumor cells change after treatment, and how specific genetic contexts influence sensitivity to therapy.</p>
-    </div>
-  </div>
-</section>
-
-<section class="research-section img-right">
-  <div class="row">
-    <div class="research-copy">
-      <h2 class="section-title">Novel experimental and computational methods</h2>
-
-      <p>We work closely with clinicians and physicists to push the boundaries of how cancer is studied. Together, we are developing new approaches to:</p>
-
-      <ul class="dash-list">
-        <li>Map the spatial architecture of tumors—understanding how cancer cells interact with their surroundings within tissues; to do so, we engineer tools.</li>
-        <li>Reveal hidden microbial signals in tumor data—creating better ways to detect and analyze microbes that may influence cancer development.</li>
-      </ul>
-
-      <p>These tools help answer fundamental questions about cancer biology and provide the community with new methods to accelerate discovery.</p>
-    </div>
-
-    <div class="research-figure">
-      <div class="figure-box">
-        <img class="rot-90-cw" src="{{ '/assets/images/research/methods.svg' | relative_url }}" alt="Schematic of genome architecture, microbiota, lifestyle and immune system alongside mutational landscape">
-      </div>
-    </div>
   </div>
 </section>

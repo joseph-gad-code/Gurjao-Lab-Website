@@ -16,7 +16,7 @@ permalink: /contact/
 
     <!-- ROW 1 · RIGHT: main details (beside the image) -->
     <div class="contact-details contact-top">
-      <h2>Affiliations:</h2>
+      
       <ul class="contact-list">
         <li>Institut de recherche en immunologie et en cancérologie (IRIC)</li>
         <li>Department of Medicine, Faculty of Medicine, Université de Montréal</li>

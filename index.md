@@ -64,7 +64,7 @@ title: Home
 
     <!-- RIGHT: News column for the homepage -->
       <aside class="home-news" aria-label="Recent news">
-        <h2>Latest News</h2>
+        <h2>Latest news</h2>
         {% assign items = site.data.news | sort: "date" | reverse %}
         <div class="news-scroller">
           {% for n in items %}

@@ -50,8 +50,9 @@ title: Home
     <!-- LEFT: Main body text for the homepage -->
     <div class="body-text">
       <h2>Our mission</h2>
-      <p>
-        We aim to deliver data-driven precision prevention and precision treatment. Our work broadly focuses on:
+      <p class="text-above-list">
+        We aim to deliver data-driven precision prevention and precision treatment.
+        Our work broadly focuses on:
       </p>
       <ul>
         <li>Why mutations occur: How lifestyle, microbes, the immune system, and DNA three-dimensional structure leave their mark on the genome.</li>

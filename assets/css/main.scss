@@ -113,12 +113,17 @@ body {
   align-items: start;
 }
 
+$li-indent: 1.8rem;
+.body-text .text-above-list {
+  padding-left: $li-indent;
+}
+
 .body-text {
   text-align: left;
 }
 
 .body-text h2 {
-  margin: 0 0 16px;
+  margin: 0 0 28px;
   font-weight: 400;
 }
 
@@ -126,7 +131,7 @@ body {
 .body-text ul {
   list-style: none;
   margin: 10px 0 16px;
-  padding-left: 1.8rem;
+  padding-left: $li-indent;
 }
 
 .body-text li {

@@ -7,8 +7,8 @@ permalink: /people/
 <section class="people-page">
   <h1 class="page-title">Team members</h1>
 
+  {% assign folks = site.data.people | default: empty %}
   <div class="people-list">
-    {% assign folks = site.data.people %}
     {% for p in folks %}
     <article class="person-card">
       <div class="person-photo-wrap">
@@ -21,24 +21,24 @@ permalink: /people/
 
       <div class="person-meta">
         <h3 class="person-name">{{ p.name }}</h3>
-        <div class="person-role">{{ p.status }}</div>
+        {% if p.status %}<div class="person-status">{{ p.status }}</div>{% endif %}
         {% if p.bio %}<p class="person-bio">{{ p.bio }}</p>{% endif %}
 
         {% if p.github or p.scholar or p.linkedin %}
         <div class="person-social" aria-label="Profile links">
           {% if p.github %}
-            <a href="{{ p.github }}" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
-              <img class="icon" src="{{ '/assets/images/people/github.svg' | relative_url }}" alt="GitHub icon">
+            <a href="{{ p.github }}" target="_blank" rel="noopener">
+              <img class="icon" src="{{ '/assets/images/people/github.svg' | relative_url }}" alt="GitHub">
             </a>
           {% endif %}
           {% if p.scholar %}
-            <a href="{{ p.scholar }}" target="_blank" rel="noopener" title="Google Scholar" aria-label="Google Scholar">
-              <img class="icon" src="{{ '/assets/images/people/scholar.svg' | relative_url }}" alt="Google Scholar icon">
+            <a href="{{ p.scholar }}" target="_blank" rel="noopener">
+              <img class="icon" src="{{ '/assets/images/people/scholar.svg' | relative_url }}" alt="Google Scholar">
             </a>
           {% endif %}
           {% if p.linkedin %}
-            <a href="{{ p.linkedin }}" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
-              <img class="icon" src="{{ '/assets/images/people/linkedin.svg' | relative_url }}" alt="LinkedIn icon">
+            <a href="{{ p.linkedin }}" target="_blank" rel="noopener">
+              <img class="icon" src="{{ '/assets/images/people/linkedin.svg' | relative_url }}" alt="LinkedIn">
             </a>
           {% endif %}
         </div>
@@ -74,4 +74,3 @@ permalink: /people/
     </div>
   </div>
 </section>
-

@@ -413,43 +413,48 @@ $pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - 1.25rem);
 }
 
 /* People page */
-.people-page,
-.values-section { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.people-page { max-width: 1100px; margin: 0 auto 2rem; padding: 0 24px; }
+.people-page .page-title { margin: 0 0 14px; font-weight: 400; }
 
-.page-title { margin: 8px 0 18px; font-weight: 700; }
+.people-list { display: grid; gap: 16px; }
 
-.people-list { display: grid; gap: 18px; }
-
-/* Card: photo left, text right */
 .person-card {
   display: grid;
   grid-template-columns: 110px 1fr;
   gap: 14px;
-  padding: 12px;
+  align-items: start;
+  padding: 12px 8px;
   border: 1px solid #eee;
   border-radius: 10px;
-  background: var(--white, #fff);
+  background: #fff;
 }
 
-.person-photo-wrap { width: 110px; height: 110px; border-radius: 10px; overflow: hidden; background: #f3f4f6; }
-.person-photo       { width: 100%; height: 100%; object-fit: cover; display: block; }
-.person-photo.placeholder { display:flex; align-items:center; justify-content:center; color:#999; font-size:.9rem; }
-
-.person-name { margin: 0 0 2px; font-size: 1.05rem; }
-.person-role { margin: 0 0 6px; color: #555; font-size: .95rem; }
-.person-bio  { margin: 0; }
-
-.person-social { margin-top: 8px; display: flex; gap: 10px; }
-.person-social .icon { width: 22px; height: 22px; fill: #6b7280; display:block; }
-.person-social a:hover .icon { fill: var(--lightblue, #4a90e2); }
-
-/* Core values: two columns */
-.values-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  padding: 8px 0 24px;
-  border-top: 1px solid #eee;
-  margin-top: 8px;
+.person-photo-wrap { width: 110px; }
+.person-photo,
+.person-photo.placeholder {
+  width: 100%;
+  height: 110px;
+  border-radius: 8px;
+  object-fit: cover;
+  display: block;
+  background: #f6f6f6;
+  color: #777;
+  font-size: .9rem;
+  line-height: 110px;
+  text-align: center;
 }
-.value-col h3 { margin: 6px 0 8px; font-weight: 700; }
+.person-photo.placeholder { border: 1px dashed #ddd; }
+
+.person-name { margin: 0 0 2px; font-size: 1.1rem; }
+.person-status { color: #666; font-size: .95rem; margin-bottom: 6px; }
+.person-bio { margin: 0; }
+
+.person-social { margin-top: 8px; display: flex; gap: 10px; align-items: center; }
+.person-social .icon { width: 22px; height: 22px; display: block; opacity: .8; transition: opacity .15s ease; }
+.person-social a:hover .icon { opacity: 1; }
+
+/* Core values */
+.values-section { max-width: 1100px; margin: 2.5rem auto 3rem; padding: 0 24px; }
+.values-section .page-title { margin: 0 0 12px; font-weight: 400; }
+.values-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.values-grid .value-col h3 { margin: 0 0 8px; }

@@ -1,67 +1,30 @@
 ---
 ---
-/* === Research page === */
-.research-page{
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px 44px;
-}
+.research-page{max-width:1200px;margin:0 auto;padding:0 24px 48px}
 
-.research-section{
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: 28px;
-  align-items: start;
-  margin: 34px 0 40px;
-}
-.research-section + .research-section{
-  border-top: 1px solid rgba(0,0,0,.08);
-  padding-top: 34px;
-}
+.research-page h1{margin:0 0 24px;font-weight:400}
+.research-page h2{margin:0 0 16px;font-weight:400}
 
-.research-section .copy h1{
-  margin: 0 0 12px;
-  font-weight: 400;
-  font-size: clamp(1.6rem, 2.2vw + 1rem, 2.4rem);
-  line-height: 1.15;
-}
-.research-section .copy p{ margin: 10px 0 14px; }
+.research-section{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:28px;align-items:start;margin:36px 0}
+.research-section.image-left{grid-template-columns:380px minmax(0,1fr)}
+.research-section.image-left .research-figure{order:1}
+.research-section.image-left .research-copy{order:2}
 
-/* dash bullets */
-$li-text-indent: 2.2rem;
-$bullet-width: 1.6rem;
+.research-copy p{margin:10px 0 14px}
+.research-copy .lead{font-size:1.1rem;line-height:1.55}
 
-.dash-list{
-  list-style: none;
-  margin: 10px 0 16px;
-  padding: 0;
-}
-.dash-list li{
-  position: relative;
-  padding-left: $li-text-indent;
-  margin: .5rem 0;
-  line-height: 1.6;
-}
-.dash-list li::before{
-  content: "";
-  position: absolute;
-  left: 0;
-  top: .72em;
-  width: $bullet-width;
-  height: 2px;
-  background: var(--black);
-  border-radius: 2px;
-  opacity: .9;
-}
+$li-text-indent: 3rem;
+$bullet-width:   1.75rem;
+.research-copy ul{list-style:none;margin:10px 0 16px;padding:0}
+.research-copy li{position:relative;margin:.5rem 0;line-height:1.6;padding-left:$li-text-indent}
+.research-copy li::before{content:"";position:absolute;left:0;top:.72em;width:$bullet-width;height:2px;background:var(--black);border-radius:2px;opacity:.9}
 
-/* figures */
-.figure{ margin: 0; }
-.figure img{
-  display: block;
-  width: 100%;
-  height: auto;
-  border: 0;
-  border-radius: 10px;
-  background: #fff;
+.research-figure .img-frame{width:100%;border:none;background:#fff;padding:4px}
+.research-figure img{display:block;width:100%;height:auto;border-radius:8px}
+
+.research-divider{border:0;border-top:1px solid rgba(0,0,0,.08);margin:24px 0 0}
+
+@media (max-width:900px){
+  .research-section,
+  .research-section.image-left{grid-template-columns:1fr}
 }
-.figure.left{ order: -1; }

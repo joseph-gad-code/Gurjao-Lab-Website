@@ -47,6 +47,7 @@ title: Home
 
 <section class="homepage-body-and-news">
   <div class="homepage-body">
+
     <!-- LEFT: Main body text for the homepage -->
     <div class="body-text">
       <h2>Our mission</h2>
@@ -63,16 +64,17 @@ title: Home
     </div>
 
     <!-- RIGHT: News column for the homepage -->
-      <aside class="home-news" aria-label="Recent news">
-        <h2>Latest news</h2>
-        {% assign items = site.data.news | sort: "date" | reverse %}
-        <div class="news-scroller">
+    <aside class="home-news" aria-label="Recent news">
+      <h2>Latest news</h2>
+      {% assign items = site.data.news | sort: "date" | reverse %}
+      <div class="news-scroller">
+        {% if items and items.size > 0 %}
           {% for n in items %}
             <article class="news-card{% if n.image %} has-media{% endif %}">
               <div class="news-content">
                 <h4 class="news-headline">
                   {% if n.link %}
-                    <a href="{{ n.link }}" target="_blank" rel="noopener">{{ n.headline }}</a>
+                    <a href="{{ n.link }}" target="_blank" rel="noopener noreferrer">{{ n.headline }}</a>
                   {% else %}
                     {{ n.headline }}
                   {% endif %}
@@ -80,14 +82,26 @@ title: Home
                 <div class="news-meta">{{ n.date | date: "%b %-d, %Y" }}</div>
                 {% if n.body %}<p class="news-text">{{ n.body }}</p>{% endif %}
               </div>
-      
+
               {% if n.image %}
                 <a class="news-media" href="{{ n.link | default: '#' }}"
-                   {% if n.link %}target="_blank" rel="noopener"{% endif %} aria-label="Open news">
+                   {% if n.link %}target="_blank" rel="noopener noreferrer"{% endif %} aria-label="Open news">
                   <img loading="lazy" src="{{ n.image | relative_url }}" alt="{{ n.headline | escape }}">
                 </a>
               {% endif %}
             </article>
           {% endfor %}
-        </div>
-      </aside>
+        {% else %}
+          <article class="news-card">
+            <div class="news-content">
+              <h4 class="news-headline">No news yet</h4>
+              <div class="news-meta">{{ "now" | date: "%b %-d, %Y" }}</div>
+              <p class="news-text">Check back soon for updates.</p>
+            </div>
+          </article>
+        {% endif %}
+      </div>
+    </aside>
+
+  </div>
+</section>

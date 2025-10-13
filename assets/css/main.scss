@@ -115,7 +115,7 @@ body {
 
 $li-text-indent: 3rem;
 $bullet-width:   1.75rem;
-$pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - .75rem);
+$pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - 1.25rem);
 .body-text { text-align: left; }
 
 .body-text h2 {

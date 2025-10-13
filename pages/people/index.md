@@ -74,3 +74,4 @@ permalink: /people/
     </div>
   </div>
 </section>
+

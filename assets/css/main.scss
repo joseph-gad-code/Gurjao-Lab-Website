@@ -17,7 +17,7 @@ body {
 }
 .container { max-width: 1100px; margin: 0 auto; padding: 24px 20px; }
 
-/* Header / Navigation Bar */
+/* Header */
 .site-header {
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px 20px;
@@ -25,12 +25,14 @@ body {
 .brand a {
   font-size: 28px; font-weight: 800; color: var(--blue); text-decoration: none;
 }
+
+/* Navigation Bar */
 .site-nav ul { list-style: none; display: flex; gap: 28px; margin: 0; padding: 0; }
 .site-nav a {
   text-decoration: none; color: var(--gray); font-weight: 400;
 }
-.site-nav a:hover { font-weight: 400; color: var(--black); }                /* bold on hover */
-.site-nav li.active > a { text-decoration: underline; } /* underline active */
+.site-nav a:hover { font-weight: 400; color: var(--black); }
+.site-nav li.active > a { text-decoration: underline; color: var(--black); }
 
 /* Footer */
 .site-footer { border-top: 1px solid #eee; padding: 20px; text-align: center; color: var(--gray); }

@@ -458,3 +458,67 @@ $pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - 1.25rem);
 .values-section .page-title { margin: 0 0 12px; font-weight: 400; }
 .values-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
 .values-grid .value-col h3 { margin: 0 0 8px; }
+
+/* Publications */
+.pub-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 12px 0 28px;
+}
+
+.pub-list {
+  display: grid;
+  grid-template-columns: 1fr;  /* single column for full list (cards stack) */
+  gap: 10px;
+  margin: 8px 0 28px;
+}
+
+.pub-year-heading {
+  margin: 24px 0 10px;
+  font-weight: 600;
+}
+
+.pub-card {
+  display: grid;
+  grid-template-columns: 1fr;  /* overridden when media present */
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 1px 1px rgba(0,0,0,.03);
+}
+
+.pub-card.has-media {
+  grid-template-columns: 110px 1fr;  /* thumb | content */
+  align-items: start;
+}
+
+.pub-thumb {
+  width: 110px;
+  height: 82px;            /* ~4:3 */
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f6f6f6;
+  flex-shrink: 0;
+}
+.pub-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pub-body { min-width: 0; }
+
+.pub-title {
+  margin: 0 0 4px;
+  line-height: 1.25;
+  font-size: 1.02rem;      /* Selected cards use h3; full list uses h4 */
+}
+
+.pub-authors { color: #444; margin: 0 0 4px; }
+
+.pub-meta { color: #666; font-size: .95rem; }
+.pub-meta a { color: inherit; text-decoration: underline; }

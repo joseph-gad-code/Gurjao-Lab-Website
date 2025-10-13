@@ -271,7 +271,6 @@ $pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - 1.25rem);
 }
 .research-section .copy p{ margin: 10px 0 14px; }
 
-/* dash bullets */
 $li-text-indent: 2.2rem;
 $bullet-width: 1.6rem;
 
@@ -298,13 +297,11 @@ $bullet-width: 1.6rem;
   opacity: .9;
 }
 
-/* figures */
 .figure{ margin: 0; }
 .figure img{
   display: block;
   width: 100%;
   height: auto;
-  border: 0;
   border-radius: 10px;
   background: #fff;
 }

@@ -2,3 +2,9 @@
 layout: base
 ---
 {{ content }}
+
+{% if page.extra_css %}
+  {% for href in page.extra_css %}
+    <link rel="stylesheet" href="{{ href | relative_url }}">
+  {% endfor %}
+{% endif %}

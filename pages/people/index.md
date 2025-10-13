@@ -50,7 +50,7 @@ permalink: /people/
 </section>
 
 <section class="values-section">
-  <h2 class="page-title">Core values</h2>
+  <h1 class="page-title">Core values</h1>
   <div class="values-grid">
     <div class="value-col">
       <h3>Lab community</h3>

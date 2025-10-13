@@ -71,7 +71,7 @@ permalink: /research/
 
     <div class="research-figure">
       <div class="figure-box">
-        <img class="rot-90" src="{{ '/assets/images/research/methods.svg' | relative_url }}" alt="Schematic of genome architecture, microbiota, lifestyle and immune system alongside mutational landscape">
+        <img class="rot-90-cw" src="{{ '/assets/images/research/methods.svg' | relative_url }}" alt="Schematic of genome architecture, microbiota, lifestyle and immune system alongside mutational landscape">
       </div>
     </div>
   </div>

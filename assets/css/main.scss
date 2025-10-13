@@ -270,91 +270,73 @@ $pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - 1.25rem);
   opacity: .9;
 }
 
-/* ---------- Research page: hard override Bootstrap row ---------- */
-:root{
-  --research-gap: 28px;
-  --research-fig-w: 560px;   /* tweak as you like (e.g. 520–640) */
-  --research-rail: #e9ecef;
-}
+/* Research Page (stable working layout) */
+.research-page {}
 
-/* Space between sections */
-.research-section{ margin: 2.25rem 0; }
+.research-section { margin: 2.25rem 0; }
 
-/* Turn ONLY research rows into a 3-col grid and neutralize Bootstrap margins */
-.research-section > .row{
-  display: grid !important;
-  grid-template-columns: minmax(0,1fr) var(--research-gap) minmax(360px,var(--research-fig-w));
+/* Two-column grid: text | figure (default: image on the right) */
+.research-section .row {
+  display: grid;
+  grid-template-columns: 1fr 560px;
+  gap: 28px;
   align-items: stretch;
-  gap: 0;
-  margin-left: 0 !important;     /* cancel Bootstrap’s -15px */
-  margin-right: 0 !important;
-  position: relative;
-  box-sizing: border-box;
 }
 
-/* single vertical rail centered in the gap */
-.research-section > .row::after{
-  content: "";
-  position: absolute;
-  top: 0; bottom: 0;
-  right: calc(var(--research-fig-w) + (var(--research-gap) / 2));
-  width: 1px;
-  background: var(--research-rail);
-}
+/* Titles always left-aligned */
+.section-title { margin: 0 0 .5rem; font-weight: 400; text-align: left; }
 
-/* swap columns when image is on the left: FIG | GAP | TEXT */
-.research-section.img-left > .row{
-  grid-template-columns: minmax(320px,var(--research-fig-w)) var(--research-gap) minmax(0,1fr);
-}
-.research-section.img-left > .row::after{
-  left: calc(var(--research-fig-w) + (var(--research-gap) / 2));
-  right: auto;
-}
-
-/* copy + title */
-.section-title{ margin: 0 0 .5rem; font-weight: 400; text-align: left; }
-.research-copy{
+/* Text column */
+.research-copy {
   display: flex;
   flex-direction: column;
   justify-content: center;
   text-align: left;
 }
 
-/* figure column */
-.research-figure{
+/* Figure column */
+.research-figure {
   display: flex;
   align-items: stretch;
   min-height: 100%;
+  border: 0;
+  padding: 0;
 }
 
-/* clean figure box (no visible border); white bg; fills cell */
-.research-figure .figure-box{
-  width: 100%; height: 100%;
+/* Clean figure box, white background, fills its cell */
+.research-figure .figure-box {
+  width: 100%;
+  height: 100%;
   background: var(--white);
-  border: 0; padding: 0;
-  display: flex; align-items: center; justify-content: center;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
 }
 
-/* images fill the box; support rotation */
-.research-figure .figure-box img{
+/* Images fill the box and stay white */
+.research-figure .figure-box img {
   display: block;
-  width: 100%; height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   background: var(--white);
   transform-origin: center;
 }
-.research-figure .figure-box img.rot-90-cw{  transform: rotate(90deg); }
-.research-figure .figure-box img.rot-90-ccw{ transform: rotate(-90deg); }
 
-/* dash bullets consistent with home page */
-.dash-list{
-  list-style: none; margin: 10px 0 16px; padding: 0;
-}
-.dash-list li{
-  position: relative; margin: .5rem 0; line-height: 1.6; padding-left: 3rem;
-}
-.dash-list li::before{
-  content: ""; position: absolute; left: 0; top: .72em;
-  width: 1.75rem; height: 2px; background: var(--black); border-radius: 2px; opacity: .9;
-}
+/* Rotation helpers (use on img elements) */
+.research-figure .figure-box img.rot-90-ccw { transform: rotate(-90deg); }
+.research-figure .figure-box img.rot-90-cw  { transform: rotate(90deg);  }
+
+/* Single demarcation only on the figure side */
+.research-section.img-right .research-figure { border-left: 1px solid rgba(0,0,0,.10); padding-left: 20px; }
+.research-section.img-left  .research-figure { border-right: 1px solid rgba(0,0,0,.10); padding-right: 20px; }
+
+/* Swap columns when image is on the left */
+.research-section.img-left .row { grid-template-columns: 560px 1fr; }
+
+/* Section divider */
+.research-divider { border: 0; height: 1px; background: #eee; margin: 26px 0 0; }

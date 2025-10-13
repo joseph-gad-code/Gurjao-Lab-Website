@@ -42,3 +42,38 @@ title: Home
     </p>
   </div>
 </section>
+
+
+
+<section class="homepage-body-and-news">
+  <div class="homepage-body">
+    <!-- LEFT: Main body text for the homepage -->
+    <div class="body-text">
+      <h3>Our mission</h3>
+      <p>
+        We aim to deliver data-driven precision prevention and precision treatment. Our work broadly focuses on:
+      </p>
+      <ul>
+        <li>Why mutations occur: How lifestyle, microbes, the immune system, and DNA three-dimensional structure leave their mark on the genome.</li>
+        <li>How this knowledge guides treatment: Using tumor mutations to predict which therapies will work best.</li>
+        <li>Building new tools: Developing computational and experimental approaches with clinicians and physicists to push cancer research forward.</li>
+      </ul>
+      <p class="read-more"><a href="/research/">Read more about our research…</a></p>
+    </div>
+
+    <!-- RIGHT: News column for the homepage -->
+    <aside class="home-news">
+      <h3>News</h3>
+      <ul class="news-list">
+        <li>
+          <time datetime="2025-09-15">Sep 15, 2025</time>
+          We welcomed two new members to the lab.
+        </li>
+        <li>
+          <time datetime="2025-07-28">Jul 28, 2025</time>
+          Paper accepted at Journal X on mutational processes.
+        </li>
+      </ul>
+    </aside>
+  </div>
+</section>

@@ -1,0 +1,8 @@
+{% assign text = include.text %}
+{% for person in site.data.lab_authors %}
+  {% for alias in person.aliases %}
+    {% assign wrapped = "<strong>" | append: alias | append: "</strong>" %}
+    {% assign text = text | replace: alias, wrapped %}
+  {% endfor %}
+{% endfor %}
+{{ text }}

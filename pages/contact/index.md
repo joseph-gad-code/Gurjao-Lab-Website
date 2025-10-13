@@ -10,7 +10,7 @@ permalink: /contact/
     <!-- LEFT: Logo (row 1) -->
     <div class="contact-media">
       <div class="media-box">
-        <img src="{{ '/assets/images/udem-iric-logo.svg' | relative_url }}" alt="Université de Montréal – IRIC Logo">
+        <img src="{{ '/assets/images/contact/udem-iric-logo.svg' | relative_url }}" alt="Université de Montréal – IRIC Logo">
       </div>
     </div>
 

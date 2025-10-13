@@ -33,7 +33,7 @@ permalink: /research/
   <div class="row">
     <div class="research-figure">
       <div class="figure-box">
-        <img class="rot-90" src="{{ '/assets/images/research/treatment.svg' | relative_url }}" alt="Mutational landscape informing aggressiveness, responders, and drug synergies">
+        <img class="rot-90-ccw" src="{{ '/assets/images/research/treatment.svg' | relative_url }}" alt="Mutational landscape informing aggressiveness, responders, and drug synergies">
       </div>
     </div>
 

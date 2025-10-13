@@ -3,14 +3,12 @@ title: GURJAOLAB – Research
 layout: default
 permalink: /research/
 ---
-
 <section class="research-page">
 
   <!-- SECTION 1: Text left, image right -->
   <article class="research-section">
     <div class="copy">
       <h1>What causes cancer mutations?</h1>
-
       <p>Every person’s tumour tells a story—our lifestyle habits, our microbes, even our immune system shape the tumour’s DNA and can leave marks. We aim to discover and study such marks to understand how cancer develops.</p>
 
       <p><em>Our discoveries so far:</em></p>
@@ -24,21 +22,20 @@ permalink: /research/
     </div>
 
     <figure class="figure">
-      <img src="/assets/images/research/mutational-marks.png"
-           alt="Factors such as genome architecture, microbiota, lifestyle and immune system shaping the mutational landscape">
+      <img src="{{ site.baseurl }}/assets/images/research/mutational-marks.png"
+           alt="Factors shaping the mutational landscape">
     </figure>
   </article>
 
   <!-- SECTION 2: Image left, text right -->
   <article class="research-section">
     <figure class="figure left">
-      <img src="/assets/images/research/treatment-landscape.png"
-           alt="Mutational landscape informing aggressiveness, responders, and drug synergies">
+      <img src="{{ site.baseurl }}/assets/images/research/treatment-landscape.png"
+           alt="Mutational landscape informing therapy and aggressiveness">
     </figure>
 
     <div class="copy">
       <h1>How can tumor mutations guide treatment?</h1>
-
       <p>Cancer immunotherapies are transforming treatment, yet not all patients respond the same way. Studying the mutational landscape of tumors can inform the best course of treatment and predict aggressiveness.</p>
 
       <p><em>Our discoveries so far:</em></p>

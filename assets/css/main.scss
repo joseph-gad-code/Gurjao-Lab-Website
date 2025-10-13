@@ -250,90 +250,6 @@ $pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - 1.25rem);
 .news-meta { font-size: .92rem; color: #777; margin-bottom: 6px; }
 .news-text { margin: 0; color: #333; font-size: .98rem; line-height: 1.45; }
 
-/* Research Page */
-:root {
-  --research-gap: 28px;
-  --research-fig-w: 560px;
-  --research-rail: #e9ecef;
-}
-
-.research-page {}
-
-.research-section { margin: 2.25rem 0; }
-
-/* 3 columns: TEXT | GAP | FIGURE */
-.research-section .row{
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) var(--research-gap) minmax(360px, var(--research-fig-w));
-  position: relative;
-  gap: 0;
-  align-items: stretch;
-}
-
-/* single vertical rail centered in the gap */
-.research-section .row::after{
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: calc(var(--research-fig-w) + (var(--research-gap) / 2));
-  width: 1px;
-  background: var(--research-rail);
-}
-
-/* Titles always left-aligned */
-.section-title{ margin: 0 0 .5rem; font-weight: 400; text-align: left; }
-
-.research-copy{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: left;
-}
-
-/* Figure column */
-.research-figure{
-  display: flex;
-  align-items: stretch;
-  min-height: 100%;
-}
-
-/* Clean figure box (no border), white background, fill cell */
-.research-figure .figure-box{
-  width: 100%;
-  height: 100%;
-  background: var(--white);
-  border: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-/* Images fill the box and stay white */
-.research-figure .figure-box img{
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  background: var(--white);
-  transform-origin: center;
-}
-
-/* Rotation helpers */
-.research-figure .figure-box img.rot-90-ccw{ transform: rotate(-90deg); }
-.research-figure .figure-box img.rot-90-cw { transform: rotate(90deg);  }
-
-/* Swap columns when image is on the left: FIG | GAP | TEXT */
-.research-section.img-left .row{
-  grid-template-columns: minmax(320px, var(--research-fig-w)) var(--research-gap) minmax(0, 1fr);
-}
-.research-section.img-left .row::after{
-  left: calc(var(--research-fig-w) + (var(--research-gap) / 2));
-  right: auto;
-}
-
 /* Dashes in Bulleted Lists*/
 .dash-list { list-style: none; margin: 10px 0 16px; padding: 0; }
 .dash-list li {
@@ -352,4 +268,93 @@ $pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - 1.25rem);
   background: var(--black);
   border-radius: 2px;
   opacity: .9;
+}
+
+/* ---------- Research page: hard override Bootstrap row ---------- */
+:root{
+  --research-gap: 28px;
+  --research-fig-w: 560px;   /* tweak as you like (e.g. 520–640) */
+  --research-rail: #e9ecef;
+}
+
+/* Space between sections */
+.research-section{ margin: 2.25rem 0; }
+
+/* Turn ONLY research rows into a 3-col grid and neutralize Bootstrap margins */
+.research-section > .row{
+  display: grid !important;
+  grid-template-columns: minmax(0,1fr) var(--research-gap) minmax(360px,var(--research-fig-w));
+  align-items: stretch;
+  gap: 0;
+  margin-left: 0 !important;     /* cancel Bootstrap’s -15px */
+  margin-right: 0 !important;
+  position: relative;
+  box-sizing: border-box;
+}
+
+/* single vertical rail centered in the gap */
+.research-section > .row::after{
+  content: "";
+  position: absolute;
+  top: 0; bottom: 0;
+  right: calc(var(--research-fig-w) + (var(--research-gap) / 2));
+  width: 1px;
+  background: var(--research-rail);
+}
+
+/* swap columns when image is on the left: FIG | GAP | TEXT */
+.research-section.img-left > .row{
+  grid-template-columns: minmax(320px,var(--research-fig-w)) var(--research-gap) minmax(0,1fr);
+}
+.research-section.img-left > .row::after{
+  left: calc(var(--research-fig-w) + (var(--research-gap) / 2));
+  right: auto;
+}
+
+/* copy + title */
+.section-title{ margin: 0 0 .5rem; font-weight: 400; text-align: left; }
+.research-copy{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+}
+
+/* figure column */
+.research-figure{
+  display: flex;
+  align-items: stretch;
+  min-height: 100%;
+}
+
+/* clean figure box (no visible border); white bg; fills cell */
+.research-figure .figure-box{
+  width: 100%; height: 100%;
+  background: var(--white);
+  border: 0; padding: 0;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+
+/* images fill the box; support rotation */
+.research-figure .figure-box img{
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: contain;
+  background: var(--white);
+  transform-origin: center;
+}
+.research-figure .figure-box img.rot-90-cw{  transform: rotate(90deg); }
+.research-figure .figure-box img.rot-90-ccw{ transform: rotate(-90deg); }
+
+/* dash bullets consistent with home page */
+.dash-list{
+  list-style: none; margin: 10px 0 16px; padding: 0;
+}
+.dash-list li{
+  position: relative; margin: .5rem 0; line-height: 1.6; padding-left: 3rem;
+}
+.dash-list li::before{
+  content: ""; position: absolute; left: 0; top: .72em;
+  width: 1.75rem; height: 2px; background: var(--black); border-radius: 2px; opacity: .9;
 }

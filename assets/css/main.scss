@@ -116,7 +116,7 @@ body {
 $li-indent: 1.8rem;
 $li-dash-left:  -1.5rem;
 $li-dash-width:  1.1rem;
-$pre-dash-offset: .25rem
+$pre-dash-offset: .25rem;
 $lead-into-left:  $li-indent + $li-dash-left - $pre-dash-offset;
 .body-text .text-above-list {
   padding-left: $lead-into-left;

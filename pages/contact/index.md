@@ -22,10 +22,9 @@ permalink: /contact/
         <li>Department of Medicine, Faculty of Medicine, Université de Montréal</li>
       </ul>
 
-      <h2>Address:</h2>
       <address class="contact-address">
-        Marcelle-Coutu Pavilion<br>
-        2950 Chemin de Polytechnique<br>
+        Address: Marcelle-Coutu Pavilion,<br>
+        2950 Chemin de Polytechnique,<br>
         Montréal, QC H3T 1J4, Canada<br>
         Phone: (514) 343-6111, ext. 17206<br>
         E-mail: <a href="mailto:carino.gurjao@umontreal.ca">carino.gurjao@umontreal.ca</a>

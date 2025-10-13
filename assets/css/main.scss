@@ -33,7 +33,14 @@ body {
   text-decoration: none; color: var(--gray); font-weight: 400;
 }
 .site-nav a:hover { font-weight: 400; color: var(--black); }
-.site-nav li.active > a { text-decoration: underline; color: var(--black); }
+.site-nav li.active > a { 
+  text-decoration-line: underline;
+  text-decoration-color: var(--black);
+  text-decoration-thickness: 3px;
+  text-underline-offset: .22em;
+  text-decoration-skip-ink: auto;
+  color: var(--black);
+}
 
 /* Footer */
 .site-footer { border-top: 1px solid #eee; padding: 20px; text-align: center; color: var(--gray); }

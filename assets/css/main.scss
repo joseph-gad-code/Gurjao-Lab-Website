@@ -124,13 +124,26 @@ body {
 
 .body-text p,
 .body-text li {
+  position: relative;
+  margin: .35rem 0;
   font-size: 1.05rem;
+  padding-left: .8rem;
   line-height: 1.6;
+}
+
+.body-text li::before {
+  content: "–";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #666;
+  line-height: 1;
 }
 
 .body-text ul {
   margin: 10px 0 16px;
   padding-left: 1.2rem;
+  list-style: none;
 }
 
 .link a { text-decoration: none; color: var(--lightblue); }

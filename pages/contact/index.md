@@ -17,12 +17,12 @@ permalink: /contact/
     <!-- RIGHT: Affiliations + Address (row 1) -->
     <div class="contact-details contact-top">
       <h2>Affiliations:</h2>
-      <ul class="contact-list">
+      <ul class="dash-list">
         <li>Institut de recherche en immunologie et en cancérologie (IRIC)</li>
         <li>Department of Medicine, Faculty of Medicine, Université de Montréal</li>
       </ul>
 
-      <h3>Address:</h3>
+      <h2>Address:</h2>
       <address class="contact-address">
         Marcelle-Coutu Pavilion<br>
         2950 Chemin de Polytechnique<br>
@@ -34,7 +34,7 @@ permalink: /contact/
 
     <!-- FULL-WIDTH ROW BELOW (row 2) -->
     <div class="contact-details contact-lower">
-      <h2>Open position</h2>
+      <h2>Open positions</h2>
       <p>We are currently open to hiring at all levels. Please send applications to the e-mail address above.</p>
 
       <h2>Contribute</h2>

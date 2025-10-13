@@ -21,7 +21,7 @@ title: Home
 
 
 <section class="homepage-blurbs">
-  <div class="homepage-blurb">
+  <div class="secondary-blurb">
     <p class="main-blurb">
       While 80% of cancers are thought to be preventable, only about 5% of cancer
       funding goes toward prevention.
@@ -32,7 +32,7 @@ title: Home
       stopping cancer before it starts and spreads.
     </p>
   </div>
-  <div class="homepage-blurb">
+  <div class="secondary-blurb">
     <p class="main-blurb">
       The number of cancer treatments has exploded in recent years, creating a
       new challenge: ensuring each patient is matched with the right drug(s).

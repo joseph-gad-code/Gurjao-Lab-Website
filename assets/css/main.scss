@@ -54,8 +54,8 @@ body {
   max-width: 1100px;
   text-align: center;
   line-height: 1.25;
-  font-weight: 600; /* tweak to 400/700 if you like */
-  font-size: clamp(1.9rem, 4vw, 3.25rem); /* responsive, large */
+  font-weight: 400;
+  font-size: clamp(1.9rem, 4vw, 3.25rem);
 }
 
 .homepage-tagline .underlined-tagline-text {

@@ -138,11 +138,11 @@ body {
 .body-text li::before {
   content: "";
   position: absolute;
-  left: -1.2rem;
+  left: -1.5rem;
   top: 0.85em;
   transform: translateY(-50%);
   width: 1.1rem;
-  border-top: 3px solid var(--black);
+  border-top: 2px solid var(--black);
   opacity: .9;
 }
 

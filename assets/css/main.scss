@@ -114,8 +114,8 @@ body {
 }
 
 $li-text-indent: 3rem;
-$bullet-width: 1.75rem;
-
+$bullet-width:   1.75rem;
+$pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - .5rem);
 .body-text { text-align: left; }
 
 .body-text h2 {
@@ -124,7 +124,7 @@ $bullet-width: 1.75rem;
 }
 
 .body-text .text-above-list {
-  margin-left: calc(#{$li-text-indent} - #{$bullet-width} - .5rem);
+  margin-left: $pretext-left;
 }
 
 .body-text p { margin: 10px 0 16px; }
@@ -154,23 +154,20 @@ $bullet-width: 1.75rem;
   opacity: .9;
 }
 
-.body-text p.read-more{
+.body-text p.read-more {
   display: block;
-  margin: .85rem 0 0 $li-text-indent;
-  padding-left: 0 !important;
+  margin: .85rem 0 0;
+  margin-left: $pretext-left;  // aligns with .text-above-list
+  padding-left: 0;
 }
 
-.body-text p.read-more a{
+.body-text p.read-more a {
   display: inline-block;
-  margin: 0 !important;
-  padding: 0 !important;
   text-decoration: none;
   color: var(--lightblue);
 }
 
-.body-text p.read-more a:hover{
-  text-decoration: underline;
-}
+.body-text p.read-more a:hover { text-decoration: underline; }
 
 /* Right-side news column */
 .home-news {

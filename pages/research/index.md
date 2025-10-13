@@ -23,7 +23,7 @@ permalink: /research/
 
     <div class="research-figure">
       <div class="figure-box">
-        <img class="rot-90" src="{{ '/assets/images/research/causes.png' | relative_url }}" alt="Factors shaping the mutational landscape: genome architecture, microbiota, lifestyle, immune system">
+        <img class="rot-90" src="{{ '/assets/images/research/causes.svg' | relative_url }}" alt="Factors shaping the mutational landscape: genome architecture, microbiota, lifestyle, immune system">
       </div>
     </div>
   </div>
@@ -33,7 +33,7 @@ permalink: /research/
   <div class="row">
     <div class="research-figure">
       <div class="figure-box">
-        <img class="rot-90" src="{{ '/assets/images/research/treatment.png' | relative_url }}" alt="Mutational landscape informing aggressiveness, responders, and drug synergies">
+        <img class="rot-90" src="{{ '/assets/images/research/treatment.svg' | relative_url }}" alt="Mutational landscape informing aggressiveness, responders, and drug synergies">
       </div>
     </div>
 
@@ -71,7 +71,7 @@ permalink: /research/
 
     <div class="research-figure">
       <div class="figure-box">
-        <img class="rot-90" src="{{ '/assets/images/research/methods.png' | relative_url }}" alt="Schematic of genome architecture, microbiota, lifestyle and immune system alongside mutational landscape">
+        <img class="rot-90" src="{{ '/assets/images/research/methods.svg' | relative_url }}" alt="Schematic of genome architecture, microbiota, lifestyle and immune system alongside mutational landscape">
       </div>
     </div>
   </div>

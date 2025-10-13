@@ -155,13 +155,21 @@ $lead-into-left:  $li-indent + $li-dash-left - $pre-dash-offset;
   opacity: .9;
 }
 
-.body-text .link a { 
-  margin-top: .8rem;
+.body-text .read-more{
+  display: block;
+  margin: .8rem 0 0 $li-indent;  /* aligns with LI text column */
+  padding-left: 0;
+}
+.body-text .read-more a{
+  display: inline;
+  margin: 0;
+  padding: 0;
   text-decoration: none;
   color: var(--lightblue);
-  padding-left: $lead-into-left;
 }
-.link a:hover { text-decoration: underline; }
+.body-text .read-more a:hover{
+  text-decoration: underline;
+}
 
 /* Right-side news column */
 .home-news {

@@ -55,7 +55,7 @@ title: Home
         Our work broadly focuses on:
       </p>
       <ul>
-        <li><strong>Why mutations occur:</strong> How lifestyle, microbes, the immune system, and DNA three-dimensional structure leave their mark on the genome.</li>
+        <li><strong>Why mutations occur:<\strong> How lifestyle, microbes, the immune system, and DNA three-dimensional structure leave their mark on the genome.</li>
         <li><strong>How this knowledge guides treatment:<\strong> Using tumor mutations to predict which therapies will work best.</li>
         <li><strong>Building new tools:<\strong> Developing computational and experimental approaches with clinicians and physicists to push cancer research forward.</li>
       </ul>

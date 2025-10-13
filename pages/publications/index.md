@@ -4,78 +4,83 @@ layout: default
 permalink: /publications/
 ---
 
-{% comment %}
-Entries in _data/publications.yml should be of the form
-- title:
-  authors:
-  journal:
-  year: 2025
-  url: https://...
-  image: /assets/images/pubs/foo.png   # optional (only shown for Selected Publications)
-  selected-publication: yes            # yes or no
-{% endcomment %}
+<section class="pubs">
+  <h2>Selected publications</h2>
 
-{% assign pubs_all = site.data.publications | sort: "year" | reverse %}
+  {% assign pubs_all = site.data.publications | sort: "year" | reverse %}
+  {% assign pubs_selected = pubs_all | where_exp: "p", "p['selected-publication'] == true" %}
 
-{% assign selected = pubs_all
-  | where_exp: "p", "p['selected-publication'] == true or p['selected-publication'] == 'yes'"
-%}
-
-# Selected publications
-
-<div class="pub-grid">
-  {% for p in selected %}
-  <article class="pub-card has-media">
-    {% if p.image %}
-      <div class="pub-thumb">
-        <img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}">
-      </div>
-    {% endif %}
-
-    <div class="pub-body">
-      <h3 class="pub-title">{{ p.title }}</h3>
-      {% if p.authors %}<div class="pub-authors">{{ p.authors }}</div>{% endif %}
-      <div class="pub-meta">
-        {% if p.url and p.journal %}
-          <em class="pub-journal">
-            <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.journal }}</a>
-          </em>
-        {% elsif p.journal %}
-          <em class="pub-journal">{{ p.journal }}</em>
-        {% endif %}
-        {% if p.year %}<span class="pub-year">({{ p.year }})</span>{% endif %}
-      </div>
-    </div>
-  </article>
-  {% endfor %}
-</div>
-
----
-
-# Full list
-
-{% assign years = pubs_all | map: "year" | uniq | sort | reverse %}
-{% for y in years %}
-  <h3 class="pub-year-heading">{{ y }}</h3>
-  <div class="pub-list">
-    {% assign pubs_year = pubs_all | where: "year", y %}
-    {% for p in pubs_year %}
+  <div class="pubs-grid">
+    {% for p in pubs_selected %}
       <article class="pub-card">
+        {% if p.image %}
+          <a class="pub-thumb" href="{{ p.url | default: p.journal_url | default: '#' }}" target="_blank" rel="noopener">
+            <img loading="lazy" src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}">
+          </a>
+        {% endif %}
+
         <div class="pub-body">
-          <h4 class="pub-title">{{ p.title }}</h4>
-          {% if p.authors %}<div class="pub-authors">{{ p.authors }}</div>{% endif %}
-          <div class="pub-meta">
-            {% if p.url and p.journal %}
-              <em class="pub-journal">
-                <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.journal }}</a>
-              </em>
-            {% elsif p.journal %}
-              <em class="pub-journal">{{ p.journal }}</em>
+          <h3 class="pub-title">
+            {% if p.url %}
+              <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+            {% else %}
+              {{ p.title }}
             {% endif %}
-            {% if p.year %}<span class="pub-year">({{ p.year }})</span>{% endif %}
+          </h3>
+
+          <div class="pub-authors">
+            {% include authors_bold.html text=p.authors %}
+          </div>
+
+          <div class="pub-meta">
+            {% if p.journal_url %}
+              <a href="{{ p.journal_url }}" target="_blank" rel="noopener">{{ p.journal }}</a>
+            {% else %}
+              {{ p.journal }}
+            {% endif %}
+            {% if p.year %} • {{ p.year }}{% endif %}
           </div>
         </div>
       </article>
     {% endfor %}
   </div>
-{% endfor %}
+</section>
+
+<section class="pubs-all">
+  <h2>Full list</h2>
+
+  {% assign groups = pubs_all | group_by: "year" %}
+  {% assign groups = groups | sort: "name" | reverse %}
+
+  {% for g in groups %}
+    <h3 class="pub-year">{{ g.name }}</h3>
+    <div class="pubs-list">
+      {% for p in g.items %}
+        <article class="pub-line">
+          <h4 class="pub-title">
+            {% if p.url %}
+              <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+            {% else %}
+              {{ p.title }}
+            {% endif %}
+          </h4>
+
+          <div class="pub-authors">
+            {% include authors_bold.html text=p.authors %}
+          </div>
+
+          <div class="pub-meta">
+            {% if p.journal_url %}
+              <a href="{{ p.journal_url }}" target="_blank" rel="noopener">{{ p.journal }}</a>
+            {% else %}
+              {{ p.journal }}
+            {% endif %}
+            {% if p.volume %} {{ p.volume }}{% endif %}
+            {% if p.pages %} , {{ p.pages }}{% endif %}
+            {% if p.year %} • {{ p.year }}{% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</section>

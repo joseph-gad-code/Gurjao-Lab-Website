@@ -23,7 +23,7 @@ permalink: /research/
 
     <div class="research-figure">
       <div class="figure-box">
-        <img class="rot-90" src="{{ '/assets/images/research/causes.svg' | relative_url }}" alt="Factors shaping the mutational landscape: genome architecture, microbiota, lifestyle, immune system">
+        <img class="rot-90-cw" src="{{ '/assets/images/research/causes.svg' | relative_url }}" alt="Factors shaping the mutational landscape: genome architecture, microbiota, lifestyle, immune system">
       </div>
     </div>
   </div>

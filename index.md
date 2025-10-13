@@ -63,12 +63,13 @@ title: Home
     </div>
 
     <!-- RIGHT: News column for the homepage -->
-      <aside class="home-news">
-        <h3>News</h3>
-        {% assign items = site.data.news | sort: "date" | reverse %}
-        <div class="news-scroller">
-          {% for n in items %}
-            <article class="news-card">
+    <aside class="home-news" aria-label="Recent news">
+      <h2>Latest News</h2>
+      {% assign items = site.data.news | sort: "date" | reverse %}
+      <div class="news-scroller">
+        {% for n in items %}
+          <article class="news-card{% if n.image %} has-media{% endif %}">
+            <div class="news-content">
               <h4 class="news-headline">
                 {% if n.link %}
                   <a href="{{ n.link }}" target="_blank" rel="noopener">{{ n.headline }}</a>
@@ -78,8 +79,16 @@ title: Home
               </h4>
               <div class="news-meta">{{ n.date | date: "%b %-d, %Y" }}</div>
               {% if n.body %}<p class="news-text">{{ n.body }}</p>{% endif %}
-            </article>
-          {% endfor %}
-        </div>
-      </aside>
+            </div>
+    
+            {% if n.image %}
+              <a class="news-media" href="{{ n.link | default: '#' }}"
+                 {% if n.link %}target="_blank" rel="noopener"{% endif %} aria-label="Open news">
+                <img loading="lazy" src="{{ n.image | relative_url }}" alt="{{ n.headline | escape }}">
+              </a>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    </aside>
     </section>

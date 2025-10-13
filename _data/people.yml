@@ -15,12 +15,12 @@
   image: /assets/images/people/placeholder.png
   bio: >
     Valentin investigates hypermutated colorectal cancer using multimodal data
-    to study the tumor microenvironment’s reshaping over time. His work focuses
+    to study the tumor microenvironment's reshaping over time. His work focuses
     on the interplay between DNA repair, immune surveillance and evasion, and
     other competing forces that shape tumor evolution.
   github:
-  scholar: https://www.linkedin.com/in/valentin-boero-teyssier-88aab7294/
-  linkedin:
+  scholar:
+  linkedin: https://www.linkedin.com/in/valentin-boero-teyssier-88aab7294/
 
 - name: Emile Hooper
   status: Graduate Student
@@ -29,9 +29,9 @@
     Emile investigated immune cell infiltration in hypermutated colorectal
     cancer, with a focus on accounting for and correcting biases in data
     integration.
- github:
- scholar:
- linkedin:
+  github:
+  scholar:
+  linkedin:
 
 - name: Joseph Gad
   status: Undergraduate Student
@@ -41,6 +41,6 @@
     tumor bulk sequencing data, focusing on reducing technical and biological
     biases. He is developing robust methods to improve the reliability of
     metagenomic analyses in cancer research.
-  github:  https://github.com/joseph-gad-code
+  github: https://github.com/joseph-gad-code
   scholar:
-  linkedin: www.linkedin.com/in/joseph-gad-739535271
+  linkedin: https://www.linkedin.com/in/joseph-gad-739535271

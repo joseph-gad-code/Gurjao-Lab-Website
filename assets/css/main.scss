@@ -155,7 +155,11 @@ $lead-into-left:  $li-indent + $li-dash-left - $pre-dash-offset;
   opacity: .9;
 }
 
-.link a { text-decoration: none; color: var(--lightblue); }
+.link a { 
+  text-decoration: none;
+  color: var(--lightblue);
+  padding-left: $lead-into-left;
+}
 .link a:hover { text-decoration: underline; }
 
 /* Right-side news column */

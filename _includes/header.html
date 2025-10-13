@@ -1,12 +1,22 @@
 <header class="site-header">
   <div class="brand"><a href="{{ '/' | relative_url }}">GURJAOLAB</a></div>
   <nav class="site-nav">
-    <ul class="nav">
-      <li><a href="{{ '/'           | relative_url }}">Home</a></li>
-      <li><a href="{{ '/research/'  | relative_url }}">Research</a></li>
-      <li><a href="{{ '/publications/' | relative_url }}">Publications</a></li>
-      <li><a href="{{ '/people/'    | relative_url }}">People</a></li>
-      <li><a href="{{ '/contact/'   | relative_url }}">Contact</a></li>
+    <ul>
+      <li class="{% if page.url == '/' %}active{% endif %}">
+        <a href="{{ '/' | relative_url }}">Home</a>
+      </li>
+      <li class="{% if page.url contains '/research/' %}active{% endif %}">
+        <a href="{{ '/research/' | relative_url }}">Research</a>
+      </li>
+      <li class="{% if page.url contains '/publications/' %}active{% endif %}">
+        <a href="{{ '/publications/' | relative_url }}">Publications</a>
+      </li>
+      <li class="{% if page.url contains '/people/' %}active{% endif %}">
+        <a href="{{ '/people/' | relative_url }}">People</a>
+      </li>
+      <li class="{% if page.url contains '/contact/' %}active{% endif %}">
+        <a href="{{ '/contact/' | relative_url }}">Contact</a>
+      </li>
     </ul>
   </nav>
 </header>

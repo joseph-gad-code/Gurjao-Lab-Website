@@ -114,8 +114,12 @@ body {
 }
 
 $li-indent: 1.8rem;
+$li-dash-left:  -1.5rem;
+$li-dash-width:  1.1rem;
+$pre-dash-offset: .25rem
+$lead-into-left:  $li-indent + $li-dash-left - $pre-dash-offset;
 .body-text .text-above-list {
-  padding-left: $li-indent;
+  padding-left: $lead-into-left;
 }
 
 .body-text {
@@ -143,10 +147,10 @@ $li-indent: 1.8rem;
 .body-text li::before {
   content: "";
   position: absolute;
-  left: -1.5rem;
+  left: $li-dash-left;
   top: 0.85em;
   transform: translateY(-50%);
-  width: 1.1rem;
+  width: $li-dash-width;
   border-top: 2px solid var(--black);
   opacity: .9;
 }

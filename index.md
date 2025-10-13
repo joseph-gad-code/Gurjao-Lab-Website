@@ -51,7 +51,7 @@ title: Home
     <div class="body-text">
       <h2>Our mission</h2>
       <p class="text-above-list">
-        We aim to deliver data-driven precision prevention and precision treatment.
+        We aim to deliver data-driven precision prevention and precision treatment.<br>
         Our work broadly focuses on:
       </p>
       <ul>

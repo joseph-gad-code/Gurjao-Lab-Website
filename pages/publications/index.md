@@ -18,7 +18,7 @@ Entries in _data/publications.yml should be of the form
 {% assign pubs_all = site.data.publications | sort: "year" | reverse %}
 
 {% assign selected = pubs_all
-  | where_exp: "p", 'p["selected-publication"] == true or p["selected-publication"] == "yes"'
+  | where_exp: "p", "p['selected-publication'] == true or p['selected-publication'] == 'yes'"
 %}
 
 # Selected publications

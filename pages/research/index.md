@@ -5,52 +5,52 @@ extra_css:
   - /research/research.css
 ---
 
-<section class="research-page">
+<div class="research-page">
+  <h1>Research</h1>
 
-  <!-- SECTION 1: Text left, image right -->
-  <article class="research-section">
-    <div class="copy">
-      <h1>What causes cancer mutations?</h1>
-
-      <p>Every person’s tumour tells a story—our lifestyle habits, our microbes, even our immune system shape the tumour’s DNA and can leave marks. We aim to discover and study such marks to understand how cancer develops.</p>
-
+  <section class="research-section image-right">
+    <div class="research-copy">
+      <h2>What causes cancer mutations?</h2>
+      <p class="lead">
+        Every person’s tumour tells a story—our lifestyle habits, microbes, and immune system shape the tumour’s DNA and can leave marks. We aim to discover and study such marks to understand how cancer develops.
+      </p>
       <p><em>Our discoveries so far:</em></p>
-      <ul class="dash-list">
-        <li>Discovered a mutational pattern linked to dietary habits, in particular red meat intake.</li>
-        <li>Identified a subpopulation that is particularly susceptible to DNA damage from such habits.</li>
-        <li>Assessed the long-term effects of smoking on the colorectal cancer genomes.</li>
+      <ul>
+        <li><strong>Dietary habits:</strong> Discovered a mutational pattern linked to particular red-meat intake.</li>
+        <li><strong>Susceptible subpopulations:</strong> Identified a group particularly prone to DNA damage from such habits.</li>
+        <li><strong>Long-term effects:</strong> Assessed the impact of smoking on the colorectal cancer genome.</li>
       </ul>
-
-      <p>In collaborations, we also assessed how alcohol and certain bacterial strains leave mutational marks.</p>
+      <p>In collaborations, we also assessed how alcohol and certain bacterial strains leave characteristic mutational marks.</p>
     </div>
 
-    <figure class="figure">
-      <img src="/assets/images/research/mutational-marks.png"
-           alt="Factors such as genome architecture, microbiota, lifestyle and immune system shaping the mutational landscape">
-    </figure>
-  </article>
-
-  <!-- SECTION 2: Image left, text right -->
-  <article class="research-section">
-    <figure class="figure left">
-      <img src="/assets/images/research/treatment-landscape.png"
-           alt="Mutational landscape informing aggressiveness, responders, and drug synergies">
-    </figure>
-
-    <div class="copy">
-      <h1>How can tumor mutations guide treatment?</h1>
-
-      <p>Cancer immunotherapies are transforming treatment, yet not all patients respond the same way. Studying the mutational landscape of tumors can inform the best course of treatment and predict aggressiveness.</p>
-
-      <p><em>Our discoveries so far:</em></p>
-      <ul class="dash-list">
-        <li>Identified intrinsic resistance to immune checkpoint blockade in mismatch repair–deficient colorectal cancer.</li>
-        <li>Characterized hidden/interval colorectal cancers across prospective cohorts.</li>
-        <li>Described germline predisposition to oncogenic alkylating damage in colorectal cancer.</li>
-      </ul>
-
-      <p>We also study how tumor cells change after treatment and how specific genetic contexts influence therapy sensitivity.</p>
+    <div class="research-figure">
+      <div class="img-frame">
+        <img src="{{ '/research/fig-causes.png' | relative_url }}" alt="Factors shaping the mutational landscape">
+      </div>
     </div>
-  </article>
+  </section>
 
-</section>
+  <hr class="research-divider">
+
+  <section class="research-section image-left">
+    <div class="research-figure">
+      <div class="img-frame">
+        <img src="{{ '/research/fig-treatment.png' | relative_url }}" alt="Mutations informing therapy">
+      </div>
+    </div>
+
+    <div class="research-copy">
+      <h2>How can tumor mutations guide treatment?</h2>
+      <p class="lead">
+        Cancer immunotherapies are transforming treatment, yet not all patients respond the same way. Studying the mutational landscape of tumors can inform the best course of treatment and help predict aggressiveness.
+      </p>
+      <p><em>Our discoveries so far:</em></p>
+      <ul>
+        <li><strong>Resistance to immunotherapy:</strong> Identified intrinsic resistance to immune checkpoint blockade in mismatch-repair–deficient colorectal cancer.</li>
+        <li><strong>Hidden cancers:</strong> Characterized interval colorectal cancers across multiple prospective cohorts.</li>
+        <li><strong>Genetic context:</strong> Shown how specific contexts (e.g., RNF43/NTHL1) influence sensitivity to therapy.</li>
+      </ul>
+      <p>We also study how tumor cells evolve after treatment to refine precision oncology.</p>
+    </div>
+  </section>
+</div>

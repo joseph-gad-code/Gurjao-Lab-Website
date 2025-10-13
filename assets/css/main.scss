@@ -261,15 +261,16 @@ $pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - 1.25rem);
 
 .research-section { margin: 2.25rem 0; }
 
+/* 3 columns: TEXT | GAP | FIGURE */
 .research-section .row{
   display: grid;
-  grid-template-columns: 1fr var(--research-gap) var(--research-fig-w); /* text | gap | figure */
+  grid-template-columns: minmax(0, 1fr) var(--research-gap) minmax(360px, var(--research-fig-w));
   position: relative;
   gap: 0;
   align-items: stretch;
 }
 
-/* single vertical demarcation centered in the gap */
+/* single vertical rail centered in the gap */
 .research-section .row::after{
   content: "";
   position: absolute;
@@ -280,7 +281,7 @@ $pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - 1.25rem);
   background: var(--research-rail);
 }
 
-/* Titles are always left-aligned */
+/* Titles always left-aligned */
 .section-title{ margin: 0 0 .5rem; font-weight: 400; text-align: left; }
 
 .research-copy{
@@ -295,17 +296,14 @@ $pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - 1.25rem);
   display: flex;
   align-items: stretch;
   min-height: 100%;
-  border: 0;
-  padding: 0;
 }
 
-/* Clean figure box: no border/shadow; white background; fills column */
+/* Clean figure box (no border), white background, fill cell */
 .research-figure .figure-box{
   width: 100%;
   height: 100%;
   background: var(--white);
   border: 0;
-  border-radius: 0;
   padding: 0;
   display: flex;
   align-items: center;
@@ -313,31 +311,28 @@ $pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - 1.25rem);
   overflow: hidden;
 }
 
-/* Make images fill the available area */
+/* Images fill the box and stay white */
 .research-figure .figure-box img{
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transform-origin: center;
   background: var(--white);
+  transform-origin: center;
 }
 
 /* Rotation helpers */
 .research-figure .figure-box img.rot-90-ccw{ transform: rotate(-90deg); }
 .research-figure .figure-box img.rot-90-cw { transform: rotate(90deg);  }
 
-/* Swap columns when image is on the left */
+/* Swap columns when image is on the left: FIG | GAP | TEXT */
 .research-section.img-left .row{
-  grid-template-columns: var(--research-fig-w) var(--research-gap) 1fr; /* figure | gap | text */
+  grid-template-columns: minmax(320px, var(--research-fig-w)) var(--research-gap) minmax(0, 1fr);
 }
 .research-section.img-left .row::after{
   left: calc(var(--research-fig-w) + (var(--research-gap) / 2));
   right: auto;
 }
-
-/* Divider between sections */
-.research-divider{ border: 0; height: 1px; background: #eee; margin: 26px 0 0; }
 
 /* Dashes in Bulleted Lists*/
 .dash-list { list-style: none; margin: 10px 0 16px; padding: 0; }

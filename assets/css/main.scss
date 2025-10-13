@@ -5,6 +5,7 @@
   --blue: #0D5295;
   --black: #000000;
   --gray: #666666;
+  --lightblue: #6495ED;
   
 }
 
@@ -132,8 +133,8 @@ body {
   padding-left: 1.2rem;
 }
 
-.read-more a { text-decoration: none; }
-.read-more a:hover { text-decoration: underline; }
+.link a { text-decoration: none; color: var(--lightblue); }
+.link a:hover { text-decoration: underline; }
 
 /* Right-side news column */
 .home-news {

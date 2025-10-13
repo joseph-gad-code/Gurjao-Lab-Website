@@ -113,61 +113,62 @@ body {
   align-items: start;
 }
 
-$li-indent: 1.8rem;
-$li-dash-left:  -1.5rem;
-$li-dash-width:  1.1rem;
-$pre-dash-offset: .25rem;
-$lead-into-left:  $li-indent + $li-dash-left - $pre-dash-offset;
-.body-text .text-above-list {
-  padding-left: $lead-into-left;
-}
+$li-text-indent: 3rem;
+$bullet-width: 1.75rem;
 
-.body-text {
-  text-align: left;
-}
+.body-text { text-align: left; }
 
 .body-text h2 {
   margin: 0 0 28px;
   font-weight: 400;
 }
 
-.body-text p,
+.body-text .text-above-list {
+  margin-left: calc(#{$li-text-indent} - #{$bullet-width} - .5rem);
+}
+
+.body-text p { margin: 10px 0 16px; }
+
 .body-text ul {
   list-style: none;
   margin: 10px 0 16px;
-  padding-left: $li-indent;
+  padding: 0;
 }
 
 .body-text li {
   position: relative;
   margin: .5rem 0;
   line-height: 1.6;
+  padding-left: $li-text-indent;
 }
 
 .body-text li::before {
   content: "";
   position: absolute;
-  left: $li-dash-left;
-  top: 0.85em;
-  transform: translateY(-50%);
-  width: $li-dash-width;
-  border-top: 2px solid var(--black);
+  left: 0;
+  top: .72em;
+  width: $bullet-width;
+  height: 2px;
+  background: var(--black);
+  border-radius: 2px;
   opacity: .9;
 }
 
-.body-text .read-more{
+.body-text p.read-more{
   display: block;
-  margin: .8rem 0 0 $li-indent;  /* aligns with LI text column */
-  padding-left: $lead-into-left;
+  margin: .85rem 0 0 $li-text-indent;
+  padding-left: 0 !important;
 }
-.body-text .read-more a{
-  display: inline;
-  margin: 0;
-  padding: 0;
+
+.body-text p.read-more a{
+  display: inline-block;
+  margin: 0 !important;
+  padding: 0 !important;
   text-decoration: none;
   color: var(--lightblue);
 }
-.body-text .read-more a:hover{
+
+.body-text p.read-more a:hover{
   text-decoration: underline;
 }
 

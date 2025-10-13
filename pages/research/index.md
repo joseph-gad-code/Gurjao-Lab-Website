@@ -32,7 +32,7 @@ permalink: /research/
           <img
             class="img-responsive rot-90"
             loading="lazy"
-            src="{{ '/images/research/causes.png' | relative_url }}"
+            src="{{ '/assets/images/research/causes.png' | relative_url }}"
             alt="Factors such as genome architecture, microbiota, lifestyle and immune system shaping the mutational landscape">
         </div>
       </div>
@@ -49,7 +49,7 @@ permalink: /research/
           <img
             class="img-responsive rot-90"
             loading="lazy"
-            src="{{ '/images/research/treatment.png' | relative_url }}"
+            src="{{ '/assets/images/research/treatment.png' | relative_url }}"
             alt="Mutational landscape informing aggressiveness, responders, and drug synergies">
         </div>
       </div>
@@ -102,7 +102,7 @@ permalink: /research/
           <img
             class="img-responsive rot-90"
             loading="lazy"
-            src="{{ '/images/research/causes.png' | relative_url }}"
+            src="{{ '/assets/images/research/causes.png' | relative_url }}"
             alt="Genome architecture, microbiota, lifestyle habits and immune system icons next to a DNA helix">
         </div>
       </div>

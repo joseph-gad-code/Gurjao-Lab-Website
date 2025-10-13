@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "GURJAOLAB – Research"
+title: Research
 permalink: /research/
 ---
 

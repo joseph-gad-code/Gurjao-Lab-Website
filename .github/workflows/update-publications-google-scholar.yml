@@ -89,12 +89,13 @@ jobs:
         run: |
           set -euo pipefail
           if [ ! -f _data/publications.manual.yml ]; then
-            cat > _data/publications.manual.yml <<'YAML'
-# Manual overrides (match by DOI if present, else by exact title)
-# - doi: 10.xxxx/yyyy
-#   title: "Exact Title Here"
-#   selected_publication: true
-#   image: /assets/images/publications/example.png
+            printf '%s\n' \
+              '# Manual overrides (match by DOI if present, else by exact title)' \
+              '# - doi: 10.xxxx/yyyy' \
+              '#   title: "Exact Title Here"' \
+              '#   selected_publication: true' \
+              '#   image: /assets/images/publications/example.png' \
+            > _data/publications.manual.yml
           fi
 
       - name: Convert manual YAML→JSON

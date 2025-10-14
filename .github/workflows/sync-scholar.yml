@@ -1,0 +1,36 @@
+name: Sync Google Scholar to publications.yml
+
+on:
+  workflow_dispatch:
+    inputs:
+      scholar_user:
+        description: "Google Scholar user ID (from ?user=XXXX)"
+        required: true
+        default: "m3rLfS4AAAAJ"
+  schedule:
+    - cron: "0 6 * * 0"  # weekly, Sundays 06:00 UTC (optional)
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      SCHOLAR_USER: ${{ github.event.inputs.scholar_user || 'm3rLfS4AAAAJ' }}
+      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "false" # ensure chromium available
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm ci || npm i
+
+      - name: Run scraper
+        run: npm run sync:scholar
+
+      - name: Commit & push changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: sync publications from Google Scholar"
+          file_pattern: "_data/publications.yml"

@@ -80,14 +80,8 @@ jobs:
       - name: Ensure manual overrides file exists
         run: |
           if [ ! -f _data/publications.manual.yml ]; then
-            # Use printf to create the file, avoiding heredoc issues with YAML parsers.
-            printf '%s\n' \
-              '# This file allows you to override or add publication details manually.' \
-              '# Entries are matched by DOI.' \
-              '# Example:' \
-              '# - doi: 10.1038/s41586-020-2649-2' \
-              '#   selected_publication: true' \
-              '#   image: /assets/images/publications/example.png' > _data/publications.manual.yml
+            # Using echo -e with \n is a more reliable way to create the multi-line file.
+            echo -e "# This file allows you to override or add publication details manually.\n# Entries are matched by DOI.\n# Example:\n# - doi: 10.1038/s41586-020-2649-2\n#   selected_publication: true\n#   image: /assets/images/publications/example.png" > _data/publications.manual.yml
           fi
 
       - name: Convert manual YAML→JSON

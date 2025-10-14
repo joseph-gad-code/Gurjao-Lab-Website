@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: "Checkout repository"
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Install jq, yq, unzip, pup
+      - name: "Install jq, yq, unzip, pup"
         run: |
           set -euo pipefail
           sudo apt-get update
@@ -32,23 +32,18 @@ jobs:
           jq --version
           pup --version
 
-      - name: Create data directory
+      - name: "Create data directory"
         run: |
           set -euo pipefail
           mkdir -p _data
 
-      - name: Scrape publications from Google Scholar
+      - name: "Scrape publications from Google Scholar"
         env:
           SCHOLAR_URL: "https://scholar.google.com/citations?user=m3rLfS4AAAAJ&hl=en"
         run: |
           set -euo pipefail
-          curl -sS -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0 Safari/537.36" \
-            "$SCHOLAR_URL" > _data/scholar.raw.html
-
-          # Parse rows as JSON
+          curl -sS -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0 Safari/537.36" "$SCHOLAR_URL" > _data/scholar.raw.html
           pup '#gsc_a_b tr.gsc_a_tr json{}' < _data/scholar.raw.html > /tmp/rows.json
-
-          # Normalize to a tolerant JSON array
           jq -r '
             ( . // [] ) | map({
               title:    (.. | objects | select(.class[]? | index("gsc_a_at")) | .text) // "",
@@ -58,13 +53,11 @@ jobs:
               year:     (.. | objects | select(.class[]? | index("gsc_a_y")) | .. | objects | select(.name?=="span") | .text) // ""
             })
           ' /tmp/rows.json > _data/scholar.raw.json
-
-          # If empty or invalid, ensure we still have a well-formed empty array
           if ! jq -e 'type=="array"' _data/scholar.raw.json >/dev/null 2>&1; then
             echo "[]" > _data/scholar.raw.json
           fi
 
-      - name: Normalize to site schema (JSON)
+      - name: "Normalize to site schema (JSON)"
         run: |
           set -euo pipefail
           jq -r '
@@ -80,12 +73,12 @@ jobs:
             })
           ' _data/scholar.raw.json > _data/publications.auto.json
 
-      - name: Convert auto JSON→YAML (optional)
+      - name: "Convert auto JSON to YAML (optional)"
         run: |
           set -euo pipefail
           yq -P '.' _data/publications.auto.json > _data/publications.auto.yml || true
 
-      - name: Ensure manual overrides file exists
+      - name: "Ensure manual overrides file exists"
         run: |
           set -euo pipefail
           if [ ! -f _data/publications.manual.yml ]; then
@@ -98,20 +91,18 @@ jobs:
             > _data/publications.manual.yml
           fi
 
-      - name: Convert manual YAML→JSON
+      - name: "Convert manual YAML to JSON"
         run: |
           set -euo pipefail
           yq -o=json '.' _data/publications.manual.yml > _data/publications.manual.json
 
-      - name: Merge auto + manual (manual wins), sort by year desc
+      - name: "Merge auto + manual (manual wins), sort by year desc"
         run: |
           set -euo pipefail
           jq -s '
             def keyOf: if (.doi // "") != "" then .doi else .title end;
-            def to_map:
-              map( { (keyOf): . } ) | add // {};
+            def to_map: map({ (keyOf): . }) | add // {};
             def to_array(m): [ m | to_entries[] | .value ];
-
             . as $all
             | ($all[0] | to_map) as $auto
             | ($all[1] | to_map) as $manual
@@ -120,13 +111,13 @@ jobs:
             | sort_by(.year // 0) | reverse
           ' _data/publications.auto.json _data/publications.manual.json > _data/publications.json
 
-      - name: Convert final JSON→YAML
+      - name: "Convert final JSON to YAML"
         run: |
           set -euo pipefail
           yq -P '.' _data/publications.json > _data/publications.yml
           echo "Wrote _data/publications.yml (lines: $(wc -l < _data/publications.yml))"
 
-      - name: Commit changes
+      - name: "Commit changes"
         run: |
           set -euo pipefail
           if git status --porcelain | grep -q "_data/publications"; then

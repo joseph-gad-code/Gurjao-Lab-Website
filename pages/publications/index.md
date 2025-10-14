@@ -4,110 +4,68 @@ layout: default
 permalink: /publications/
 ---
 
-# Publications
+<section class="publications-page">
 
-{%- comment -%}
-Load data.
-Accept either:
-- _data/publications.yml = [ {...}, {...} ] (array)
-- _data/publications.yml = { publications: [ {...}, ... ] } (hash)
-{%- endcomment -%}
-{% assign pubs_raw = site.data.publications %}
-{% assign pubs = pubs_raw.publications | default: pubs_raw %}
+  <h1 class="pubs-title">Publications</h1>
 
-{%- comment -%}
-Empty state.
-{%- endcomment -%}
-{% if pubs == nil or pubs == empty or pubs.size == 0 %}
-<p>No publications found. This page is driven by <code>_data/publications.yml</code>.</p>
-{% else %}
+  {% assign pubs = site.data.publications | sort: "year" | reverse %}
 
-{%- comment -%}
-Sort newest first if possible. If items aren’t hashes, sort will still pass through.
-{%- endcomment -%}
-{% assign pubs_sorted = pubs | sort: "year" | reverse %}
+  {% assign featured = pubs | where_exp: "p", "p.selected_publication == true" %}
+  {% if featured and featured.size > 0 %}
+  <h2 class="pubs-subtitle">Selected publications</h2>
 
-{%- comment -%}
-Featured publications (selected_publication: true). We’ll detect the flag inside the loop
-to avoid filters that assume every item is a hash.
-{%- endcomment -%}
-{% assign any_featured = false %}
-{% for p in pubs_sorted %}
-  {% if p and p.selected_publication %}
-    {% assign any_featured = true %}
-    {% break %}
-  {% endif %}
-{% endfor %}
-
-{% if any_featured %}
-<h2 class="section-subtitle">Selected publications</h2>
-<div class="pub-cards">
-  {% for p in pubs_sorted %}
-    {% if p and p.selected_publication %}
+  <div class="pub-grid">
+    {% for p in featured %}
     <article class="pub-card">
       {% if p.image %}
       <div class="pub-card-media">
         <img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}">
       </div>
       {% endif %}
+
       <div class="pub-card-body">
-        <h3 class="pub-title">
-          {% if p.url %}
-            <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
-          {% else %}
-            {{ p.title }}
-          {% endif %}
-        </h3>
-        <div class="pub-meta">
-          {% if p.authors %}{{ p.authors }} · {% endif %}
-          {% if p.journal and p.url %}
+        <h3 class="pub-card-title">{{ p.title }}</h3>
+        <div class="pub-card-authors">{{ p.authors }}</div>
+
+        <div class="pub-card-meta">
+          {% if p.url and p.journal %}
             <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.journal }}</a>
-          {% elsif p.journal %}
+          {% else %}
             {{ p.journal }}
           {% endif %}
           {% if p.year %} · {{ p.year }}{% endif %}
+          {% if p.doi %} · <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">DOI</a>{% endif %}
         </div>
       </div>
     </article>
-    {% endif %}
-  {% endfor %}
-</div>
-{% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
 
-{%- comment -%}
-All publications (no grouping; avoids map/where_exp/group_by).
-We’ll just render in sorted order and skip any non-hash items.
-{%- endcomment -%}
-<h2 class="section-subtitle">All publications</h2>
-<div class="pub-list">
-  {% assign any_items = false %}
-  {% for p in pubs_sorted %}
-    {% if p and p.title %}
-      {% assign any_items = true %}
-      <div class="pub-list-item">
-        <div class="pub-list-title">
-          {% if p.url %}
-            <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
-          {% else %}
-            {{ p.title }}
-          {% endif %}
-        </div>
-        <div class="pub-list-meta">
-          {% if p.authors %}{{ p.authors }} · {% endif %}
-          {% if p.journal and p.url %}
-            <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.journal }}</a>
-          {% elsif p.journal %}
-            {{ p.journal }}
-          {% endif %}
-          {% if p.year %} · {{ p.year }}{% endif %}
-        </div>
+  <h2 class="pubs-subtitle">All publications</h2>
+
+  {% assign years = pubs | map: "year" | uniq | sort | reverse %}
+  {% for y in years %}
+    {% assign group = pubs | where: "year", y %}
+    {% if group and group.size > 0 %}
+      <h3 class="pubs-year">{{ y }}</h3>
+      <div class="pub-list">
+        {% for p in group %}
+        <article class="pub-list-item">
+          <h4 class="pub-li-title">{{ p.title }}</h4>
+          <div class="pub-li-authors">{{ p.authors }}</div>
+          <div class="pub-li-meta">
+            {% if p.url and p.journal %}
+              <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.journal }}</a>
+            {% else %}
+              {{ p.journal }}
+            {% endif %}
+            {% if p.doi %} · <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">DOI</a>{% endif %}
+          </div>
+        </article>
+        {% endfor %}
       </div>
     {% endif %}
   {% endfor %}
 
-  {% unless any_items %}
-    <p>No well-formed publication entries to display.</p>
-  {% endunless %}
-</div>
-
-{% endif %}
+</section>

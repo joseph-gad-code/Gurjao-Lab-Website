@@ -2,7 +2,6 @@
 title: "Publications"
 layout: default
 permalink: /publications/
-# Surnames of lab members to bold within the author strings
 lab_names:
   - Gurjao
   - Boero-Teyssier
@@ -25,21 +24,15 @@ lab_names:
       {% assign tokens = core | split:" " %}
       {% assign last_tok = tokens | last | replace:".","" | replace:",","" | strip %}
       {% assign last_is_number = "no" %}
-      {% for d in (0..9) %}
-        {% if last_tok contains d %}{% assign last_is_number = "yes" %}{% endif %}
-      {% endfor %}
+      {% for d in (0..9) %}{% if last_tok contains d %}{% assign last_is_number = "yes" %}{% endif %}{% endfor %}
       {% assign limit = tokens.size %}
-      {% if last_is_number == "yes" %}
-        {% assign limit = limit | minus: 1 %}
-      {% endif %}
+      {% if last_is_number == "yes" %}{% assign limit = limit | minus: 1 %}{% endif %}
       {% capture journal_clean %}
-        {% for t in tokens limit:limit %}
-          {{ t }}{% unless forloop.last %} {% endunless %}
-        {% endfor %}
+        {% for t in tokens limit:limit %}{{ t }}{% unless forloop.last %} {% endunless %}{% endfor %}
       {% endcapture %}
       {% assign journal_clean = journal_clean | strip %}
 
-      {%- comment -%} -------- Authors: remove asterisks, use …, bold lab names -------- {%- endcomment -%}
+      {%- comment -%} -------- Authors formatting -------- {%- endcomment -%}
       {% assign authors = p.authors | replace:"*","" | replace:"...", "…" %}
       {% for ln in page.lab_names %}
         {% assign needle1 = " " | append: ln %}
@@ -69,12 +62,11 @@ lab_names:
           {% endif %}
 
           <div class="venue">
-            {% if journal_clean != "" %}
+            {% if journal_clean != "" -%}
               <em><a href="{{ p.url }}" target="_blank" rel="noopener">{{ journal_clean }}</a></em>
-            {% endif %}{% if p.year %}<span class="year">, {{ p.year }}</span>{% endif %}
-            {% if p.doi and p.doi != "" %}
-              <a class="doi" href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">DOI</a>
-            {% endif %}
+            {%- endif -%}
+            {%- if p.year -%}<span class="year">, {{ p.year }}</span>{%- endif -%}
+            {% if p.doi and p.doi != "" %} <a class="doi" href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">DOI</a>{% endif %}
           </div>
         </div>
       </article>
@@ -96,17 +88,11 @@ lab_names:
       {% assign tokens = core | split:" " %}
       {% assign last_tok = tokens | last | replace:".","" | replace:",","" | strip %}
       {% assign last_is_number = "no" %}
-      {% for d in (0..9) %}
-        {% if last_tok contains d %}{% assign last_is_number = "yes" %}{% endif %}
-      {% endfor %}
+      {% for d in (0..9) %}{% if last_tok contains d %}{% assign last_is_number = "yes" %}{% endif %}{% endfor %}
       {% assign limit = tokens.size %}
-      {% if last_is_number == "yes" %}
-        {% assign limit = limit | minus: 1 %}
-      {% endif %}
+      {% if last_is_number == "yes" %}{% assign limit = limit | minus: 1 %}{% endif %}
       {% capture journal_clean %}
-        {% for t in tokens limit:limit %}
-          {{ t }}{% unless forloop.last %} {% endunless %}
-        {% endfor %}
+        {% for t in tokens limit:limit %}{{ t }}{% unless forloop.last %} {% endunless %}{% endfor %}
       {% endcapture %}
       {% assign journal_clean = journal_clean | strip %}
 
@@ -129,12 +115,11 @@ lab_names:
           <div class="authors">{{ authors }}</div>
         {% endif %}
         <div class="venue">
-          {% if journal_clean != "" %}
+          {% if journal_clean != "" -%}
             <em><a href="{{ p.url }}" target="_blank" rel="noopener">{{ journal_clean }}</a></em>
-          {% endif %}{% if p.year %}<span class="year">, {{ p.year }}</span>{% endif %}
-          {% if p.doi and p.doi != "" %}
-            <a class="doi" href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">DOI</a>
-          {% endif %}
+          {%- endif -%}
+          {%- if p.year -%}<span class="year">, {{ p.year }}</span>{%- endif -%}
+          {% if p.doi and p.doi != "" %} <a class="doi" href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">DOI</a>{% endif %}
         </div>
       </article>
     {% endfor %}

@@ -1,9 +1,9 @@
-name: Update publications (Crossref)
+name: "Update publications (Crossref)"
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 3 * * 1'  # Mondays 03:00 UTC
+    - cron: "0 3 * * 1"  # Mondays 03:00 UTC
 
 permissions:
   contents: write
@@ -25,17 +25,18 @@ jobs:
           yq --version
           jq --version
 
-      - name: Ensure data directory
+      - name: Make data dir
         run: mkdir -p _data
 
-      - name: Fetch publications from Crossref (author query)
+      - name: Fetch publications from Crossref
         env:
-          AUTHOR_QUERY: 'Carino Gurjao'
-          ROWS: '100'
-          CONTACT: 'your-email@example.com'
+          AUTHOR_QUERY: "Carino Gurjao"
+          ROWS: "100"
+          CONTACT: "YOUR_EMAIL_HERE@example.com"
         run: |
           UA="GurjaoLabSite/1.0 (mailto:${CONTACT})"
-          URL="https://api.crossref.org/works?query.author=$(printf %s "$AUTHOR_QUERY" | sed 's/ /+/g')&rows=${ROWS}&select=title,author,container-title,DOI,issued,URL,type&sort=issued&order=desc"
+          Q=$(printf %s "$AUTHOR_QUERY" | sed 's/ /+/g')
+          URL="https://api.crossref.org/works?query.author=${Q}&rows=${ROWS}&select=title,author,container-title,DOI,issued,URL,type&sort=issued&order=desc"
           curl -sS -A "$UA" "$URL" | jq '.message.items' > _data/crossref.raw.json
 
       - name: Normalize to site schema (JSON)
@@ -45,7 +46,7 @@ jobs:
               title: ( .["title"][0] // "" ),
               authors: (
                 (.author // [])
-                | map([(.family // ""), ( .given // "" )] | join(", "))
+                | map([(.family // ""), (.given // "")] | join(", "))
                 | join("; ")
               ),
               year: ( .issued["date-parts"][0][0] // null ),
@@ -57,40 +58,48 @@ jobs:
             })
           ' _data/crossref.raw.json > _data/publications.auto.json
 
-      - name: Convert to YAML
-        run: |
-          yq -P '.' _data/publications.auto.json > _data/publications.auto.yml
+      - name: Convert auto JSON→YAML (optional artifact)
+        run: yq -P '.' _data/publications.auto.json > _data/publicications.auto.yml
 
-      - name: Merge manual overrides (selected + images)
+      - name: Ensure manual overrides file exists
         run: |
           if [ ! -f _data/publications.manual.yml ]; then
             cat > _data/publications.manual.yml <<'YAML'
-# Add overrides by DOI here, e.g.:
-# - doi: 10.1234/example
+# Add overrides by DOI here, for example:
+# - doi: 10.1038/s41586-020-2649-2
 #   selected_publication: true
 #   image: /assets/images/publications/example.png
 YAML
           fi
 
-          yq -P '
-            def to_map: map(select(.doi != null and .doi != "") | {key: .doi, value: .});
-            def map_values(m): m | to_entries | map(.value);
+      - name: Convert manual YAML→JSON
+        run: |
+          yq -o=json '.' _data/publications.manual.yml > _data/publications.manual.json
 
-            . as $auto
-            | (load("_data/publications.manual.yml") // []) as $manual
-            | ( $auto | to_map ) as $A
-            | ( $manual | to_map ) as $M
-            | ($A * $M)
-            | map_values(.)
+      - name: Merge auto + manual (manual overrides win), sort by year desc
+        run: |
+          jq -s '
+            def to_map:
+              map(select(.doi != null and .doi != "") | { (.doi): . }) | add // {};
+            def to_array(m): [ m | to_entries[] | .value ];
+
+            . as $all
+            | ($all[0] | to_map) as $auto
+            | ($all[1] | to_map) as $manual
+            | ($auto * $manual)               # manual overrides by DOI
+            | to_array(.)
             | sort_by(.year) | reverse
-          ' _data/publications.auto.yml > _data/publications.yml
+          ' _data/publications.auto.json _data/publications.manual.json > _data/publications.json
+
+      - name: Convert final JSON→YAML
+        run: yq -P '.' _data/publications.json > _data/publications.yml
 
       - name: Commit changes
         run: |
           if git status --porcelain | grep -q "_data/publications"; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add _data/publications.yml _data/publications.auto.yml _data/crossref.raw.json _data/publications.auto.json _data/publications.manual.yml
+            git add _data/publications.yml _data/publications.json _data/publications.auto.json _data/publications.auto.yml _data/crossref.raw.json _data/publications.manual.yml _data/publications.manual.json
             git commit -m "chore: update publications from Crossref"
             git push
           else

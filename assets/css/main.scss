@@ -556,131 +556,155 @@ $pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - 1.25rem);
   background: #fff;
 }
 
-/* ========================= */
-/*      RESPONSIVE RULES     */
-/* ========================= */
+/* ===========================
+   Mobile tweaks
+   =========================== */
 
-/* Tablet and down */
+/* Small tablets and down */
 @media (max-width: 900px) {
-  .container { padding: 20px 16px; }
 
-  .site-header {
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
-  }
+  /* Header / nav */
+  .site-header { padding: 14px 16px; }
   .brand a { font-size: 24px; }
-  .site-nav ul {
-    flex-wrap: wrap;
-    gap: 16px;
-  }
-  .site-nav li.active > a {
-    text-decoration-thickness: 2px;
-    text-underline-offset: .18em;
-  }
+  .site-nav ul { gap: 16px; flex-wrap: wrap; }
+  .site-nav a { font-size: 1rem; }
 
-  .homepage-blurbs {
-    grid-template-columns: 1fr;
-    gap: 18px;
-  }
-
+  /* Home: body + news becomes stacked */
   .homepage-body {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr;   /* stack */
     gap: 20px;
   }
   .home-news {
     border-left: 0;
-    border-top: 1px solid rgba(0,0,0,.12);
     padding-left: 0;
-    padding-top: 16px;
-    max-height: none;
+    max-height: none;             /* let it grow naturally */
   }
-  .home-news .news-scroller {
-    max-height: 50vh;
+  .home-news .news-scroller { max-height: none; }
+
+  /* Lists: reduce indent + dash length */
+  .body-text li,
+  .dash-list li { padding-left: 2rem; }
+  .body-text li::before,
+  .dash-list  li::before { width: 1.2rem; }
+
+  /* People cards: tighter layout */
+  .people-list { gap: 12px; }
+  .person-card {
+    grid-template-columns: 84px 1fr;
+    gap: 12px;
+    padding: 12px;
   }
+  .person-photo,
+  .person-photo.placeholder { height: 84px; }
+  .person-name   { font-size: 1.05rem; }
+  .person-status { font-size: .92rem; }
 
-  .body-text li { padding-left: 2.2rem; }
-  .dash-list li { padding-left: 2.2rem; }
-  :root { --research-fig-w: 100%; }
+  /* Publications: cards fill width comfortably */
+  .pub-grid { gap: 14px; }
+  .pub-card {
+    grid-template-columns: 140px 1fr;
+    gap: 12px;
+    padding: 10px;
+  }
+  .pub-card .title { font-size: 1.05rem; }
+  .pub-card .authors { font-size: .95rem; }
+  .pub-card .venue { font-size: .95rem; }
+}
 
-  .research-section .row {
+/* Phones */
+@media (max-width: 640px) {
+
+  html, body { overflow-x: hidden; } /* prevent accidental horizontal scroll */
+
+  /* Header */
+  .brand a { font-size: 22px; }
+  .site-nav ul { gap: 12px; }
+  .site-nav a { font-size: .98rem; }
+
+  /* Hero row of icons: keep them from overflowing */
+  .homepage-hero-image { margin: 0 0 1.25rem; }
+  .homepage-tagline { margin: 1rem 0 1.75rem; }
+
+  /* Home blurbs: single column */
+  .homepage-blurbs {
     grid-template-columns: 1fr;
+    gap: 16px;
+    text-align: left;
+  }
+  .homepage-blurbs .secondary-blurb { font-size: 1.02rem; }
+
+  /* Home: body + news already stacked above; just soften spacing */
+  .homepage-body { padding: 0 16px; }
+  .body-text h2 { margin: 0 0 8px; }
+  .body-text p { margin: 8px 0 12px; }
+
+  /* Bullets: a bit smaller again on phones */
+  .body-text li,
+  .dash-list li { padding-left: 1.7rem; }
+  .body-text li::before,
+  .dash-list  li::before { width: 1rem; top: .8em; }
+
+  .body-text p.read-more { margin-left: 0; } /* align link with paragraph */
+
+  /* Research page: stack + constrain figure height nicely */
+  .research-section .row {
+    grid-template-columns: 1fr;     /* text then image */
     gap: 16px;
   }
   .research-section.img-right .research-figure,
   .research-section.img-left  .research-figure {
-    border: 0;
+    border: 0;                      /* remove vertical rail on phones */
     padding: 0;
-    margin-top: 8px;
+  }
+  .research-figure .figure-box {
+    height: 260px;                  /* fixed, compact visual */
+    border-radius: 10px;
+  }
+  .research-figure .figure-box img {
+    width: auto;                    /* keep aspect */
+    height: 100%;
+    object-fit: contain;            /* letterboxed if needed */
   }
 
+  /* People page: even tighter */
+  .people-page { padding: 0 16px; }
+  .person-card {
+    grid-template-columns: 72px 1fr;
+    gap: 10px;
+    padding: 10px;
+  }
+  .person-photo,
+  .person-photo.placeholder { height: 72px; }
+  .person-name { font-size: 1rem; }
+  .person-status { font-size: .9rem; }
+  .person-bio { font-size: .98rem; }
+
+  /* Contact page: stack media and text */
+  .contact-page { padding: 0 16px; }
   .contact-grid {
     grid-template-columns: 1fr;
     grid-template-areas:
-      "details"
       "media"
+      "details"
       "lower";
-    gap: 20px;
+    gap: 16px;
   }
-  .contact-media .media-box { height: 260px; }
-  .contact-media img { object-fit: contain; }
-
-  .values-grid { grid-template-columns: 1fr; gap: 18px; }
-
-  .people-list {
-    grid-template-columns: 1fr;
-  }
-  .person-card {
-    grid-template-columns: 90px 1fr;
-    gap: 12px;
-  }
-  .person-photo,
-  .person-photo.placeholder {
-    height: 90px;
-    line-height: 90px;
-  }
-
-  .pub-grid {
-    grid-template-columns: 1fr;
-  }
-  .pub-card {
-    grid-template-columns: 1fr;
-  }
-  .pub-card .thumb { --thumb-h: 180px; }
-}
-
-/* Phones */
-@media (max-width: 600px) {
-  .container { padding: 16px 14px; }
-
-  .site-nav ul { gap: 12px; }
-  .site-nav a { font-size: .98rem; }
-
-  .homepage-tagline { font-size: clamp(1.6rem, 6vw, 2.2rem); }
-
-  .home-news .news-scroller { max-height: 44vh; }
-
-  .news-card.has-media {
-    grid-template-columns: 1fr 88px;
-    gap: 10px;
-  }
-  .news-media { width: 88px; height: 66px; }
-
-  .body-text li,
-  .dash-list li { padding-left: 2rem; }
-  .body-text li::before,
-  .dash-list li::before { width: 1.2rem; }
-
-  .research-section { margin: 1.5rem 0; }
-  .research-figure .figure-box { height: 240px; }
-  .research-figure .figure-box img { object-fit: contain; }
-
   .contact-media .media-box { height: 220px; }
+  .contact-media img { width: auto; height: 100%; object-fit: contain; }
 
-  .pub-card .title,
-  .pub-row  .title { font-size: 1.05rem; }
+  /* Publications: 1 column cards on phones */
+  .pub-grid { grid-template-columns: 1fr; }
+  .pub-card  { grid-template-columns: 120px 1fr; }
+  .pub-card .title { font-size: 1.02rem; }
   .pub-card .authors,
   .pub-row  .authors { font-size: .95rem; }
   .pub-card .venue,
-  .pub-row  .venue { font-size: .92rem; }
+  .pub-row  .venue { font-size: .94rem; }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+  .brand a { font-size: 20px; }
+  .pub-card { grid-template-columns: 110px 1fr; }
+  .research-figure .figure-box { height: 220px; }
 }

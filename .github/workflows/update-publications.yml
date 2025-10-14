@@ -1,7 +1,7 @@
-# This workflow automatically updates a list of publications from Crossref,
-# merges it with manual overrides, and commits the result to the repository.
+# This workflow automatically scrapes a Google Scholar profile,
+# merges the data with manual overrides, and commits the result to the repository.
 
-name: "Update publications (Crossref)"
+name: "Update publications (Google Scholar)"
 
 on:
   # Allows manual triggering of the workflow from the Actions tab.
@@ -24,64 +24,71 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install jq and yq
+      - name: Install jq, yq, and pup
         run: |
           sudo apt-get update
           sudo apt-get install -y jq
-          # Corrected to a valid yq version to prevent 404 download error.
+          # Install yq
           curl -fsSL https://github.com/mikefarah/yq/releases/download/v4.44.2/yq_linux_amd64 -o yq
           sudo install -m 0755 yq /usr/local/bin/yq
+          # Install pup for HTML parsing
+          curl -fsSL https://github.com/ericchiang/pup/releases/download/v0.4.0/pup_v0.4.0_linux_amd64.zip -o pup.zip
+          unzip pup.zip
+          sudo install -m 0755 pup /usr/local/bin/pup
           yq --version
           jq --version
+          pup --version
 
       - name: Create data directory
         run: mkdir -p _data
 
-      - name: Fetch publications from Crossref
+      - name: Scrape publications from Google Scholar
         env:
-          # Define your search query and contact email here.
-          AUTHOR_QUERY: "Carino Gurjao"
-          ROWS: "100"
-          CONTACT: "your-email@example.com" # IMPORTANT: Change this email
+          # The full URL of the Google Scholar profile to scrape.
+          SCHOLAR_URL: "https://scholar.google.com/citations?user=m3rLfS4AAAAJ&hl=en"
         run: |
-          # A User-Agent is required by the Crossref API polite pool.
-          UA="GurjaoLabSite/1.0 (mailto:${CONTACT})"
-          # URL-encode the author query.
-          Q=$(printf %s "$AUTHOR_QUERY" | sed 's/ /+/g')
-          URL="https://api.crossref.org/works?query.author=${Q}&rows=${ROWS}&select=title,author,container-title,DOI,issued,URL,type&sort=issued&order=desc"
-          curl -sS -A "$UA" "$URL" | jq '.message.items' > _data/crossref.raw.json
+          # Scrape the HTML page. A real user-agent is used to avoid being blocked.
+          curl -sS -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36" "$SCHOLAR_URL" > _data/scholar.raw.html
+          
+          # Use pup to parse the HTML and extract publication data into a raw JSON format.
+          # This selects each publication row and extracts the title, authors, journal, and year.
+          cat _data/scholar.raw.html | pup '#gsc_a_b tr.gsc_a_tr json{}' | jq '
+            [
+              .[] | {
+                "title": .children[0].children[0].text,
+                "url": .children[0].children[0].href,
+                "authors": .children[0].children[1].text,
+                "journal": .children[0].children[2].text,
+                "year": .children[2].children[0].text
+              }
+            ]
+          ' > _data/scholar.raw.json
 
       - name: Normalize to site schema (JSON)
         run: |
-          # This jq script transforms the raw Crossref data into a clean, consistent format.
-          # Added '?' to paths to make the script more robust against missing data from the API.
+          # This jq script transforms the raw scraped data into a clean, consistent format.
+          # NOTE: Google Scholar does not provide DOIs on the main page, so this field is left empty.
           jq -r '
             map({
-              title: ( .["title"][0]? // "" ),
-              authors: (
-                (.author? // [])
-                | map([(.family? // ""), (.given? // "")] | join(", "))
-                | join("; ")
-              ),
-              year: ( .issued?["date-parts"]?[0]?[0]? // null ),
-              journal: ( .["container-title"][0]? // "" ),
-              doi: ( .DOI? // "" ),
-              url: ( .URL? // "" ),
+              title: .title,
+              authors: .authors,
+              year: (.year | tonumber? // null),
+              journal: .journal,
+              doi: "", # DOI is not available from the main scholar page
+              url: ("https://scholar.google.com" + .url),
               selected_publication: false,
               image: ""
             })
-          ' _data/crossref.raw.json > _data/publications.auto.json
+          ' _data/scholar.raw.json > _data/publications.auto.json
 
       - name: Convert auto JSON→YAML (optional artifact)
         run: |
-          # Corrected filename typo: publicications -> publications
           yq -P '.' _data/publications.auto.json > _data/publications.auto.yml
 
       - name: Ensure manual overrides file exists
         run: |
           if [ ! -f _data/publications.manual.yml ]; then
-            # Using echo -e with \n is a more reliable way to create the multi-line file.
-            echo -e "# This file allows you to override or add publication details manually.\n# Entries are matched by DOI.\n# Example:\n# - doi: 10.1038/s41586-020-2649-2\n#   selected_publication: true\n#   image: /assets/images/publications/example.png" > _data/publications.manual.yml
+            echo -e "# This file allows you to override or add publication details manually.\n# Entries are matched by DOI (which you must add here).\n# Example:\n# - doi: 10.1038/s41586-020-2649-2\n#   title: \"A different title for display\"\n#   selected_publication: true\n#   image: /assets/images/publications/example.png" > _data/publications.manual.yml
           fi
 
       - name: Convert manual YAML→JSON
@@ -91,12 +98,16 @@ jobs:
       - name: Merge auto + manual (manual overrides win), sort by year desc
         run: |
           # This script merges the automated list with your manual overrides.
-          # The '*' operator performs a deep merge, so manual fields overwrite automated ones for the same DOI.
+          # Since DOIs are missing from the scrape, the merge logic is updated to use title as a fallback key.
           jq -s '
-            # Helper function to convert an array of objects to a map keyed by DOI.
+            # Helper function to convert an array to a map keyed by DOI, or title if DOI is missing.
             def to_map:
-              map(select(.doi != null and .doi != "") | { (.doi): . }) | add // {};
-            # Helper function to convert the map back to an array of objects.
+              map(
+                { key: (.doi | if . and . != "" then . else .title end), value: . }
+                | select(.key != null)
+                | { (.key): .value }
+              ) | add // {};
+            # Helper function to convert the map back to an array.
             def to_array(m): [ m | to_entries[] | .value ];
 
             . as $all
@@ -118,8 +129,8 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             # Add all generated and manual files to the commit.
-            git add _data/publications.yml _data/publications.json _data/publications.auto.json _data/publications.auto.yml _data/crossref.raw.json _data/publications.manual.yml _data/publications.manual.json
-            git commit -m "chore: update publications from Crossref"
+            git add _data/*.yml _data/*.json _data/*.html
+            git commit -m "chore: update publications from Google Scholar"
             git push
           else
             echo "No publication changes."

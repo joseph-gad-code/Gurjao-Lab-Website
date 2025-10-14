@@ -33,6 +33,7 @@
   doi: ""
   selected_publication: false
   image: ""
+  
   - title: "Dietary links to mutational processes in colorectal cancer"
   authors: "A. Author, B. Author, C. Author"
   journal: "Nature"
@@ -50,6 +51,7 @@
   doi: ""
   selected_publication: false
   image: ""
+  
   - title: "Dietary links to mutational processes in colorectal cancer"
   authors: "A. Author, B. Author, C. Author"
   journal: "Nature"

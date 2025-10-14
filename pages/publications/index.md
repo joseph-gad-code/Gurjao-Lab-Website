@@ -1,72 +1,62 @@
 ---
-title: Publications
+title: "Publications"
 layout: default
 permalink: /publications/
 ---
 
-{% assign pubs = site.data.publications | default: [] %}
+<section class="pubs">
+  <h2>Selected publications</h2>
 
-<section class="pubs-page">
-  <h2 class="pubs-title">Selected publications</h2>
-  {% assign picks = pubs | where: "selected_publication", true %}
-  {% if picks.size > 0 %}
-    {% assign picks_sorted = picks | sort: "year" | reverse %}
-    <div class="pub-grid">
-      {% for p in picks_sorted %}
-        <article class="pub-card">
-          {% if p.image %}
-            <a class="pub-thumb" href="{{ p.venue_link | default: '#' }}" {% if p.venue_link %}target="_blank" rel="noopener"{% endif %}>
-              <img loading="lazy" src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}">
-            </a>
-          {% endif %}
-          <div class="pub-body">
-            <h3 class="pub-head">{{ p.title }}</h3>
-            <div class="pub-meta">{{ p.authors }}</div>
-            <div class="pub-venue">
-              {% if p.venue_link %}
-                <a href="{{ p.venue_link }}" target="_blank" rel="noopener">{{ p.venue }}</a>
-              {% else %}
-                {{ p.venue }}
-              {% endif %}
-              {% if p.year %} · {{ p.year }}{% endif %}
-            </div>
-          </div>
-        </article>
+  {% assign all = site.data.publications.publications %}
+  {% assign featured = all | where: "selected_publication", true %}
+  {% assign featured_sorted = featured | sort: "year" | reverse %}
+
+  {% if featured_sorted.size > 0 %}
+    <div class="pubs-grid">
+      {% for p in featured_sorted %}
+        {% include pub-card.html p=p %}
       {% endfor %}
     </div>
   {% else %}
     <p>No selected publications yet.</p>
   {% endif %}
 
-  <hr class="pub-divider">
+  <hr class="pubs-divider">
 
-  <h2 class="pubs-title">All publications</h2>
-  {% if pubs.size > 0 %}
-    {% assign sorted = pubs | sort: "year" | reverse %}
-    <div class="pub-stack">
+  <h2>All publications</h2>
+
+  {% comment %} group by year (desc) {% endcomment %}
+  {% assign sorted = all | sort: "year" | reverse %}
+  {% assign years = "" | split: "" %}
+  {% for item in sorted %}
+    {% unless years contains item.year %}{% assign years = years | push: item.year %}{% endunless %}
+  {% endfor %}
+
+  {% for y in years %}
+    <h3 class="pubs-year">{{ y }}</h3>
+    <div class="pubs-list">
       {% for p in sorted %}
-        <article class="pub-row">
-          <div class="pub-row-main">
-            <h4 class="pub-row-title">{{ p.title }}</h4>
-            <div class="pub-row-authors">{{ p.authors }}</div>
-            <div class="pub-row-venue">
-              {% if p.venue_link %}
-                <a href="{{ p.venue_link }}" target="_blank" rel="noopener">{{ p.venue }}</a>
-              {% else %}
-                {{ p.venue }}
+        {% if p.year == y %}
+          <article class="pubs-item">
+            <h4 class="pubs-title">
+              {% if p.url %}<a href="{{ p.url }}" target="_blank" rel="noopener">{% endif %}
+              {{ p.title }}
+              {% if p.url %}</a>{% endif %}
+            </h4>
+            <div class="pubs-meta">
+              <span class="pubs-authors">{{ p.authors }}</span>
+              {% if p.journal %}
+                &nbsp;—&nbsp;
+                {% if p.url %}
+                  <a class="pubs-journal" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.journal }}</a>
+                {% else %}
+                  <span class="pubs-journal">{{ p.journal }}</span>
+                {% endif %}
               {% endif %}
-              {% if p.year %} · {{ p.year }}{% endif %}
             </div>
-          </div>
-          {% if p.image %}
-            <a class="pub-row-thumb" href="{{ p.venue_link | default: '#' }}" {% if p.venue_link %}target="_blank" rel="noopener"{% endif %}>
-              <img loading="lazy" src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}">
-            </a>
-          {% endif %}
-        </article>
+          </article>
+        {% endif %}
       {% endfor %}
     </div>
-  {% else %}
-    <p>Publications will appear here after the first sync.</p>
-  {% endif %}
+  {% endfor %}
 </section>

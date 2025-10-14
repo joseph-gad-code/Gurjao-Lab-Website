@@ -2,6 +2,7 @@
 title: "Publications"
 layout: default
 permalink: /publications/
+# Surnames of lab members to bold within the author strings
 lab_names:
   - Gurjao
   - Boero-Teyssier
@@ -18,32 +19,36 @@ lab_names:
   <div class="pub-grid">
     {% for p in selected %}
 
-      {%- comment -%} Journal label cleanup without boolean operators {%- endcomment -%}
-      {%- assign raw_j = p.journal_clean | default: p.journal | default: "" | strip -%}
-      {%- assign core = raw_j | split:"(" | first | split: "," | first | strip -%}
-      {%- assign tokens = core | split:" " -%}
-      {%- assign last_tok = tokens | last | replace:".","" | replace:",","" | strip -%}
-      {%- assign last_is_number = "no" -%}
-      {%- for d in (0..9) -%}
-        {%- if last_tok contains d -%}{%- assign last_is_number = "yes" -%}{%- endif -%}
-      {%- endfor -%}
-      {%- capture journal_clean -%}
-        {%- for t in tokens -%}
-          {%- if forloop.last and last_is_number == "yes" -%}{%- else -%}{{ t }}{%- unless forloop.last -%} {% endunless -%}{%- endif -%}
-        {%- endfor -%}
-      {%- endcapture -%}
-      {%- assign journal_clean = journal_clean | strip -%}
+      {%- comment -%} -------- Journal label cleanup (no volume/issue) -------- {%- endcomment -%}
+      {% assign raw_j = p.journal_clean | default: p.journal | default: "" | strip %}
+      {% assign core  = raw_j | split:"(" | first | split: "," | first | strip %}
+      {% assign tokens = core | split:" " %}
+      {% assign last_tok = tokens | last | replace:".","" | replace:",","" | strip %}
+      {% assign last_is_number = "no" %}
+      {% for d in (0..9) %}
+        {% if last_tok contains d %}{% assign last_is_number = "yes" %}{% endif %}
+      {% endfor %}
+      {% assign limit = tokens.size %}
+      {% if last_is_number == "yes" %}
+        {% assign limit = limit | minus: 1 %}
+      {% endif %}
+      {% capture journal_clean %}
+        {% for t in tokens limit:limit %}
+          {{ t }}{% unless forloop.last %} {% endunless %}
+        {% endfor %}
+      {% endcapture %}
+      {% assign journal_clean = journal_clean | strip %}
 
-      {%- comment -%} Authors: strip *, keep …, bold lab names {%- endcomment -%}
-      {%- assign authors = p.authors | replace:"*","" | replace:"...", "…" -%}
-      {%- for ln in page.lab_names -%}
-        {%- assign needle1 = " " | append: ln -%}
-        {%- assign repl1   = " <strong>" | append: ln | append: "</strong>" -%}
-        {%- assign authors = authors | replace: needle1, repl1 -%}
-        {%- assign needle2 = ln | append: "," -%}
-        {%- assign repl2   = "<strong>" | append: ln | append: "</strong>," -%}
-        {%- assign authors = authors | replace: needle2, repl2 -%}
-      {%- endfor -%}
+      {%- comment -%} -------- Authors: remove asterisks, use …, bold lab names -------- {%- endcomment -%}
+      {% assign authors = p.authors | replace:"*","" | replace:"...", "…" %}
+      {% for ln in page.lab_names %}
+        {% assign needle1 = " " | append: ln %}
+        {% assign repl1   = " <strong>" | append: ln | append: "</strong>" %}
+        {% assign authors = authors | replace: needle1, repl1 %}
+        {% assign needle2 = ln | append: "," %}
+        {% assign repl2   = "<strong>" | append: ln | append: "</strong>," %}
+        {% assign authors = authors | replace: needle2, repl2 %}
+      {% endfor %}
 
       <article class="pub-card">
         <a class="thumb" href="{{ p.url }}" target="_blank" rel="noopener">
@@ -56,7 +61,7 @@ lab_names:
 
         <div class="meta">
           <h3 class="title">
-            <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+            <a class="title-link" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
           </h3>
 
           {% if p.authors %}
@@ -66,8 +71,7 @@ lab_names:
           <div class="venue">
             {% if journal_clean != "" %}
               <em><a href="{{ p.url }}" target="_blank" rel="noopener">{{ journal_clean }}</a></em>
-            {% endif %}
-            {% if p.year %}<span class="year">, {{ p.year }}</span>{% endif %}
+            {% endif %}{% if p.year %}<span class="year">, {{ p.year }}</span>{% endif %}
             {% if p.doi and p.doi != "" %}
               <a class="doi" href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">DOI</a>
             {% endif %}
@@ -86,35 +90,40 @@ lab_names:
   <div class="pub-list">
     {% for p in all_sorted %}
 
-      {%- comment -%} Journal label cleanup (same as above) {%- endcomment -%}
-      {%- assign raw_j = p.journal_clean | default: p.journal | default: "" | strip -%}
-      {%- assign core = raw_j | split:"(" | first | split: "," | first | strip -%}
-      {%- assign tokens = core | split:" " -%}
-      {%- assign last_tok = tokens | last | replace:".","" | replace:",","" | strip -%}
-      {%- assign last_is_number = "no" -%}
-      {%- for d in (0..9) -%}
-        {%- if last_tok contains d -%}{%- assign last_is_number = "yes" -%}{%- endif -%}
-      {%- endfor -%}
-      {%- capture journal_clean -%}
-        {%- for t in tokens -%}
-          {%- if forloop.last and last_is_number == "yes" -%}{%- else -%}{{ t }}{%- unless forloop.last -%} {% endunless -%}{%- endif -%}
-        {%- endfor -%}
-      {%- endcapture -%}
-      {%- assign journal_clean = journal_clean | strip -%}
+      {%- comment -%} -------- Journal label cleanup (no volume/issue) -------- {%- endcomment -%}
+      {% assign raw_j = p.journal_clean | default: p.journal | default: "" | strip %}
+      {% assign core  = raw_j | split:"(" | first | split: "," | first | strip %}
+      {% assign tokens = core | split:" " %}
+      {% assign last_tok = tokens | last | replace:".","" | replace:",","" | strip %}
+      {% assign last_is_number = "no" %}
+      {% for d in (0..9) %}
+        {% if last_tok contains d %}{% assign last_is_number = "yes" %}{% endif %}
+      {% endfor %}
+      {% assign limit = tokens.size %}
+      {% if last_is_number == "yes" %}
+        {% assign limit = limit | minus: 1 %}
+      {% endif %}
+      {% capture journal_clean %}
+        {% for t in tokens limit:limit %}
+          {{ t }}{% unless forloop.last %} {% endunless %}
+        {% endfor %}
+      {% endcapture %}
+      {% assign journal_clean = journal_clean | strip %}
 
-      {%- assign authors = p.authors | replace:"*","" | replace:"...", "…" -%}
-      {%- for ln in page.lab_names -%}
-        {%- assign needle1 = " " | append: ln -%}
-        {%- assign repl1   = " <strong>" | append: ln | append: "</strong>" -%}
-        {%- assign authors = authors | replace: needle1, repl1 -%}
-        {%- assign needle2 = ln | append: "," -%}
-        {%- assign repl2   = "<strong>" | append: ln | append: "</strong>," -%}
-        {%- assign authors = authors | replace: needle2, repl2 -%}
-      {%- endfor -%}
+      {%- comment -%} -------- Authors formatting -------- {%- endcomment -%}
+      {% assign authors = p.authors | replace:"*","" | replace:"...", "…" %}
+      {% for ln in page.lab_names %}
+        {% assign needle1 = " " | append: ln %}
+        {% assign repl1   = " <strong>" | append: ln | append: "</strong>" %}
+        {% assign authors = authors | replace: needle1, repl1 %}
+        {% assign needle2 = ln | append: "," %}
+        {% assign repl2   = "<strong>" | append: ln | append: "</strong>," %}
+        {% assign authors = authors | replace: needle2, repl2 %}
+      {% endfor %}
 
       <article class="pub-row">
         <h3 class="title">
-          <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+          <a class="title-link" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
         </h3>
         {% if p.authors %}
           <div class="authors">{{ authors }}</div>
@@ -122,8 +131,7 @@ lab_names:
         <div class="venue">
           {% if journal_clean != "" %}
             <em><a href="{{ p.url }}" target="_blank" rel="noopener">{{ journal_clean }}</a></em>
-          {% endif %}
-          {% if p.year %}<span class="year">, {{ p.year }}</span>{% endif %}
+          {% endif %}{% if p.year %}<span class="year">, {{ p.year }}</span>{% endif %}
           {% if p.doi and p.doi != "" %}
             <a class="doi" href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">DOI</a>
           {% endif %}

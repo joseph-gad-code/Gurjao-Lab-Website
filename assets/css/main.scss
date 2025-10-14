@@ -559,3 +559,188 @@ $pretext-left:   calc(#{$li-text-indent} - #{$bullet-width} - 1.25rem);
   border-radius: 10px;
   background: #fff;
 }
+
+/* ---------- Global fluid bits ---------- */
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+html {
+  /* Smoothly scale type across devices */
+  font-size: 16px;
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+}
+
+/* Slightly smaller base font on narrow screens */
+@media (max-width: 480px) {
+  html { font-size: 15px; }
+}
+
+/* ---------- Navbar (Bootstrap 3) ---------- */
+/* Increase tap targets on mobile */
+.navbar-nav > li > a {
+  @media (max-width: 768px) {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+}
+
+/* ---------- Home: hero ---------- */
+.home-hero img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ---------- Home: body + news grid ---------- */
+.homepage-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 420px; /* desktop default: text | news */
+  gap: 32px;
+  align-items: start;
+}
+
+/* Tablet: widen news a bit but keep 2 columns */
+@media (max-width: 1024px) {
+  .homepage-body {
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 24px;
+  }
+}
+
+/* Phone: stack, make news scroll within its own box */
+@media (max-width: 768px) {
+  .homepage-body {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .home-news {
+    order: 2; /* text first, news second */
+  }
+
+  .home-news .news-scroller {
+    max-height: 380px;     /* contained scrolling on mobile */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ---------- Research page ---------- */
+/* Default desktop two-column layout should already exist; here are mobile stacks */
+.research-section .row {
+  display: grid;
+  grid-template-columns: 1fr 420px; /* text | figure (or swapped by your modifiers) */
+  gap: 28px;
+  align-items: stretch;
+}
+
+@media (max-width: 1024px) {
+  .research-section .row {
+    grid-template-columns: 1fr 360px;
+    gap: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .research-section .row {
+    grid-template-columns: 1fr; /* stack */
+    gap: 18px;
+  }
+
+  /* Put figure after text for both variants on mobile */
+  .research-section.img-right .research-figure,
+  .research-section.img-left  .research-figure {
+    order: 2;
+    border: 0;          /* remove vertical rail on small screens */
+    padding: 0;
+  }
+
+  .research-section.img-right .research-copy,
+  .research-section.img-left  .research-copy {
+    order: 1;
+  }
+}
+
+/* Make figures fill their column/box neatly on all screens */
+.research-figure .figure-box {
+  width: 100%;
+  height: 100%;
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.research-figure .figure-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;  /* keeps full image visible */
+}
+
+/* ---------- Publications ---------- */
+/* Cards in two columns on desktop, stack on mobile */
+.pub-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .pub-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Ensure selected-publication thumbnails look good */
+.pub-card .thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.pub-card .thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fills card nicely */
+}
+
+/* ---------- Lists with dash bullets (home + research) ---------- */
+.dash-list {
+  list-style: none;
+  padding: 0;
+  margin: .5rem 0 1rem;
+}
+.dash-list li {
+  position: relative;
+  padding-left: 1.75rem;
+  margin: .4rem 0;
+  line-height: 1.6;
+}
+.dash-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .78em;
+  width: 1.2rem;
+  height: 2px;
+  background: var(--black);
+  opacity: .9;
+  border-radius: 2px;
+}
+
+/* ---------- Comfortable page gutters on small screens ---------- */
+.container,
+.container-fluid {
+  @media (max-width: 768px) {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}

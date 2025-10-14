@@ -2,7 +2,6 @@
 title: "Publications"
 layout: default
 permalink: /publications/
-# Optional: list lab surnames to bold in author strings
 lab_names:
   - Gurjao
   - Boero-Teyssier
@@ -18,47 +17,33 @@ lab_names:
   {% if selected and selected.size > 0 %}
   <div class="pub-grid">
     {% for p in selected %}
-      {% comment %}
-        Heuristic to show a cleaner journal label; if your YAML provides
-        "journal_clean", it will be used instead.
-      {% endcomment %}
-      {%- comment -%} Journal label cleanup {%- endcomment -%}
+
+      {%- comment -%} Journal label cleanup without boolean operators {%- endcomment -%}
       {%- assign raw_j = p.journal_clean | default: p.journal | default: "" | strip -%}
       {%- assign core = raw_j | split:"(" | first | split: "," | first | strip -%}
       {%- assign tokens = core | split:" " -%}
-      {%- assign last = tokens | last | replace:".","" | replace:",","" | strip -%}
-      {%- assign drop_last = false -%}
+      {%- assign last_tok = tokens | last | replace:".","" | replace:",","" | strip -%}
+      {%- assign last_is_number = "no" -%}
       {%- for d in (0..9) -%}
-        {%- if last contains d -%}{%- assign drop_last = true -%}{%- endif -%}
+        {%- if last_tok contains d -%}{%- assign last_is_number = "yes" -%}{%- endif -%}
       {%- endfor -%}
       {%- capture journal_clean -%}
         {%- for t in tokens -%}
-          {%- if forloop.last and drop_last -%}{%- else -%}{{ t }}{%- unless forloop.last and not drop_last -%} {% endunless -%}{%- endif -%}
+          {%- if forloop.last and last_is_number == "yes" -%}{%- else -%}{{ t }}{%- unless forloop.last -%} {% endunless -%}{%- endif -%}
         {%- endfor -%}
       {%- endcapture -%}
       {%- assign journal_clean = journal_clean | strip -%}
-      
-      {%- comment -%} Authors: remove asterisks, keep everyone, add ellipsis glyph, bold lab names {%- endcomment -%}
+
+      {%- comment -%} Authors: strip *, keep …, bold lab names {%- endcomment -%}
       {%- assign authors = p.authors | replace:"*","" | replace:"...", "…" -%}
       {%- for ln in page.lab_names -%}
         {%- assign needle1 = " " | append: ln -%}
         {%- assign repl1   = " <strong>" | append: ln | append: "</strong>" -%}
         {%- assign authors = authors | replace: needle1, repl1 -%}
-      
         {%- assign needle2 = ln | append: "," -%}
         {%- assign repl2   = "<strong>" | append: ln | append: "</strong>," -%}
         {%- assign authors = authors | replace: needle2, repl2 -%}
       {%- endfor -%}
-
-      {% for ln in page.lab_names %}
-        {% assign needle1 = " " | append: ln %}
-        {% assign repl1   = " <strong>" | append: ln | append: "</strong>" %}
-        {% assign authors = authors | replace: needle1, repl1 %}
-
-        {% assign needle2 = ln | append: "," %}
-        {% assign repl2   = "<strong>" | append: ln | append: "</strong>," %}
-        {% assign authors = authors | replace: needle2, repl2 %}
-      {% endfor %}
 
       <article class="pub-card">
         <a class="thumb" href="{{ p.url }}" target="_blank" rel="noopener">
@@ -75,7 +60,7 @@ lab_names:
           </h3>
 
           {% if p.authors %}
-          <div class="authors">{{ authors }}</div>
+            <div class="authors">{{ authors }}</div>
           {% endif %}
 
           <div class="venue">
@@ -100,43 +85,32 @@ lab_names:
   {% assign all_sorted = site.data.publications | sort: "year" | reverse %}
   <div class="pub-list">
     {% for p in all_sorted %}
-      {%- comment -%} Journal label cleanup {%- endcomment -%}
+
+      {%- comment -%} Journal label cleanup (same as above) {%- endcomment -%}
       {%- assign raw_j = p.journal_clean | default: p.journal | default: "" | strip -%}
       {%- assign core = raw_j | split:"(" | first | split: "," | first | strip -%}
       {%- assign tokens = core | split:" " -%}
-      {%- assign last = tokens | last | replace:".","" | replace:",","" | strip -%}
-      {%- assign drop_last = false -%}
+      {%- assign last_tok = tokens | last | replace:".","" | replace:",","" | strip -%}
+      {%- assign last_is_number = "no" -%}
       {%- for d in (0..9) -%}
-        {%- if last contains d -%}{%- assign drop_last = true -%}{%- endif -%}
+        {%- if last_tok contains d -%}{%- assign last_is_number = "yes" -%}{%- endif -%}
       {%- endfor -%}
       {%- capture journal_clean -%}
         {%- for t in tokens -%}
-          {%- if forloop.last and drop_last -%}{%- else -%}{{ t }}{%- unless forloop.last and not drop_last -%} {% endunless -%}{%- endif -%}
+          {%- if forloop.last and last_is_number == "yes" -%}{%- else -%}{{ t }}{%- unless forloop.last -%} {% endunless -%}{%- endif -%}
         {%- endfor -%}
       {%- endcapture -%}
       {%- assign journal_clean = journal_clean | strip -%}
-      
-      {%- comment -%} Authors: remove asterisks, keep everyone, add ellipsis glyph, bold lab names {%- endcomment -%}
+
       {%- assign authors = p.authors | replace:"*","" | replace:"...", "…" -%}
       {%- for ln in page.lab_names -%}
         {%- assign needle1 = " " | append: ln -%}
         {%- assign repl1   = " <strong>" | append: ln | append: "</strong>" -%}
         {%- assign authors = authors | replace: needle1, repl1 -%}
-      
         {%- assign needle2 = ln | append: "," -%}
         {%- assign repl2   = "<strong>" | append: ln | append: "</strong>," -%}
         {%- assign authors = authors | replace: needle2, repl2 -%}
       {%- endfor -%}
-
-      {% assign authors = p.authors | replace: "...", "…" %}
-      {% for ln in page.lab_names %}
-        {% assign needle1 = " " | append: ln %}
-        {% assign repl1   = " <strong>" | append: ln | append: "</strong>" %}
-        {% assign authors = authors | replace: needle1, repl1 %}
-        {% assign needle2 = ln | append: "," %}
-        {% assign repl2   = "<strong>" | append: ln | append: "</strong>," %}
-        {% assign authors = authors | replace: needle2, repl2 %}
-      {% endfor %}
 
       <article class="pub-row">
         <h3 class="title">

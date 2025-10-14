@@ -1,0 +1,95 @@
+name: Update publications (Crossref)
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 1"  # weekly, Mondays at 03:00 UTC
+
+jobs:
+  build-publications:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install tools (yq)
+        run: |
+          sudo curl -L https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 -o /usr/local/bin/yq
+          sudo chmod +x /usr/local/bin/yq
+          jq --version || true
+          yq --version
+
+      - name: Ensure data directory
+        run: mkdir -p _data
+
+      - name: Fetch publications from Crossref (author query)
+        env:
+          AUTHOR_QUERY: "Carino Gurjao"
+          ROWS: "100"
+          CONTACT: "your-email@example.com"
+        run: |
+          UA="GurjaoLabSite/1.0 (mailto:${CONTACT})"
+          URL="https://api.crossref.org/works?query.author=$(printf %s "$AUTHOR_QUERY" | sed 's/ /+/g')&rows=${ROWS}&select=title,author,container-title,DOI,issued,URL,type&sort=issued&order=desc"
+          curl -sS -A "$UA" "$URL" | jq '.message.items' > _data/crossref.raw.json
+
+      - name: Normalize to site schema (JSON)
+        run: |
+          jq -r '
+            map({
+              title: ( .["title"][0] // "" ),
+              authors: (
+                (.author // [])
+                | map([(.family // ""), ( .given // "" )] | join(", "))
+                | join("; ")
+              ),
+              year: ( .issued["date-parts"][0][0] // .issued["date-parts"][0][0] // null ),
+              journal: ( .["container-title"][0] // "" ),
+              doi: ( .DOI // "" ),
+              url: ( .URL // "" ),
+              selected_publication: false,
+              image: ""
+            })
+          ' _data/crossref.raw.json > _data/publications.auto.json
+
+      - name: Convert to YAML
+        run: |
+          yq -P '.' _data/publications.auto.json > _data/publications.auto.yml
+
+      - name: Merge manual overrides (selected + images)
+        run: |
+          # Create manual file if missing
+          if [ ! -f _data/publications.manual.yml ]; then
+            cat > _data/publications.manual.yml <<'YAML'
+# Add entries here to override/augment by DOI (selected_publication, image, etc.)
+# - doi: 10.1234/example-doi
+#   selected_publication: true
+#   image: /assets/images/publications/example.png
+YAML
+          fi
+
+          # Merge arrays by DOI, preferring manual values when present
+          yq -P '
+            def to_map: map(select(.doi != null and .doi != "") | {key: .doi, value: .});
+            def map_values(m): m | to_entries | map(.value);
+
+            . as $auto
+            | (load("_data/publications.manual.yml") // []) as $manual
+            | ( $auto | to_map ) as $A
+            | ( $manual | to_map ) as $M
+            | ($A * $M)                                  # overlay manual on auto by key
+            | map_values(.)                              # back to array
+            | sort_by(.year) | reverse
+          ' _data/publications.auto.yml > _data/publications.yml
+
+      - name: Commit changes
+        run: |
+          if git status --porcelain | grep -q "_data/publications"; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add _data/publications.yml _data/publications.auto.yml _data/crossref.raw.json _data/publications.auto.json _data/publications.manual.yml
+            git commit -m "chore: update publications from Crossref"
+            git push
+          else
+            echo "No publication changes."
+          fi

@@ -1,7 +1,7 @@
 {
   "name": "gurjaolab-site-tools",
   "private": true,
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "sync:scholar": "node scripts/sync-scholar.js"
   },

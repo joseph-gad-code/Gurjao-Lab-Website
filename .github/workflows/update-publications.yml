@@ -1,95 +1,73 @@
-name: Update publications (Crossref)
+---
+title: "Publications"
+layout: default
+permalink: /publications/
+---
 
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: "0 3 * * 1"  # weekly, Mondays at 03:00 UTC
+<section class="pubs-page">
+  <h1>Publications</h1>
 
-jobs:
-  build-publications:
-    runs-on: ubuntu-latest
+  {% assign pubs = site.data.publications %}
+  {% if pubs and pubs.size > 0 %}
 
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+  {% comment %} Selected publications (cards, 2 columns) {% endcomment %}
+  {% assign selected = pubs | where: "selected_publication", true %}
+  {% if selected.size > 0 %}
+  <h2 class="pubs-subtitle">Selected publications</h2>
+  <div class="pub-cards">
+    {% for p in selected %}
+      <article class="pub-card">
+        {% if p.image %}
+          <div class="pub-card-media">
+            <img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}">
+          </div>
+        {% endif %}
+        <div class="pub-card-body">
+          <h3 class="pub-title">{{ p.title }}</h3>
+          <div class="pub-authors">{{ p.authors }}</div>
+          <div class="pub-meta">
+            {% if p.journal and p.url %}
+              <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.journal }}</a>
+            {% elsif p.journal %}
+              {{ p.journal }}
+            {% endif %}
+            {% if p.year %} · {{ p.year }}{% endif %}
+            {% if p.doi %} · <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">DOI</a>{% endif %}
+          </div>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+  {% endif %}
 
-      - name: Install tools (yq)
-        run: |
-          sudo curl -L https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 -o /usr/local/bin/yq
-          sudo chmod +x /usr/local/bin/yq
-          jq --version || true
-          yq --version
+  {% comment %} All publications grouped by year (newest first), unnumbered {% endcomment %}
+  <h2 class="pubs-subtitle">All publications</h2>
+  {% assign sorted = pubs | sort: "year" | reverse %}
 
-      - name: Ensure data directory
-        run: mkdir -p _data
+  {% assign current_year = "" %}
+  {% for p in sorted %}
+    {% if p.year != current_year %}
+      {% unless forloop.first %}</ul>{% endunless %}
+      <h3 class="pubs-year">{{ p.year }}</h3>
+      <ul class="pubs-list">
+      {% assign current_year = p.year %}
+    {% endif %}
+    <li class="pubs-item">
+      <div class="pubs-item-title">{{ p.title }}</div>
+      <div class="pubs-item-meta">
+        <span class="pubs-item-authors">{{ p.authors }}</span>
+        {% if p.journal and p.url %}
+          · <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.journal }}</a>
+        {% elsif p.journal %}
+          · {{ p.journal }}
+        {% endif %}
+        {% if p.doi %} · <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">DOI</a>{% endif %}
+      </div>
+    </li>
+    {% if forloop.last %}</ul>{% endif %}
+  {% endfor %}
 
-      - name: Fetch publications from Crossref (author query)
-        env:
-          AUTHOR_QUERY: "Carino Gurjao"
-          ROWS: "100"
-          CONTACT: "your-email@example.com"
-        run: |
-          UA="GurjaoLabSite/1.0 (mailto:${CONTACT})"
-          URL="https://api.crossref.org/works?query.author=$(printf %s "$AUTHOR_QUERY" | sed 's/ /+/g')&rows=${ROWS}&select=title,author,container-title,DOI,issued,URL,type&sort=issued&order=desc"
-          curl -sS -A "$UA" "$URL" | jq '.message.items' > _data/crossref.raw.json
-
-      - name: Normalize to site schema (JSON)
-        run: |
-          jq -r '
-            map({
-              title: ( .["title"][0] // "" ),
-              authors: (
-                (.author // [])
-                | map([(.family // ""), ( .given // "" )] | join(", "))
-                | join("; ")
-              ),
-              year: ( .issued["date-parts"][0][0] // .issued["date-parts"][0][0] // null ),
-              journal: ( .["container-title"][0] // "" ),
-              doi: ( .DOI // "" ),
-              url: ( .URL // "" ),
-              selected_publication: false,
-              image: ""
-            })
-          ' _data/crossref.raw.json > _data/publications.auto.json
-
-      - name: Convert to YAML
-        run: |
-          yq -P '.' _data/publications.auto.json > _data/publications.auto.yml
-
-      - name: Merge manual overrides (selected + images)
-        run: |
-          # Create manual file if missing
-          if [ ! -f _data/publications.manual.yml ]; then
-            cat > _data/publications.manual.yml <<'YAML'
-# Add entries here to override/augment by DOI (selected_publication, image, etc.)
-# - doi: 10.1234/example-doi
-#   selected_publication: true
-#   image: /assets/images/publications/example.png
-YAML
-          fi
-
-          # Merge arrays by DOI, preferring manual values when present
-          yq -P '
-            def to_map: map(select(.doi != null and .doi != "") | {key: .doi, value: .});
-            def map_values(m): m | to_entries | map(.value);
-
-            . as $auto
-            | (load("_data/publications.manual.yml") // []) as $manual
-            | ( $auto | to_map ) as $A
-            | ( $manual | to_map ) as $M
-            | ($A * $M)                                  # overlay manual on auto by key
-            | map_values(.)                              # back to array
-            | sort_by(.year) | reverse
-          ' _data/publications.auto.yml > _data/publications.yml
-
-      - name: Commit changes
-        run: |
-          if git status --porcelain | grep -q "_data/publications"; then
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add _data/publications.yml _data/publications.auto.yml _data/crossref.raw.json _data/publications.auto.json _data/publications.manual.yml
-            git commit -m "chore: update publications from Crossref"
-            git push
-          else
-            echo "No publication changes."
-          fi
+  {% else %}
+    <p>No publications found.</p>
+  {% endif %}
+</section>

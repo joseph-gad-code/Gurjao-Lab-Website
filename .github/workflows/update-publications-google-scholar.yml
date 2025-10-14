@@ -95,7 +95,6 @@ jobs:
 #   title: "Exact Title Here"
 #   selected_publication: true
 #   image: /assets/images/publications/example.png
-YAML
           fi
 
       - name: Convert manual YAML→JSON

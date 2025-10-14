@@ -4,23 +4,20 @@ on:
   workflow_dispatch:
     inputs:
       scholar_user:
-        description: "Google Scholar user ID (from ?user=XXXX)"
+        description: "Google Scholar user ID (?user=XXXX)"
         required: true
         default: "m3rLfS4AAAAJ"
   schedule:
     - cron: "0 6 * * 0"
 
 permissions:
-  contents: write   # allow committing the updated YAML
+  contents: write
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     env:
       SCHOLAR_USER: ${{ github.event.inputs.scholar_user || 'm3rLfS4AAAAJ' }}
-      CI: "true"
-      PUPPETEER_PRODUCT: "chrome"
-      PUPPETEER_CACHE_DIR: ~/.cache/puppeteer
 
     steps:
       - uses: actions/checkout@v4
@@ -29,31 +26,28 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Cache Puppeteer Chromium
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/puppeteer
-          key: puppeteer-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
-      - name: Install deps
+      # Install deps
+      - name: Install dependencies
         run: |
-          node -v
           npm ci || npm i
+
+      # Install Playwright browsers on the runner
+      - name: Install Playwright browsers
+        uses: microsoft/playwright-github-action@v1
 
       - name: Ensure _data exists
         run: mkdir -p _data && ([[ -f _data/publications.yml ]] || echo "[]" > _data/publications.yml)
 
-      - name: Run scraper
-        run: npm run sync:scholar
+      - name: Run Scholar sync (Playwright)
+        run: node scripts/sync-scholar-playwright.js
 
-      - name: Commit & push _data/publications.yml
+      - name: Commit & push updated YAML
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: sync publications from Google Scholar"
           file_pattern: "_data/publications.yml"
 
-      # If the step above failed, ship artifacts to debug
-      - name: Upload debug artifacts (if present)
+      - name: Upload debug artifacts on failure
         if: failure()
         uses: actions/upload-artifact@v4
         with:

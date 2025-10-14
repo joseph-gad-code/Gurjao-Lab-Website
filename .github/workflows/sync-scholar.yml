@@ -8,14 +8,16 @@ on:
         required: true
         default: "m3rLfS4AAAAJ"
   schedule:
-    - cron: "0 6 * * 0"  # weekly, Sundays 06:00 UTC (optional)
+    - cron: "0 6 * * 0"  # optional: weekly sync
 
 jobs:
   sync:
     runs-on: ubuntu-latest
     env:
       SCHOLAR_USER: ${{ github.event.inputs.scholar_user || 'm3rLfS4AAAAJ' }}
-      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: "false" # ensure chromium available
+      CI: "true"
+      PUPPETEER_PRODUCT: "chrome"
+      PUPPETEER_CACHE_DIR: ~/.cache/puppeteer
     steps:
       - uses: actions/checkout@v4
 
@@ -23,13 +25,20 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Install dependencies
-        run: npm ci || npm i
+      - name: Cache Puppeteer Chromium
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/puppeteer
+          key: puppeteer-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Install deps
+        run: |
+          npm ci || npm i
 
       - name: Run scraper
         run: npm run sync:scholar
 
-      - name: Commit & push changes
+      - name: Commit & push _data/publications.yml
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: sync publications from Google Scholar"

@@ -1,13 +1,8 @@
 #!/usr/bin/env node
 /**
- * Scrape Google Scholar profile → _data/publications.yml
- * No API key needed. Uses headless Chrome with stealth plugin.
- *
- * Usage:
- *   node scripts/sync-scholar.js <SCHOLAR_USER_ID>
- * or set env SCHOLAR_USER=xxxx
+ * Scrape Google Scholar → _data/publications.yml
+ * No API keys. Headless Chrome with stealth.
  */
-
 const fs = require("fs");
 const path = require("path");
 const yaml = require("js-yaml");
@@ -18,10 +13,9 @@ puppeteer.use(StealthPlugin());
 
 const USER = process.env.SCHOLAR_USER || process.argv[2];
 if (!USER) {
-  console.error("Missing SCHOLAR_USER. Pass as env or arg. Example: SCHOLAR_USER=m3rLfS4AAAAJ");
+  console.error("Missing SCHOLAR_USER (env or arg). Example: SCHOLAR_USER=m3rLfS4AAAAJ");
   process.exit(1);
 }
-
 const OUT_FILE = path.join(process.cwd(), "_data", "publications.yml");
 
 function normTitle(s) {
@@ -45,11 +39,22 @@ async function scrapeScholar() {
     USER
   )}&hl=en&view_op=list_works&sortby=pubdate`;
 
+  // robust launch for CI (avoids 254)
   const browser = await puppeteer.launch({
     headless: "new",
-    args: ["--no-sandbox", "--disable-setuid-sandbox"]
+    executablePath: require("puppeteer").executablePath(),
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
+      "--single-process",
+      "--no-zygote"
+    ]
   });
+
   const page = await browser.newPage();
+  page.setDefaultNavigationTimeout(120000);
   await page.setUserAgent(
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36"
   );
@@ -57,12 +62,12 @@ async function scrapeScholar() {
   await page.goto(url, { waitUntil: "networkidle2", timeout: 120000 });
   await page.waitForSelector("#gsc_bdy", { timeout: 60000 });
 
-  // Keep clicking “Show more” until it disappears or a sane upper bound
-  for (let i = 0; i < 50; i++) {
-    const hasMore = await page.$("#gsc_bpf_more:not([disabled])");
-    if (!hasMore) break;
-    await page.click("#gsc_bpf_more");
-    await page.waitForTimeout(800);
+  // click "Show more" repeatedly
+  for (let i = 0; i < 60; i++) {
+    const btn = await page.$("#gsc_bpf_more:not([disabled])");
+    if (!btn) break;
+    await btn.click();
+    await page.waitForTimeout(750);
   }
 
   const rows = await page.$$(".gsc_a_tr");
@@ -70,25 +75,16 @@ async function scrapeScholar() {
   for (const row of rows) {
     const titleEl = await row.$(".gsc_a_at");
     const title = titleEl ? (await page.evaluate(el => el.textContent, titleEl)).trim() : "";
-
     const href = titleEl ? await page.evaluate(el => el.href, titleEl) : "";
 
-    // authors + venue live in .gs_gray elements under .gsc_a_t
     const meta = await row.$$eval(".gsc_a_t .gs_gray", els => els.map(e => e.textContent.trim()));
     const authors = meta[0] || "";
     const venue = meta[1] || "";
 
-    // year is in .gsc_a_y span
-    const yearText = await row.$eval(".gsc_a_y span", el => el.textContent.trim()).catch(() => "");
-    const year = yearText ? parseInt(yearText, 10) : undefined;
+    const yearTxt = await row.$eval(".gsc_a_y span", el => el.textContent.trim()).catch(() => "");
+    const year = yearTxt ? parseInt(yearTxt, 10) : undefined;
 
-    results.push({
-      title,
-      authors,
-      venue,
-      year,
-      url: href
-    });
+    results.push({ title, authors, venue, year, url: href });
   }
 
   await browser.close();
@@ -96,34 +92,34 @@ async function scrapeScholar() {
 }
 
 function merge(existingMap, scraped) {
-  // Keep selected-publication and image if already defined in existing.
   return scraped
     .map(p => {
       const current = existingMap.get(normTitle(p.title));
-      if (current) {
-        return {
-          ...p,
-          image: current.image || "",
-          "selected-publication":
-            current["selected-publication"] === "yes" || current["selected-publication"] === true
-              ? "yes"
-              : "no"
-        };
-      }
-      return { ...p, image: "", "selected-publication": "no" };
+      return {
+        ...p,
+        image: current?.image || "",
+        "selected-publication":
+          (current && (current["selected-publication"] === "yes" || current["selected-publication"] === true))
+            ? "yes"
+            : "no"
+      };
     })
     .sort((a, b) => (b.year || 0) - (a.year || 0));
 }
 
 (async () => {
-  console.log("Scraping Scholar for user:", USER);
-  const existing = await loadExisting();
-  const scraped = await scrapeScholar();
-  const merged = merge(existing.map, scraped);
+  try {
+    console.log("Scraping Scholar user:", USER);
+    const existing = await loadExisting();
+    const scraped = await scrapeScholar();
+    const merged = merge(existing.map, scraped);
 
-  const yamlText = yaml.dump(merged, { lineWidth: 1000, sortKeys: false });
-  fs.mkdirSync(path.dirname(OUT_FILE), { recursive: true });
-  fs.writeFileSync(OUT_FILE, yamlText, "utf8");
-
-  console.log(`Wrote ${merged.length} records to ${OUT_FILE}`);
+    const out = yaml.dump(merged, { lineWidth: 1000, sortKeys: false });
+    fs.mkdirSync(path.dirname(OUT_FILE), { recursive: true });
+    fs.writeFileSync(OUT_FILE, out, "utf8");
+    console.log(`Wrote ${merged.length} records → ${OUT_FILE}`);
+  } catch (err) {
+    console.error("Sync failed:", err?.stack || err);
+    process.exit(1);
+  }
 })();

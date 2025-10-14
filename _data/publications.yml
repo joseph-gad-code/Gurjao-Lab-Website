@@ -2,64 +2,10 @@
   authors: "A. Author, B. Author, C. Author"
   journal: "Nature"
   year: 2024
-  url: "https://doi.org/10.xxxx/xyz"      # or a Scholar/PMID link
-  doi: "10.xxxx/xyz"                       # optional, but nice to have
-  selected_publication: true               # true → appears in Selected
-  image: "/assets/images/publications/colorectal.png"  # optional card image
-
-- title: "Another paper"
-  authors: "X. Y., Z. Q."
-  journal: "Cell"
-  year: 2023
-  url: "https://scholar.google.com/some-paper"
-  doi: ""
-  selected_publication: false
-  image: ""
-
-- title: "Dietary links to mutational processes in colorectal cancer"
-  authors: "A. Author, B. Author, C. Author"
-  journal: "Nature"
-  year: 2024
-  url: "https://doi.org/10.xxxx/xyz"      # or a Scholar/PMID link
-  doi: "10.xxxx/xyz"                       # optional, but nice to have
-  selected_publication: true               # true → appears in Selected
-  image: "/assets/images/publications/colorectal.png"  # optional card image
-
-- title: "Another paper"
-  authors: "X. Y., Z. Q."
-  journal: "Cell"
-  year: 2023
-  url: "https://scholar.google.com/some-paper"
-  doi: ""
-  selected_publication: false
-  image: ""
-  
-  - title: "Dietary links to mutational processes in colorectal cancer"
-  authors: "A. Author, B. Author, C. Author"
-  journal: "Nature"
-  year: 2024
-  url: "https://doi.org/10.xxxx/xyz"      # or a Scholar/PMID link
-  doi: "10.xxxx/xyz"                       # optional, but nice to have
-  selected_publication: true               # true → appears in Selected
-  image: "/assets/images/publications/colorectal.png"  # optional card image
-
-- title: "Another paper"
-  authors: "X. Y., Z. Q."
-  journal: "Cell"
-  year: 2023
-  url: "https://scholar.google.com/some-paper"
-  doi: ""
-  selected_publication: false
-  image: ""
-  
-  - title: "Dietary links to mutational processes in colorectal cancer"
-  authors: "A. Author, B. Author, C. Author"
-  journal: "Nature"
-  year: 2024
-  url: "https://doi.org/10.xxxx/xyz"      # or a Scholar/PMID link
-  doi: "10.xxxx/xyz"                       # optional, but nice to have
-  selected_publication: true               # true → appears in Selected
-  image: "/assets/images/publications/colorectal.png"  # optional card image
+  url: "https://doi.org/10.xxxx/xyz"
+  doi: "10.xxxx/xyz"
+  selected_publication: true
+  image: "/assets/images/publications/colorectal.png"
 
 - title: "Another paper"
   authors: "X. Y., Z. Q."

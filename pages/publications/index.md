@@ -18,21 +18,19 @@ lab_names:
   <div class="pub-grid">
     {% for p in selected %}
 
-      {%- comment -%} -------- Journal label cleanup (no volume/issue) -------- {%- endcomment -%}
       {% assign raw_j = p.journal_clean | default: p.journal | default: "" | strip %}
-      {% assign core  = raw_j | split:"(" | first | split: "," | first | strip %}
-      {% assign tokens = core | split:" " %}
-      {% assign last_tok = tokens | last | replace:".","" | replace:",","" | strip %}
+      {% assign basic = raw_j | split:"(" | first | split: "," | first | strip %}
+      {% assign toks  = basic | split:" " %}
+      {% assign last_tok = toks | last | replace:".","" | replace:",","" | strip %}
       {% assign last_is_number = "no" %}
       {% for d in (0..9) %}{% if last_tok contains d %}{% assign last_is_number = "yes" %}{% endif %}{% endfor %}
-      {% assign limit = tokens.size %}
-      {% if last_is_number == "yes" %}{% assign limit = limit | minus: 1 %}{% endif %}
       {% capture journal_clean %}
-        {% for t in tokens limit:limit %}{{ t }}{% unless forloop.last %} {% endunless %}{% endfor %}
+        {% for t in toks %}
+          {% if forloop.last and last_is_number == "yes" %}{% break %}{% endif %}{{ t }}{% unless forloop.last %} {% endunless %}
+        {% endfor %}
       {% endcapture %}
       {% assign journal_clean = journal_clean | strip %}
 
-      {%- comment -%} -------- Authors formatting -------- {%- endcomment -%}
       {% assign authors = p.authors | replace:"*","" | replace:"...", "…" %}
       {% for ln in page.lab_names %}
         {% assign needle1 = " " | append: ln %}
@@ -82,21 +80,19 @@ lab_names:
   <div class="pub-list">
     {% for p in all_sorted %}
 
-      {%- comment -%} -------- Journal label cleanup (no volume/issue) -------- {%- endcomment -%}
       {% assign raw_j = p.journal_clean | default: p.journal | default: "" | strip %}
-      {% assign core  = raw_j | split:"(" | first | split: "," | first | strip %}
-      {% assign tokens = core | split:" " %}
-      {% assign last_tok = tokens | last | replace:".","" | replace:",","" | strip %}
+      {% assign basic = raw_j | split:"(" | first | split: "," | first | strip %}
+      {% assign toks  = basic | split:" " %}
+      {% assign last_tok = toks | last | replace:".","" | replace:",","" | strip %}
       {% assign last_is_number = "no" %}
       {% for d in (0..9) %}{% if last_tok contains d %}{% assign last_is_number = "yes" %}{% endif %}{% endfor %}
-      {% assign limit = tokens.size %}
-      {% if last_is_number == "yes" %}{% assign limit = limit | minus: 1 %}{% endif %}
       {% capture journal_clean %}
-        {% for t in tokens limit:limit %}{{ t }}{% unless forloop.last %} {% endunless %}{% endfor %}
+        {% for t in toks %}
+          {% if forloop.last and last_is_number == "yes" %}{% break %}{% endif %}{{ t }}{% unless forloop.last %} {% endunless %}
+        {% endfor %}
       {% endcapture %}
       {% assign journal_clean = journal_clean | strip %}
 
-      {%- comment -%} -------- Authors formatting -------- {%- endcomment -%}
       {% assign authors = p.authors | replace:"*","" | replace:"...", "…" %}
       {% for ln in page.lab_names %}
         {% assign needle1 = " " | append: ln %}

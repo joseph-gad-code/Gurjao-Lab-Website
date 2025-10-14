@@ -22,11 +22,34 @@ lab_names:
         Heuristic to show a cleaner journal label; if your YAML provides
         "journal_clean", it will be used instead.
       {% endcomment %}
-      {% assign raw_j = p.journal_clean | default: p.journal | default: "" %}
-      {% assign j1 = raw_j | split: "(" | first %}
-      {% assign journal_clean = j1 | split: "," | first | strip %}
+      {%- comment -%} Journal label cleanup {%- endcomment -%}
+      {%- assign raw_j = p.journal_clean | default: p.journal | default: "" | strip -%}
+      {%- assign core = raw_j | split:"(" | first | split: "," | first | strip -%}
+      {%- assign tokens = core | split:" " -%}
+      {%- assign last = tokens | last | replace:".","" | replace:",","" | strip -%}
+      {%- assign drop_last = false -%}
+      {%- for d in (0..9) -%}
+        {%- if last contains d -%}{%- assign drop_last = true -%}{%- endif -%}
+      {%- endfor -%}
+      {%- capture journal_clean -%}
+        {%- for t in tokens -%}
+          {%- if forloop.last and drop_last -%}{%- else -%}{{ t }}{%- unless forloop.last and not drop_last -%} {% endunless -%}{%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- assign journal_clean = journal_clean | strip -%}
+      
+      {%- comment -%} Authors: remove asterisks, keep everyone, add ellipsis glyph, bold lab names {%- endcomment -%}
+      {%- assign authors = p.authors | replace:"*","" | replace:"...", "…" -%}
+      {%- for ln in page.lab_names -%}
+        {%- assign needle1 = " " | append: ln -%}
+        {%- assign repl1   = " <strong>" | append: ln | append: "</strong>" -%}
+        {%- assign authors = authors | replace: needle1, repl1 -%}
+      
+        {%- assign needle2 = ln | append: "," -%}
+        {%- assign repl2   = "<strong>" | append: ln | append: "</strong>," -%}
+        {%- assign authors = authors | replace: needle2, repl2 -%}
+      {%- endfor -%}
 
-      {% assign authors = p.authors | replace: "...", "…" %}
       {% for ln in page.lab_names %}
         {% assign needle1 = " " | append: ln %}
         {% assign repl1   = " <strong>" | append: ln | append: "</strong>" %}
@@ -77,9 +100,33 @@ lab_names:
   {% assign all_sorted = site.data.publications | sort: "year" | reverse %}
   <div class="pub-list">
     {% for p in all_sorted %}
-      {% assign raw_j = p.journal_clean | default: p.journal | default: "" %}
-      {% assign j1 = raw_j | split: "(" | first %}
-      {% assign journal_clean = j1 | split: "," | first | strip %}
+      {%- comment -%} Journal label cleanup {%- endcomment -%}
+      {%- assign raw_j = p.journal_clean | default: p.journal | default: "" | strip -%}
+      {%- assign core = raw_j | split:"(" | first | split: "," | first | strip -%}
+      {%- assign tokens = core | split:" " -%}
+      {%- assign last = tokens | last | replace:".","" | replace:",","" | strip -%}
+      {%- assign drop_last = false -%}
+      {%- for d in (0..9) -%}
+        {%- if last contains d -%}{%- assign drop_last = true -%}{%- endif -%}
+      {%- endfor -%}
+      {%- capture journal_clean -%}
+        {%- for t in tokens -%}
+          {%- if forloop.last and drop_last -%}{%- else -%}{{ t }}{%- unless forloop.last and not drop_last -%} {% endunless -%}{%- endif -%}
+        {%- endfor -%}
+      {%- endcapture -%}
+      {%- assign journal_clean = journal_clean | strip -%}
+      
+      {%- comment -%} Authors: remove asterisks, keep everyone, add ellipsis glyph, bold lab names {%- endcomment -%}
+      {%- assign authors = p.authors | replace:"*","" | replace:"...", "…" -%}
+      {%- for ln in page.lab_names -%}
+        {%- assign needle1 = " " | append: ln -%}
+        {%- assign repl1   = " <strong>" | append: ln | append: "</strong>" -%}
+        {%- assign authors = authors | replace: needle1, repl1 -%}
+      
+        {%- assign needle2 = ln | append: "," -%}
+        {%- assign repl2   = "<strong>" | append: ln | append: "</strong>," -%}
+        {%- assign authors = authors | replace: needle2, repl2 -%}
+      {%- endfor -%}
 
       {% assign authors = p.authors | replace: "...", "…" %}
       {% for ln in page.lab_names %}

@@ -1,0 +1,140 @@
+name: "Update publications (Google Scholar)"
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * 1"
+
+permissions:
+  contents: write
+
+jobs:
+  build-publications:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install jq, yq, unzip, pup
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y jq unzip
+          curl -fsSL https://github.com/mikefarah/yq/releases/download/v4.44.2/yq_linux_amd64 -o yq
+          sudo install -m 0755 yq /usr/local/bin/yq
+          curl -fsSL https://github.com/ericchiang/pup/releases/download/v0.4.0/pup_v0.4.0_linux_amd64.zip -o pup.zip
+          unzip -q pup.zip
+          sudo install -m 0755 pup_v0.4.0_linux_amd64/pup /usr/local/bin/pup
+          yq --version
+          jq --version
+          pup --version
+
+      - name: Create data directory
+        run: |
+          set -euo pipefail
+          mkdir -p _data
+
+      - name: Scrape publications from Google Scholar
+        env:
+          SCHOLAR_URL: "https://scholar.google.com/citations?user=m3rLfS4AAAAJ&hl=en"
+        run: |
+          set -euo pipefail
+          curl -sS -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0 Safari/537.36" \
+            "$SCHOLAR_URL" > _data/scholar.raw.html
+
+          # Parse rows as JSON
+          pup '#gsc_a_b tr.gsc_a_tr json{}' < _data/scholar.raw.html > /tmp/rows.json
+
+          # Normalize to a tolerant JSON array
+          jq -r '
+            ( . // [] ) | map({
+              title:    (.. | objects | select(.class[]? | index("gsc_a_at")) | .text) // "",
+              url:      (.. | objects | select(.class[]? | index("gsc_a_at")) | .href) // "",
+              authors:  ((.. | objects | select(.class[]? | index("gs_gray")) | .text) // "" | split("\n") | map(select(length>0)) | .[0] // ""),
+              journal:  ((.. | objects | select(.class[]? | index("gs_gray")) | .text) // "" | split("\n") | map(select(length>0)) | .[1] // ""),
+              year:     (.. | objects | select(.class[]? | index("gsc_a_y")) | .. | objects | select(.name?=="span") | .text) // ""
+            })
+          ' /tmp/rows.json > _data/scholar.raw.json
+
+          # If empty or invalid, ensure we still have a well-formed empty array
+          if ! jq -e 'type=="array"' _data/scholar.raw.json >/dev/null 2>&1; then
+            echo "[]" > _data/scholar.raw.json
+          fi
+
+      - name: Normalize to site schema (JSON)
+        run: |
+          set -euo pipefail
+          jq -r '
+            map({
+              title: .title,
+              authors: .authors,
+              year: (.year | tonumber? // null),
+              journal: .journal,
+              doi: "",
+              url: (if (.url|startswith("http")) then .url else ("https://scholar.google.com" + .url) end),
+              selected_publication: false,
+              image: ""
+            })
+          ' _data/scholar.raw.json > _data/publications.auto.json
+
+      - name: Convert auto JSON→YAML (optional)
+        run: |
+          set -euo pipefail
+          yq -P '.' _data/publications.auto.json > _data/publications.auto.yml || true
+
+      - name: Ensure manual overrides file exists
+        run: |
+          set -euo pipefail
+          if [ ! -f _data/publications.manual.yml ]; then
+            cat > _data/publications.manual.yml <<'YAML'
+# Manual overrides (match by DOI if present, else by exact title)
+# - doi: 10.xxxx/yyyy
+#   title: "Exact Title Here"
+#   selected_publication: true
+#   image: /assets/images/publications/example.png
+YAML
+          fi
+
+      - name: Convert manual YAML→JSON
+        run: |
+          set -euo pipefail
+          yq -o=json '.' _data/publications.manual.yml > _data/publications.manual.json
+
+      - name: Merge auto + manual (manual wins), sort by year desc
+        run: |
+          set -euo pipefail
+          jq -s '
+            def keyOf: if (.doi // "") != "" then .doi else .title end;
+            def to_map:
+              map( { (keyOf): . } ) | add // {};
+            def to_array(m): [ m | to_entries[] | .value ];
+
+            . as $all
+            | ($all[0] | to_map) as $auto
+            | ($all[1] | to_map) as $manual
+            | ($auto * $manual)
+            | to_array(.)
+            | sort_by(.year // 0) | reverse
+          ' _data/publications.auto.json _data/publications.manual.json > _data/publications.json
+
+      - name: Convert final JSON→YAML
+        run: |
+          set -euo pipefail
+          yq -P '.' _data/publications.json > _data/publications.yml
+          echo "Wrote _data/publications.yml (lines: $(wc -l < _data/publications.yml))"
+
+      - name: Commit changes
+        run: |
+          set -euo pipefail
+          if git status --porcelain | grep -q "_data/publications"; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add _data/publications.yml _data/publications.json _data/publications.auto.* _data/publications.manual.*
+            git commit -m "chore: update publications from Google Scholar"
+            git push
+          else
+            echo "No publication changes."
+          fi

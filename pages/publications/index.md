@@ -4,12 +4,21 @@ layout: default
 permalink: /publications/
 ---
 
+{%- comment -%}
+Normalize the data source to an array called `all`.
+We support either:
+- _data/publications.yml with a `publications:` root key
+- _data/publications.yml being a bare array (less preferred, but guarded)
+{%- endcomment -%}
 {% assign pub_root = site.data.publications %}
-{% assign all_raw = pub_root.publications | default: pub_root %}
-{% if all_raw == nil or all_raw == empty %}
-  {% assign all = "" | split:"|" %}
+{% assign all_from_key = pub_root.publications %}
+{% if all_from_key %}
+  {% assign all = all_from_key %}
 {% else %}
-  {% assign all = all_raw %}
+  {% assign all = pub_root %}
+{% endif %}
+{% if all == nil %}
+  {% assign all = "" | split:"|" %}
 {% endif %}
 
 <section class="pubs">
@@ -30,40 +39,33 @@ permalink: /publications/
 
   <h2>All publications</h2>
   {% if all and all.size > 0 %}
-    {% assign sorted = all | sort: "year" | reverse %}
+    {%- assign all_sorted = all | sort: "year" | reverse -%}
+    {%- assign grouped = all_sorted | group_by: "year" -%}
+    {%- assign groups_sorted = grouped | sort: "name" | reverse -%}
 
-    {%- assign years = "" | split:"|" -%}
-    {%- for item in sorted -%}
-      {%- unless years contains item.year -%}
-        {%- assign years = years | push: item.year -%}
-      {%- endunless -%}
-    {%- endfor -%}
-
-    {%- for y in years -%}
-      <h3 class="pubs-year">{{ y }}</h3>
+    {%- for g in groups_sorted -%}
+      <h3 class="pubs-year">{{ g.name }}</h3>
       <div class="pubs-list">
-        {%- for p in sorted -%}
-          {%- if p.year == y -%}
-            <article class="pubs-item">
-              <h4 class="pubs-title">
-                {%- if p.url -%}<a href="{{ p.url }}" target="_blank" rel="noopener">{%- endif -%}
-                {{ p.title }}
-                {%- if p.url -%}</a>{%- endif -%}
-              </h4>
-              <div class="pubs-meta">
-                <span class="pubs-authors">{{ p.authors }}</span>
-                {%- if p.journal -%}
-                  &nbsp;—&nbsp;
-                  {%- if p.url -%}
-                    <a class="pubs-journal" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.journal }}</a>
-                  {%- else -%}
-                    <span class="pubs-journal">{{ p.journal }}</span>
-                  {%- endif -%}
+        {%- for p in g.items -%}
+          <article class="pubs-item">
+            <h4 class="pubs-title">
+              {%- if p.url -%}<a href="{{ p.url }}" target="_blank" rel="noopener">{%- endif -%}
+              {{ p.title }}
+              {%- if p.url -%}</a>{%- endif -%}
+            </h4>
+            <div class="pubs-meta">
+              <span class="pubs-authors">{{ p.authors }}</span>
+              {%- if p.journal -%}
+                &nbsp;—&nbsp;
+                {%- if p.url -%}
+                  <a class="pubs-journal" href="{{ p.url }}" target="_blank" rel="noopener">{{ p.journal }}</a>
+                {%- else -%}
+                  <span class="pubs-journal">{{ p.journal }}</span>
                 {%- endif -%}
-                {%- if p.year -%} <span>({{ p.year }})</span>{%- endif -%}
-              </div>
-            </article>
-          {%- endif -%}
+              {%- endif -%}
+              {%- if p.year -%} <span>({{ p.year }})</span>{%- endif -%}
+            </div>
+          </article>
         {%- endfor -%}
       </div>
     {%- endfor -%}

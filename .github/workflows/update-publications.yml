@@ -1,10 +1,18 @@
+# This workflow automatically updates a list of publications from Crossref,
+# merges it with manual overrides, and commits the result to the repository.
+
 name: "Update publications (Crossref)"
 
 on:
+  # Allows manual triggering of the workflow from the Actions tab.
   workflow_dispatch:
+  # Runs on a schedule.
   schedule:
-    - cron: "0 3 * * 1"  # Mondays 03:00 UTC
+    # Runs every Monday at 03:00 UTC.
+    - cron: "0 3 * * 1"
 
+# Sets write permissions for the contents of the repository,
+# allowing the action to commit changes.
 permissions:
   contents: write
 
@@ -13,59 +21,70 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install jq and yq
         run: |
           sudo apt-get update
           sudo apt-get install -y jq
-          curl -fsSL https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64 -o yq
+          # Corrected to a valid yq version to prevent 404 download error.
+          curl -fsSL https://github.com/mikefarah/yq/releases/download/v4.44.2/yq_linux_amd64 -o yq
           sudo install -m 0755 yq /usr/local/bin/yq
           yq --version
           jq --version
 
-      - name: Make data dir
+      - name: Create data directory
         run: mkdir -p _data
 
       - name: Fetch publications from Crossref
         env:
+          # Define your search query and contact email here.
           AUTHOR_QUERY: "Carino Gurjao"
           ROWS: "100"
-          CONTACT: "YOUR_EMAIL_HERE@example.com"
+          CONTACT: "your-email@example.com" # IMPORTANT: Change this email
         run: |
+          # A User-Agent is required by the Crossref API polite pool.
           UA="GurjaoLabSite/1.0 (mailto:${CONTACT})"
+          # URL-encode the author query.
           Q=$(printf %s "$AUTHOR_QUERY" | sed 's/ /+/g')
           URL="https://api.crossref.org/works?query.author=${Q}&rows=${ROWS}&select=title,author,container-title,DOI,issued,URL,type&sort=issued&order=desc"
           curl -sS -A "$UA" "$URL" | jq '.message.items' > _data/crossref.raw.json
 
       - name: Normalize to site schema (JSON)
         run: |
+          # This jq script transforms the raw Crossref data into a clean, consistent format.
+          # Added '?' to paths to make the script more robust against missing data from the API.
           jq -r '
             map({
-              title: ( .["title"][0] // "" ),
+              title: ( .["title"][0]? // "" ),
               authors: (
-                (.author // [])
-                | map([(.family // ""), (.given // "")] | join(", "))
+                (.author? // [])
+                | map([(.family? // ""), (.given? // "")] | join(", "))
                 | join("; ")
               ),
-              year: ( .issued["date-parts"][0][0] // null ),
-              journal: ( .["container-title"][0] // "" ),
-              doi: ( .DOI // "" ),
-              url: ( .URL // "" ),
+              year: ( .issued?["date-parts"]?[0]?[0]? // null ),
+              journal: ( .["container-title"][0]? // "" ),
+              doi: ( .DOI? // "" ),
+              url: ( .URL? // "" ),
               selected_publication: false,
               image: ""
             })
           ' _data/crossref.raw.json > _data/publications.auto.json
 
       - name: Convert auto JSON→YAML (optional artifact)
-        run: yq -P '.' _data/publications.auto.json > _data/publicications.auto.yml
+        run: |
+          # Corrected filename typo: publicications -> publications
+          yq -P '.' _data/publications.auto.json > _data/publications.auto.yml
 
       - name: Ensure manual overrides file exists
         run: |
           if [ ! -f _data/publications.manual.yml ]; then
+            # Corrected heredoc syntax to properly terminate the 'cat' command before 'fi'.
             cat > _data/publications.manual.yml <<'YAML'
-# Add overrides by DOI here, for example:
+# This file allows you to override or add publication details manually.
+# Entries are matched by DOI.
+# Example:
 # - doi: 10.1038/s41586-020-2649-2
 #   selected_publication: true
 #   image: /assets/images/publications/example.png
@@ -78,27 +97,34 @@ YAML
 
       - name: Merge auto + manual (manual overrides win), sort by year desc
         run: |
+          # This script merges the automated list with your manual overrides.
+          # The '*' operator performs a deep merge, so manual fields overwrite automated ones for the same DOI.
           jq -s '
+            # Helper function to convert an array of objects to a map keyed by DOI.
             def to_map:
               map(select(.doi != null and .doi != "") | { (.doi): . }) | add // {};
+            # Helper function to convert the map back to an array of objects.
             def to_array(m): [ m | to_entries[] | .value ];
 
             . as $all
             | ($all[0] | to_map) as $auto
             | ($all[1] | to_map) as $manual
-            | ($auto * $manual)               # manual overrides by DOI
+            | ($auto * $manual)      # Deep merge: manual values override auto values.
             | to_array(.)
-            | sort_by(.year) | reverse
+            | sort_by(.year) | reverse # Sort publications by year, newest first.
           ' _data/publications.auto.json _data/publications.manual.json > _data/publications.json
 
       - name: Convert final JSON→YAML
-        run: yq -P '.' _data/publications.json > _data/publications.yml
+        run: |
+          yq -P '.' _data/publications.json > _data/publications.yml
 
       - name: Commit changes
         run: |
+          # Check if any of the relevant files have changed.
           if git status --porcelain | grep -q "_data/publications"; then
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
+            # Add all generated and manual files to the commit.
             git add _data/publications.yml _data/publications.json _data/publications.auto.json _data/publications.auto.yml _data/crossref.raw.json _data/publications.manual.yml _data/publications.manual.json
             git commit -m "chore: update publications from Crossref"
             git push

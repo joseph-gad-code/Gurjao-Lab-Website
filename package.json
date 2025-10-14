@@ -3,12 +3,10 @@
   "private": true,
   "type": "commonjs",
   "scripts": {
-    "sync:scholar": "node scripts/sync-scholar.js"
+    "sync:scholar": "node scripts/sync-scholar-playwright.js"
   },
   "dependencies": {
     "js-yaml": "^4.1.0",
-    "puppeteer": "^22.4.1",
-    "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2"
+    "playwright": "^1.47.0"
   }
 }

@@ -1,8 +1,9 @@
 name: Sync Google Scholar -> publications.yml
+
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 6 * * 1"   # weekly sync (Mon 06:00 UTC)
+    - cron: "0 6 * * 1"   # every Monday 06:00 UTC
 
 jobs:
   sync:
@@ -20,20 +21,22 @@ jobs:
       - name: Install deps
         run: |
           npm init -y
-          npm i playwright@1 js-yaml
-          npx playwright install --with-deps chromium
+          npm i js-yaml google-search-results-nodejs
 
-      - name: Run sync
+      - name: Run sync (SerpAPI)
         env:
-          SCHOLAR_USER_ID: m3rLfS4AAAAJ
-        run: node scripts/sync-scholar-to-yaml.js
+          SERPAPI_KEY: ${{ secrets.SERPAPI_KEY }}
+          SCHOLAR_AUTHOR_ID: m3rLfS4AAAAJ
+        run: node scripts/sync-scholar-serpapi.js
 
-      - name: Commit changes
+      - name: Commit changes (if any)
         run: |
           if [ -n "$(git status --porcelain)" ]; then
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git config user.name "github-actions[bot]"
             git add _data/publications.yml
-            git commit -m "Sync publications from Google Scholar"
+            git commit -m "Sync publications from Google Scholar (SerpAPI)"
             git push
+          else
+            echo "No changes."
           fi

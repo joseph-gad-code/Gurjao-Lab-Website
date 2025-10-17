@@ -9,22 +9,60 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Nunito:wght@200..1000&display=swap" rel="stylesheet">
+
+  <style>
+    /* General nav link styling */
+    .navbar-nav > li > a {
+      color: #666666 !important;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+      background-color: transparent !important;
+    }
+
+    /* Hover effect */
+    .navbar-nav > li > a:hover {
+      color: #000000 !important;
+      background-color: transparent !important;
+    }
+
+    /* Active state (current page) */
+    .navbar-nav > .active > a,
+    .navbar-nav > .active > a:focus,
+    .navbar-nav > .active > a:hover {
+      color: #000000 !important;
+      background-color: transparent !important;
+      position: relative;
+    }
+
+    /* Add underline below active link */
+    .navbar-nav > .active > a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -6px; /* distance from text */
+      height: 2px;
+      background-color: #0D5295; /* underline color */
+      border-radius: 2px;
+    }
+  </style>
 </head>
 
-<nav class="navbar navbar-default" style="background-color: #ffffff; border-bottom: 0;">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" style="color: #0D5295; font-weight: 800; font-family: 'Nunito';" href="#">GURJAOLAB</a>
+<body>
+  <nav class="navbar navbar-default" style="background-color: #ffffff; border-bottom: 0;">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" style="color: #0D5295; font-weight: 800; font-family: 'Nunito';" href="#">GURJAOLAB</a>
+      </div>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Research</a></li>
+        <li><a href="#">Publications</a></li>
+        <li><a href="#">People</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
     </div>
-    <ul class="nav navbar-nav navbar-right">
-      <li class="active" style="font-family: 'Nunito'; color = #000000; background-color: #ffffff !important;"><a href="#">Home</a></li>
-      <li  style="font-family: 'Nunito'; color: #666666; hover:text-[#000000]; background-color: #ffffff;"><a href="#">Research</a></li>
-      <li  style="font-family: 'Nunito'; color: #666666; hover:text-[#000000]; background-color: #ffffff;"><a href="#">Publications</a></li>
-      <li  style="font-family: 'Nunito'; color: #666666; hover:text-[#000000]; background-color: #ffffff;"><a href="#">People</a></li>
-      <li  style="font-family: 'Nunito'; color: #666666; hover:text-[#000000]; background-color: #ffffff;"><a href="#">Contact</a></li>
-    </ul>
-  </div>
-</nav>
+  </nav>
+</body>
 </html>
-

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} | {{ site.title }}</title>
+
+  <!-- ✅ Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <!-- ✅ Google Font: Nunito -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- ✅ Custom Styles -->
+  <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+
+  <!-- ✅ Favicon (optional) -->
+  <link rel="icon" type="image/png" href="{{ '/assets/images/favicon.png' | relative_url }}">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+  <!-- 🧭 Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand fw-semibold" href="{{ '/' | relative_url }}">
+        {{ site.title | default: "My Bootstrap Jekyll Site" }}
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link{% if page.url == '/' %} active{% endif %}" href="{{ '/' | relative_url }}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link{% if page.url contains '/research/' %} active{% endif %}" href="{{ '/research/' | relative_url }}">Research</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link{% if page.url contains '/team/' %} active{% endif %}" href="{{ '/team/' | relative_url }}">Team</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link{% if page.url contains '/contact/' %} active{% endif %}" href="{{ '/contact/' | relative_url }}">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 📄 Main Content -->
+  <main class="flex-grow-1">
+    {{ content }}
+  </main>
+
+  <!-- 🦶 Footer -->
+  <footer class="bg-dark text-light mt-5 py-4">
+    <div class="container text-center small">
+      <p class="mb-1">&copy; {{ site.time | date: "%Y" }} {{ site.title | default: "My Bootstrap Jekyll Site" }}.</p>
+      <p class="mb-0">
+        <a href="{{ '/privacy/' | relative_url }}" class="link-light text-decoration-none">Privacy Policy</a>
+        •
+        <a href="{{ '/contact/' | relative_url }}" class="link-light text-decoration-none">Contact</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- ✅ Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

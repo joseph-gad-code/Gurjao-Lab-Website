@@ -32,10 +32,10 @@ title: Home
 </div>
 
 <div class="container" style="margin-top: 40px; margin-bottom: 24px; font-family: 'Nunito', sans-serif; color: #000;">
-  <div class="row" style="display: flex; align-items: stretch; gap: 20px;">
+  <div class="row" style="display: flex; align-items: stretch; gap: 20px; min-height: 500px;">
 
     <!-- LEFT: Mission -->
-    <div class="col-md-8" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; height: 100%; border-right: 1px solid rgba(0,0,0,.12); padding-right: 20px;">
+    <div class="col-md-8" style="flex: 1; display: flex; flex-direction: column; justify-content: space-between; padding-right: 20px;">
       <div>
         <h2 style="font-weight: 400; font-size: 20px; margin-bottom: 12px;">Our mission</h2>
         <p style="margin-bottom: 12px;">
@@ -65,9 +65,11 @@ title: Home
     </div>
 
     <!-- RIGHT: News -->
-    <aside class="col-md-4" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-start; height: 100%;">
+    <aside class="col-md-4" style="flex: 1; display: flex; flex-direction: column;">
       <h2 style="font-weight: 400; font-size: 20px; margin-bottom: 12px;">Latest news</h2>
-      <div style="flex-grow: 1; overflow-y: auto; padding-right: 6px; padding-left: 20px;">
+
+      <!-- scrollable container -->
+      <div style="flex: 1; overflow-y: auto; padding-right: 6px; padding-left: 20px;">
         {% assign items = site.data.news | sort: "date" | reverse %}
         {% if items and items.size > 0 %}
           {% for n in items %}

@@ -35,12 +35,13 @@
     .navbar-nav > .active > a::after {
       content: "";
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 2px; /* distance from text */
+      width: 100%; /* exactly matches text width */
       height: 2px;
-      background-color: #000000;
-      border-radius: 0px;
+      background-color: #0D5295; /* underline color */
+      border-radius: 2px;
     }
   </style>
 </head>

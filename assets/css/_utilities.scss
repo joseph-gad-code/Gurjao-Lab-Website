@@ -1,0 +1,63 @@
+/* Container & layout */
+.container { max-width: var(--container-max); margin: 0 auto; padding: 0 20px; }
+.page-content { padding: var(--space-6) 0 var(--space-7); }
+
+/* Grid utilities (mobile-first) */
+.grid { display: grid; gap: var(--space-6); }
+.grid-1 { grid-template-columns: 1fr; }
+.grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+@media (max-width: var(--break-md)) { .md-down-1 { grid-template-columns: 1fr !important; } }
+
+/* Flex helpers */
+.flex { display: flex; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+
+/* Spacing */
+.mt-0{ margin-top:0 } .mb-0{ margin-bottom:0 }
+.mt-4{ margin-top:var(--space-4) } .mb-4{ margin-bottom:var(--space-4) }
+.mt-6{ margin-top:var(--space-6) } .mb-6{ margin-bottom:var(--space-6) }
+.pt-6{ padding-top:var(--space-6) } .pb-6{ padding-bottom:var(--space-6) }
+
+/* Text utilities */
+.t-display { font-weight:400; line-height:1.25; font-size: clamp(1.9rem, 4vw, 3.25rem); }
+.t-title   { font-weight:400; font-size: clamp(1.25rem, 2.2vw, 1.75rem); }
+.t-lead    { font-weight:400; font-size: clamp(1.05rem, 1.6vw, 1.2rem); }
+.t-body    { font-weight:400; font-size: 1rem; }
+.t-bold    { font-weight:700; }
+.t-brand   { color: var(--brand); }
+.t-muted   { color: var(--muted); }
+
+/* Links */
+a { color: var(--lightblue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Underline style for active nav */
+.underline-strong {
+  text-decoration-line: underline;
+  text-decoration-color: var(--text);
+  text-decoration-thickness: 3px;
+  text-underline-offset: .22em;
+}
+
+/* Media helpers */
+.media { width:100%; border-radius: 8px; overflow: hidden; background:#f6f6f6; }
+.media > img { width:100%; height:auto; display:block; }
+
+/* Scrollbox */
+.scroll-y { overflow-y:auto; -webkit-overflow-scrolling: touch; }
+
+/* Dividers */
+.divider-left  { border-left: 1px solid rgba(0,0,0,.12); padding-left: var(--space-6); }
+.divider-right { border-right: 1px solid rgba(0,0,0,.12); padding-right: var(--space-6); }
+
+/* Bullet dashes (shared) */
+.dash-list { list-style:none; padding:0; margin: var(--space-4) 0; }
+.dash-list li {
+  position:relative; padding-left: 3rem; margin:.55rem 0; line-height:1.6;
+}
+.dash-list li::before {
+  content:""; position:absolute; left:0; top:.72em; width:1.75rem; height:2px;
+  background: var(--text); border-radius:2px; opacity:.9;
+}

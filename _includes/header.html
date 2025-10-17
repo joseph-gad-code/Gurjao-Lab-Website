@@ -1,14 +1,68 @@
 <nav class="navbar navbar-default" style="background-color: #ffffff; border-bottom: 0;">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" style="color: #0D5295; font-weight: 800; font-family: 'Nunito';" href="/">GURJAOLAB</a>
+      <a class="navbar-brand"
+         style="color: #0D5295; font-weight: 800; font-family: 'Nunito', sans-serif;"
+         href="{{ '/' | relative_url }}">GURJAOLAB</a>
     </div>
+
     <ul class="nav navbar-nav navbar-right">
-      <li class="{% if page.nav == 'home' %}active{% endif %}"><a href="/">Home</a></li>
-      <li class="{% if page.nav == 'research' %}active{% endif %}"><a href="/research/">Research</a></li>
-      <li class="{% if page.nav == 'publications' %}active{% endif %}"><a href="/publications/">Publications</a></li>
-      <li class="{% if page.nav == 'people' %}active{% endif %}"><a href="/people/">People</a></li>
-      <li class="{% if page.nav == 'contact' %}active{% endif %}"><a href="/contact/">Contact</a></li>
+      <li class="{% if page.nav == 'home' %}active{% endif %}">
+        <a href="{{ '/' | relative_url }}">Home</a>
+      </li>
+      <li class="{% if page.nav == 'research' %}active{% endif %}">
+        <a href="{{ '/research/' | relative_url }}">Research</a>
+      </li>
+      <li class="{% if page.nav == 'publications' %}active{% endif %}">
+        <a href="{{ '/publications/' | relative_url }}">Publications</a>
+      </li>
+      <li class="{% if page.nav == 'people' %}active{% endif %}">
+        <a href="{{ '/people/' | relative_url }}">People</a>
+      </li>
+      <li class="{% if page.nav == 'contact' %}active{% endif %}">
+        <a href="{{ '/contact/' | relative_url }}">Contact</a>
+      </li>
     </ul>
   </div>
 </nav>
+
+<style>
+  /* Base link styling */
+  .navbar-nav > li > a {
+    color: #666666 !important;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    background-color: transparent !important;
+    display: inline-block; /* shrink underline to text width */
+    position: relative;
+    margin: 0 10px;
+    line-height: 1.2;
+    padding: 10px 0 2px 0; /* tighter vertical spacing */
+    text-decoration: none !important;
+  }
+
+  /* Hover effect */
+  .navbar-nav > li > a:hover {
+    color: #000000 !important;
+    background-color: transparent !important;
+  }
+
+  /* Active link */
+  .navbar-nav > .active > a,
+  .navbar-nav > .active > a:focus,
+  .navbar-nav > .active > a:hover {
+    color: #000000 !important;
+    background-color: transparent !important;
+  }
+
+  /* Underline for active link */
+  .navbar-nav > .active > a::after {
+    content: "";
+    position: absolute;
+    bottom: 0; /* directly under the text */
+    left: 0;
+    width: 100%; /* match text width exactly */
+    height: 2px;
+    background-color: #000000; /* underline color */
+  }
+</style>

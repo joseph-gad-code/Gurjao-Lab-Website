@@ -25,3 +25,44 @@
     </ul>
   </div>
 </nav>
+
+<style>
+  /* Base link styling */
+  .navbar-nav > li > a {
+    color: #666666 !important;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    background-color: transparent !important;
+    display: inline-block;
+    position: relative;
+    margin: 0 10px;
+    line-height: 1.2;
+    padding: 10px 0 2px 0;
+    text-decoration: none !important;
+  }
+
+  /* Hover effect */
+  .navbar-nav > li > a:hover {
+    color: #000000 !important;
+    background-color: transparent !important;
+  }
+
+  /* Active link */
+  .navbar-nav > .active > a,
+  .navbar-nav > .active > a:focus,
+  .navbar-nav > .active > a:hover {
+    color: #000000 !important;
+    background-color: transparent !important;
+  }
+
+  /* Underline directly under active text */
+  .navbar-nav > .active > a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #000000;
+  }
+</style>

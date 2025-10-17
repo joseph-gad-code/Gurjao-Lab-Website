@@ -1,0 +1,148 @@
+---
+title: "Publications"
+layout: default
+permalink: /publications/
+lab_names:
+  - Gurjao
+  - Boero-Teyssier
+  - Hooper
+  - Gad
+---
+
+<div style="font-family: 'Nunito'; color: #000000; max-width: 1100px; margin: 80px auto;">
+
+  <!-- Selected Publications -->
+  <h2 style="font-weight: 400; font-size: 20px; margin-bottom: 24px;">Selected publications</h2>
+
+  {% assign selected = site.data.publications | where: "selected_publication", true %}
+  {% if selected and selected.size > 0 %}
+  <div style="display: flex; flex-wrap: wrap; gap: 32px; justify-content: flex-start;">
+    {% for p in selected %}
+      {% assign raw_j = p.journal_clean | default: p.journal | default: "" | strip %}
+      {% assign basic = raw_j | split:"(" | first | split: "," | first | strip %}
+      {% assign toks = basic | split:" " %}
+      {% assign last_tok = toks | last | replace:".","" | replace:",","" | strip %}
+      {% assign last_is_number = "no" %}
+      {% for d in (0..9) %}{% if last_tok contains d %}{% assign last_is_number = "yes" %}{% endif %}{% endfor %}
+      {% capture journal_clean %}
+        {% for t in toks %}
+          {% if forloop.last and last_is_number == "yes" %}{% break %}{% endif %}{{ t }}{% unless forloop.last %} {% endunless %}
+        {% endfor %}
+      {% endcapture %}
+      {% assign journal_clean = journal_clean | strip %}
+      {% assign authors = p.authors | replace:"*","" | replace:"...", "…" %}
+      {% for ln in page.lab_names %}
+        {% assign needle1 = " " | append: ln %}
+        {% assign repl1 = " <strong>" | append: ln | append: "</strong>" %}
+        {% assign authors = authors | replace: needle1, repl1 %}
+        {% assign needle2 = ln | append: "," %}
+        {% assign repl2 = "<strong>" | append: ln | append: "</strong>," %}
+        {% assign authors = authors | replace: needle2, repl2 %}
+      {% endfor %}
+
+      <div style="flex: 1 1 calc(33% - 32px); min-width: 300px; border: 1px solid #ddd; border-radius: 10px; background: #fff; padding: 16px; display: flex; flex-direction: column; justify-content: space-between;">
+        <a href="{{ p.url }}" target="_blank" rel="noopener" style="text-decoration: none; color: inherit;">
+          {% if p.image %}
+            <img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" style="width: 100%; height: auto; border-radius: 6px; margin-bottom: 12px; object-fit: cover;">
+          {% else %}
+            <div style="width: 100%; height: 180px; border-radius: 6px; background: #f8f8f8; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: #777;">No image</div>
+          {% endif %}
+        </a>
+
+        <div style="flex: 1;">
+          <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 8px;">
+            <a href="{{ p.url }}" target="_blank" rel="noopener"
+               style="color: inherit; text-decoration: none; transition: text-decoration 0.2s;"
+               onmouseover="this.style.textDecoration='underline';"
+               onmouseout="this.style.textDecoration='none';">
+              {{ p.title }}
+            </a>
+          </h3>
+
+          {% if p.authors %}
+            <div style="font-size: 0.95rem; margin-bottom: 8px;">{{ authors }}</div>
+          {% endif %}
+
+          <div style="font-size: 0.9rem; color: #333;">
+            {% if journal_clean != "" -%}
+              <em><a href="{{ p.url }}" target="_blank" rel="noopener"
+                     style="color: inherit; text-decoration: none;"
+                     onmouseover="this.style.textDecoration='underline';"
+                     onmouseout="this.style.textDecoration='none';">{{ journal_clean }}</a></em>
+            {%- endif -%}
+            {%- if p.year -%}<span>, {{ p.year }}</span>{%- endif -%}
+            {% if p.doi and p.doi != "" %}
+              <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener"
+                 style="color: #6495ED; text-decoration: none; margin-left: 8px;"
+                 onmouseover="this.style.textDecoration='underline';"
+                 onmouseout="this.style.textDecoration='none';">DOI</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <p>No selected publications yet.</p>
+  {% endif %}
+
+
+  <!-- All Publications -->
+  <h2 style="font-weight: 400; font-size: 20px; margin-top: 100px; margin-bottom: 24px;">All publications</h2>
+
+  {% assign all_sorted = site.data.publications | sort: "year" | reverse %}
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+    {% for p in all_sorted %}
+      {% assign raw_j = p.journal_clean | default: p.journal | default: "" | strip %}
+      {% assign basic = raw_j | split:"(" | first | split: "," | first | strip %}
+      {% assign toks = basic | split:" " %}
+      {% assign last_tok = toks | last | replace:".","" | replace:",","" | strip %}
+      {% assign last_is_number = "no" %}
+      {% for d in (0..9) %}{% if last_tok contains d %}{% assign last_is_number = "yes" %}{% endif %}{% endfor %}
+      {% capture journal_clean %}
+        {% for t in toks %}
+          {% if forloop.last and last_is_number == "yes" %}{% break %}{% endif %}{{ t }}{% unless forloop.last %} {% endunless %}
+        {% endfor %}
+      {% endcapture %}
+      {% assign journal_clean = journal_clean | strip %}
+      {% assign authors = p.authors | replace:"*","" | replace:"...", "…" %}
+      {% for ln in page.lab_names %}
+        {% assign needle1 = " " | append: ln %}
+        {% assign repl1 = " <strong>" | append: ln | append: "</strong>" %}
+        {% assign authors = authors | replace: needle1, repl1 %}
+        {% assign needle2 = ln | append: "," %}
+        {% assign repl2 = "<strong>" | append: ln | append: "</strong>," %}
+        {% assign authors = authors | replace: needle2, repl2 %}
+      {% endfor %}
+
+      <div style="border-bottom: 1px solid #eee; padding-bottom: 16px;">
+        <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 6px;">
+          <a href="{{ p.url }}" target="_blank" rel="noopener"
+             style="color: inherit; text-decoration: none; transition: text-decoration 0.2s;"
+             onmouseover="this.style.textDecoration='underline';"
+             onmouseout="this.style.textDecoration='none';">
+            {{ p.title }}
+          </a>
+        </h3>
+        {% if p.authors %}
+          <div style="font-size: 0.95rem; margin-bottom: 4px;">{{ authors }}</div>
+        {% endif %}
+        <div style="font-size: 0.9rem; color: #333;">
+          {% if journal_clean != "" -%}
+            <em><a href="{{ p.url }}" target="_blank" rel="noopener"
+                   style="color: inherit; text-decoration: none;"
+                   onmouseover="this.style.textDecoration='underline';"
+                   onmouseout="this.style.textDecoration='none';">{{ journal_clean }}</a></em>
+          {%- endif -%}
+          {%- if p.year -%}<span>, {{ p.year }}</span>{%- endif -%}
+          {% if p.doi and p.doi != "" %}
+            <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener"
+               style="color: #6495ED; text-decoration: none; margin-left: 8px;"
+               onmouseover="this.style.textDecoration='underline';"
+               onmouseout="this.style.textDecoration='none';">DOI</a>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

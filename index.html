@@ -62,7 +62,12 @@ title: Home
       </div>
 
       <p style="margin-top: 16px;">
-        <a href="{{ '/research/' | relative_url }}" style="color: #6495ED; text-decoration: none;">Read more about our research…</a>
+        <a href="{{ '/research/' | relative_url }}"
+           style="color: #6495ED; text-decoration: none; transition: text-decoration 0.2s;"
+           onmouseover="this.style.textDecoration='underline';"
+           onmouseout="this.style.textDecoration='none';">
+          Read more about our research…
+        </a>
       </p>
     </div>
 

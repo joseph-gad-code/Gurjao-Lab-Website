@@ -4,5 +4,102 @@ title: Home
 nav: home
 ---
 
-<h1>Welcome to GURJAOLAB</h1>
-<p>This is the homepage.</p>
+<div class="container" style="margin-bottom: 2rem;">
+  <img
+    src="{{ '/Pages/Home/images/homepage-hero-image.svg' | relative_url }}"
+    alt="Gurjao Lab Hero Image"
+    class="img-responsive img-rounded center-block"
+    style="width: 100%; height: auto;"
+  >
+</div>
+
+
+<div class="text-center" style="margin: 20px auto 40px; font-size: 28px; line-height: 1.25; font-weight: 400;">
+  We study cancer genomes for <br>
+  <span style="text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px;">Prevention</span>
+  and
+  <span style="text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px;">Treatment</span>
+</div>
+
+
+<div class="container" style="margin: 28px auto;">
+  <div class="row text-center" style="font-size: 20px; line-height: 1.6;">
+    <div class="col-md-6">
+      <p style="font-weight: 700; font-size: 1.4rem; margin-bottom: 0.6rem;">
+        While 80% of cancers are thought to be preventable, only about 5% of cancer
+        funding goes toward prevention.
+      </p>
+      <p>
+        By understanding how mutations occur, we are moving science closer to
+        stopping cancer before it starts and spreads.
+      </p>
+    </div>
+    <div class="col-md-6">
+      <p style="font-weight: 700; font-size: 1.4rem; margin-bottom: 0.6rem;">
+        The number of cancer treatments has exploded in recent years, creating a
+        new challenge: ensuring each patient is matched with the right drug(s).
+      </p>
+      <p>
+        By decoding each tumor’s genetic profile, we are informing tailored cancer
+        treatments.
+      </p>
+    </div>
+  </div>
+</div>
+
+
+<div class="container" style="margin-top: 40px; margin-bottom: 24px;">
+  <div class="row">
+
+    <!-- LEFT: Mission -->
+    <div class="col-md-8">
+      <h2 style="font-weight: 400; font-size: 20px;">Our mission</h2>
+      <p>
+        We aim to deliver data-driven precision prevention and precision treatment.<br>
+        Our work broadly focuses on:
+      </p>
+      <ul class="list-unstyled">
+        <li style="margin-bottom: 8px;">
+          <strong>Why mutations occur:</strong> How lifestyle, microbes, the immune system, and DNA three-dimensional structure leave their mark on the genome.
+        </li>
+        <li style="margin-bottom: 8px;">
+          <strong>How this knowledge guides treatment:</strong> Using tumor mutations to predict which therapies will work best.
+        </li>
+        <li>
+          <strong>Building new tools:</strong> Developing computational and experimental approaches with clinicians and physicists to push cancer research forward.
+        </li>
+      </ul>
+      <p><a href="{{ '/research/' | relative_url }}" style="color: #6495ED;">Read more about our research…</a></p>
+    </div>
+
+    <!-- RIGHT: News -->
+    <aside class="col-md-4">
+      <h2 style="font-weight: 400;">Latest news</h2>
+      <div style="max-height: 420px; overflow-y: auto; padding-right: 6px; border-left: 1px solid rgba(0,0,0,.12); padding-left: 20px;">
+        {% assign items = site.data.news | sort: "date" | reverse %}
+        {% if items and items.size > 0 %}
+          {% for n in items %}
+            <div style="border: 1px solid #eee; border-radius: 10px; background: #fff; padding: 10px 12px; margin-bottom: 10px;">
+              <h4 style="font-weight: 700; margin: 0 0 4px;">
+                {% if n.link %}
+                  <a href="{{ n.link }}" target="_blank" style="color: inherit; text-decoration: none;">{{ n.headline }}</a>
+                {% else %}
+                  {{ n.headline }}
+                {% endif %}
+              </h4>
+              <div style="font-size: .9rem; color: #777; margin-bottom: 6px;">{{ n.date | date: "%b %-d, %Y" }}</div>
+              {% if n.body %}<p style="margin: 0; color: #333;">{{ n.body }}</p>{% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <div style="border: 1px solid #eee; border-radius: 10px; background: #fff; padding: 10px 12px;">
+            <h4 style="margin: 0 0 4px;">No news yet</h4>
+            <div style="font-size: .9rem; color: #777;">{{ "now" | date: "%b %-d, %Y" }}</div>
+            <p style="margin: 0;">Check back soon for updates.</p>
+          </div>
+        {% endif %}
+      </div>
+    </aside>
+
+  </div>
+</div>

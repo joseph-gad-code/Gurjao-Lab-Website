@@ -69,7 +69,7 @@ title: Home
     <!-- RIGHT: Latest News -->
     <aside class="col-md-4" style="font-family: 'Nunito'; color: #000000; display: flex; flex-direction: column;">
       <h2 style="font-weight: 400; font-size: 20px;">Latest news</h2>
-      <div style="flex-grow: 1; max-height: 300px; overflow-y: auto; padding-left: 20px;">
+      <div style="flex-grow: 1; max-height: 420px; overflow-y: auto; padding-right: 4px;">
         {% assign items = site.data.news | sort: "date" | reverse %}
         {% if items and items.size > 0 %}
           {% for n in items %}
@@ -104,4 +104,3 @@ title: Home
 
   </div>
 </div>
-

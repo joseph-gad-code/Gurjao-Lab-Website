@@ -12,14 +12,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Nunito:wght@200..1000&display=swap" rel="stylesheet">
 
   <style>
-    /* General nav link styling */
+    /* Base link styling */
     .navbar-nav > li > a {
       color: #666666 !important;
       font-family: 'Nunito', sans-serif;
       font-weight: 600;
       background-color: transparent !important;
-      display: inline-block; /* allows underline to fit text width */
+      display: inline-block;
       position: relative;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+      margin: 0 10px; /* optional spacing between items */
+      line-height: 1.2; /* keeps text tight */
     }
 
     /* Hover effect */
@@ -28,7 +32,7 @@
       background-color: transparent !important;
     }
 
-    /* Active state (current page) */
+    /* Active state */
     .navbar-nav > .active > a,
     .navbar-nav > .active > a:focus,
     .navbar-nav > .active > a:hover {
@@ -36,16 +40,15 @@
       background-color: transparent !important;
     }
 
-    /* Add underline below active link — only under text */
+    /* Underline for active link — exactly under the text */
     .navbar-nav > .active > a::after {
       content: "";
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 2px; /* distance from text */
-      width: 100%; /* exactly matches text width */
+      left: 0;
+      bottom: 0; /* sits flush with text */
+      width: 100%;
       height: 2px;
-      background-color: #0D5295; /* underline color */
+      background-color: #0D5295;
       border-radius: 2px;
     }
   </style>

@@ -1,0 +1,14 @@
+<nav class="navbar navbar-default" style="background-color: #ffffff; border-bottom: 0;">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" style="color: #0D5295; font-weight: 800; font-family: 'Nunito';" href="/">GURJAOLAB</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li class="{% if page.nav == 'home' %}active{% endif %}"><a href="/">Home</a></li>
+      <li class="{% if page.nav == 'research' %}active{% endif %}"><a href="/research/">Research</a></li>
+      <li class="{% if page.nav == 'publications' %}active{% endif %}"><a href="/publications/">Publications</a></li>
+      <li class="{% if page.nav == 'people' %}active{% endif %}"><a href="/people/">People</a></li>
+      <li class="{% if page.nav == 'contact' %}active{% endif %}"><a href="/contact/">Contact</a></li>
+    </ul>
+  </div>
+</nav>

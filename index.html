@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Nunito:wght@200..1000&display=swap" rel="stylesheet">
 
   <style>
+    /* General nav link styling */
     .navbar-nav > li > a {
       color: #666666 !important;
       font-family: 'Nunito', sans-serif;
@@ -21,19 +22,21 @@
       position: relative;
     }
 
+    /* Hover effect */
     .navbar-nav > li > a:hover {
       color: #000000 !important;
       background-color: transparent !important;
     }
 
+    /* Active state (current page) */
     .navbar-nav > .active > a,
     .navbar-nav > .active > a:focus,
     .navbar-nav > .active > a:hover {
       color: #000000 !important;
       background-color: transparent !important;
-      position: relative;
     }
 
+    /* Add underline below active link — only under text */
     .navbar-nav > .active > a::after {
       content: "";
       position: absolute;

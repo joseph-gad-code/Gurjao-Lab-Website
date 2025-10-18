@@ -20,16 +20,34 @@
     *, *:before, *:after { box-sizing: inherit; }
     body { font-family: 'Nunito', sans-serif; color:#000; overflow-x:hidden; line-height:1.5; }
 
-    /* SCALE-TO-FIT: keeps the layout identical, just smaller on narrow viewports */
-    :root { --base-width: 1100px; } /* your design width */
-    .page-scale-outer { width:100vw; overflow-x:hidden; }
+   /* SCALE-TO-FIT (left-aligned): page always fits the viewport width */
+  :root { --base-width: 1100px; }             /* your design width */
+  .page-scale-outer {
+    width: 100vw;
+    overflow-x: hidden;                        /* no horizontal scroll */
+  }
+  .page-scale-frame {
+    width: var(--base-width);
+    /* anchor the scaled page to the LEFT (fixes big left gutter) */
+    transform-origin: top left;
+    /* no margin here so it hugs the left when scaled */
+  }
+
+  /* Below the base width: shrink proportionally (left-aligned) */
+  @media (max-width: 1100px) {
     .page-scale-frame {
-      width: var(--base-width);
-      margin: 0 auto;
-      transform-origin: top center;
-      /* scale = min(1, viewport/base) so it shrinks below base width and stays 1x above */
-      transform: scale(calc(min(100vw, var(--base-width)) / var(--base-width)));
+      transform: scale(calc(100vw / var(--base-width)));
     }
+  }
+
+  /* At/above base width: full size and centered */
+  @media (min-width: 1100px) {
+    .page-scale-frame {
+      transform: none;
+      margin: 0 auto;                          /* center only when not scaled */
+    }
+  }
+
 
     /* Basic utilities the page already uses */
     img, video, svg, canvas { max-width:100%; height:auto; }

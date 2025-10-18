@@ -1,10 +1,23 @@
-<nav class="navbar navbar-default">
-  <div class="container-fluid" style="display:flex;align-items:center;justify-content:space-between;padding:0 15px;">
-    <!-- Brand (left) -->
-    <a class="navbar-brand" href="{{ '/' | relative_url }}">GURJAOLAB</a>
+<nav class="navbar navbar-default" style="background:#ffffff;border-bottom:0;margin-bottom:0;">
+  <!-- WIDTH RAIL: same width & padding as the hero/content -->
+  <div style="
+        width: var(--base-width);       /* same base as the page */
+        max-width: 1100px;              /* matches your content cap */
+        margin: 0 auto;                 /* center when not scaled */
+        padding: 0 15px;                /* same side padding as content */
+        display:flex; align-items:center; justify-content:space-between;">
 
-    <!-- Links pinned RIGHT (no collapse, no floats) -->
-    <ul class="nav navbar-nav" style="float:none !important; display:flex; margin:0; padding:0; gap:0; white-space:nowrap; overflow:hidden;">
+    <!-- Brand (left edge of rail) -->
+    <a class="navbar-brand"
+       href="{{ '/' | relative_url }}"
+       style="color:#0D5295 !important;font-weight:800;font-family:'Nunito';
+              font-size: clamp(24px, 2.6vw, 30px); line-height:1; padding:16px 0;">
+      GURJAOLAB
+    </a>
+
+    <!-- Links (pinned to right edge of rail) -->
+    <ul class="nav navbar-nav"
+        style="float:none !important; display:flex; margin:0; padding:0; gap:0;">
       <li {% if page.url == '/' %}class="active"{% endif %}><a href="{{ '/' | relative_url }}">Home</a></li>
       <li {% if page.url contains '/research/' %}class="active"{% endif %}><a href="{{ '/research/' | relative_url }}">Research</a></li>
       <li {% if page.url contains '/publications/' %}class="active"{% endif %}><a href="{{ '/publications/' | relative_url }}">Publications</a></li>
@@ -13,3 +26,5 @@
     </ul>
   </div>
 </nav>
+
+<!-- keep your existing underline/hover styles -->

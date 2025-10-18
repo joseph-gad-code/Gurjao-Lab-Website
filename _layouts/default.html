@@ -118,10 +118,7 @@
 
   <!-- Wrap page content so we can scope responsive helpers -->
   <div class="container-narrow content-wrap">
-    <!-- If you output wide tables, optionally wrap them like:
-         <div class="table-responsive-wrap"> {{ content }} </div>
-         Otherwise leave as-is: -->
-    {{ content }}
+    <div class="table-responsive-wrap"> {{ content }} </div>
   </div>
 
   {% include footer.html %}

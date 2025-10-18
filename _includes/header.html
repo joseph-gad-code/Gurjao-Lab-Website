@@ -43,9 +43,30 @@
 
 <!-- underline/hover (inline) -->
 <style>
-  .navbar-nav > li > a:hover { color:#000 !important;background:transparent !important; }
+  /* base link look */
+  .navbar-nav > li > a {
+    color:#666 !important;
+    background:transparent !important;
+    text-decoration:none !important;
+    transition: color .15s ease;
+  }
+
+  /* hover: just turn black */
+  .navbar-nav > li > a:hover,
+  .navbar-nav > li > a:focus {
+    color:#000 !important;
+    text-decoration:none !important;
+    background:transparent !important;
+  }
+
+  /* active page: black + underline */
   .navbar-nav > .active > a,
   .navbar-nav > .active > a:focus,
-  .navbar-nav > .active > a:hover { color:#000 !important;background:transparent !important; }
-  .navbar-nav > .active > a::after { content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:#000; }
+  .navbar-nav > .active > a:hover {
+    color:#000 !important;
+    background:transparent !important;
+    text-decoration: underline !important;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+  }
 </style>

@@ -6,121 +6,112 @@ permalink: /people/
 
 <style>
 .people-page {
-  margin: 160px auto;
-  max-width: 1100px;
   font-family: 'Nunito', sans-serif;
-  color: #000;
-  padding: 0 20px;
-}
-
-.page-title {
-  font-size: 2rem;
-  color: #0D5295;
+  padding: 100px 20px;
   text-align: center;
-  margin-bottom: 60px;
+  color: #000;
 }
 
-/* === PEOPLE GRID === */
+/* Page title */
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 50px;
+  text-transform: uppercase;
+  color: #0D5295;
+}
+
+/* Grid layout */
 .people-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-  gap: 60px;
-  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 40px;
+  justify-items: center;
   align-items: start;
 }
 
-/* === PERSON CARD === */
+/* Card */
 .person-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  padding: 30px 20px;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #fff;
-  border-radius: 16px;
-  padding: 24px 18px 32px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.06);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  text-align: center;
 }
 
 .person-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
 }
 
-/* === PHOTO === */
+/* Image */
 .person-photo-wrap {
-  width: 220px;
-  height: 220px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
   overflow: hidden;
+  margin-bottom: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f5f5f5;
-  margin-bottom: 20px;
 }
 
 .person-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: rotate(90deg); /* maintains your rotation */
 }
 
-.person-photo.placeholder {
-  font-size: 14px;
-  color: #666;
-  background: #ddd;
-}
-
-/* === TEXT ELEMENTS === */
+/* Metadata */
 .person-name {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 700;
   margin-bottom: 6px;
 }
 
 .person-status {
+  font-size: 15px;
   color: #0D5295;
-  font-weight: 500;
   margin-bottom: 10px;
 }
 
 .person-bio {
-  font-size: 0.95rem;
-  line-height: 1.6;
+  font-size: 15px;
   color: #333;
-  margin-bottom: 10px;
-  max-width: 90%;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  text-align: center;
 }
 
-/* === READ MORE LINK === */
-.person-readmore {
-  font-size: 0.9rem;
+/* Read more link */
+.read-more {
+  font-size: 14px;
   font-weight: 600;
   color: #0D5295;
   text-decoration: none;
-  display: inline-block;
-  margin-bottom: 16px;
-  transition: color 0.2s ease;
+  margin-top: 5px;
 }
 
-.person-readmore:hover {
-  color: #003366;
+.read-more:hover {
   text-decoration: underline;
 }
 
-/* === SOCIAL ICONS === */
+/* Social icons */
 .person-social {
   display: flex;
+  gap: 14px;
   justify-content: center;
-  gap: 16px;
+  margin-top: 12px;
 }
 
 .person-social .icon {
-  width: 22px;
-  height: 22px;
-  opacity: 0.8;
+  width: 24px;
+  height: 24px;
+  opacity: 0.85;
   transition: opacity 0.2s ease;
 }
 
@@ -128,58 +119,52 @@ permalink: /people/
   opacity: 1;
 }
 
-/* === CORE VALUES SECTION === */
+/* Core values */
 .values-section {
-  margin: 140px auto 100px;
-  max-width: 1100px;
-  font-family: 'Nunito', sans-serif;
-  color: #000;
-  padding: 0 20px;
+  margin-top: 100px;
+  text-align: center;
 }
 
 .values-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 60px;
-  justify-content: space-between;
-  align-items: stretch;
-  margin-top: 60px;
+  gap: 40px;
+  justify-content: center;
 }
 
 .value-col {
-  flex: 1 1 45%;
-  background: #f9f9f9;
-  border-radius: 16px;
-  padding: 32px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  flex: 1 1 400px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: left;
 }
 
 .value-col h3 {
   color: #0D5295;
-  font-weight: 600;
-  margin-bottom: 12px;
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 
 .value-col p {
+  font-size: 15px;
   color: #333;
-  font-size: 0.95rem;
-  line-height: 1.7;
-  margin: 0;
+  line-height: 1.6;
 }
 
-/* === RESPONSIVE ADJUSTMENTS === */
-@media (max-width: 800px) {
-  .people-list {
-    gap: 40px;
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 24px;
   }
-  .value-col {
-    flex: 1 1 100%;
+  .person-card {
+    padding: 25px 15px;
   }
 }
 </style>
 
 <section class="people-page">
-  <h1 class="page-title">Team members</h1>
+  <h1 class="page-title">Team Members</h1>
 
   {% assign folks = site.data.people | default: empty %}
   <div class="people-list">
@@ -195,14 +180,19 @@ permalink: /people/
 
       <div class="person-meta">
         <h3 class="person-name">{{ p.name }}</h3>
-        {% if p.status %}<div class="person-status">{{ p.status }}</div>{% endif %}
-        {% if p.bio %}<p class="person-bio">{{ p.bio }}</p>{% endif %}
+        {% if p.status %}
+          <div class="person-status">{{ p.status }}</div>
+        {% endif %}
+        {% if p.bio %}
+          <p class="person-bio">{{ p.bio }}</p>
+        {% endif %}
+
         {% if p.read_more %}
-          <a class="person-readmore" href="{{ p.read_more | relative_url }}">Read more...</a>
+          <a class="read-more" href="{{ p.read_more | relative_url }}">Read more...</a>
         {% endif %}
 
         {% if p.github or p.scholar or p.linkedin %}
-        <div class="person-social" aria-label="Profile links">
+        <div class="person-social">
           {% if p.github %}
             <a href="{{ p.github }}" target="_blank" rel="noopener">
               <img class="icon" src="{{ '/assets/images/people/github.svg' | relative_url }}" alt="GitHub">
@@ -227,10 +217,10 @@ permalink: /people/
 </section>
 
 <section class="values-section">
-  <h1 class="page-title">Core values</h1>
+  <h1 class="page-title">Core Values</h1>
   <div class="values-grid">
     <div class="value-col">
-      <h3>Lab community</h3>
+      <h3>Lab Community</h3>
       <p>
         The Gurjao Lab aims to be a vibrant home for curiosity and collaboration.
         Our members come from diverse backgrounds, bringing together expertise
@@ -241,7 +231,7 @@ permalink: /people/
       </p>
     </div>
     <div class="value-col">
-      <h3>DEI commitment</h3>
+      <h3>DEI Commitment</h3>
       <p>
         We celebrate diversity as a source of strength and innovation in our work.
         We are committed to an inclusive, equitable, and welcoming environment

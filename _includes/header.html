@@ -43,29 +43,43 @@
 
 <!-- underline/hover (inline) -->
 <style>
-  /* default: non-active links are grey */
-  .navbar-nav > li:not(.active) > a {
-    color: #777 !important;                /* grey when idle */
-    background: transparent !important;
+  /* Base link styling */
+  .navbar-nav > li > a {
+    color: #666666 !important;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 600;
+    background-color: transparent !important;
+    display: inline-block;
+    position: relative;
+    margin: 0 10px;
+    line-height: 1.2;
+    padding: 10px 0 2px 0;
     text-decoration: none !important;
-    transition: color .15s ease;
   }
 
-  /* hover: turn black (still no underline) */
-  .navbar-nav > li:not(.active) > a:hover,
-  .navbar-nav > li:not(.active) > a:focus {
-    color: #000 !important;
+  /* Hover effect */
+  .navbar-nav > li > a:hover {
+    color: #000000 !important;
+    background-color: transparent !important;
     text-decoration: none !important;
   }
 
-  /* active page: black + underline (and stays black on hover/focus) */
+  /* Active link */
   .navbar-nav > .active > a,
-  .navbar-nav > .active > a:hover,
-  .navbar-nav > .active > a:focus {
-    color: #000 !important;
-    background: transparent !important;
-    text-decoration: underline !important;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 6px;
+  .navbar-nav > .active > a:focus,
+  .navbar-nav > .active > a:hover {
+    color: #000000 !important;
+    background-color: transparent !important;
+  }
+
+  /* Underline directly under active text */
+  .navbar-nav > .active > a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #000000;
   }
 </style>

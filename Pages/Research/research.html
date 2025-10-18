@@ -5,169 +5,110 @@ permalink: /research/
 nav: research
 ---
 
-<style>
-.research-section {
-  margin: 160px auto;
-  font-family: 'Nunito';
-  color: #000;
-  max-width: 1100px;
-}
-
-/* Main layout */
-.research-flex {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch; /* Keeps image and text heights matched */
-  justify-content: space-between;
-  gap: 80px;
-}
-
-/* Text block */
-.research-text {
-  flex: 1 1 500px;
-  max-width: 520px;
-  min-width: 300px;
-}
-
-/* Image container */
-.research-image {
-  flex: 1 1 400px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Image styling */
-.research-image img {
-  width: 100%;
-  height: 100%;
-  max-width: 400px;
-  object-fit: contain;
-  transform-origin: center center;
-  transition: transform 0.3s ease-in-out;
-}
-
-/* Rotations for desktop */
-.research-image.rotate-right img {
-  transform: rotate(90deg);
-}
-.research-image.rotate-left img {
-  transform: rotate(-90deg);
-}
-
-/* List styles */
-.research-text ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-.research-text li {
-  margin-bottom: 8px;
-  position: relative;
-  padding-left: 28px;
-}
-.research-text li span {
-  position: absolute;
-  left: 0;
-  top: 0.75em;
-  width: 16px;
-  height: 2px;
-  background-color: #000;
-}
-
-/* Headings */
-.research-text h2 {
-  font-weight: 400;
-  font-size: 20px;
-  margin-bottom: 16px;
-}
-
-/* Responsive behavior */
-@media (max-width: 900px) {
-  .research-flex {
-    flex-direction: column;
-    gap: 40px;
-  }
-  .research-image img {
-    max-width: 100%;
-    height: auto;
-    transform: none !important; /* Remove rotation on mobile */
-  }
-}
-</style>
-
 <!-- SECTION 1: What causes cancer mutations -->
-<div class="research-section">
-  <div class="research-flex">
+<div style="margin: 100px auto; font-family: 'Nunito'; color: #000000; max-width: 1100px;">
+  <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 60px;">
 
-    <div class="research-text">
-      <h2>What causes cancer mutations?</h2>
+    <!-- TEXT -->
+    <div style="flex: 1 1 500px; max-width: 520px; min-width: 300px;">
+      <h2 style="font-weight: 400; font-size: 20px; margin-bottom: 16px;">What causes cancer mutations?</h2>
       <p>Every person’s tumour tells a story—our lifestyle habits, our microbes, even our immune system shape the tumour’s DNA and can leave marks. We aim to discover and study such marks to understand how cancer develops.</p>
 
       <p><em>Our discoveries so far:</em></p>
-      <ul>
-        <li><span></span>Discovered a mutational pattern linked to dietary habits, in particular red meat intake.</li>
-        <li><span></span>Identified a subpopulation that is particularly susceptible to DNA damage from such habits.</li>
-        <li><span></span>Assessed the long-term effects of smoking on the colorectal cancer genomes.</li>
+      <ul style="margin: 0; padding: 0; list-style: none;">
+        <li style="margin-bottom: 8px; position: relative; padding-left: 28px;">
+          <span style="position: absolute; left: 0; top: 0.75em; width: 16px; height: 2px; background-color: #000;"></span>
+          Discovered a mutational pattern linked to dietary habits, in particular red meat intake.
+        </li>
+        <li style="margin-bottom: 8px; position: relative; padding-left: 28px;">
+          <span style="position: absolute; left: 0; top: 0.75em; width: 16px; height: 2px; background-color: #000;"></span>
+          Identified a subpopulation that is particularly susceptible to DNA damage from such habits.
+        </li>
+        <li style="margin-bottom: 8px; position: relative; padding-left: 28px;">
+          <span style="position: absolute; left: 0; top: 0.75em; width: 16px; height: 2px; background-color: #000;"></span>
+          Assessed the long-term effects of smoking on the colorectal cancer genomes.
+        </li>
       </ul>
 
       <p style="margin-top: 12px;">In collaborations, we also assessed how alcohol and certain bacterial strains leave mutational marks.</p>
     </div>
 
-    <div class="research-image rotate-right">
-      <img src="{{ '/Pages/Research/Images/causes.svg' | relative_url }}"
-           alt="Factors shaping the mutational landscape">
+    <!-- IMAGE -->
+    <div style="flex: 1 1 400px; display: flex; justify-content: center; align-items: center;">
+      <img src="{{ '/assets/images/research/causes.svg' | relative_url }}"
+           alt="Factors shaping the mutational landscape"
+           style="max-height: 380px; width: auto; transform: rotate(90deg); object-fit: contain;">
     </div>
-
   </div>
 </div>
 
-<!-- SECTION 2: How tumor mutations guide treatment -->
-<div class="research-section">
-  <div class="research-flex" style="flex-direction: row-reverse;">
 
-    <div class="research-text">
-      <h2>How can tumor mutations guide treatment?</h2>
+<!-- SECTION 2: How tumor mutations guide treatment -->
+<div style="margin: 100px auto; font-family: 'Nunito'; color: #000000; max-width: 1100px;">
+  <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 60px; flex-direction: row-reverse;">
+
+    <!-- TEXT -->
+    <div style="flex: 1 1 500px; max-width: 520px; min-width: 300px;">
+      <h2 style="font-weight: 400; font-size: 20px; margin-bottom: 16px;">How can tumor mutations guide treatment?</h2>
       <p>Cancer immunotherapies are transforming treatment, yet not all patients respond the same way. Studying the mutational landscape of tumors can inform the best course of treatment and predict aggressiveness.</p>
 
       <p><em>Our discoveries so far:</em></p>
-      <ul>
-        <li><span></span>Resistance to immunotherapy: identified intrinsic resistance to immune checkpoint blockade in mismatch repair–deficient colorectal cancer.</li>
-        <li><span></span>Hidden cancers: clinically and genomically characterized interval colorectal cancers across three prospective cohorts.</li>
-        <li><span></span>Germline predisposition to oncogenic alkylating damage in colorectal cancer.</li>
+      <ul style="margin: 0; padding: 0; list-style: none;">
+        <li style="margin-bottom: 8px; position: relative; padding-left: 28px;">
+          <span style="position: absolute; left: 0; top: 0.75em; width: 16px; height: 2px; background-color: #000;"></span>
+          Resistance to immunotherapy: identified intrinsic resistance to immune checkpoint blockade in mismatch repair–deficient colorectal cancer.
+        </li>
+        <li style="margin-bottom: 8px; position: relative; padding-left: 28px;">
+          <span style="position: absolute; left: 0; top: 0.75em; width: 16px; height: 2px; background-color: #000;"></span>
+          Hidden cancers: clinically and genomically characterized interval colorectal cancers across three prospective cohorts.
+        </li>
+        <li style="margin-bottom: 8px; position: relative; padding-left: 28px;">
+          <span style="position: absolute; left: 0; top: 0.75em; width: 16px; height: 2px; background-color: #000;"></span>
+          Germline predisposition to oncogenic alkylating damage in colorectal cancer.
+        </li>
       </ul>
 
       <p style="margin-top: 12px;">We have also contributed to studies on how tumor cells change after treatment, and how specific genetic contexts influence sensitivity to therapy.</p>
     </div>
 
-    <div class="research-image rotate-left">
-      <img src="{{ '/Pages/Research/Images/treatment.svg' | relative_url }}"
-           alt="Mutational landscape informing aggressiveness, responders, and drug synergies">
+    <!-- IMAGE -->
+    <div style="flex: 1 1 400px; display: flex; justify-content: center; align-items: center;">
+      <img src="{{ '/assets/images/research/treatment.svg' | relative_url }}"
+           alt="Mutational landscape informing aggressiveness, responders, and drug synergies"
+           style="max-height: 380px; width: auto; transform: rotate(-90deg); object-fit: contain;">
     </div>
-
   </div>
 </div>
 
-<!-- SECTION 3: Novel methods -->
-<div class="research-section">
-  <div class="research-flex">
 
-    <div class="research-text">
-      <h2>Novel experimental and computational methods</h2>
+<!-- SECTION 3: Novel methods -->
+<div style="margin: 100px auto; font-family: 'Nunito'; color: #000000; max-width: 1100px;">
+  <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 60px;">
+
+    <!-- TEXT -->
+    <div style="flex: 1 1 500px; max-width: 520px; min-width: 300px;">
+      <h2 style="font-weight: 400; font-size: 20px; margin-bottom: 16px;">Novel experimental and computational methods</h2>
       <p>We work closely with clinicians and physicists to push the boundaries of how cancer is studied. Together, we are developing new approaches to:</p>
 
-      <ul>
-        <li><span></span>Map the spatial architecture of tumors—understanding how cancer cells interact with their surroundings within tissues; to do so, we engineer tools.</li>
-        <li><span></span>Reveal hidden microbial signals in tumor data—creating better ways to detect and analyze microbes that may influence cancer development.</li>
+      <ul style="margin: 0; padding: 0; list-style: none;">
+        <li style="margin-bottom: 8px; position: relative; padding-left: 28px;">
+          <span style="position: absolute; left: 0; top: 0.75em; width: 16px; height: 2px; background-color: #000;"></span>
+          Map the spatial architecture of tumors—understanding how cancer cells interact with their surroundings within tissues; to do so, we engineer tools.
+        </li>
+        <li style="margin-bottom: 8px; position: relative; padding-left: 28px;">
+          <span style="position: absolute; left: 0; top: 0.75em; width: 16px; height: 2px; background-color: #000;"></span>
+          Reveal hidden microbial signals in tumor data—creating better ways to detect and analyze microbes that may influence cancer development.
+        </li>
       </ul>
 
       <p style="margin-top: 12px;">These tools help answer fundamental questions about cancer biology and provide the community with new methods to accelerate discovery.</p>
     </div>
 
-    <div class="research-image rotate-right">
-      <img src="{{ '/Pages/Research/Images/methods.svg' | relative_url }}"
-           alt="Schematic of genome architecture, microbiota, lifestyle and immune system alongside mutational landscape">
+    <!-- IMAGE -->
+    <div style="flex: 1 1 400px; display: flex; justify-content: center; align-items: center;">
+      <img src="{{ '/assets/images/research/methods.svg' | relative_url }}"
+           alt="Schematic of genome architecture, microbiota, lifestyle and immune system alongside mutational landscape"
+           style="max-height: 380px; width: auto; transform: rotate(90deg); object-fit: contain;">
     </div>
-
   </div>
 </div>

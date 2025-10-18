@@ -1,30 +1,56 @@
-<nav class="navbar navbar-default" style="background-color: #ffffff; border-bottom: 0;">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="{{ '/' | relative_url }}"
-         style="color: #0D5295; font-weight: 800; font-family: 'Nunito';">
-         GURJAOLAB
+<header style="font-family: 'Nunito';">
+  <nav style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; flex-wrap: wrap; background-color: #fff; border-bottom: 1px solid #ddd;">
+    
+    <!-- Logo / Title -->
+    <a href="{{ '/' | relative_url }}" style="text-decoration: none; color: #000; font-weight: 600; font-size: 20px;">
+      {{ site.title }}
+    </a>
+
+    <!-- Mobile Menu Toggle -->
+    <button id="menu-toggle"
+      style="background: none; border: none; font-size: 28px; cursor: pointer; display: none;">
+      ☰
+    </button>
+
+    <!-- Navigation Links -->
+    <div id="menu" style="display: flex; gap: 30px; align-items: center; flex-wrap: wrap;">
+      {% assign nav_items = site.pages | where_exp: "p", "p.nav" %}
+      {% for p in nav_items %}
+      <a href="{{ p.url | relative_url }}"
+         style="color: #000; text-decoration: none; position: relative; padding-bottom: 3px; font-size: 16px; {% if page.nav == p.nav %}border-bottom: 2px solid #6495ED;{% endif %}">
+        {{ p.title }}
       </a>
+      {% endfor %}
     </div>
-    <ul class="nav navbar-nav navbar-right" style="font-family: 'Nunito'; font-weight: 600;">
-      <li {% if page.url == '/' %}class="active"{% endif %}>
-        <a href="{{ '/' | relative_url }}">Home</a>
-      </li>
-      <li {% if page.url contains '/research/' %}class="active"{% endif %}>
-        <a href="{{ '/research/' | relative_url }}">Research</a>
-      </li>
-      <li {% if page.url contains '/publications/' %}class="active"{% endif %}>
-        <a href="{{ '/publications/' | relative_url }}">Publications</a>
-      </li>
-      <li {% if page.url contains '/people/' %}class="active"{% endif %}>
-        <a href="{{ '/people/' | relative_url }}">People</a>
-      </li>
-      <li {% if page.url contains '/contact/' %}class="active"{% endif %}>
-        <a href="{{ '/contact/' | relative_url }}">Contact</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+  </nav>
+
+  <!-- Inline mobile styling -->
+  <script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('menu');
+
+  function handleResize() {
+    if (window.innerWidth <= 768) {
+      toggle.style.display = 'block';
+      menu.style.display = 'none';
+    } else {
+      toggle.style.display = 'none';
+      menu.style.display = 'flex';
+    }
+  }
+
+  toggle.addEventListener('click', () => {
+    menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+    menu.style.flexDirection = 'column';
+    menu.style.width = '100%';
+    menu.style.gap = '16px';
+    menu.style.marginTop = '10px';
+  });
+
+  window.addEventListener('resize', handleResize);
+  handleResize();
+  </script>
+</header>
 
 <style>
   /* Base link styling */

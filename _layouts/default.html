@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- Keep this for proper mobile scaling -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>GURJAOLAB | {{ page.title }}</title>
@@ -24,11 +23,12 @@
     body {
       font-family: 'Nunito', sans-serif;
       color: #000;
-      overflow-x: hidden; /* prevent sideways scroll on small screens */
+      overflow-x: hidden;
       font-size: clamp(15px, 1.8vw, 17px);
       line-height: 1.5;
     }
 
+    /* Make all media responsive by default */
     img, video, svg, canvas { max-width: 100%; height: auto; }
     iframe { max-width: 100%; }
 
@@ -40,8 +40,8 @@
     /* Container: fluid width with a responsive cap */
     .container-narrow {
       width: 100%;
-      max-width: 1100px;          /* desktop cap */
-      margin: clamp(24px, 6vw, 60px) auto; /* fluid vertical rhythm */
+      max-width: 1100px;
+      margin: clamp(24px, 6vw, 60px) auto;
       padding-left: 15px;
       padding-right: 15px;
     }
@@ -63,7 +63,6 @@
       position: relative;
       font-size: clamp(14px, 2.8vw, 16px);
     }
-    /* Underline indicator for active link */
     .navbar-nav > .active > a::after,
     .navbar-nav > li > a:focus::after,
     .navbar-nav > li > a:hover::after {
@@ -90,19 +89,17 @@
     .content-wrap h2 { font-size: clamp(22px, 4.6vw, 28px); line-height: 1.2; }
     .content-wrap h3 { font-size: clamp(18px, 3.8vw, 22px); line-height: 1.25; }
 
-    /* Very small screens: ease spacing & make nav full-width */
+    /* Keep behavior consistent; no forced stacking from the layout */
     @media (max-width: 767.98px) {
       .navbar-nav > li > a { padding: 12px 15px; }
-      .navbar-collapse { max-height: 75vh; } /* safer dropdown on small phones */
+      .navbar-collapse { max-height: 75vh; }
       .navbar-nav > .active > a::after { left: 0; right: 0; }
     }
 
-    /* Large screens: slightly widen the readable width if desired */
     @media (min-width: 1400px) {
       .container-narrow { max-width: 1200px; }
     }
 
-    /* Respect reduced motion */
     @media (prefers-reduced-motion: reduce) {
       * { animation: none !important; transition: none !important; }
     }
@@ -116,9 +113,12 @@
 <body>
   {% include header.html %}
 
-  <!-- Wrap page content so we can scope responsive helpers -->
   <div class="container-narrow content-wrap">
-    <div class="table-responsive-wrap"> {{ content }} </div>
+    {% comment %}
+    If you output wide tables, you can wrap the page content manually where needed:
+      <div class="table-responsive-wrap"> ...table... </div>
+    {% endcomment %}
+    {{ content }}
   </div>
 
   {% include footer.html %}

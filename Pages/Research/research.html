@@ -12,10 +12,12 @@ nav: research
   color: #000;
   max-width: 1100px;
 }
+
+/* Main layout */
 .research-flex {
   display: flex;
   flex-wrap: wrap;
-  align-items: stretch; /* Ensures image section matches text height */
+  align-items: stretch; /* Keeps image and text heights matched */
   justify-content: space-between;
   gap: 80px;
 }
@@ -27,7 +29,7 @@ nav: research
   min-width: 300px;
 }
 
-/* Image block */
+/* Image container */
 .research-image {
   flex: 1 1 400px;
   display: flex;
@@ -35,16 +37,25 @@ nav: research
   align-items: center;
 }
 
-/* Image fits completely and scales responsively */
+/* Image styling */
 .research-image img {
   width: 100%;
   height: 100%;
   max-width: 400px;
   object-fit: contain;
   transform-origin: center center;
+  transition: transform 0.3s ease-in-out;
 }
 
-/* Lists */
+/* Rotations for desktop */
+.research-image.rotate-right img {
+  transform: rotate(90deg);
+}
+.research-image.rotate-left img {
+  transform: rotate(-90deg);
+}
+
+/* List styles */
 .research-text ul {
   margin: 0;
   padding: 0;
@@ -71,7 +82,7 @@ nav: research
   margin-bottom: 16px;
 }
 
-/* Responsive: stack vertically */
+/* Responsive behavior */
 @media (max-width: 900px) {
   .research-flex {
     flex-direction: column;
@@ -80,6 +91,7 @@ nav: research
   .research-image img {
     max-width: 100%;
     height: auto;
+    transform: none !important; /* Remove rotation on mobile */
   }
 }
 </style>
@@ -102,10 +114,9 @@ nav: research
       <p style="margin-top: 12px;">In collaborations, we also assessed how alcohol and certain bacterial strains leave mutational marks.</p>
     </div>
 
-    <div class="research-image">
+    <div class="research-image rotate-right">
       <img src="{{ '/Pages/Research/Images/causes.svg' | relative_url }}"
-           alt="Factors shaping the mutational landscape"
-           style="transform: rotate(90deg);">
+           alt="Factors shaping the mutational landscape">
     </div>
 
   </div>
@@ -129,10 +140,9 @@ nav: research
       <p style="margin-top: 12px;">We have also contributed to studies on how tumor cells change after treatment, and how specific genetic contexts influence sensitivity to therapy.</p>
     </div>
 
-    <div class="research-image">
+    <div class="research-image rotate-left">
       <img src="{{ '/Pages/Research/Images/treatment.svg' | relative_url }}"
-           alt="Mutational landscape informing aggressiveness, responders, and drug synergies"
-           style="transform: rotate(-90deg);">
+           alt="Mutational landscape informing aggressiveness, responders, and drug synergies">
     </div>
 
   </div>
@@ -154,10 +164,9 @@ nav: research
       <p style="margin-top: 12px;">These tools help answer fundamental questions about cancer biology and provide the community with new methods to accelerate discovery.</p>
     </div>
 
-    <div class="research-image">
+    <div class="research-image rotate-right">
       <img src="{{ '/Pages/Research/Images/methods.svg' | relative_url }}"
-           alt="Schematic of genome architecture, microbiota, lifestyle and immune system alongside mutational landscape"
-           style="transform: rotate(90deg);">
+           alt="Schematic of genome architecture, microbiota, lifestyle and immune system alongside mutational landscape">
     </div>
 
   </div>

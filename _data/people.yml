@@ -9,6 +9,7 @@
   github:
   scholar: https://scholar.google.com/citations?user=m3rLfS4AAAAJ&hl=en
   linkedin: https://www.linkedin.com/in/carinodg/
+  read_more: /Pages/People/Profiles/carino-gurjao.html
 
 - name: Valentin Boero-Teyssier
   status: Graduate Student
@@ -21,6 +22,7 @@
   github:
   scholar:
   linkedin: https://www.linkedin.com/in/valentin-boero-teyssier-88aab7294/
+  read_more: /Pages/People/Profiles/valentin-boero-teyssier.html
 
 - name: Emile Hooper
   status: Graduate Student
@@ -32,6 +34,7 @@
   github:
   scholar:
   linkedin:
+  read_more:
 
 - name: Joseph Gad
   status: Undergraduate Student
@@ -44,3 +47,4 @@
   github: https://github.com/joseph-gad-code
   scholar:
   linkedin: https://www.linkedin.com/in/joseph-gad-739535271
+  read_more: /Pages/People/Profiles/joseph-gad.html

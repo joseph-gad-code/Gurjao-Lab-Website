@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Keep this for proper mobile scaling -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>GURJAOLAB | {{ page.title }}</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{{ '/Images/favicon.svg' | relative_url }}">
+  <link rel="alternate icon" type="image/x-icon" href="{{ '/Images/favicon.ico' | relative_url }}">
+
+  <!-- Fonts & Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+
+  <style>
+    /* Base */
+    html { box-sizing: border-box; }
+    *, *:before, *:after { box-sizing: inherit; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      color: #000;
+      overflow-x: hidden; /* prevent sideways scroll on small screens */
+      font-size: clamp(15px, 1.8vw, 17px);
+      line-height: 1.5;
+    }
+
+    /* Make all media in {{ content }} responsive by default */
+    img, video, svg, canvas { max-width: 100%; height: auto; }
+    iframe { max-width: 100%; }
+
+    /* Tables: allow horizontal scroll on phones */
+    .content-wrap table { width: 100%; }
+    .table-responsive-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .table-responsive-wrap > table { margin-bottom: 0; }
+
+    /* Container: fluid width with a responsive cap */
+    .container-narrow {
+      width: 100%;
+      max-width: 1100px;          /* desktop cap */
+      margin: clamp(24px, 6vw, 60px) auto; /* fluid vertical rhythm */
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    /* Navbar polish for mobile */
+    .navbar { border: none; border-radius: 0; margin-bottom: 0; }
+    .navbar-brand {
+      font-weight: 700;
+      color: #000 !important;
+      font-size: clamp(18px, 4vw, 20px);
+      padding: 16px 15px;
+    }
+    .navbar-toggle { padding: 10px 10px; margin: 8px 15px; }
+    .icon-bar { background-color: #000; }
+
+    .navbar-nav > li > a {
+      color: #000 !important;
+      padding: 14px 18px;
+      position: relative;
+      font-size: clamp(14px, 2.8vw, 16px);
+    }
+    /* Underline indicator for active link */
+    .navbar-nav > .active > a::after,
+    .navbar-nav > li > a:focus::after,
+    .navbar-nav > li > a:hover::after {
+      content: "";
+      display: block;
+      height: 2px;
+      background: #000;
+      position: absolute;
+      left: 12px; right: 12px; bottom: 6px;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: clamp(32px, 6vw, 60px);
+      padding: clamp(24px, 4vw, 40px) 0;
+      text-align: center;
+      font-size: clamp(13px, 1.6vw, 14px);
+      color: #555;
+      border-top: 1px solid #eee;
+    }
+
+    /* Content headings scale fluidly */
+    .content-wrap h1 { font-size: clamp(26px, 5.5vw, 34px); line-height: 1.15; }
+    .content-wrap h2 { font-size: clamp(22px, 4.6vw, 28px); line-height: 1.2; }
+    .content-wrap h3 { font-size: clamp(18px, 3.8vw, 22px); line-height: 1.25; }
+
+    /* Very small screens: ease spacing & make nav full-width */
+    @media (max-width: 767.98px) {
+      .navbar-nav > li > a { padding: 12px 15px; }
+      .navbar-collapse { max-height: 75vh; } /* safer dropdown on small phones */
+      .navbar-nav > .active > a::after { left: 0; right: 0; }
+    }
+
+    /* Large screens: slightly widen the readable width if desired */
+    @media (min-width: 1400px) {
+      .container-narrow { max-width: 1200px; }
+    }
+
+    /* Respect reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+  </style>
+
+  <!-- Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  {% include header.html %}
+
+  <!-- Wrap page content so we can scope responsive helpers -->
+  <div class="container-narrow content-wrap">
+    <!-- If you output wide tables, optionally wrap them like:
+         <div class="table-responsive-wrap"> {{ content }} </div>
+         Otherwise leave as-is: -->
+    {{ content }}
+  </div>
+
+  {% include footer.html %}
+</body>
+</html>

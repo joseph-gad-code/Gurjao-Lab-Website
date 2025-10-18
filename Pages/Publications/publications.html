@@ -20,74 +20,80 @@ lab_names:
 <div class="container my-5">
 
   <!-- Selected Publications -->
-  <h1 class="mb-4 fw-normal">Selected publications</h1>
+  <h1 class="fw-normal mb-4">Selected publications</h1>
   {% assign selected = site.data.publications | where: "selected_publication", true %}
   {% if selected and selected.size > 0 %}
-    <div class="row row-cols-1 row-cols-md-2 g-4 mb-5">
-      {% for p in selected %}
-        {% assign raw_j = p.journal_clean | default: p.journal | default: "" | strip %}
-        {% assign basic = raw_j | split:"(" | first | split: "," | first | strip %}
-        {% assign toks  = basic | split:" " %}
-        {% assign last_tok = toks | last | replace:".","" | replace:",","" | strip %}
-        {% assign last_is_number = "no" %}
-        {% for d in (0..9) %}
-          {% if last_tok contains d %}
-            {% assign last_is_number = "yes" %}
-          {% endif %}
+  <div class="row row-cols-1 row-cols-md-2 g-4 mb-5">
+    {% for p in selected %}
+      {% assign raw_j = p.journal_clean | default: p.journal | default: "" | strip %}
+      {% assign basic = raw_j | split:"(" | first | split: "," | first | strip %}
+      {% assign toks  = basic | split:" " %}
+      {% assign last_tok = toks | last | replace:".","" | replace:",","" | strip %}
+      {% assign last_is_number = "no" %}
+      {% for d in (0..9) %}
+        {% if last_tok contains d %}
+          {% assign last_is_number = "yes" %}
+        {% endif %}
+      {% endfor %}
+      {% capture journal_clean %}
+        {% for t in toks %}
+          {% if forloop.last and last_is_number == "yes" %}{% break %}{% endif %}{{ t }}{% unless forloop.last %} {% endunless %}
         {% endfor %}
-        {% capture journal_clean %}
-          {% for t in toks %}
-            {% if forloop.last and last_is_number == "yes" %}{% break %}{% endif %}{{ t }}{% unless forloop.last %} {% endunless %}
-          {% endfor %}
-        {% endcapture %}
-        {% assign journal_clean = journal_clean | strip %}
+      {% endcapture %}
+      {% assign journal_clean = journal_clean | strip %}
 
-        {% assign authors = p.authors | replace:"*","" | replace:"...", "…" %}
-        {% for ln in page.lab_names %}
-          {% assign needle1 = " " | append: ln %}
-          {% assign repl1   = " <strong>" | append: ln | append: "</strong>" %}
-          {% assign authors = authors | replace: needle1, repl1 %}
-          {% assign needle2 = ln | append: "," %}
-          {% assign repl2   = "<strong>" | append: ln | append: "</strong>," %}
-          {% assign authors = authors | replace: needle2, repl2 %}
-        {% endfor %}
+      {% assign authors = p.authors | replace:"*","" | replace:"...", "…" %}
+      {% for ln in page.lab_names %}
+        {% assign needle1 = " " | append: ln %}
+        {% assign repl1   = " <strong>" | append: ln | append: "</strong>" %}
+        {% assign authors = authors | replace: needle1, repl1 %}
+        {% assign needle2 = ln | append: "," %}
+        {% assign repl2   = "<strong>" | append: ln | append: "</strong>," %}
+        {% assign authors = authors | replace: needle2, repl2 %}
+      {% endfor %}
 
-        <div class="col">
-          <div class="card h-100 shadow-sm border-light">
+      <div class="col">
+        <div class="card border-primary shadow-sm h-100">
+          <div class="row g-0">
             {% if p.image %}
-              <img src="{{ p.image | relative_url }}" class="card-img-top img-fluid p-3" alt="{{ p.title | escape }}" style="object-fit: contain; height: 200px;">
+              <div class="col-4 d-flex align-items-center">
+                <img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" class="img-fluid rounded-start" style="object-fit: contain; height: 160px; width: 100%;">
+              </div>
             {% endif %}
-            <div class="card-body">
-              <h5 class="card-title fw-semibold mb-2">
-                <a href="{{ p.url }}" target="_blank" rel="noopener" class="text-dark text-decoration-none">{{ p.title }}</a>
-              </h5>
-              {% if p.authors %}
-                <p class="card-text mb-2 text-secondary small">{{ authors }}</p>
-              {% endif %}
-              <p class="card-text mb-0">
-                {% if journal_clean != "" -%}
-                  <em><a href="{{ p.url }}" target="_blank" rel="noopener" class="text-decoration-none text-primary">{{ journal_clean }}</a></em>
-                {%- endif -%}
-                {%- if p.year -%}
-                  <span class="text-muted">, {{ p.year }}</span>
-                {%- endif -%}
-                {% if p.doi and p.doi != "" %}
-                  <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener" class="badge bg-light text-primary border border-primary ms-1 text-decoration-none">DOI</a>
+            <div class="col">
+              <div class="card-body">
+                <h5 class="card-title mb-2">
+                  <a href="{{ p.url }}" target="_blank" rel="noopener" class="text-dark text-decoration-none">{{ p.title }}</a>
+                </h5>
+                {% if p.authors %}
+                  <p class="card-text text-secondary small mb-2">{{ authors }}</p>
                 {% endif %}
-              </p>
+                <p class="card-text mb-0">
+                  {% if journal_clean != "" -%}
+                    <em><a href="{{ p.url }}" target="_blank" rel="noopener" class="text-decoration-none text-primary">{{ journal_clean }}</a></em>
+                  {%- endif -%}
+                  {%- if p.year -%}
+                    <span class="text-muted">, {{ p.year }}</span>
+                  {%- endif -%}
+                  {% if p.doi and p.doi != "" %}
+                    <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener" class="badge bg-light text-primary border border-primary ms-1 text-decoration-none">DOI</a>
+                  {% endif %}
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      {% endfor %}
-    </div>
+      </div>
+    {% endfor %}
+  </div>
   {% else %}
     <p>No selected publications yet.</p>
   {% endif %}
 
   <!-- All Publications -->
-  <h1 class="mb-4 fw-normal">All publications</h1>
+  <h1 class="fw-normal mb-4">All publications</h1>
   {% assign all_sorted = site.data.publications | sort: "year" | reverse %}
-  <div class="list-group">
+  <div class="row row-cols-1 g-3">
     {% for p in all_sorted %}
       {% assign raw_j = p.journal_clean | default: p.journal | default: "" | strip %}
       {% assign basic = raw_j | split:"(" | first | split: "," | first | strip %}
@@ -116,24 +122,37 @@ lab_names:
         {% assign authors = authors | replace: needle2, repl2 %}
       {% endfor %}
 
-      <div class="list-group-item border-light mb-2 rounded shadow-sm">
-        <h5 class="mb-1 fw-semibold">
-          <a href="{{ p.url }}" target="_blank" rel="noopener" class="text-dark text-decoration-none">{{ p.title }}</a>
-        </h5>
-        {% if p.authors %}
-          <p class="mb-1 text-secondary small">{{ authors }}</p>
-        {% endif %}
-        <p class="mb-0">
-          {% if journal_clean != "" -%}
-            <em><a href="{{ p.url }}" target="_blank" rel="noopener" class="text-decoration-none text-primary">{{ journal_clean }}</a></em>
-          {%- endif -%}
-          {%- if p.year -%}
-            <span class="text-muted">, {{ p.year }}</span>
-          {%- endif -%}
-          {% if p.doi and p.doi != "" %}
-            <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener" class="badge bg-light text-primary border border-primary ms-1 text-decoration-none">DOI</a>
-          {% endif %}
-        </p>
+      <div class="col">
+        <div class="card border-light shadow-sm h-100">
+          <div class="row g-0">
+            {% if p.image %}
+              <div class="col-4 d-flex align-items-center">
+                <img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}" class="img-fluid rounded-start" style="object-fit: contain; height: 140px; width: 100%;">
+              </div>
+            {% endif %}
+            <div class="col">
+              <div class="card-body">
+                <h5 class="card-title mb-2">
+                  <a href="{{ p.url }}" target="_blank" rel="noopener" class="text-dark text-decoration-none">{{ p.title }}</a>
+                </h5>
+                {% if p.authors %}
+                  <p class="card-text text-secondary small mb-2">{{ authors }}</p>
+                {% endif %}
+                <p class="card-text mb-0">
+                  {% if journal_clean != "" -%}
+                    <em><a href="{{ p.url }}" target="_blank" rel="noopener" class="text-decoration-none text-primary">{{ journal_clean }}</a></em>
+                  {%- endif -%}
+                  {%- if p.year -%}
+                    <span class="text-muted">, {{ p.year }}</span>
+                  {%- endif -%}
+                  {% if p.doi and p.doi != "" %}
+                    <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener" class="badge bg-light text-primary border border-primary ms-1 text-decoration-none">DOI</a>
+                  {% endif %}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     {% endfor %}
   </div>

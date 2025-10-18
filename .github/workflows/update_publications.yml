@@ -1,14 +1,13 @@
 name: Update publications
 
 on:
+  workflow_dispatch:        # allows manual trigger
   schedule:
-    - cron: '0 3 * * 1'   # every Monday at 3 AM UTC
-  workflow_dispatch:      # allow manual run
+    - cron: "0 3 * * 1"     # runs every Monday at 03:00 UTC
 
 jobs:
   update:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -16,22 +15,25 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Install dependencies
-        run: |
-          pip install pyyaml requests
+        run: pip install requests pyyaml
 
       - name: Run publication update script
         env:
           SERPAPI_API_KEY: ${{ secrets.SERPAPI_API_KEY }}
-        run: |
-          python3 scripts/update_publications.py
+        run: python scripts/update_publications.py
 
       - name: Commit and push changes
+        if: success()
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add _data/publications.yml || true
-          git commit -m "Auto-update publications [skip ci]" || echo "No changes to commit"
-          git push
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet; then
+            git add _data/publications.yml
+            git commit -m "Auto-update publications [skip ci]"
+            git push
+          else
+            echo "No changes to commit."
+          fi

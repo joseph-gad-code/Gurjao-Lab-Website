@@ -1,30 +1,95 @@
-<nav class="navbar navbar-default" style="background:#ffffff;border-bottom:0;margin-bottom:0;">
-  <!-- WIDTH RAIL: same width & padding as the hero/content -->
+<nav class="navbar navbar-default" role="navigation" aria-label="Main navigation"
+     style="background:#ffffff;border-bottom:0;margin-bottom:0;">
+  <!-- WIDTH RAIL: match hero/content width + padding -->
   <div style="
-        width: var(--base-width);       /* same base as the page */
-        max-width: 1100px;              /* matches your content cap */
-        margin: 0 auto;                 /* center when not scaled */
-        padding: 0 15px;                /* same side padding as content */
-        display:flex; align-items:center; justify-content:space-between;">
+        width: var(--base-width);
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;">
 
-    <!-- Brand (left edge of rail) -->
+    <!-- Brand pinned to LEFT rail edge -->
     <a class="navbar-brand"
        href="{{ '/' | relative_url }}"
-       style="color:#0D5295 !important;font-weight:800;font-family:'Nunito';
-              font-size: clamp(24px, 2.6vw, 30px); line-height:1; padding:16px 0;">
+       style="
+         color:#0D5295 !important;
+         font-weight:800;
+         font-family:'Nunito', sans-serif;
+         font-size: clamp(26px, 3vw, 34px);
+         line-height: 1;
+         padding: 16px 0;">
       GURJAOLAB
     </a>
 
-    <!-- Links (pinned to right edge of rail) -->
+    <!-- Links pinned to RIGHT rail edge -->
     <ul class="nav navbar-nav"
-        style="float:none !important; display:flex; margin:0; padding:0; gap:0;">
-      <li {% if page.url == '/' %}class="active"{% endif %}><a href="{{ '/' | relative_url }}">Home</a></li>
-      <li {% if page.url contains '/research/' %}class="active"{% endif %}><a href="{{ '/research/' | relative_url }}">Research</a></li>
-      <li {% if page.url contains '/publications/' %}class="active"{% endif %}><a href="{{ '/publications/' | relative_url }}">Publications</a></li>
-      <li {% if page.url contains '/people/' %}class="active"{% endif %}><a href="{{ '/people/' | relative_url }}">People</a></li>
-      <li {% if page.url contains '/contact/' %}class="active"{% endif %}><a href="{{ '/contact/' | relative_url }}">Contact</a></li>
+        style="
+          /* override Bootstrap 3 float layout */
+          float:none !important;
+          display:flex;
+          align-items:center;
+          gap:0;
+          margin:0;
+          padding:0;
+          white-space:nowrap;">
+      <li {% if page.url == '/' %}class="active"{% endif %}>
+        <a href="{{ '/' | relative_url }}"
+           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;
+                  background:transparent !important;position:relative;display:inline-block;
+                  margin:0 10px;line-height:1.2;padding:14px 0 6px;text-decoration:none !important;
+                  font-size: clamp(14px, 1.9vw, 16px);">
+          Home
+        </a>
+      </li>
+      <li {% if page.url contains '/research/' %}class="active"{% endif %}>
+        <a href="{{ '/research/' | relative_url }}"
+           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;
+                  background:transparent !important;position:relative;display:inline-block;
+                  margin:0 10px;line-height:1.2;padding:14px 0 6px;text-decoration:none !important;
+                  font-size: clamp(14px, 1.9vw, 16px);">
+          Research
+        </a>
+      </li>
+      <li {% if page.url contains '/publications/' %}class="active"{% endif %}>
+        <a href="{{ '/publications/' | relative_url }}"
+           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;
+                  background:transparent !important;position:relative;display:inline-block;
+                  margin:0 10px;line-height:1.2;padding:14px 0 6px;text-decoration:none !important;
+                  font-size: clamp(14px, 1.9vw, 16px);">
+          Publications
+        </a>
+      </li>
+      <li {% if page.url contains '/people/' %}class="active"{% endif %}>
+        <a href="{{ '/people/' | relative_url }}"
+           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;
+                  background:transparent !important;position:relative;display:inline-block;
+                  margin:0 10px;line-height:1.2;padding:14px 0 6px;text-decoration:none !important;
+                  font-size: clamp(14px, 1.9vw, 16px);">
+          People
+        </a>
+      </li>
+      <li {% if page.url contains '/contact/' %}class="active"{% endif %}>
+        <a href="{{ '/contact/' | relative_url }}"
+           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;
+                  background:transparent !important;position:relative;display:inline-block;
+                  margin:0 10px;line-height:1.2;padding:14px 0 6px;text-decoration:none !important;
+                  font-size: clamp(14px, 1.9vw, 16px);">
+          Contact
+        </a>
+      </li>
     </ul>
   </div>
 </nav>
 
-<!-- keep your existing underline/hover styles -->
+<!-- Active/hover underline kept inline so no external CSS is needed -->
+<style>
+  .navbar-nav > li > a:hover { color:#000 !important;background:transparent !important; }
+  .navbar-nav > .active > a,
+  .navbar-nav > .active > a:focus,
+  .navbar-nav > .active > a:hover { color:#000 !important;background:transparent !important; }
+  .navbar-nav > .active > a::after {
+    content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:#000;
+  }
+<

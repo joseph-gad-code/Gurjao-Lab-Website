@@ -6,27 +6,25 @@ nav: research
 ---
 
 <style>
-/* Container for each section */
 .research-section {
   margin: 160px auto;
   font-family: 'Nunito';
   color: #000;
   max-width: 1100px;
-  padding: 0 20px;
 }
 
-/* Flex layout */
+/* Main layout */
 .research-flex {
   display: flex;
   flex-wrap: wrap;
-  align-items: center; /* centers vertically instead of stretch */
+  align-items: stretch; /* Keeps image and text heights matched */
   justify-content: space-between;
-  gap: 60px;
+  gap: 80px;
 }
 
 /* Text block */
 .research-text {
-  flex: 1 1 480px;
+  flex: 1 1 500px;
   max-width: 520px;
   min-width: 300px;
 }
@@ -42,15 +40,14 @@ nav: research
 /* Image styling */
 .research-image img {
   width: 100%;
-  height: auto;
-  max-width: 420px;
-  max-height: 100%;
+  height: 100%;
+  max-width: 400px;
   object-fit: contain;
   transform-origin: center center;
   transition: transform 0.3s ease-in-out;
 }
 
-/* Desktop rotations */
+/* Rotations for desktop */
 .research-image.rotate-right img {
   transform: rotate(90deg);
 }
@@ -58,14 +55,7 @@ nav: research
   transform: rotate(-90deg);
 }
 
-/* Headings */
-.research-text h2 {
-  font-weight: 400;
-  font-size: 20px;
-  margin-bottom: 16px;
-}
-
-/* Lists */
+/* List styles */
 .research-text ul {
   margin: 0;
   padding: 0;
@@ -85,15 +75,19 @@ nav: research
   background-color: #000;
 }
 
+/* Headings */
+.research-text h2 {
+  font-weight: 400;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
 /* Responsive behavior */
 @media (max-width: 900px) {
   .research-flex {
     flex-direction: column;
-    align-items: center;
-    text-align: left;
     gap: 40px;
   }
-
   .research-image img {
     max-width: 100%;
     height: auto;
@@ -102,9 +96,10 @@ nav: research
 }
 </style>
 
-<!-- SECTION 1 -->
+<!-- SECTION 1: What causes cancer mutations -->
 <div class="research-section">
   <div class="research-flex">
+
     <div class="research-text">
       <h2>What causes cancer mutations?</h2>
       <p>Every person’s tumour tells a story—our lifestyle habits, our microbes, even our immune system shape the tumour’s DNA and can leave marks. We aim to discover and study such marks to understand how cancer develops.</p>
@@ -120,14 +115,17 @@ nav: research
     </div>
 
     <div class="research-image rotate-right">
-      <img src="{{ '/Pages/Research/Images/causes.svg' | relative_url }}" alt="Factors shaping the mutational landscape">
+      <img src="{{ '/Pages/Research/Images/causes.svg' | relative_url }}"
+           alt="Factors shaping the mutational landscape">
     </div>
+
   </div>
 </div>
 
-<!-- SECTION 2 -->
+<!-- SECTION 2: How tumor mutations guide treatment -->
 <div class="research-section">
   <div class="research-flex" style="flex-direction: row-reverse;">
+
     <div class="research-text">
       <h2>How can tumor mutations guide treatment?</h2>
       <p>Cancer immunotherapies are transforming treatment, yet not all patients respond the same way. Studying the mutational landscape of tumors can inform the best course of treatment and predict aggressiveness.</p>
@@ -143,14 +141,17 @@ nav: research
     </div>
 
     <div class="research-image rotate-left">
-      <img src="{{ '/Pages/Research/Images/treatment.svg' | relative_url }}" alt="Mutational landscape informing aggressiveness, responders, and drug synergies">
+      <img src="{{ '/Pages/Research/Images/treatment.svg' | relative_url }}"
+           alt="Mutational landscape informing aggressiveness, responders, and drug synergies">
     </div>
+
   </div>
 </div>
 
-<!-- SECTION 3 -->
+<!-- SECTION 3: Novel methods -->
 <div class="research-section">
   <div class="research-flex">
+
     <div class="research-text">
       <h2>Novel experimental and computational methods</h2>
       <p>We work closely with clinicians and physicists to push the boundaries of how cancer is studied. Together, we are developing new approaches to:</p>
@@ -164,7 +165,9 @@ nav: research
     </div>
 
     <div class="research-image rotate-right">
-      <img src="{{ '/Pages/Research/Images/methods.svg' | relative_url }}" alt="Schematic of genome architecture, microbiota, lifestyle and immune system alongside mutational landscape">
+      <img src="{{ '/Pages/Research/Images/methods.svg' | relative_url }}"
+           alt="Schematic of genome architecture, microbiota, lifestyle and immune system alongside mutational landscape">
     </div>
+
   </div>
 </div>

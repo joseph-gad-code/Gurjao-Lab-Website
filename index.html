@@ -15,7 +15,7 @@ nav: home
 
 <!-- TAGLINE -->
 <div class="text-center"
-     style="margin:20px auto 40px;font-size:clamp(20px,5vw,28px);line-height:1.25;font-weight:400;font-family:'Nunito';">
+     style="margin:20px auto 40px;font-size:20px;line-height:1.25;font-weight:400;font-family:'Nunito';">
   We study cancer genomes for <br>
   <span style="text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px;">Prevention</span>
   and
@@ -24,16 +24,15 @@ nav: home
 
 <!-- BLURBS (ALWAYS TWO COLUMNS) -->
 <div class="container" style="margin:28px auto;">
-  <div class="row text-center" style="font-size:clamp(16px,2.2vw,20px);line-height:1.6;font-family:'Nunito';word-wrap:break-word;word-break:break-word;">
-    <!-- col-xs-6 forces 2 columns even on phones -->
-    <div class="col-xs-6 col-md-6" style="padding-bottom:16px;">
-      <p style="font-weight:700;font-size:clamp(16px,2.4vw,1.4rem);font-family:'Nunito';margin-bottom:.5rem;">
+  <div class="row text-center" style="font-size:18px;line-height:1.6;font-family:'Nunito';word-wrap:break-word;word-break:break-word;">
+    <div class="col-xs-6" style="padding-bottom:16px;">
+      <p style="font-weight:700;font-size:18px;font-family:'Nunito';margin-bottom:.5rem;">
         While 80% of cancers are thought to be preventable, only about 5% of cancer funding goes toward prevention.
       </p>
       <p>By understanding how mutations occur, we are moving science closer to stopping cancer before it starts and spreads.</p>
     </div>
-    <div class="col-xs-6 col-md-6">
-      <p style="font-weight:700;font-size:clamp(16px,2.4vw,1.4rem);font-family:'Nunito';margin-bottom:.5rem;">
+    <div class="col-xs-6">
+      <p style="font-weight:700;font-size:18px;font-family:'Nunito';margin-bottom:.5rem;">
         The number of cancer treatments has exploded in recent years, creating a new challenge: ensuring each patient is matched with the right drug(s).
       </p>
       <p>By decoding each tumor’s genetic profile, we are informing tailored cancer treatments.</p>
@@ -43,13 +42,10 @@ nav: home
 
 <!-- MISSION + NEWS (ALWAYS 8/4 COLUMNS) -->
 <div class="container" style="margin-top:40px;margin-bottom:24px;">
-  <!-- Remove flex; rely on Bootstrap grid to keep two columns with xs widths -->
   <div class="row" style="word-wrap:break-word;word-break:break-word;">
-    <!-- Left: 8/12 at all widths -->
-    <div class="col-xs-8 col-md-8"
-         style="font-family:'Nunito';color:#000;display:block;margin-bottom:16px;">
+    <div class="col-xs-8" style="font-family:'Nunito';color:#000;display:block;margin-bottom:16px;">
       <div>
-        <h2 style="font-weight:400;font-size:clamp(18px,1.8vw,20px);margin-top:0;">Our mission</h2>
+        <h2 style="font-weight:400;font-size:20px;margin-top:0;">Our mission</h2>
         <p style="margin-bottom:12px;">
           We aim to deliver data-driven precision prevention and precision treatment.<br>
           Our work broadly focuses on:
@@ -77,10 +73,8 @@ nav: home
       </div>
     </div>
 
-    <!-- Right: 4/12 at all widths -->
-    <aside class="col-xs-4 col-md-4"
-           style="font-family:'Nunito';color:#000;display:block;">
-      <h2 style="font-weight:400;font-size:clamp(18px,1.8vw,20px);">Latest news</h2>
+    <aside class="col-xs-4" style="font-family:'Nunito';color:#000;display:block;">
+      <h2 style="font-weight:400;font-size:20px;">Latest news</h2>
       <div style="flex-grow:1;max-height:60vh;overflow-y:auto;padding-right:4px;">
         {% assign items = site.data.news | sort: "date" | reverse %}
         {% if items and items.size > 0 %}
@@ -113,6 +107,5 @@ nav: home
         {% endif %}
       </div>
     </aside>
-
   </div>
 </div>

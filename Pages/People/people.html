@@ -17,15 +17,15 @@ permalink: /people/
   font-size: 28px;
   font-weight: 700;
   margin-bottom: 50px;
-  text-transform: uppercase;
-  color: #0D5295;
+  text-transform: none; /* no uppercase */
+  color: #000; /* black */
 }
 
-/* Grid layout */
+/* Grid layout — exactly two columns on large screens */
 .people-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 40px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
   justify-items: center;
   align-items: start;
 }
@@ -41,6 +41,8 @@ permalink: /people/
   flex-direction: column;
   align-items: center;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-width: 400px;
+  width: 100%;
 }
 
 .person-card:hover {
@@ -71,11 +73,12 @@ permalink: /people/
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 6px;
+  color: #000;
 }
 
 .person-status {
   font-size: 15px;
-  color: #0D5295;
+  color: #000;
   margin-bottom: 10px;
 }
 
@@ -141,9 +144,10 @@ permalink: /people/
 }
 
 .value-col h3 {
-  color: #0D5295;
+  color: #000;
   font-size: 20px;
   margin-bottom: 10px;
+  text-transform: none; /* not capitalized */
 }
 
 .value-col p {
@@ -153,7 +157,10 @@ permalink: /people/
 }
 
 /* Responsive tweaks */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
+  .people-list {
+    grid-template-columns: 1fr;
+  }
   .page-title {
     font-size: 24px;
   }
@@ -164,7 +171,7 @@ permalink: /people/
 </style>
 
 <section class="people-page">
-  <h1 class="page-title">Team Members</h1>
+  <h1 class="page-title">Team members</h1>
 
   {% assign folks = site.data.people | default: empty %}
   <div class="people-list">
@@ -195,17 +202,17 @@ permalink: /people/
         <div class="person-social">
           {% if p.github %}
             <a href="{{ p.github }}" target="_blank" rel="noopener">
-              <img class="icon" src="{{ '/Pages/People/Images/Icons/github.svg' | relative_url }}" alt="GitHub">
+              <img class="icon" src="{{ '/assets/images/people/github.svg' | relative_url }}" alt="GitHub">
             </a>
           {% endif %}
           {% if p.scholar %}
             <a href="{{ p.scholar }}" target="_blank" rel="noopener">
-              <img class="icon" src="{{ '/Pages/People/Images/Icons/scholar.svg' | relative_url }}" alt="Google Scholar">
+              <img class="icon" src="{{ '/assets/images/people/scholar.svg' | relative_url }}" alt="Google Scholar">
             </a>
           {% endif %}
           {% if p.linkedin %}
             <a href="{{ p.linkedin }}" target="_blank" rel="noopener">
-              <img class="icon" src="{{ '/Pages/People/Images/Icons/linkedin.svg' | relative_url }}" alt="LinkedIn">
+              <img class="icon" src="{{ '/assets/images/people/linkedin.svg' | relative_url }}" alt="LinkedIn">
             </a>
           {% endif %}
         </div>
@@ -217,10 +224,10 @@ permalink: /people/
 </section>
 
 <section class="values-section">
-  <h1 class="page-title">Core Values</h1>
+  <h1 class="page-title">Core values</h1>
   <div class="values-grid">
     <div class="value-col">
-      <h3>Lab Community</h3>
+      <h3>Lab community</h3>
       <p>
         The Gurjao Lab aims to be a vibrant home for curiosity and collaboration.
         Our members come from diverse backgrounds, bringing together expertise
@@ -231,7 +238,7 @@ permalink: /people/
       </p>
     </div>
     <div class="value-col">
-      <h3>DEI Commitment</h3>
+      <h3>DEI commitment</h3>
       <p>
         We celebrate diversity as a source of strength and innovation in our work.
         We are committed to an inclusive, equitable, and welcoming environment

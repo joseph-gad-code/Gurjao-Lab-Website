@@ -16,82 +16,58 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
   <style>
-    /* Base */
     html { box-sizing: border-box; }
     *, *:before, *:after { box-sizing: inherit; }
-    body {
-      font-family: 'Nunito', sans-serif;
-      color: #000;
-      overflow-x: hidden; /* avoid side-scroll if anything overflows */
-      font-size: clamp(15px, 1.8vw, 17px);
-      line-height: 1.5;
-    }
+    body { font-family: 'Nunito', sans-serif; color:#000; overflow-x:hidden; line-height:1.5; }
 
-    /* Make all media responsive by default */
-    img, video, svg, canvas { max-width: 100%; height: auto; }
-    iframe { max-width: 100%; }
-
-    /* “Scale the whole page” wrapper
-       - Keep a base design width (1100px)
-       - Below that width, scale down proportionally
-    */
-    :root { --base-width: 1100px; }
+    /* SCALE-TO-FIT: keeps the layout identical, just smaller on narrow viewports */
+    :root { --base-width: 1100px; } /* your design width */
+    .page-scale-outer { width:100vw; overflow-x:hidden; }
     .page-scale-frame {
-      /* This keeps the layout measured at base width so columns never reflow */
       width: var(--base-width);
       margin: 0 auto;
       transform-origin: top center;
-    }
-    @media (max-width: 1100px) {
-      .page-scale-frame {
-        /* Scale factor = viewport width / base width */
-        transform: scale(calc(100vw / var(--base-width)));
-      }
+      /* scale = min(1, viewport/base) so it shrinks below base width and stays 1x above */
+      transform: scale(calc(min(100vw, var(--base-width)) / var(--base-width)));
     }
 
-    /* Optional: cap giant monitors a bit wider if you like */
-    @media (min-width: 1400px) {
-      :root { --base-width: 1200px; } /* optional wider base on very large screens */
-    }
+    /* Basic utilities the page already uses */
+    img, video, svg, canvas { max-width:100%; height:auto; }
+    iframe { max-width:100%; }
 
-    /* Navbar cosmetics (unchanged) */
-    .navbar { border: none; border-radius: 0; margin-bottom: 0; }
-    .navbar-brand {
-      font-weight: 700; color: #000 !important;
-      font-size: clamp(18px, 4vw, 20px); padding: 16px 15px;
-    }
-    .navbar-nav > li > a {
-      color: #000 !important; padding: 14px 18px; position: relative;
-      font-size: clamp(14px, 2.8vw, 16px);
-    }
-    .navbar-nav > .active > a::after,
-    .navbar-nav > li > a:focus::after,
-    .navbar-nav > li > a:hover::after {
-      content: ""; display: block; height: 2px; background: #000;
-      position: absolute; left: 12px; right: 12px; bottom: 6px;
-    }
+    .container-narrow { width:100%; max-width:1100px; margin: 24px auto; padding: 0 15px; }
 
-    footer {
-      margin-top: clamp(32px, 6vw, 60px);
-      padding: clamp(24px, 4vw, 40px) 0;
-      text-align: center; font-size: clamp(13px, 1.6vw, 14px);
-      color: #555; border-top: 1px solid #eee;
-    }
+    /* Navbar cosmetics (kept simple; will scale in the frame) */
+    .navbar { border:none; border-radius:0; margin-bottom:0; background:#fff; }
+    .navbar-brand { font-weight:800; color:#0D5295 !important; }
+    .navbar-nav > li > a { color:#666 !important; font-weight:600; position:relative; }
+    .navbar-nav > li > a:hover { color:#000 !important; background:transparent !important; }
+    .navbar-nav > .active > a,
+    .navbar-nav > .active > a:focus,
+    .navbar-nav > .active > a:hover { color:#000 !important; background:transparent !important; }
+    .navbar-nav > .active > a::after { content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000; }
+
+    footer { margin-top:40px; padding:24px 0; text-align:center; font-size:14px; color:#555; border-top:1px solid #eee; }
   </style>
 
-  <!-- Scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-  {% include header.html %}
+  <!-- Everything inside scales together -->
+  <div class="page-scale-outer">
+    <div class="page-scale-frame">
 
-  <!-- SCALE-TO-FIT WRAPPER: everything inside scales together -->
-  <div class="page-scale-frame">
-    {{ content }}
+      {% include header.html %}
+
+      <div class="container-narrow content-wrap">
+        {{ content }}
+      </div>
+
+      {% include footer.html %}
+
+    </div>
   </div>
-
-  {% include footer.html %}
 </body>
 </html>

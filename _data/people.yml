@@ -1,6 +1,6 @@
 - name: Carino Gurjao
   status: Principal Investigator
-  image: /assets/images/people/placeholder.png
+  image: /Pages/People/Images/Profile_Pictures/placeholder.png
   bio: >
     Carino received his PhD under the supervision of Pr. Boeva (ETHZ) and
     Pr. Mirny (MIT), specializing in cancer genome analysis. His work has shed
@@ -13,7 +13,7 @@
 
 - name: Valentin Boero-Teyssier
   status: Graduate Student
-  image: /assets/images/people/placeholder.png
+  image: /Pages/People/Images/Profile_Pictures/placeholder.png
   bio: >
     Valentin investigates hypermutated colorectal cancer using multimodal data
     to study the tumor microenvironment's reshaping over time. His work focuses
@@ -26,7 +26,7 @@
 
 - name: Emile Hooper
   status: Graduate Student
-  image: /assets/images/people/placeholder.png
+  image: /Pages/People/Images/Profile_Pictures/placeholder.png
   bio: >
     Emile investigated immune cell infiltration in hypermutated colorectal
     cancer, with a focus on accounting for and correcting biases in data
@@ -38,7 +38,7 @@
 
 - name: Joseph Gad
   status: Undergraduate Student
-  image: /assets/images/people/placeholder.png
+  image: /Pages/People/Images/Profile_Pictures/placeholder.png
   bio: >
     Joseph investigates how microbial DNA/RNA can be accurately identified in
     tumor bulk sequencing data, focusing on reducing technical and biological

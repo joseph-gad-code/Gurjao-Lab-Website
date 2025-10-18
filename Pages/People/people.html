@@ -1,0 +1,253 @@
+---
+title: "People"
+layout: default
+permalink: /people/
+---
+
+<style>
+.people-page {
+  margin: 160px auto;
+  max-width: 1100px;
+  font-family: 'Nunito', sans-serif;
+  color: #000;
+  padding: 0 20px;
+}
+
+.page-title {
+  font-size: 2rem;
+  color: #0D5295;
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+/* === PEOPLE GRID === */
+.people-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 60px;
+  justify-content: center;
+  align-items: start;
+}
+
+/* === PERSON CARD === */
+.person-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 18px 32px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+}
+
+.person-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* === PHOTO === */
+.person-photo-wrap {
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f5f5;
+  margin-bottom: 20px;
+}
+
+.person-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: rotate(90deg); /* maintains your rotation */
+}
+
+.person-photo.placeholder {
+  font-size: 14px;
+  color: #666;
+  background: #ddd;
+}
+
+/* === TEXT ELEMENTS === */
+.person-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.person-status {
+  color: #0D5295;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.person-bio {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 10px;
+  max-width: 90%;
+}
+
+/* === READ MORE LINK === */
+.person-readmore {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0D5295;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 16px;
+  transition: color 0.2s ease;
+}
+
+.person-readmore:hover {
+  color: #003366;
+  text-decoration: underline;
+}
+
+/* === SOCIAL ICONS === */
+.person-social {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.person-social .icon {
+  width: 22px;
+  height: 22px;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.person-social .icon:hover {
+  opacity: 1;
+}
+
+/* === CORE VALUES SECTION === */
+.values-section {
+  margin: 140px auto 100px;
+  max-width: 1100px;
+  font-family: 'Nunito', sans-serif;
+  color: #000;
+  padding: 0 20px;
+}
+
+.values-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 60px;
+  justify-content: space-between;
+  align-items: stretch;
+  margin-top: 60px;
+}
+
+.value-col {
+  flex: 1 1 45%;
+  background: #f9f9f9;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.value-col h3 {
+  color: #0D5295;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.value-col p {
+  color: #333;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* === RESPONSIVE ADJUSTMENTS === */
+@media (max-width: 800px) {
+  .people-list {
+    gap: 40px;
+  }
+  .value-col {
+    flex: 1 1 100%;
+  }
+}
+</style>
+
+<section class="people-page">
+  <h1 class="page-title">Team members</h1>
+
+  {% assign folks = site.data.people | default: empty %}
+  <div class="people-list">
+    {% for p in folks %}
+    <article class="person-card">
+      <div class="person-photo-wrap">
+        {% if p.image %}
+          <img class="person-photo" src="{{ p.image | relative_url }}" alt="{{ p.name }}">
+        {% else %}
+          <div class="person-photo placeholder" aria-hidden="true">Image</div>
+        {% endif %}
+      </div>
+
+      <div class="person-meta">
+        <h3 class="person-name">{{ p.name }}</h3>
+        {% if p.status %}<div class="person-status">{{ p.status }}</div>{% endif %}
+        {% if p.bio %}<p class="person-bio">{{ p.bio }}</p>{% endif %}
+        {% if p.read_more %}
+          <a class="person-readmore" href="{{ p.read_more | relative_url }}">Read more...</a>
+        {% endif %}
+
+        {% if p.github or p.scholar or p.linkedin %}
+        <div class="person-social" aria-label="Profile links">
+          {% if p.github %}
+            <a href="{{ p.github }}" target="_blank" rel="noopener">
+              <img class="icon" src="{{ '/assets/images/people/github.svg' | relative_url }}" alt="GitHub">
+            </a>
+          {% endif %}
+          {% if p.scholar %}
+            <a href="{{ p.scholar }}" target="_blank" rel="noopener">
+              <img class="icon" src="{{ '/assets/images/people/scholar.svg' | relative_url }}" alt="Google Scholar">
+            </a>
+          {% endif %}
+          {% if p.linkedin %}
+            <a href="{{ p.linkedin }}" target="_blank" rel="noopener">
+              <img class="icon" src="{{ '/assets/images/people/linkedin.svg' | relative_url }}" alt="LinkedIn">
+            </a>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="values-section">
+  <h1 class="page-title">Core values</h1>
+  <div class="values-grid">
+    <div class="value-col">
+      <h3>Lab community</h3>
+      <p>
+        The Gurjao Lab aims to be a vibrant home for curiosity and collaboration.
+        Our members come from diverse backgrounds, bringing together expertise
+        across disciplines to tackle fundamental and applied questions in cancer
+        research. Lab members are trusted to take ownership of their science
+        while being supported by peers and mentors. Outside of the lab, we
+        contribute by the creation of a postdoc mentorship committee at IRIC.
+      </p>
+    </div>
+    <div class="value-col">
+      <h3>DEI commitment</h3>
+      <p>
+        We celebrate diversity as a source of strength and innovation in our work.
+        We are committed to an inclusive, equitable, and welcoming environment
+        for all members. We participate in EDI initiatives at IRIC and pursue
+        research for equitable access to cancer care across demographics.
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,47 +1,33 @@
 <nav class="navbar navbar-default" style="background-color: #ffffff; border-bottom: 0;">
-  <div class="container-fluid">
-    <!-- Mobile toggle -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar" aria-expanded="false" style="border: none;">
-        <span class="icon-bar" style="background-color: #000;"></span>
-        <span class="icon-bar" style="background-color: #000;"></span>
-        <span class="icon-bar" style="background-color: #000;"></span>
-      </button>
-
-      <a class="navbar-brand site-brand" href="#">
-        GURJAOLAB
-      </a>
-    </div>
-
-    <!-- Collapsible nav links -->
-    <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="nav navbar-nav navbar-right" id="nav-links" style="font-family: 'Nunito'; font-weight: 600;">
-        <li id="nav-home"><a href="#">Home</a></li>
-        <li id="nav-research"><a href="#">Research</a></li>
-        <li id="nav-publications"><a href="#">Publications</a></li>
-        <li id="nav-people"><a href="#">People</a></li>
-        <li id="nav-contact"><a href="#">Contact</a></li>
-      </ul>
-    </div>
-  </div>
+<div class="container-fluid">
+<div class="navbar-header">
+<a class="navbar-brand" href="{{ '/' | relative_url }}"
+style="color: #0D5295; font-weight: 800; font-family: 'Nunito';">
+GURJAOLAB
+</a>
+</div>
+<ul class="nav navbar-nav navbar-right" style="font-family: 'Nunito'; font-weight: 600;">
+<li {% if page.url == '/' %}class="active"{% endif %}>
+<a href="{{ '/' | relative_url }}">Home</a>
+</li>
+<li {% if page.url contains '/research/' %}class="active"{% endif %}>
+<a href="{{ '/research/' | relative_url }}">Research</a>
+</li>
+<li {% if page.url contains '/publications/' %}class="active"{% endif %}>
+<a href="{{ '/publications/' | relative_url }}">Publications</a>
+</li>
+<li {% if page.url contains '/people/' %}class="active"{% endif %}>
+<a href="{{ '/people/' | relative_url }}">People</a>
+</li>
+<li {% if page.url contains '/contact/' %}class="active"{% endif %}>
+<a href="{{ '/contact/' | relative_url }}">Contact</a>
+</li>
+</ul>
+</div>
 </nav>
 
 <style>
-  .navbar-brand.site-brand {
-    color: #0D5295 !important;
-    font-weight: 800;
-    font-family: 'Nunito', sans-serif;
-    font-size: 22px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-  }
-
-  .navbar-brand.site-brand:hover,
-  .navbar-brand.site-brand:focus {
-    color: #0A4177 !important;
-    text-decoration: none;
-  }
-
+  /* Base link styling */
   .navbar-nav > li > a {
     color: #666666 !important;
     font-family: 'Nunito', sans-serif;
@@ -55,11 +41,13 @@
     text-decoration: none !important;
   }
 
+  /* Hover effect */
   .navbar-nav > li > a:hover {
     color: #000000 !important;
     background-color: transparent !important;
   }
 
+  /* Active link */
   .navbar-nav > .active > a,
   .navbar-nav > .active > a:focus,
   .navbar-nav > .active > a:hover {
@@ -67,6 +55,7 @@
     background-color: transparent !important;
   }
 
+  /* Underline directly under active text */
   .navbar-nav > .active > a::after {
     content: "";
     position: absolute;
@@ -76,54 +65,4 @@
     height: 2px;
     background-color: #000000;
   }
-
-  @media (max-width: 767px) {
-    .navbar-nav {
-      background-color: #ffffff;
-      text-align: center;
-    }
-
-    .navbar-nav > li > a {
-      display: block;
-      padding: 10px;
-      border-bottom: 1px solid #eee;
-      margin: 0;
-    }
-
-    .navbar-nav > li:last-child > a {
-      border-bottom: none;
-    }
-  }
 </style>
-
-<script>
-  // Dynamically resolve correct link paths no matter the folder depth
-  (function() {
-    const currentPath = window.location.pathname;
-    const depth = (currentPath.match(/\//g) || []).length - 1;
-    // If we are in a subdirectory like /Pages/Research/, go back to root
-    const prefix = depth > 1 ? '../'.repeat(depth - 1) : './';
-
-    const links = {
-      home: prefix + 'index.html',
-      research: prefix + 'Pages/Research/research.html',
-      publications: prefix + 'Pages/Publications/publications.html',
-      people: prefix + 'Pages/People/people.html',
-      contact: prefix + 'Pages/Contact/contact.html'
-    };
-
-    document.querySelector('.navbar-brand.site-brand').setAttribute('href', links.home);
-    document.getElementById('nav-home').querySelector('a').setAttribute('href', links.home);
-    document.getElementById('nav-research').querySelector('a').setAttribute('href', links.research);
-    document.getElementById('nav-publications').querySelector('a').setAttribute('href', links.publications);
-    document.getElementById('nav-people').querySelector('a').setAttribute('href', links.people);
-    document.getElementById('nav-contact').querySelector('a').setAttribute('href', links.contact);
-
-    // Highlight active link based on current path
-    if (currentPath.includes('/Research/')) document.getElementById('nav-research').classList.add('active');
-    else if (currentPath.includes('/Publications/')) document.getElementById('nav-publications').classList.add('active');
-    else if (currentPath.includes('/People/')) document.getElementById('nav-people').classList.add('active');
-    else if (currentPath.includes('/Contact/')) document.getElementById('nav-contact').classList.add('active');
-    else document.getElementById('nav-home').classList.add('active');
-  })();
-</script>

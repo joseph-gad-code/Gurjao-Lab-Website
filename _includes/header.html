@@ -8,26 +8,25 @@
         <span class="icon-bar" style="background-color: #000;"></span>
       </button>
 
-      <a class="navbar-brand site-brand" href="../index.html">
+      <a class="navbar-brand site-brand" href="#">
         GURJAOLAB
       </a>
     </div>
 
     <!-- Collapsible nav links -->
     <div class="collapse navbar-collapse" id="main-navbar">
-      <ul class="nav navbar-nav navbar-right" style="font-family: 'Nunito'; font-weight: 600;">
-        <li id="nav-home"><a href="/index.html">Home</a></li>
-        <li id="nav-research"><a href="/research/">Research</a></li>
-        <li id="nav-publications"><a href="/publications/">Publications</a></li>
-        <li id="nav-people"><a href="/people/">People</a></li>
-        <li id="nav-contact"><a href="/contact/">Contact</a></li>
+      <ul class="nav navbar-nav navbar-right" id="nav-links" style="font-family: 'Nunito'; font-weight: 600;">
+        <li id="nav-home"><a href="#">Home</a></li>
+        <li id="nav-research"><a href="#">Research</a></li>
+        <li id="nav-publications"><a href="#">Publications</a></li>
+        <li id="nav-people"><a href="#">People</a></li>
+        <li id="nav-contact"><a href="#">Contact</a></li>
       </ul>
     </div>
   </div>
 </nav>
 
 <style>
-  /* Brand name */
   .navbar-brand.site-brand {
     color: #0D5295 !important;
     font-weight: 800;
@@ -43,7 +42,6 @@
     text-decoration: none;
   }
 
-  /* Nav links */
   .navbar-nav > li > a {
     color: #666666 !important;
     font-family: 'Nunito', sans-serif;
@@ -62,7 +60,6 @@
     background-color: transparent !important;
   }
 
-  /* Active link */
   .navbar-nav > .active > a,
   .navbar-nav > .active > a:focus,
   .navbar-nav > .active > a:hover {
@@ -70,7 +67,6 @@
     background-color: transparent !important;
   }
 
-  /* Underline under active text */
   .navbar-nav > .active > a::after {
     content: "";
     position: absolute;
@@ -81,7 +77,6 @@
     background-color: #000000;
   }
 
-  /* Responsive tweaks */
   @media (max-width: 767px) {
     .navbar-nav {
       background-color: #ffffff;
@@ -102,11 +97,33 @@
 </style>
 
 <script>
-  // Highlight active link based on URL
-  const path = window.location.pathname.toLowerCase();
-  if (path.includes('/research')) document.getElementById('nav-research').classList.add('active');
-  else if (path.includes('/publications')) document.getElementById('nav-publications').classList.add('active');
-  else if (path.includes('/people')) document.getElementById('nav-people').classList.add('active');
-  else if (path.includes('/contact')) document.getElementById('nav-contact').classList.add('active');
-  else document.getElementById('nav-home').classList.add('active');
+  // Dynamically resolve correct link paths no matter the folder depth
+  (function() {
+    const currentPath = window.location.pathname;
+    const depth = (currentPath.match(/\//g) || []).length - 1;
+    // If we are in a subdirectory like /Pages/Research/, go back to root
+    const prefix = depth > 1 ? '../'.repeat(depth - 1) : './';
+
+    const links = {
+      home: prefix + 'index.html',
+      research: prefix + 'Pages/Research/index.html',
+      publications: prefix + 'Pages/Publications/index.html',
+      people: prefix + 'Pages/People/index.html',
+      contact: prefix + 'Pages/Contact/index.html'
+    };
+
+    document.querySelector('.navbar-brand.site-brand').setAttribute('href', links.home);
+    document.getElementById('nav-home').querySelector('a').setAttribute('href', links.home);
+    document.getElementById('nav-research').querySelector('a').setAttribute('href', links.research);
+    document.getElementById('nav-publications').querySelector('a').setAttribute('href', links.publications);
+    document.getElementById('nav-people').querySelector('a').setAttribute('href', links.people);
+    document.getElementById('nav-contact').querySelector('a').setAttribute('href', links.contact);
+
+    // Highlight active link based on current path
+    if (currentPath.includes('/Research/')) document.getElementById('nav-research').classList.add('active');
+    else if (currentPath.includes('/Publications/')) document.getElementById('nav-publications').classList.add('active');
+    else if (currentPath.includes('/People/')) document.getElementById('nav-people').classList.add('active');
+    else if (currentPath.includes('/Contact/')) document.getElementById('nav-contact').classList.add('active');
+    else document.getElementById('nav-home').classList.add('active');
+  })();
 </script>

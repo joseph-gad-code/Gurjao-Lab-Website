@@ -1,44 +1,56 @@
 <nav class="navbar navbar-default" style="background-color:#ffffff;border-bottom:0;margin-bottom:0;">
   <div class="container-fluid"
-       style="display:flex;align-items:center;gap:16px;white-space:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-left:15px;padding-right:15px;">
-    
-    <!-- Brand -->
+       style="display:flex;align-items:center;padding-left:15px;padding-right:15px;gap:12px;">
+
+    <!-- Brand (left) -->
     <a class="navbar-brand"
        href="{{ '/' | relative_url }}"
-       style="color:#0D5295 !important;font-weight:800;font-family:'Nunito';flex:0 0 auto;margin-right:8px;">
+       style="color:#0D5295 !important;font-weight:800;font-family:'Nunito';flex:0 0 auto;">
       GURJAOLAB
     </a>
 
-    <!-- Nav (always inline, never collapses) -->
+    <!-- Nav links (pushed to the RIGHT via margin-left:auto) -->
     <ul class="nav navbar-nav"
-        style="display:flex;flex:0 0 auto;gap:0;float:none;margin:0;padding:0;">
+        style="display:flex;flex:0 1 auto;margin-left:auto; /* this pins it right */ 
+               white-space:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;
+               float:none;margin:0;padding:0;">
       <li {% if page.url == '/' %}class="active"{% endif %} style="display:inline-block;">
         <a href="{{ '/' | relative_url }}"
-           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;display:inline-block;position:relative;margin:0 10px;line-height:1.2;padding:12px 0 4px 0;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
+           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
+                  display:inline-block;position:relative;margin:0 10px;line-height:1.2;padding:12px 0 4px 0;
+                  text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
           Home
         </a>
       </li>
       <li {% if page.url contains '/research/' %}class="active"{% endif %} style="display:inline-block;">
         <a href="{{ '/research/' | relative_url }}"
-           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;display:inline-block;position:relative;margin:0 10px;line-height:1.2;padding:12px 0 4px 0;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
+           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
+                  display:inline-block;position:relative;margin:0 10px;line-height:1.2;padding:12px 0 4px 0;
+                  text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
           Research
         </a>
       </li>
       <li {% if page.url contains '/publications/' %}class="active"{% endif %} style="display:inline-block;">
         <a href="{{ '/publications/' | relative_url }}"
-           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;display:inline-block;position:relative;margin:0 10px;line-height:1.2;padding:12px 0 4px 0;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
+           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
+                  display:inline-block;position:relative;margin:0 10px;line-height:1.2;padding:12px 0 4px 0;
+                  text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
           Publications
         </a>
       </li>
       <li {% if page.url contains '/people/' %}class="active"{% endif %} style="display:inline-block;">
         <a href="{{ '/people/' | relative_url }}"
-           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;display:inline-block;position:relative;margin:0 10px;line-height:1.2;padding:12px 0 4px 0;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
+           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
+                  display:inline-block;position:relative;margin:0 10px;line-height:1.2;padding:12px 0 4px 0;
+                  text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
           People
         </a>
       </li>
       <li {% if page.url contains '/contact/' %}class="active"{% endif %} style="display:inline-block;">
         <a href="{{ '/contact/' | relative_url }}"
-           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;display:inline-block;position:relative;margin:0 10px;line-height:1.2;padding:12px 0 4px 0;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
+           style="color:#666 !important;font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
+                  display:inline-block;position:relative;margin:0 10px;line-height:1.2;padding:12px 0 4px 0;
+                  text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
           Contact
         </a>
       </li>
@@ -46,14 +58,12 @@
   </div>
 </nav>
 
-<!-- Active/hover underline (kept inline) -->
+<!-- Keep the underline/hover behavior -->
 <style>
   .navbar-nav > li > a:hover { color:#000 !important;background:transparent !important; }
   .navbar-nav > .active > a,
   .navbar-nav > .active > a:focus,
-  .navbar-nav > .active > a:hover {
-    color:#000 !important;background:transparent !important;
-  }
+  .navbar-nav > .active > a:hover { color:#000 !important;background:transparent !important; }
   .navbar-nav > .active > a::after {
     content:"";position:absolute;bottom:0;left:0;width:100%;height:2px;background:#000;
   }

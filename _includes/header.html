@@ -43,28 +43,27 @@
 
 <!-- underline/hover (inline) -->
 <style>
-  /* base link look */
-  .navbar-nav > li > a {
-    color:#666 !important;
-    background:transparent !important;
-    text-decoration:none !important;
+  /* default: non-active links are grey */
+  .navbar-nav > li:not(.active) > a {
+    color: #777 !important;                /* grey when idle */
+    background: transparent !important;
+    text-decoration: none !important;
     transition: color .15s ease;
   }
 
-  /* hover: just turn black */
-  .navbar-nav > li > a:hover,
-  .navbar-nav > li > a:focus {
-    color:#000 !important;
-    text-decoration:none !important;
-    background:transparent !important;
+  /* hover: turn black (still no underline) */
+  .navbar-nav > li:not(.active) > a:hover,
+  .navbar-nav > li:not(.active) > a:focus {
+    color: #000 !important;
+    text-decoration: none !important;
   }
 
-  /* active page: black + underline */
+  /* active page: black + underline (and stays black on hover/focus) */
   .navbar-nav > .active > a,
-  .navbar-nav > .active > a:focus,
-  .navbar-nav > .active > a:hover {
-    color:#000 !important;
-    background:transparent !important;
+  .navbar-nav > .active > a:hover,
+  .navbar-nav > .active > a:focus {
+    color: #000 !important;
+    background: transparent !important;
     text-decoration: underline !important;
     text-decoration-thickness: 2px;
     text-underline-offset: 6px;

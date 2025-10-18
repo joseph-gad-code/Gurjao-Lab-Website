@@ -39,12 +39,19 @@ nav: research
 
 /* Image styling */
 .research-image img {
-  width: 100%;
+  width: auto;
   height: auto;
-  max-width: 450px;
-  aspect-ratio: auto;
+  max-width: 400px;
   object-fit: contain;
-  display: block;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Rotations */
+.research-image.rotate-right img {
+  transform: rotate(90deg);
+}
+.research-image.rotate-left img {
+  transform: rotate(-90deg);
 }
 
 /* List styles */
@@ -74,20 +81,16 @@ nav: research
   margin-bottom: 16px;
 }
 
-/* Responsive: stack vertically on mobile */
+/* Keep layout side-by-side on all screen sizes */
 @media (max-width: 900px) {
   .research-flex {
     flex-direction: column;
-    align-items: center;
     gap: 40px;
   }
-  .research-image,
-  .research-text {
-    max-width: 100%;
-  }
   .research-image img {
-    max-width: 100%;
+    max-width: 320px;
     height: auto;
+    transform-origin: center center;
   }
 }
 </style>
@@ -109,7 +112,7 @@ nav: research
       <p style="margin-top: 12px;">In collaborations, we also assessed how alcohol and certain bacterial strains leave mutational marks.</p>
     </div>
 
-    <div class="research-image">
+    <div class="research-image rotate-right">
       <img src="{{ '/Pages/Research/Images/causes.svg' | relative_url }}" alt="Factors shaping the mutational landscape">
     </div>
   </div>
@@ -132,7 +135,7 @@ nav: research
       <p style="margin-top: 12px;">We have also contributed to studies on how tumor cells change after treatment, and how specific genetic contexts influence sensitivity to therapy.</p>
     </div>
 
-    <div class="research-image">
+    <div class="research-image rotate-left">
       <img src="{{ '/Pages/Research/Images/treatment.svg' | relative_url }}" alt="Mutational landscape informing aggressiveness, responders, and drug synergies">
     </div>
   </div>
@@ -153,7 +156,7 @@ nav: research
       <p style="margin-top: 12px;">These tools help answer fundamental questions about cancer biology and provide the community with new methods to accelerate discovery.</p>
     </div>
 
-    <div class="research-image">
+    <div class="research-image rotate-right">
       <img src="{{ '/Pages/Research/Images/methods.svg' | relative_url }}" alt="Schematic of genome architecture, microbiota, lifestyle and immune system alongside mutational landscape">
     </div>
   </div>

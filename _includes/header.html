@@ -57,29 +57,35 @@
     </ul>
   </div>
 </nav>
-
 <style>
-  /* non-active links: grey */
-  .navbar-nav > li:not(.active) > a {
-    color:#777 !important;
-    background:transparent !important;
-    text-decoration:none !important;
+  /* Scope everything to THIS nav to beat other styles */
+  nav[aria-label="Main navigation"] .navbar-nav > li > a {
+    color: #777 !important;                 /* default grey for all */
+    background: transparent !important;
+    text-decoration: none !important;
     transition: color .15s ease;
   }
-  /* hover: turn black */
-  .navbar-nav > li:not(.active) > a:hover,
-  .navbar-nav > li:not(.active) > a:focus {
-    color:#000 !important;
-    text-decoration:none !important;
+
+  /* visited should also look grey unless active/hover */
+  nav[aria-label="Main navigation"] .navbar-nav > li > a:visited {
+    color: #777 !important;
   }
-  /* active: black + underline */
-  .navbar-nav > .active > a,
-  .navbar-nav > .active > a:hover,
-  .navbar-nav > .active > a:focus {
-    color:#000 !important;
-    background:transparent !important;
-    text-decoration:underline !important;
-    text-decoration-thickness:2px;
-    text-underline-offset:6px;
+
+  /* hover: always turn black (active will keep underline via rule below) */
+  nav[aria-label="Main navigation"] .navbar-nav > li > a:hover,
+  nav[aria-label="Main navigation"] .navbar-nav > li > a:focus {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+
+  /* active page: black + underline (and stays black on hover/focus) */
+  nav[aria-label="Main navigation"] .navbar-nav > li.active > a,
+  nav[aria-label="Main navigation"] .navbar-nav > li.active > a:hover,
+  nav[aria-label="Main navigation"] .navbar-nav > li.active > a:focus {
+    color: #000 !important;
+    text-decoration: underline !important;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+    background: transparent !important;
   }
 </style>

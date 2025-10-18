@@ -37,22 +37,14 @@ nav: research
   align-items: center;
 }
 
-/* Image styling */
+/* Image styling (no rotation) */
 .research-image img {
   width: 100%;
   height: auto;
   max-width: 450px;
-  aspect-ratio: auto;
   object-fit: contain;
+  display: block;
   transition: transform 0.3s ease-in-out;
-}
-
-/* Optional subtle rotations for visual interest (desktop only) */
-.research-image.rotate-right img {
-  transform: rotate(90deg);
-}
-.research-image.rotate-left img {
-  transform: rotate(-90deg);
 }
 
 /* List styles */
@@ -94,7 +86,6 @@ nav: research
     max-width: 100%;
   }
   .research-image img {
-    transform: none !important;
     max-width: 100%;
     height: auto;
   }
@@ -118,7 +109,7 @@ nav: research
       <p style="margin-top: 12px;">In collaborations, we also assessed how alcohol and certain bacterial strains leave mutational marks.</p>
     </div>
 
-    <div class="research-image rotate-right">
+    <div class="research-image">
       <img src="{{ '/Pages/Research/Images/causes.svg' | relative_url }}" alt="Factors shaping the mutational landscape">
     </div>
   </div>
@@ -141,7 +132,7 @@ nav: research
       <p style="margin-top: 12px;">We have also contributed to studies on how tumor cells change after treatment, and how specific genetic contexts influence sensitivity to therapy.</p>
     </div>
 
-    <div class="research-image rotate-left">
+    <div class="research-image">
       <img src="{{ '/Pages/Research/Images/treatment.svg' | relative_url }}" alt="Mutational landscape informing aggressiveness, responders, and drug synergies">
     </div>
   </div>
@@ -162,7 +153,7 @@ nav: research
       <p style="margin-top: 12px;">These tools help answer fundamental questions about cancer biology and provide the community with new methods to accelerate discovery.</p>
     </div>
 
-    <div class="research-image rotate-right">
+    <div class="research-image">
       <img src="{{ '/Pages/Research/Images/methods.svg' | relative_url }}" alt="Schematic of genome architecture, microbiota, lifestyle and immune system alongside mutational landscape">
     </div>
   </div>

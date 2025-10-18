@@ -56,13 +56,13 @@
   image: ''
 - title: Single analyte profiling of the mutational, immune and microbiome landscape
     in african american colon cancer patients
-  authors: C Gurjao, E Chan, MJ Lee, S Hangai, R Rabadan, T Korem, H Hibshoosh, ...
+  authors: C Gurjao, E Chan, MJ Lee, et al.
   journal: Cancer Research 84 (6_Supplement), 994-994, 2024
   year: 2024
   url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:JV2RwH3_ST0C
   doi: ''
   selected_publication: true
-  image: "/Pages/Publications/Images/Paper_2025.png"
+  image: /Pages/Publications/Images/Paper_2025.png
 - title: Bayesian risk prediction model for colorectal cancer mortality through integration
     of clinicopathologic and genomic data
   authors: M Zhao, MC Lau, K Haruki, JP Väyrynen, C Gurjao, SA Väyrynen, ...
@@ -100,14 +100,13 @@
   selected_publication: false
   image: ''
 - title: Discovery and features of an alkylating signature in colorectal cancer
-  authors: C Gurjao*, R Zhong*, K Haruki*, YY Li, LF Spurr, H Lee-Six, B Reardon,
-    ...
+  authors: C Gurjao*, R Zhong*, K Haruki*, et al.
   journal: Cancer discovery 11 (10), 2446-2455, 2021
   year: 2021
   url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:8k81kl-MbHgC
   doi: ''
   selected_publication: true
-  image: "/Pages/Publications/Images/Paper_2021.jpeg"
+  image: /Pages/Publications/Images/Paper_2021.jpeg
 - title: Dynamic single-cell RNA sequencing identifies immunotherapy persister cells
     following PD-1 blockade
   authors: K Sehgal, A Portell, EV Ivanova, PH Lizotte, NR Mahadevan, JR Greene, ...

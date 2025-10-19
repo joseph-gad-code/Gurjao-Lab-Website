@@ -4,12 +4,8 @@
     {% include authors_compact.html
          authors=p.authors
          max=20
-         highlight='Gurjao' %}
-
-  - Abbreviates: "First Middle Last" -> "F. M. Last"
-  - Truncates after `max` -> adds "et al."
-  - If `highlight` provided, bolds any author whose full name or last name
-    matches it (case-insensitive).
+         highlight_list=page.lab_names %}   <!-- list of names to bold -->
+    # (still supports highlight='Gurjao' as a single string)
 {%- endcomment -%}
 
 {%- assign _raw = include.authors | default: '' | strip -%}
@@ -20,11 +16,9 @@
   | replace: ' and ', '|'
   | replace: ', ', '|'
 -%}
-{%- assign _names = _sep_fixed | split: '|' -%}
-{%- assign _names = _names | uniq -%}
+{%- assign _names = _sep_fixed | split: '|' | uniq -%}
 
 {%- assign _max = include.max | default: _names.size -%}
-{%- assign _hl  = include.highlight | default: '' | downcase | strip -%}
 
 {%- for _raw_name in _names -%}
   {%- if forloop.index0 >= _max -%}
@@ -44,14 +38,24 @@
     {%- endcapture -%}
   {%- endif -%}
 
-  {%- assign _abbr = _firsts | append: ' ' | append: _last -%}
-  {%- assign _abbr = _abbr | strip -%}
+  {%- assign _abbr = _firsts | append: ' ' | append: _last | strip -%}
 
   {%- assign _name_dn = _name | downcase -%}
   {%- assign _last_dn = _last | downcase -%}
   {%- assign _is_hl = false -%}
-  {%- if _hl != '' and (_name_dn contains _hl or _last_dn == _hl) -%}
-    {%- assign _is_hl = true -%}
+
+  {%- if include.highlight_list and include.highlight_list.size > 0 -%}
+    {%- for h in include.highlight_list -%}
+      {%- assign hdn = h | downcase | strip -%}
+      {%- if hdn != '' and (_name_dn contains hdn or _last_dn == hdn) -%}
+        {%- assign _is_hl = true -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- elsif include.highlight -%}
+    {%- assign hdn = include.highlight | downcase | strip -%}
+    {%- if hdn != '' and (_name_dn contains hdn or _last_dn == hdn) -%}
+      {%- assign _is_hl = true -%}
+    {%- endif -%}
   {%- endif -%}
 
   {%- if _is_hl -%}

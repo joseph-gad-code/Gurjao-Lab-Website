@@ -5,99 +5,164 @@ permalink: /contact/
 nav: contact
 ---
 
-<section class="container-fluid py-5 bg-light">
-  <div class="container">
-
-    <!-- Contact top row -->
-    <div class="row g-5 align-items-stretch">
-
-      <!-- LEFT: Text content -->
-      <div class="col-12 col-md-7 d-flex flex-column justify-content-between">
-        <div>
-          <h2 class="fw-bold mb-3 text-dark">Affiliations</h2>
-          <ul class="list-unstyled mb-4">
-            <li>Institut de recherche en immunologie et en cancérologie (IRIC)</li>
-            <li>Department of Medicine, Faculty of Medicine, Université de Montréal</li>
-          </ul>
-        </div>
-
-        <address class="mt-4 text-dark lh-lg">
-          <p class="fw-bold mb-1">Address:</p>
-          <p class="mb-1">Marcelle-Coutu Pavilion</p>
-          <p class="mb-1">2950 Chemin de Polytechnique</p>
-          <p class="mb-1">Montréal, QC H3T 1J4, Canada</p>
-
-          <p class="fw-bold mt-3 mb-1">Phone:</p>
-          <p class="mb-1">
-            <a href="tel:+15143436111" class="text-decoration-none text-primary">
-              (514) 343-6111, ext. 17206
-            </a>
-          </p>
-
-          <p class="fw-bold mt-3 mb-1">Email:</p>
-          <p class="mb-0">
-            <a href="mailto:carino.gurjao@umontreal.ca" class="text-decoration-none text-primary fw-semibold">
-              carino.gurjao@umontreal.ca
-            </a>
-          </p>
-        </address>
-      </div>
-
-      <!-- RIGHT: Logo -->
-      <div class="col-12 col-md-5 d-flex align-items-center justify-content-center">
-        <div class="bg-white rounded shadow-sm d-flex align-items-center justify-content-center p-3 w-100 h-100">
-          <img
-            src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}"
-            alt="Université de Montréal – IRIC Logo"
-            class="img-fluid contact-logo">
-        </div>
-      </div>
-    </div>
-
-    <!-- BOTTOM ROW -->
-    <div class="row mt-5 g-4">
-      <div class="col-12 col-lg-6">
-        <h2 class="fw-bold mb-3 text-dark">Open positions</h2>
-        <p>
-          We are currently open to hiring at all levels. Please send applications to the e-mail address above.
-        </p>
-      </div>
-      <div class="col-12 col-lg-6">
-        <h2 class="fw-bold mb-3 text-dark">Contribute</h2>
-        <p>
-          We welcome all types of contributions — collaborations, donations, or ideas to make our science more accessible and open source. Get in touch by e-mail!
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Embedded styling for fine-tuning -->
 <style>
-  /* Global typography and spacing */
-  body {
-    font-family: 'Nunito', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  /* Use the same rail as navbar/hero/research: 1100 + 15px padding */
+  .contact-rail {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 15px;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
     color: #000;
+  }
+
+  /* Section spacing */
+  .contact-section {
+    margin: 120px 0;
+  }
+
+  /* Top row: always two columns (no wrap) */
+  .contact-flex {
+    display: flex;
+    flex-wrap: nowrap;                /* keep side-by-side at all widths */
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 60px;
+  }
+
+  /* Left column: text */
+  .contact-text {
+    flex: 0 0 58%;
+    max-width: 58%;
+  }
+
+  .contact-text h2 {
+    font-weight: 700;
+    font-size: clamp(22px, 2.4vw, 28px);
+    margin: 0 0 12px 0;
+    color: #000;
+  }
+
+  .contact-text p,
+  .contact-text li,
+  .contact-text address {
+    font-size: clamp(16px, 1.2vw, 18px);
+    line-height: 1.6;
+    margin: 0 0 8px 0;
+  }
+
+  .contact-text ul {
+    margin: 0 0 16px 0;
+    padding: 0 0 0 18px; /* subtle indent for list */
+  }
+
+  .contact-text a {
+    color: #0D5295;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .contact-text a:hover,
+  .contact-text a:focus {
+    color: #000;
+    text-decoration: underline;
+  }
+
+  address { font-style: normal; }
+
+  /* Right column: logo card */
+  .contact-logo-wrap {
+    flex: 0 0 42%;
+    max-width: 42%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,.06);
+    padding: 16px;
+  }
+
+  .contact-logo {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 520px;      /* tune as desired; scales with page wrapper */
+    object-fit: contain;
+  }
+
+  /* Bottom row: two even columns, fixed */
+  .contact-bottom {
+    display: flex;
+    flex-wrap: nowrap;     /* keep two columns */
+    gap: 60px;
+    margin-top: 60px;
+  }
+  .contact-bottom .col {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  .contact-bottom h2 {
+    font-weight: 700;
+    font-size: clamp(22px, 2.4vw, 28px);
+    margin: 0 0 12px 0;
+  }
+  .contact-bottom p {
+    font-size: clamp(16px, 1.2vw, 18px);
+    margin: 0 0 8px 0;
     line-height: 1.6;
   }
 
-  h2 {
-    font-size: clamp(1.5rem, 2vw + 1rem, 2.25rem);
-  }
+  /* We intentionally do NOT stack on small screens.
+     Your scale wrapper in default.html will shrink the whole page proportionally. */
+</style>
 
-  p, li {
-    font-size: clamp(1rem, 0.9vw + 0.6rem, 1.125rem);
-  }
+<section class="contact-rail contact-section">
+  <!-- TOP ROW -->
+  <div class="contact-flex">
+    <!-- LEFT: Text content -->
+    <div class="contact-text">
+      <h2>Affiliations</h2>
+      <ul>
+        <li>Institut de recherche en immunologie et en cancérologie (IRIC)</li>
+        <li>Department of Medicine, Faculty of Medicine, Université de Montréal</li>
+      </ul>
 
-  ul {
-    margin: 0;
-    padding-left: 1.25rem;
-  }
+      <address>
+        <p style="font-weight:700;margin-top:16px;">Address:</p>
+        <p>Marcelle-Coutu Pavilion</p>
+        <p>2950 Chemin de Polytechnique</p>
+        <p>Montréal, QC H3T 1J4, Canada</p>
 
-  /* Contact section layout */
-  .contact-logo {
-    width: 100%;
-    height: auto;
-    max-height: 100%;
-    object-fit: contain;
-  }
+        <p style="font-weight:700;margin-top:16px;">Phone:</p>
+        <p>
+          <a href="tel:+15143436111">(514) 343-6111, ext. 17206</a>
+        </p>
+
+        <p style="font-weight:700;margin-top:16px;">Email:</p>
+        <p style="margin:0;">
+          <a href="mailto:carino.gurjao@umontreal.ca">carino.gurjao@umontreal.ca</a>
+        </p>
+      </address>
+    </div>
+
+    <!-- RIGHT: Logo -->
+    <div class="contact-logo-wrap">
+      <img
+        src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}"
+        alt="Université de Montréal – IRIC Logo"
+        class="contact-logo">
+    </div>
+  </div>
+
+  <!-- BOTTOM ROW -->
+  <div class="contact-bottom">
+    <div class="col">
+      <h2>Open positions</h2>
+      <p>We are currently open to hiring at all levels. Please send applications to the e-mail address above.</p>
+    </div>
+    <div class="col">
+      <h2>Contribute</h2>
+      <p>We welcome all types of contributions — collaborations, donations, or ideas to make our science more accessible and open source. Get in touch by e-mail!</p>
+    </div>
+  </div>
+</section>

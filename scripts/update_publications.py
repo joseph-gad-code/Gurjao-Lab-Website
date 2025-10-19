@@ -21,7 +21,7 @@ from pathlib import Path
 # ---------- CONFIG ----------
 SERPAPI_API_KEY      = os.environ.get("SERPAPI_API_KEY", "")
 GOOGLE_SCHOLAR_ID    = "m3rLfS4AAAAJ"
-OUTFILE              = Path("_data/publist.yml")
+OUTFILE              = Path(""_data/publications.yml")
 MAX_PAGES            = 6
 REQUEST_PAUSE_S      = 0.4
 CROSSREF_MAILTO      = os.environ.get("CROSSREF_MAILTO", "")

@@ -178,7 +178,7 @@ body {
   {% if selected and selected.size > 0 %}
   <div class="pub-grid">
     {% for p in selected %}
-      {% assign authors = p.authors | replace:"*","" | replace:"...", "…" %}
+      {% include authors_compact.html authors=p.authors max=10 highlight='Gurjao' %}
       {% for ln in page.lab_names %}
         {% assign needle1 = " " | append: ln %}
         {% assign repl1   = " <strong>" | append: ln | append: "</strong>" %}
@@ -189,7 +189,7 @@ body {
       {% endfor %}
 
       <article class="pub-card selected">
-        <a class="thumb" href="{{ p.url }}" target="_blank" rel="noopener">
+        <a class="thumb" href="{{ p.publisher_url | default: p.link.url }}" aria-label="{{ p.title }}">
           {% if p.image %}
             <img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}">
           {% else %}
@@ -236,7 +236,7 @@ body {
     {% assign pubs_for_year = all_sorted | where: "year", y %}
     <div class="pub-list">
       {% for p in pubs_for_year %}
-        {% assign authors = p.authors | replace:"*","" | replace:"...", "…" %}
+        {% include authors_compact.html authors=p.authors max=10 highlight='Gurjao' %}
         {% for ln in page.lab_names %}
           {% assign needle1 = " " | append: ln %}
           {% assign repl1   = " <strong>" | append: ln | append: "</strong>" %}

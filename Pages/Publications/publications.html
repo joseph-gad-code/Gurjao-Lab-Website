@@ -208,10 +208,10 @@ body {
           <div class="venue">
             {% assign j = p.journal | default: p.venue %}
             {% if j %}<em>{{ j }}</em>{% endif %}
-            {% if p.volume %}<span class="vol"> <strong>{{ p.volume }}</strong></span>{% endif %}
-            {% if p.issue %}<span class="issue">({{ p.issue }})</span>{% endif %}
-            {% if p.pages %}<span class="pages">: {{ p.pages }}</span>{% endif %}
-            {% if p.year %}<span class="year">, {{ p.year }}</span>{% endif %}
+            {% if p.volume %}<span class="vol"> <strong>{{ p.volume}}</strong></span>{% endif %}
+            {% if p.issue %}<span class="issue">({{ p.issue}})</span>{% endif %}
+            {% if p.pages %}<span class="pages">: {{ p.pages}}</span>{% endif %}
+            {% if p.year %}<span class="year">, {{ p.year}}</span>{% endif %}
             {% if p.doi and p.doi != "" %}
               <a class="doi" href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">DOI</a>
             {% endif %}

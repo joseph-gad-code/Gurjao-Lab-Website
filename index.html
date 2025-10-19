@@ -4,7 +4,7 @@ title: Home
 nav: home
 ---
 
-<!-- HERO IMAGE -->
+<!-- HERO IMAGE (same rail as navbar) -->
 <div style="max-width:1100px; margin:0 auto; padding:0 15px; margin-bottom:2rem;">
   <img
     src="{{ '/Pages/Home/Images/homepage-hero-image.svg' | relative_url }}"
@@ -13,29 +13,42 @@ nav: home
     style="display:block; margin:0 auto; max-width:100%; height:auto;">
 </div>
 
-<!-- TAGLINE + ARROWS + BLURBS (on the same rail; positioned parent) -->
+<!-- TAGLINE + ARROWS + BLURBS are on the same rail so arrows can align -->
 <div style="position:relative; max-width:1100px; margin:0 auto; padding:0 15px;">
 
-  <!-- TAGLINE -->
+  <!-- TAGLINE (wrap the two words so arrows can aim visually under them) -->
   <div class="text-center"
        style="margin:20px auto 40px;font-size:30px;line-height:1.25;font-weight:400;font-family:'Nunito';">
     We study cancer genomes for <br>
-    <span style="text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px;">Prevention</span>
+    <span id="tag-prevention"
+          style="text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px; display:inline-block;">
+      Prevention
+    </span>
     and
-    <span style="text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px;">Treatment</span>
+    <span id="tag-treatment"
+          style="text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px; display:inline-block;">
+      Treatment
+    </span>
   </div>
 
-  <!-- RESPONSIVE CURVED ARROWS OVERLAY (DASHED, BLUE) -->
+  <!-- RESPONSIVE ARROWS OVERLAY (blue, dashed, scales with rail) -->
+  <!--
+    This SVG is sized to the rail width (viewBox 0..1000). X ≈ percentage:
+      0   = far left of rail, 1000 = far right of rail.
+    Starts are placed near the visual centers of the two underlined words:
+      ~36% for "Prevention", ~64% for "Treatment".
+    If you ever nudge letter spacing/size, tweak ONLY the M x,y below.
+  -->
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 1100 220"            <!-- rail width (1100) x overlay height (220) -->
+    viewBox="0 0 1000 240"
     preserveAspectRatio="none"
     aria-hidden="true"
     style="
       position:absolute; left:0; right:0;
-      top: clamp(95px, 11vw, 150px);   /* move overlay up/down as needed */
+      top: clamp(96px, 11vw, 150px);   /* move arrows up/down as needed */
       width: 100%;
-      height: clamp(90px, 12vw, 160px);
+      height: clamp(110px, 13vw, 180px);
       pointer-events: none; z-index: 1;
     "
   >
@@ -45,24 +58,29 @@ nav: home
       </marker>
     </defs>
 
-    <!-- Arrow from "Prevention" to LEFT blurb (dashed) -->
+    <!-- LEFT ARROW: from Prevention (~36%) into left blurb -->
+    <!-- Start X tuned for visual center of "Prevention"; end X lands near left-blurb center -->
     <path
-      d="M 420,10
-         C 420,30  340,60  300,95
-         C 270,125 250,160  235,195"
+      d="
+        M 360,20               <!-- start under Prevention -->
+        C 340,55  300,85  265,110
+        C 235,130 205,162  192,208  <!-- end above left-blurb paragraph -->
+      "
       fill="none"
       stroke="#0D5295"
       stroke-width="4"
       stroke-linecap="round"
-      stroke-dasharray="10 8"          <!-- dash length / gap -->
+      stroke-dasharray="10 8"
       marker-end="url(#arrowhead)"
     />
 
-    <!-- Arrow from "Treatment" to RIGHT blurb (dashed) -->
+    <!-- RIGHT ARROW: from Treatment (~64%) into right blurb -->
     <path
-      d="M 690,10
-         C 690,30  770,60  810,95
-         C 840,125 860,160  875,195"
+      d="
+        M 640,20               <!-- start under Treatment -->
+        C 660,55  700,85  735,110
+        C 765,130 795,162  808,208  <!-- end above right-blurb paragraph -->
+      "
       fill="none"
       stroke="#0D5295"
       stroke-width="4"
@@ -72,18 +90,18 @@ nav: home
     />
   </svg>
 
-  <!-- BLURBS (ALWAYS TWO COLUMNS) -->
+  <!-- BLURBS (always two columns) -->
   <div class="row text-center"
        style="font-size:18px;line-height:1.6;font-family:'Nunito';
               word-wrap:break-word;word-break:break-word; margin:28px 0 0 0;">
     <div class="col-xs-6" style="padding-bottom:16px;">
-      <p style="font-weight:700;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
+      <p style="font-weight:700;font-size:20px;margin-bottom:.5rem;">
         While 80% of cancers are thought to be preventable, only about 5% of cancer funding goes toward prevention.
       </p>
       <p>By understanding how mutations occur, we are moving science closer to stopping cancer before it starts and spreads.</p>
     </div>
     <div class="col-xs-6">
-      <p style="font-weight:700;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
+      <p style="font-weight:700;font-size:20px;margin-bottom:.5rem;">
         The number of cancer treatments has exploded in recent years, creating a new challenge: ensuring each patient is matched with the right drug(s).
       </p>
       <p>By decoding each tumor’s genetic profile, we are informing tailored cancer treatments.</p>
@@ -91,7 +109,7 @@ nav: home
   </div>
 </div>
 
-<!-- MISSION + NEWS -->
+<!-- MISSION + NEWS (8/4 columns) -->
 <div class="container" style="margin-top:40px;margin-bottom:24px;">
   <div class="row" style="word-wrap:break-word;word-break:break-word;">
     <!-- LEFT: Our Mission -->

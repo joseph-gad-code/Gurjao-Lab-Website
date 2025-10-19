@@ -24,72 +24,51 @@ nav: home
         style="text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px;">Treatment</span>
 </div>
 
-<!-- ARROWS: responsive, circular-like arcs that point down to each blurb -->
+<!-- ARROWS: curved downward, small soft heads -->
 <div style="
   position:relative;
   max-width:1100px;
   margin:0 auto;
   padding:0 15px;
-  /* give a little breathing room beneath the tagline before arrows start */
   margin-top: clamp(8px, 1.5vw, 18px);
 ">
   <svg viewBox="0 0 1000 180"
        preserveAspectRatio="xMidYMid meet"
-       style="
-         width:100%;
-         height: clamp(90px, 12vw, 160px);
-         display:block;
-         pointer-events:none;
-       ">
+       style="width:100%; height: clamp(90px, 12vw, 160px); display:block; pointer-events:none;">
     <defs>
-      <!-- Blue that matches the GURJAOLAB brand -->
       <style>
-        .arrow-stroke {
-          stroke: #0D5295;
-          stroke-width: 8;
-          stroke-linecap: round;
-          fill: none;
-          stroke-dasharray: 18 16; /* dashed look */
+        .arrow-stroke{
+          stroke:#0D5295;                /* GURJAOLAB blue */
+          stroke-width:6;
+          stroke-linecap:round;
+          stroke-linejoin:round;
+          fill:none;
+          stroke-dasharray:14 12;        /* dashed look */
         }
       </style>
 
-      <!-- Small, soft (rounded) arrowhead -->
-      <marker id="softHead"
-              markerWidth="14" markerHeight="14"
-              refX="11" refY="7"
+      <!-- small, soft arrowhead -->
+      <marker id="headSmall"
+              markerWidth="6" markerHeight="6"
+              refX="5" refY="3"
               orient="auto"
               markerUnits="strokeWidth">
-        <!-- rounded “triangle” using a curve to soften the heel -->
-        <path d="M1,1 L13,7 L1,13 Q3,7 1,1 Z"
-              fill="#0D5295" stroke="none"/>
+        <!-- rounded heel for a softer look -->
+        <path d="M1,1 L5,3 L1,5 Q2.2,3 1,1 Z" fill="#0D5295" />
       </marker>
     </defs>
 
-    <!--
-      LEFT ARROW (Prevention)
-      Uses an elliptical-arc path so the curve looks circular.
-      Starts slightly right of center-left to land roughly under the middle of the underlined word.
-      Ends above the center of the left blurb block.
-    -->
-    <path class="arrow-stroke"
-          marker-end="url(#softHead)"
-          d="
-            M 420 16
-            A 260 260 0 0 1 300 150
-          " />
+    <!-- LEFT arrow (from 'Prevention' center down to left blurb) -->
+    <!-- Adjust the first & last numbers if you want to nudge start/end x positions -->
+    <path class="arrow-stroke" marker-end="url(#headSmall)"
+          d="M 420 18 C 410 55, 360 110, 300 150" />
 
-    <!--
-      RIGHT ARROW (Treatment)
-      Mirror of the left: starts slightly left of center-right and ends above right blurb.
-    -->
-    <path class="arrow-stroke"
-          marker-end="url(#softHead)"
-          d="
-            M 580 16
-            A 260 260 0 0 0 700 150
-          " />
+    <!-- RIGHT arrow (from 'Treatment' center down to right blurb) -->
+    <path class="arrow-stroke" marker-end="url(#headSmall)"
+          d="M 580 18 C 590 55, 640 110, 700 150" />
   </svg>
 </div>
+
 
 <!-- BLURBS (ALWAYS TWO COLUMNS) -->
 <div class="container" style="margin:10px auto 28px;">

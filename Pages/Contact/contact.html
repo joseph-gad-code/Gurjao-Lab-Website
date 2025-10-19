@@ -5,137 +5,72 @@ permalink: /contact/
 nav: contact
 ---
 
-<style>
-  /* Same family and color as Home */
-  .contact-wrap {
-    font-family: 'Nunito', sans-serif;
-    color: #000;
-  }
+<!-- Match Home's width rail -->
+<section style="max-width:1100px;margin:0 auto;padding:0 15px;">
 
-  /* Spacing to match site rhythm */
-  .contact-section { margin: 120px 10; }
+  <!-- Top row (ALWAYS two columns like Home) -->
+  <div class="row" style="margin-top:40px;">
 
-  /* Two fixed columns (never stack); the layout's scale wrapper shrinks the whole page */
-  .contact-flex {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: stretch;
-    justify-content: space-between;
-    gap: 60px;
-  }
-
-  /* Left column (text) / Right column (logo) */
-  .contact-text  { flex: 0 0 58%; max-width: 58%; }
-  .contact-visual{ flex: 0 0 42%; max-width: 42%;
-                   display:flex; align-items:center; justify-content:center;
-                   background:#fff; border-radius:10px;
-                   box-shadow:0 2px 10px rgba(0,0,0,.06); padding:10px; }
-
-  .contact-logo  { display:block; width:100%; height:auto; max-width:520px; object-fit:contain; }
-
-  /* Bottom row: two equal columns */
-  .contact-bottom { display:flex; flex-wrap:nowrap; gap:60px; margin-top:60px; }
-  .contact-bottom .col { flex:0 0 50%; max-width:50%; }
-
-  /* === TYPOGRAPHY TO MATCH HOME === */
-  /* Headings like “Our mission” / “Latest news” */
-  .contact-text h2,
-  .contact-bottom h2 {
-    font-weight: 400;               /* same weight as Home section headings */
-    font-size: 20px;                /* same size as Home section headings */
-    line-height: 1.2;
-    margin: 0 0 16px 0;
-    color: #000;
-  }
-
-  /* Body text sized like Home blurbs */
-  .contact-text p,
-  .contact-text li,
-  .contact-text address,
-  .contact-bottom p {
-    font-size: clamp(16px, 2.8vw, 20px);   /* matches Home blurbs scaling */
-    line-height: 1.6;
-    margin: 0 0 8px 0;
-  }
-
-  /* Home-style list bullets: short horizontal dash */
-  .contact-text ul {
-    margin: 0 0 16px 0;
-    padding: 0;
-    list-style: none;
-  }
-  .contact-text li {
-    position: relative;
-    padding-left: 28px;
-    margin-bottom: 8px;
-  }
-  .contact-text li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.9em;           /* aligns with Home’s list dash */
-    width: 16px;
-    height: 2px;
-    background: #000;
-  }
-
-  /* Links: mimic Home link color/hover (research link on Home uses cornflower blue) */
-  .contact-text a {
-    color: #6495ED;                     /* same blue used on Home “Read more…” */
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .contact-text a:hover,
-  .contact-text a:focus {
-    text-decoration: underline;
-  }
-
-  address { font-style: normal; }
-</style>
-
-<section class="contact-wrap contact-section">
-  <!-- TOP ROW -->
-  <div class="contact-flex">
     <!-- LEFT: Text -->
-    <div class="contact-text">
-      <h2>Affiliations</h2>
-      <ul>
+    <div class="col-xs-7" style="font-family:'Nunito',sans-serif;color:#000;">
+
+      <h2 style="font-weight:400;font-size:20px;margin-top:0;margin-bottom:12px;">Affiliations</h2>
+      <ul class="list-unstyled" style="margin:0 0 16px 0;">
         <li>Institut de recherche en immunologie et en cancérologie (IRIC)</li>
         <li>Department of Medicine, Faculty of Medicine, Université de Montréal</li>
       </ul>
 
-      <address style="margin-top: 12px;">
-        <p></p>Address:</p>
-        <p>Marcelle-Coutu Pavilion</p>
-        <p>2950 Chemin de Polytechnique</p>
-        <p>Montréal, QC H3T 1J4, Canada</p>
+      <div style="line-height:1.6;">
+        <p style="font-weight:700;margin:12px 0 4px;">Address:</p>
+        <p style="margin:0;">Marcelle-Coutu Pavilion</p>
+        <p style="margin:0;">2950 Chemin de Polytechnique</p>
+        <p style="margin:0;">Montréal, QC H3T 1J4, Canada</p>
 
-        <p">Phone:</p>
-        <p><a href="tel:+15143436111">(514) 343-6111, ext. 17206</a></p>
+        <p style="font-weight:700;margin:16px 0 4px;">Phone:</p>
+        <p style="margin:0;">
+          <a href="tel:+15143436111" style="text-decoration:none;color:#0D5295;">(514) 343-6111, ext. 17206</a>
+        </p>
 
-        <p>Email:</p>
-        <p style="margin:0;"><a href="mailto:carino.gurjao@umontreal.ca">carino.gurjao@umontreal.ca</a></p>
-      </address>
+        <p style="font-weight:700;margin:16px 0 4px;">Email:</p>
+        <p style="margin:0;">
+          <a href="mailto:carino.gurjao@umontreal.ca" style="text-decoration:none;color:#0D5295;font-weight:600;">
+            carino.gurjao@umontreal.ca
+          </a>
+        </p>
+      </div>
     </div>
 
-    <!-- RIGHT: Logo -->
-    <div class="contact-visual">
-      <img
-        src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}"
-        alt="Université de Montréal – IRIC Logo"
-        class="contact-logo">
+    <!-- RIGHT: Logo (no overflow) -->
+    <div class="col-xs-5">
+      <div style="
+        background:#fff;border:1px solid #eee;border-radius:10px;
+        padding:12px;width:100%;height:100%;
+        display:flex;align-items:center;justify-content:center;
+        overflow:hidden;               /* prevent spill */
+      ">
+        <img
+          src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}"
+          alt="Université de Montréal – IRIC Logo"
+          class="img-responsive center-block"
+          style="max-width:100%;height:auto;object-fit:contain;display:block;">
+      </div>
     </div>
   </div>
 
-  <!-- BOTTOM ROW -->
-  <div class="contact-bottom">
-    <div class="col">
-      <h2>Open positions</h2>
-      <p>We are currently open to hiring at all levels. Please send applications to the e-mail address above.</p>
+  <!-- Bottom row (match Home’s section title size) -->
+  <div class="row" style="margin-top:32px;">
+    <div class="col-xs-6" style="font-family:'Nunito',sans-serif;color:#000;">
+      <h2 style="font-weight:400;font-size:20px;margin-top:0;margin-bottom:12px;">Open positions</h2>
+      <p style="margin:0;">
+        We are currently open to hiring at all levels. Please send applications to the e-mail address above.
+      </p>
     </div>
-    <div class="col">
-      <h2>Contribute</h2>
-      <p>We welcome all types of contributions — collaborations, donations, or ideas to make our science more accessible and open source. Get in touch by e-mail!</p>
+    <div class="col-xs-6" style="font-family:'Nunito',sans-serif;color:#000;">
+      <h2 style="font-weight:400;font-size:20px;margin-top:0;margin-bottom:12px;">Contribute</h2>
+      <p style="margin:0;">
+        We welcome all types of contributions — collaborations, donations, or ideas to make our science more accessible and open source. Get in touch by e-mail!
+      </p>
     </div>
   </div>
+
 </section>

@@ -43,10 +43,10 @@ body {
   padding-bottom: 6px;
 }
 
-/* Selected Publications — Grid */
+/* Selected Publications — Grid (ALWAYS TWO COLUMNS) */
 .pub-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* fixed two columns */
   gap: var(--gap);
   margin-bottom: 36px;
 }
@@ -62,6 +62,7 @@ body {
   background: var(--white);
   box-shadow: 0 1px 2px rgba(0,0,0,.03);
   transition: box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+  word-break: break-word; /* keep two columns, wrap text */
 }
 
 .pub-card:hover {
@@ -145,7 +146,7 @@ body {
   border-radius: 999px;
 }
 
-/* All Publications */
+/* All Publications (two-column list preserved by wrapping inside each item) */
 .pub-list {
   display: grid;
   gap: 14px;
@@ -155,6 +156,7 @@ body {
   border: 1px solid #eee;
   border-radius: 10px;
   background: #fff;
+  word-break: break-word;
 }
 
 /* Year Headings */
@@ -169,7 +171,10 @@ body {
 <section class="pubs">
   <h1>Selected publications</h1>
 
-  {% assign selected = site.data.publications | where: "selected_publication", true %}
+  {%- assign _empty = "" | split: "" -%}
+  {%- assign pubs = site.data.publications | default: _empty -%}
+
+  {%- assign selected = pubs | where: "selected_publication", true -%}
   {% if selected and selected.size > 0 %}
   <div class="pub-grid">
     {% for p in selected %}
@@ -193,7 +198,11 @@ body {
         </a>
         <div class="meta">
           <h3 class="title">
-            <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+            {% if p.url %}
+              <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+            {% else %}
+              {{ p.title }}
+            {% endif %}
           </h3>
           {% if p.authors %}
             <div class="authors">{{ authors }}</div>
@@ -215,13 +224,13 @@ body {
 
   <h1>All publications</h1>
 
-  {% assign all_sorted = site.data.publications | sort: "year" | reverse %}
-  {% assign empty = "" | split: "" %}
-  {% if all_sorted and all_sorted.size > 0 %}
-    {% assign years = all_sorted | map: "year" | compact | uniq | sort | reverse %}
-  {% else %}
-    {% assign years = empty %}
-{% endif %}
+  {%- assign all_sorted = pubs | sort: "year" | reverse -%}
+  {%- if all_sorted and all_sorted.size > 0 -%}
+    {%- assign years = all_sorted | map: "year" | compact | uniq | sort | reverse -%}
+  {%- else -%}
+    {%- assign years = _empty -%}
+  {%- endif -%}
+
   {% for y in years %}
     <div class="pub-year-header">{{ y }}</div>
     {% assign pubs_for_year = all_sorted | where: "year", y %}
@@ -238,7 +247,13 @@ body {
         {% endfor %}
 
         <article class="pub-row">
-          <h3 class="title"><a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a></h3>
+          <h3 class="title">
+            {% if p.url %}
+              <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+            {% else %}
+              {{ p.title }}
+            {% endif %}
+          </h3>
           {% if p.authors %}
             <div class="authors">{{ authors }}</div>
           {% endif %}

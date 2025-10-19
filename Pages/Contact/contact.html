@@ -6,10 +6,16 @@ nav: contact
 ---
 
 <style>
-  /* Section spacing—matches your other pages */
+  /* Same family and color as Home */
+  .contact-wrap {
+    font-family: 'Nunito', sans-serif;
+    color: #000;
+  }
+
+  /* Spacing to match site rhythm */
   .contact-section { margin: 120px 0; }
 
-  /* Always-two-columns layout (no wrap; the page’s scale wrapper shrinks it) */
+  /* Two fixed columns (never stack); the layout's scale wrapper shrinks the whole page */
   .contact-flex {
     display: flex;
     flex-wrap: nowrap;
@@ -18,84 +24,79 @@ nav: contact
     gap: 60px;
   }
 
-  /* Left column: text */
-  .contact-text {
-    flex: 0 0 58%;
-    max-width: 58%;
-    font-family: 'Nunito', sans-serif;
-    color: #000;
-  }
+  /* Left column (text) / Right column (logo) */
+  .contact-text  { flex: 0 0 58%; max-width: 58%; }
+  .contact-visual{ flex: 0 0 42%; max-width: 42%;
+                   display:flex; align-items:center; justify-content:center;
+                   background:#fff; border-radius:10px;
+                   box-shadow:0 2px 10px rgba(0,0,0,.06); padding:16px; }
 
-  /* Right column: logo card */
-  .contact-logo-wrap {
-    flex: 0 0 42%;
-    max-width: 42%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.06);
-    padding: 16px;
-  }
-  .contact-logo {
-    display: block;
-    width: 100%;
-    height: auto;
-    max-width: 520px;
-    object-fit: contain;
-  }
+  .contact-logo  { display:block; width:100%; height:auto; max-width:520px; object-fit:contain; }
 
-  /* Bottom row: two even columns, fixed */
-  .contact-bottom {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 60px;
-    margin-top: 60px;
-  }
-  .contact-bottom .col {
-    flex: 0 0 50%;
-    max-width: 50%;
-  }
+  /* Bottom row: two equal columns */
+  .contact-bottom { display:flex; flex-wrap:nowrap; gap:60px; margin-top:60px; }
+  .contact-bottom .col { flex:0 0 50%; max-width:50%; }
 
-  /* Typography to match Home/Research scale */
+  /* === TYPOGRAPHY TO MATCH HOME === */
+  /* Headings like “Our mission” / “Latest news” */
   .contact-text h2,
   .contact-bottom h2 {
-    font-weight: 700;
-    font-size: 20px;          /* match Research h2=20px */
-    margin: 0 0 12px 0;
+    font-weight: 400;               /* same weight as Home section headings */
+    font-size: 20px;                /* same size as Home section headings */
+    line-height: 1.2;
+    margin: 0 0 16px 0;
     color: #000;
   }
+
+  /* Body text sized like Home blurbs */
   .contact-text p,
   .contact-text li,
   .contact-text address,
   .contact-bottom p {
-    font-size: 18px;          /* match body size used on Home blurbs */
+    font-size: clamp(16px, 2.8vw, 20px);   /* matches Home blurbs scaling */
     line-height: 1.6;
     margin: 0 0 8px 0;
   }
+
+  /* Home-style list bullets: short horizontal dash */
   .contact-text ul {
     margin: 0 0 16px 0;
-    padding: 0 0 0 18px;
+    padding: 0;
+    list-style: none;
   }
+  .contact-text li {
+    position: relative;
+    padding-left: 28px;
+    margin-bottom: 8px;
+  }
+  .contact-text li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.9em;           /* aligns with Home’s list dash */
+    width: 16px;
+    height: 2px;
+    background: #000;
+  }
+
+  /* Links: mimic Home link color/hover (research link on Home uses cornflower blue) */
   .contact-text a {
-    color: #0D5295;
+    color: #6495ED;                     /* same blue used on Home “Read more…” */
     text-decoration: none;
     font-weight: 600;
   }
   .contact-text a:hover,
   .contact-text a:focus {
-    color: #000;
     text-decoration: underline;
   }
 
   address { font-style: normal; }
 </style>
 
-<section class="contact-section">
-  <!-- TOP ROW (inherits container-narrow from layout) -->
+<section class="contact-wrap contact-section">
+  <!-- TOP ROW -->
   <div class="contact-flex">
-    <!-- LEFT: Text content -->
+    <!-- LEFT: Text -->
     <div class="contact-text">
       <h2>Affiliations</h2>
       <ul>
@@ -103,22 +104,22 @@ nav: contact
         <li>Department of Medicine, Faculty of Medicine, Université de Montréal</li>
       </ul>
 
-      <address>
-        <p style="font-weight:700;margin-top:16px;">Address:</p>
+      <address style="margin-top: 12px;">
+        <p style="font-weight:700;">Address:</p>
         <p>Marcelle-Coutu Pavilion</p>
         <p>2950 Chemin de Polytechnique</p>
         <p>Montréal, QC H3T 1J4, Canada</p>
 
-        <p style="font-weight:700;margin-top:16px;">Phone:</p>
+        <p style="font-weight:700; margin-top: 12px;">Phone:</p>
         <p><a href="tel:+15143436111">(514) 343-6111, ext. 17206</a></p>
 
-        <p style="font-weight:700;margin-top:16px;">Email:</p>
+        <p style="font-weight:700; margin-top: 12px;">Email:</p>
         <p style="margin:0;"><a href="mailto:carino.gurjao@umontreal.ca">carino.gurjao@umontreal.ca</a></p>
       </address>
     </div>
 
     <!-- RIGHT: Logo -->
-    <div class="contact-logo-wrap">
+    <div class="contact-visual">
       <img
         src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}"
         alt="Université de Montréal – IRIC Logo"

@@ -4,7 +4,6 @@ title: Home
 nav: home
 ---
 
-
 <!-- HERO IMAGE (use the same rail as the navbar) -->
 <div style="max-width:1100px; margin:0 auto; padding:0 15px; margin-bottom:2rem;">
   <img
@@ -13,7 +12,8 @@ nav: home
     class="img-responsive"
     style="display:block; margin:0 auto; max-width:100%; height:auto;">
 </div>
-<!-- TAGLINE + ARROWS + BLURBS (uses same 1100px rail as navbar/hero) -->
+
+<!-- TAGLINE + ARROWS + BLURBS (on the same rail; positioned parent) -->
 <div style="position:relative; max-width:1100px; margin:0 auto; padding:0 15px;">
 
   <!-- TAGLINE -->
@@ -25,25 +25,59 @@ nav: home
     <span style="text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px;">Treatment</span>
   </div>
 
-  <!-- CURVED ARROWS (adjust src paths to your files) -->
-  <!-- Arrow from “Prevention” to the left blurb -->
-  <img
-    src="{{ '/Pages/Home/Images/arrow-prevention.svg' | relative_url }}"
-    alt=""
+  <!-- RESPONSIVE CURVED ARROWS OVERLAY -->
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 1100 220"
+    preserveAspectRatio="none"
     aria-hidden="true"
-    style="position:absolute; pointer-events:none; z-index:1;
-           /* position tuned for your layout — tweak 'top' and 'left' if needed */
-           top: clamp(100px, 12vw, 160px);
-           width: clamp(80px, 10vw, 140px); height:auto;">
+    style="
+      position:absolute; left:0; right:0;
+      top: clamp(95px, 11vw, 150px);      /* move the entire overlay up/down */
+      width: 100%;
+      height: clamp(90px, 12vw, 160px);   /* arrow height scales with screen */
+      pointer-events: none; z-index: 1;
+    "
+  >
+    <defs>
+      <marker id="arrowhead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+        <path d="M0,0 L10,6 L0,12 Z" fill="#0D5295"/>
+      </marker>
+      <filter id="drop" x="-20%" y="-20%" width="140%" height="140%">
+        <feDropShadow dx="0" dy="1.5" stdDeviation="1.2" flood-color="#000" flood-opacity="0.15"/>
+      </filter>
+    </defs>
 
-  <!-- Arrow from “Treatment” to the right blurb -->
-  <img
-    src="{{ '/Pages/Home/Images/arrow-treatment.svg' | relative_url }}"
-    alt=""
-    aria-hidden="true"
-    style="position:absolute; pointer-events:none; z-index:1;
-         top: clamp(100px, 12vw, 160px);
-           width: clamp(80px, 10vw, 140px); height:auto;">
+    <!-- Arrow from "Prevention" to LEFT blurb -->
+    <path
+      d="
+        M 420,10
+        C 420,30  340,60  300,95
+        C 270,125 250,160  235,195
+      "
+      fill="none"
+      stroke="#0D5295"
+      stroke-width="4"
+      stroke-linecap="round"
+      marker-end="url(#arrowhead)"
+      filter="url(#drop)"
+    />
+
+    <!-- Arrow from "Treatment" to RIGHT blurb -->
+    <path
+      d="
+        M 690,10
+        C 690,30  770,60  810,95
+        C 840,125 860,160  875,195
+      "
+      fill="none"
+      stroke="#0D5295"
+      stroke-width="4"
+      stroke-linecap="round"
+      marker-end="url(#arrowhead)"
+      filter="url(#drop)"
+    />
+  </svg>
 
   <!-- BLURBS (ALWAYS TWO COLUMNS) -->
   <div class="row text-center"
@@ -64,10 +98,10 @@ nav: home
   </div>
 </div>
 
-
-<!-- MISSION + NEWS (ALWAYS 8/4 COLUMNS) -->
+<!-- MISSION + NEWS (ALWAYS 8/4 COLUMNS; same rail via Bootstrap container) -->
 <div class="container" style="margin-top:40px;margin-bottom:24px;">
   <div class="row" style="word-wrap:break-word;word-break:break-word;">
+    <!-- LEFT: Our Mission -->
     <div class="col-xs-8" style="font-family:'Nunito';color:#000;display:block;margin-bottom:16px;">
       <div>
         <h2 style="font-weight:400;font-size:20px;margin-top:0;">Our mission</h2>
@@ -98,6 +132,7 @@ nav: home
       </div>
     </div>
 
+    <!-- RIGHT: Latest News -->
     <aside class="col-xs-4" style="font-family:'Nunito';color:#000;display:block;">
       <h2 style="font-weight:400;font-size:20px;">Latest news</h2>
       <div style="flex-grow:1;max-height:60vh;overflow-y:auto;padding-right:4px;">

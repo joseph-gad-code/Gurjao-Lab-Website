@@ -216,7 +216,9 @@ body {
   <h1>All publications</h1>
 
   {% assign all_sorted = site.data.publications | sort: "year" | reverse %}
-  {% assign years = all_sorted | map: "year" | uniq %}
+  {% assign empty = "" | split: "" %}
+  {% assign items = all_sorted | default: empty %}
+  {% assign years = items | map: "year" | compact | uniq | sort | reverse %}
   {% for y in years %}
     <div class="pub-year-header">{{ y }}</div>
     {% assign pubs_for_year = all_sorted | where: "year", y %}

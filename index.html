@@ -34,14 +34,14 @@ nav: home
   /* tighter, but still responsive safety gap under the tips */
   margin-bottom:clamp(10px,4.5vw,20px);
 ">
-  <svg viewBox="0 0 1000 170"
+  <svg viewBox="0 0 1000 125"
        preserveAspectRatio="xMidYMid meet"
        style="width:100%; height:clamp(96px,12.5vw,160px); display:block; pointer-events:none;">
     <defs>
       <style>
         .arrow-stroke{
           stroke: #4B85E8;      /* GURJAOLAB blue */
-          stroke-width:6;
+          stroke-width:3;
           stroke-linecap:round;
           stroke-linejoin:round;
           fill:none;
@@ -71,13 +71,17 @@ nav: home
       <p style="font-weight:700;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
         While 80% of cancers are thought to be preventable, only about 5% of cancer funding goes toward prevention.
       </p>
-      <p>By understanding how mutations occur, we are moving science closer to stopping cancer before it starts and spreads.</p>
+      <p style="font-weight:400;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
+        By understanding how mutations occur, we are moving science closer to stopping cancer before it starts and spreads.
+      </p>
     </div>
     <div class="col-xs-6">
       <p style="font-weight:700;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
         The number of cancer treatments has exploded in recent years, creating a new challenge: ensuring each patient is matched with the right drug(s).
       </p>
-      <p>By decoding each tumor’s genetic profile, we are informing tailored cancer treatments.</p>
+      <p style="font-weight:400;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
+        By decoding each tumor’s genetic profile, we are informing tailored cancer treatments.
+      </p>
     </div>
   </div>
 </div>
@@ -87,7 +91,7 @@ nav: home
   <div class="row" style="word-wrap:break-word;word-break:break-word;">
     <div class="col-xs-8" style="font-family:'Nunito';color:#000;display:block;margin-bottom:16px;">
       <div>
-        <h2 style="font-weight:400;font-size:20px;margin-top:0;">Our mission</h2>
+        <h2 style="font-weight:700;font-size:20px;margin-top:0;">Our mission</h2>
         <p style="margin-bottom:12px;">
           We aim to deliver data-driven precision prevention and precision treatment.<br>
           Our work broadly focuses on:
@@ -116,7 +120,7 @@ nav: home
     </div>
 
     <aside class="col-xs-4" style="font-family:'Nunito';color:#000;display:block;">
-      <h2 style="font-weight:400;font-size:20px;">Latest news</h2>
+      <h2 style="font-weight:700;font-size:20px;">Latest news</h2>
       <div style="flex-grow:1;max-height:60vh;overflow-y:auto;padding-right:4px;">
         {% assign items = site.data.news | sort: "date" | reverse %}
         {% if items and items.size > 0 %}

@@ -30,37 +30,37 @@ nav: home
   max-width:1100px;
   margin:0 auto;
   padding:0 15px;
-  margin-top:clamp(6px,1vw,9px);
+  margin-top:clamp(4px,0.8vw,10px);
   /* tighter, but still responsive safety gap under the tips */
-  margin-bottom:clamp(10px,4.5vw,20px);
+  margin-bottom:clamp(4px,1.4vw,12px);
 ">
-  <svg viewBox="0 0 1000 170"
+  <svg viewBox="0 0 1000 150"
        preserveAspectRatio="xMidYMid meet"
-       style="width:100%; height:clamp(96px,12.5vw,160px); display:block; pointer-events:none;">
+       style="width:100%; height:clamp(88px,11vw,150px); display:block; pointer-events:none;">
     <defs>
       <style>
         .arrow-stroke{
           stroke: #4B85E8;      /* GURJAOLAB blue */
-          stroke-width:3;
+          stroke-width:2.5;
           stroke-linecap:round;
           stroke-linejoin:round;
           fill:none;
-          stroke-dasharray:14 12;
+          stroke-dasharray:10 10;
         }
       </style>
-      <marker id="headSmall" markerWidth="6" markerHeight="6"
-              refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
-        <path d="M1,1 L5,3 L1,5 Q2.2,3 1,1 Z" fill="#4B85E8"/>
+      <marker id="headSmall" markerWidth="5" markerHeight="5"
+              refX="4.5" refY="2.6" orient="auto" markerUnits="strokeWidth">
+        <path d="M1,1 L4.2,2.6 L1,4.2 Q2.0,2.6 1,1 Z" fill="#4B85E8"/>
       </marker>
     </defs>
 
     <!-- Shortened a touch (end y from ~150 -> ~132) so tips sit closer to the text -->
     <!-- left -->
     <path class="arrow-stroke" marker-end="url(#headSmall)"
-      d="M 400 18 A 300 300 0 0 0 200 170" />
+      d="M 395 16 A 260 260 0 0 0 240 136" />
     <!-- RIGHT arrow: start at ~Treatment, curve CLOCKWISE down-right -->
     <path class="arrow-stroke" marker-end="url(#headSmall)"
-      d="M 600 18 A 300 300 0 0 1 800 170" />
+      d="M 605 16 A 260 260 0 0 1 760 136" />
   </svg>
 </div>
 

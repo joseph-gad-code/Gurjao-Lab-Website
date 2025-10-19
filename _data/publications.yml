@@ -168,12 +168,12 @@
     display: Cancer Research 84, 994-994 (2024)
   publisher_url: https://doi.org/10.1158/1538-7445.am2024-994
   pdf_url: null
-  image: null
   description: null
   highlight: 0
   news1: null
   news2: null
-  selected_publication: false
+  selected_publication: true
+  image: /Pages/Publications/Images/Paper_2025.png
 - title: Bayesian risk prediction model for colorectal cancer mortality through integration
     of clinicopathologic and genomic data
   authors: Melissa Zhao, Mai Chan Lau, Koichiro Haruki, Juha P. Väyrynen, Carino Gurjao,
@@ -291,12 +291,12 @@
     display: Cancer Discovery 11, 2446-2455 (2021)
   publisher_url: https://doi.org/10.1158/2159-8290.cd-20-1656
   pdf_url: null
-  image: null
   description: null
   highlight: 0
   news1: null
   news2: null
-  selected_publication: false
+  selected_publication: true
+  image: /Pages/Publications/Images/Paper_2021.jpeg
 - title: Dynamic single-cell RNA sequencing identifies immunotherapy persister cells
     following PD-1 blockade
   authors: Kartik Sehgal, Andrew Portell, Elena V. Ivanova, Patrick H. Lizotte, Navin

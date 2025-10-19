@@ -24,63 +24,51 @@ nav: home
         style="text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px;">Treatment</span>
 </div>
 
-<!-- ARROWS: curved downward, small soft heads -->
-<div style="
-  position:relative;
-  max-width:1100px;
-  margin:0 auto;
-  padding:0 15px;
-  margin-top: clamp(8px, 1.5vw, 18px);
-">
-  <svg viewBox="0 0 1000 180"
-       preserveAspectRatio="xMidYMid meet"
-       style="width:100%; height: clamp(90px, 12vw, 160px); display:block; pointer-events:none;">
+<!-- ARROWS: responsive, measured from the underlined words to the blurbs -->
+<div id="arrow-layer"
+     style="position:relative; max-width:1100px; margin:0 auto; padding:0 15px;
+            height: clamp(100px, 12vw, 160px); margin-top: clamp(8px, 1.5vw, 18px);">
+  <svg id="arrow-svg" width="100%" height="100%" viewBox="0 0 1000 140"
+       preserveAspectRatio="none" style="display:block; pointer-events:none;">
     <defs>
       <style>
         .arrow-stroke{
-          stroke:#0D5295;                /* GURJAOLAB blue */
+          stroke:#0D5295;            /* GURJAOLAB blue */
           stroke-width:6;
           stroke-linecap:round;
           stroke-linejoin:round;
           fill:none;
-          stroke-dasharray:14 12;        /* dashed look */
+          stroke-dasharray:12 10;    /* dashed look */
         }
       </style>
-
       <!-- small, soft arrowhead -->
-      <marker id="headSmall"
+      <marker id="head-soft"
               markerWidth="6" markerHeight="6"
-              refX="5" refY="3"
-              orient="auto"
-              markerUnits="strokeWidth">
-        <!-- rounded heel for a softer look -->
-        <path d="M1,1 L5,3 L1,5 Q2.2,3 1,1 Z" fill="#0D5295" />
+              refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+        <!-- curved heel for softness -->
+        <path d="M1,1 L5,3 L1,5 Q2.1,3 1,1 Z" fill="#0D5295"/>
       </marker>
     </defs>
 
-    <!-- LEFT arrow (from 'Prevention' center down to left blurb) -->
-    <!-- Adjust the first & last numbers if you want to nudge start/end x positions -->
-    <path class="arrow-stroke" marker-end="url(#headSmall)"
-          d="M 420 18 C 410 55, 360 110, 300 150" />
-
-    <!-- RIGHT arrow (from 'Treatment' center down to right blurb) -->
-    <path class="arrow-stroke" marker-end="url(#headSmall)"
-          d="M 580 18 C 590 55, 640 110, 700 150" />
+    <!-- paths are filled in by JS -->
+    <path id="arrow-left"  class="arrow-stroke" marker-end="url(#head-soft)" d="M0,0 Q0,0 0,0"/>
+    <path id="arrow-right" class="arrow-stroke" marker-end="url(#head-soft)" d="M0,0 Q0,0 0,0"/>
   </svg>
 </div>
-
 
 <!-- BLURBS (ALWAYS TWO COLUMNS) -->
 <div class="container" style="margin:10px auto 28px;">
   <div class="row text-center" style="font-size:18px;line-height:1.6;font-family:'Nunito';word-wrap:break-word;word-break:break-word;">
     <div class="col-xs-6" style="padding-bottom:16px;">
-      <p style="font-weight:700;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
+      <!-- add id so the left arrow can land precisely -->
+      <p id="blurb-left" style="font-weight:700;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
         While 80% of cancers are thought to be preventable, only about 5% of cancer funding goes toward prevention.
       </p>
       <p>By understanding how mutations occur, we are moving science closer to stopping cancer before it starts and spreads.</p>
     </div>
     <div class="col-xs-6">
-      <p style="font-weight:700;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
+      <!-- add id so the right arrow can land precisely -->
+      <p id="blurb-right" style="font-weight:700;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
         The number of cancer treatments has exploded in recent years, creating a new challenge: ensuring each patient is matched with the right drug(s).
       </p>
       <p>By decoding each tumor’s genetic profile, we are informing tailored cancer treatments.</p>
@@ -157,3 +145,64 @@ nav: home
     </aside>
   </div>
 </div>
+
+<!-- Arrow drawing logic -->
+<script>
+(function() {
+  const layer   = document.getElementById('arrow-layer');
+  const svg     = document.getElementById('arrow-svg');
+  const leftP   = document.getElementById('tag-prevention');
+  const rightP  = document.getElementById('tag-treatment');
+  const blurbL  = document.getElementById('blurb-left');
+  const blurbR  = document.getElementById('blurb-right');
+  const pathL   = document.getElementById('arrow-left');
+  const pathR   = document.getElementById('arrow-right');
+
+  function centerX(el, within) {
+    const eb = el.getBoundingClientRect();
+    const wb = within.getBoundingClientRect();
+    return eb.left + eb.width/2 - wb.left;
+  }
+
+  function redraw() {
+    if (!layer || !leftP || !rightP || !blurbL || !blurbR) return;
+
+    const lb = layer.getBoundingClientRect();
+    const W  = lb.width;
+    const H  = layer.clientHeight;
+
+    // Make the viewBox match the current pixel size of the layer
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+
+    // Start near the bottom of the underlines (close to the top of the layer)
+    const startY = Math.max(10, H * 0.12);
+
+    // X positions under each underlined word
+    const xL = centerX(leftP,  layer);
+    const xR = centerX(rightP, layer);
+
+    // End just above the bold blurb lines within this band
+    const yEnd = Math.min(H - 10, H * 0.92);
+
+    // Land horizontally centered above each first blurb paragraph
+    const eL = centerX(blurbL, layer);
+    const eR = centerX(blurbR, layer);
+
+    // Control points: pull down & slightly outward for a circular-ish swoop
+    const cpY  = H * 0.66;          // deeper = more curve
+    const cpLx = xL - W * 0.10;     // push outward to the left
+    const cpRx = xR + W * 0.10;     // push outward to the right
+
+    // Quadratic bezier
+    pathL.setAttribute('d', `M ${xL} ${startY} Q ${cpLx} ${cpY} ${eL} ${yEnd}`);
+    pathR.setAttribute('d', `M ${xR} ${startY} Q ${cpRx} ${cpY} ${eR} ${yEnd}`);
+  }
+
+  // Debounced redraw on load & resize
+  let raf;
+  function onResize(){ cancelAnimationFrame(raf); raf = requestAnimationFrame(redraw); }
+
+  window.addEventListener('load', redraw);
+  window.addEventListener('resize', onResize);
+})();
+</script>

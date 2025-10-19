@@ -1,0 +1,64 @@
+{%- comment -%}
+  authors_compact.html
+  Usage:
+    {% include authors_compact.html
+         authors=p.authors
+         max=20
+         highlight='Gurjao' %}
+
+  - Abbreviates: "First Middle Last" -> "F. M. Last"
+  - Truncates after `max` -> adds "et al."
+  - If `highlight` provided, bolds any author whose full name or last name
+    matches it (case-insensitive).
+{%- endcomment -%}
+
+{%- assign _raw = include.authors | default: '' | strip -%}
+{%- if _raw == '' -%}{% comment %}No authors provided{% endcomment %}{%- endif -%}
+
+{%- assign _sep_fixed = _raw
+  | replace: ', and ', '|'
+  | replace: ' and ', '|'
+  | replace: ', ', '|'
+-%}
+{%- assign _names = _sep_fixed | split: '|' -%}
+{%- assign _names = _names | uniq -%}
+
+{%- assign _max = include.max | default: _names.size -%}
+{%- assign _hl  = include.highlight | default: '' | downcase | strip -%}
+
+{%- for _raw_name in _names -%}
+  {%- if forloop.index0 >= _max -%}
+    et al.{% break %}
+  {%- endif -%}
+
+  {%- assign _name = _raw_name | strip -%}
+  {%- assign _tokens = _name | split: ' ' -%}
+  {%- assign _last = _tokens | last -%}
+  {%- assign _firsts = '' -%}
+  {%- if _tokens.size > 1 -%}
+    {%- capture _firsts -%}
+      {%- for t in _tokens offset:0 limit: {{ _tokens.size | minus: 1 }} -%}
+        {%- assign _t = t | strip -%}
+        {%- if _t != '' -%}{{ _t | slice: 0, 1 | upcase }}.{% if forloop.last == false %} {% endif %}{%- endif -%}
+      {%- endfor -%}
+    {%- endcapture -%}
+  {%- endif -%}
+
+  {%- assign _abbr = _firsts | append: ' ' | append: _last -%}
+  {%- assign _abbr = _abbr | strip -%}
+
+  {%- assign _name_dn = _name | downcase -%}
+  {%- assign _last_dn = _last | downcase -%}
+  {%- assign _is_hl = false -%}
+  {%- if _hl != '' and (_name_dn contains _hl or _last_dn == _hl) -%}
+    {%- assign _is_hl = true -%}
+  {%- endif -%}
+
+  {%- if _is_hl -%}
+    <strong class="author author--me">{{ _abbr }}</strong>
+  {%- else -%}
+    <span class="author">{{ _abbr }}</span>
+  {%- endif -%}
+
+  {%- unless forloop.last or forloop.index0+1 == _max -%}, {% endunless -%}
+{%- endfor -%}

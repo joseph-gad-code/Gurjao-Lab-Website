@@ -46,7 +46,7 @@ body {
 /* Selected Publications — Grid (ALWAYS TWO COLUMNS) */
 .pub-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr)); /* fixed two columns */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--gap);
   margin-bottom: 36px;
 }
@@ -62,16 +62,13 @@ body {
   background: var(--white);
   box-shadow: 0 1px 2px rgba(0,0,0,.03);
   transition: box-shadow .15s ease, transform .15s ease, border-color .15s ease;
-  word-break: break-word; /* keep two columns, wrap text */
+  word-break: break-word;
 }
-
 .pub-card:hover {
   border-color: #e6e6e6;
   box-shadow: 0 2px 10px rgba(0,0,0,.06);
   transform: translateY(-1px);
 }
-
-/* Highlight Selected Publications */
 .pub-card.selected {
   border-color: var(--lightblue);
   box-shadow: 0 3px 12px rgba(100,149,237,.25);
@@ -93,7 +90,6 @@ body {
   background: var(--white);
   display: block;
 }
-
 .thumb-fallback {
   width: 100%;
   height: 100%;
@@ -146,7 +142,12 @@ body {
   border-radius: 999px;
 }
 
-/* All Publications (two-column list preserved by wrapping inside each item) */
+/* Minor styling for structured meta bits */
+.pub-row .venue .vol   { margin-left: 6px; }
+.pub-row .venue .issue { margin-left: 2px; }
+.pub-row .venue .pages { margin-left: 6px; }
+
+/* All Publications */
 .pub-list {
   display: grid;
   gap: 14px;
@@ -177,17 +178,20 @@ body {
   {%- assign selected = pubs | where: "selected_publication", true -%}
   {% if selected and selected.size > 0 %}
   <div class="pub-grid">
+    {% for p in selected %}
+      {% capture authors %}
+        {% include authors_compact.html authors=p.authors max=10 highlight_list=page.lab_names %}
+      {% endcapture %}
+
       <article class="pub-card selected">
-        <a class="thumb" href="{{ p.publisher_url | default: p.link.url }}" aria-label="{{ p.title }}">
-        {% capture authors %}
-          {% include authors_compact.html authors=p.authors max=10 highlight_list=page.lab_names %}
-        {% endcapture %}
+        <a class="thumb" href="{{ p.publisher_url | default: p.url | default: p.link.url }}" aria-label="{{ p.title }}">
           {% if p.image %}
             <img src="{{ p.image | relative_url }}" alt="{{ p.title | escape }}">
           {% else %}
             <div class="thumb-fallback">No image</div>
           {% endif %}
         </a>
+
         <div class="meta">
           <h3 class="title">
             {% if p.url %}
@@ -196,15 +200,19 @@ body {
               {{ p.title }}
             {% endif %}
           </h3>
-         {% if p.authors %}
-          <div class="authors">{{ authors | strip }}</div>
-         {% endif %}
-         <div class="pub-meta">
-              {% if p.venue %}<span class="venue">{{ p.venue }}</span>{% endif %}
-              {% if p.journal %}<em>{{ p.journal }}</em>{% endif %}
-              {% if p.pages %}<span class="pages">, {{ p.pages }}</span>{% endif %}
-              {% if p.year %}<span class="year"> ({{ p.year }})</span>{% endif %}
-              {% if p.doi and p.doi != "" %}
+
+          {% if p.authors %}
+            <div class="authors">{{ authors | strip }}</div>
+          {% endif %}
+
+          <div class="venue">
+            {% assign j = p.journal | default: p.venue %}
+            {% if j %}<em>{{ j }}</em>{% endif %}
+            {% if p.volume %}<span class="vol"> <strong>{{ p.volume }}</strong></span>{% endif %}
+            {% if p.issue %}<span class="issue">({{ p.issue }})</span>{% endif %}
+            {% if p.pages %}<span class="pages">: {{ p.pages }}</span>{% endif %}
+            {% if p.year %}<span class="year">, {{ p.year }}</span>{% endif %}
+            {% if p.doi and p.doi != "" %}
               <a class="doi" href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">DOI</a>
             {% endif %}
           </div>
@@ -230,29 +238,38 @@ body {
     {% assign pubs_for_year = all_sorted | where: "year", y %}
     <div class="pub-list">
       {% for p in pubs_for_year %}
-        {% include authors_compact.html authors=p.authors max=10 highlight='Gurjao' %}
-        {% for ln in page.lab_names %}
-          {% assign needle1 = " " | append: ln %}
-          {% assign repl1   = " <strong>" | append: ln | append: "</strong>" %}
-          {% assign authors = authors | replace: needle1, repl1 %}
-          {% assign needle2 = ln | append: "," %}
-          {% assign repl2   = "<strong>" | append: ln | append: "</strong>," %}
-          {% assign authors = authors | replace: needle2, repl2 %}
-        {% endfor %}
+        {% capture authors %}
+          {% include authors_compact.html authors=p.authors max=10 highlight_list=page.lab_names %}
+        {% endcapture %}
+
+        {%- comment -%}
+          Prefer DOI for the title link. Fall back to p.url or link.url.
+        {%- endcomment -%}
+        {% assign title_href = nil %}
+        {% if p.doi %}{% assign title_href = 'https://doi.org/' | append: p.doi %}
+        {% elsif p.url %}{% assign title_href = p.url %}
+        {% elsif p.link and p.link.url %}{% assign title_href = p.link.url %}
+        {% endif %}
 
         <article class="pub-row">
           <h3 class="title">
-            {% if p.url %}
-              <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+            {% if title_href %}
+              <a href="{{ title_href }}" target="_blank" rel="noopener">{{ p.title }}</a>
             {% else %}
               {{ p.title }}
             {% endif %}
           </h3>
+
           {% if p.authors %}
-            <div class="authors">{{ authors }}</div>
+            <div class="authors">{{ authors | strip }}</div>
           {% endif %}
+
           <div class="venue">
-            {% if p.journal %}<em>{{ p.journal }}</em>{% endif %}
+            {% assign j = p.journal | default: p.venue %}
+            {% if j %}<em>{{ j }}</em>{% endif %}
+            {% if p.volume %}<span class="vol"> <strong>{{ p.volume }}</strong></span>{% endif %}
+            {% if p.issue %}<span class="issue">({{ p.issue }})</span>{% endif %}
+            {% if p.pages %}<span class="pages">: {{ p.pages }}</span>{% endif %}
             {% if p.year %}<span class="year">, {{ p.year }}</span>{% endif %}
             {% if p.doi and p.doi != "" %}
               <a class="doi" href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">DOI</a>

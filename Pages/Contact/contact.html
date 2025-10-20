@@ -1,27 +1,141 @@
-<!-- RIGHT: Logo (scaled to match text column height) -->
-<div class="col-xs-5">
-  <div style="
-    background:#fff;
-    border:1px solid #eee;
-    border-radius:10px;
-    padding:12px;
-    width:100%;
-    height:100%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    overflow:hidden;
-  ">
-    <img
-      src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}"
-      alt="Université de Montréal – IRIC Logo"
-      class="img-responsive center-block"
-      style="
-        max-width:85%;
-        max-height:85%;
-        height:auto;
-        object-fit:contain;
-        display:block;
+---
+title: Contact
+layout: default
+permalink: /contact/
+nav: contact
+---
+
+<style>
+  /* Apply hover underline ONLY to phone and email links */
+  a.contact-link {
+    text-decoration: none;
+    color: #6495EC;
+    font-weight: 600;
+    transition: text-decoration 0.2s ease;
+  }
+  a.contact-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Match values-section style from People page */
+  .contact-values-section {
+    margin-top: 60px;
+    text-align: center;
+    font-family: 'Nunito', sans-serif;
+    color: #000;
+  }
+
+  .contact-values-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+  .contact-value-col {
+    flex: 1 1 400px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    padding: 30px;
+    text-align: left;
+  }
+
+  .contact-value-col h3 {
+    color: #000;
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    text-transform: none;
+  }
+
+  .contact-value-col p {
+    font-size: 15px;
+    color: #333;
+    line-height: 1.6;
+  }
+</style>
+
+<!-- Match Home's width rail -->
+<section style="max-width:1100px;margin:0 auto;padding:0 15px;">
+
+  <!-- Top row (ALWAYS two columns like Home) -->
+  <div class="row" style="margin-top:40px;">
+
+    <!-- LEFT: Text -->
+    <div class="col-xs-7" style="font-family:'Nunito',sans-serif;color:#000;">
+
+      <h2 style="font-weight:700;font-size:20px;margin-top:0;margin-bottom:12px;">Affiliations</h2>
+      <ul class="list-unstyled" style="margin:0 0 16px 0;">
+        <li>Institut de recherche en immunologie et en cancérologie (IRIC)</li>
+        <li>Department of Medicine, Faculty of Medicine, Université de Montréal</li>
+      </ul>
+
+      <div style="line-height:1.6;">
+        <p style="font-weight:700;margin:12px 0 4px;">Address:</p>
+        <p style="margin:0;">Marcelle-Coutu Pavilion</p>
+        <p style="margin:0;">2950 Chemin de Polytechnique</p>
+        <p style="margin:0;">Montréal, QC H3T 1J4, Canada</p>
+
+        <p style="font-weight:700;margin:16px 0 4px;">Phone:</p>
+        <p style="margin:0;">
+          <a href="tel:+15143436111" class="contact-link">(514) 343-6111, ext. 17206</a>
+        </p>
+
+        <p style="font-weight:700;margin:16px 0 4px;">Email:</p>
+        <p style="margin:0;">
+          <a href="mailto:carino.gurjao@umontreal.ca" class="contact-link">
+            carino.gurjao@umontreal.ca
+          </a>
+        </p>
+      </div>
+    </div>
+
+    <!-- RIGHT: Logo (scaled to match text column height) -->
+    <div class="col-xs-5">
+      <div style="
+        background:#fff;
+        border:1px solid #eee;
+        border-radius:10px;
+        padding:12px;
+        width:100%;
+        height:100%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        overflow:hidden;
       ">
+        <img
+          src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}"
+          alt="Université de Montréal – IRIC Logo"
+          class="img-responsive center-block"
+          style="
+            max-width:85%;
+            max-height:85%;
+            height:auto;
+            object-fit:contain;
+            display:block;
+          ">
+      </div>
+    </div>
   </div>
-</div>
+
+  <!-- Bottom section (formatted like Core Values) -->
+  <section class="contact-values-section">
+    <div class="contact-values-grid">
+      <div class="contact-value-col">
+        <h3>Open positions</h3>
+        <p>
+          We are currently open to hiring at all levels. Please send applications to the e-mail address above.
+        </p>
+      </div>
+      <div class="contact-value-col">
+        <h3>Contribute</h3>
+        <p>
+          We welcome all types of contributions — collaborations, donations, or ideas to make our science more accessible and open source. Get in touch by e-mail!
+        </p>
+      </div>
+    </div>
+  </section>
+
+</section>

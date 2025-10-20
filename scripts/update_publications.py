@@ -110,25 +110,39 @@ def enrich_with_crossref(pub):
 
 
 def get_scholar_publications():
-    """Fetch all publications for given author from Google Scholar."""
-    url = (
-        f"https://serpapi.com/search.json?"
-        f"engine=google_scholar_author&author_id={SCHOLAR_AUTHOR_ID}&api_key={SERPAPI_KEY}"
-    )
-    r = requests.get(url)
-    r.raise_for_status()
-    data = r.json()
+    """Fetch all publications for the given author from Google Scholar via SerpApi."""
     pubs = []
-    for item in data.get("articles", []):
-        pubs.append({
-            "title": item.get("title", ""),
-            "url": item.get("link", ""),
-            "doi": item.get("publication_info", {}).get("doi", ""),
-            "journal": item.get("publication", ""),
-            "authors": [],
-            "selected_publication": "no",
-            "image": "",
-        })
+    next_token = None
+
+    while True:
+        url = (
+            f"https://serpapi.com/search.json?"
+            f"engine=google_scholar_author&author_id={SCHOLAR_AUTHOR_ID}"
+            f"&api_key={SERPAPI_KEY}"
+        )
+        if next_token:
+            url += f"&after_author={quote_plus(next_token)}"
+
+        r = requests.get(url)
+        r.raise_for_status()
+        data = r.json()
+
+        for item in data.get("articles", []):
+            pubs.append({
+                "title": item.get("title", ""),
+                "url": item.get("link", ""),
+                "doi": item.get("publication_info", {}).get("doi", ""),
+                "journal": item.get("publication", ""),
+                "authors": [],
+                "selected_publication": "no",
+                "image": "",
+            })
+
+        next_token = data.get("serpapi_pagination", {}).get("next", "")
+        if not next_token:
+            break
+        time.sleep(REQUEST_PAUSE)
+
     return pubs
 
 

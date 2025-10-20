@@ -159,11 +159,10 @@ def enrich_with_crossref(pub):
 
     out.update(meta)
 
-    # Warn if Gurjão/Gurjao not found
+    # Skip
     authors = out.get("authors", [])
     if authors and not any("gurjao" in normalize_text(a) for a in authors):
-        print(f"⚠️ 'Gurjao' not found in Crossref author list for: {out['title']}")
-
+        continue
     return out
 
 

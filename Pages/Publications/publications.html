@@ -65,6 +65,11 @@ h1, h2 {
   line-height: 1.4;
 }
 
+.pub-authors strong {
+  font-weight: 700;
+  color: var(--blue);
+}
+
 .pub-meta {
   font-size: 14px;
   color: var(--gray);
@@ -100,12 +105,31 @@ h1, h2 {
         {% endif %}
       </h3>
 
-      <!-- Line 2: Authors -->
+      <!-- Line 2: Authors (with lab member highlighting) -->
       {% if p.authors %}
-        {% capture authors %}
-          {% include authors_compact.html authors=p.authors max=9999 highlight_list=page.lab_names %}
+        {% capture author_list %}
+          {% assign highlighted_authors = "" %}
+          {% for author in p.authors %}
+            {% assign match = false %}
+            {% for lab in page.lab_names %}
+              {% if author contains lab %}
+                {% assign match = true %}
+              {% endif %}
+            {% endfor %}
+            {% if match %}
+              {% assign author_html = "<strong>" | append: author | append: "</strong>" %}
+            {% else %}
+              {% assign author_html = author %}
+            {% endif %}
+            {% if forloop.first %}
+              {% assign highlighted_authors = author_html %}
+            {% else %}
+              {% assign highlighted_authors = highlighted_authors | append: ", " | append: author_html %}
+            {% endif %}
+          {% endfor %}
+          {{ highlighted_authors }}
         {% endcapture %}
-        <div class="pub-authors">{{ authors | strip }}</div>
+        <div class="pub-authors">{{ author_list | strip }}</div>
       {% endif %}
 
       <!-- Line 3: Journal + Year + Link -->

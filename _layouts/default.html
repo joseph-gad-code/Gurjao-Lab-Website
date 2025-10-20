@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <!-- Keep this for proper mobile scaling -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
   <title>GURJAOLAB | {{ page.title }}</title>
 
@@ -23,35 +23,58 @@
     body { margin:0; font-family:'Nunito',sans-serif; color:#000; line-height:1.5; overflow-x:hidden; }
 
     /* Site width and gutters */
-    :root{
-      --base-width: 1100px;                         /* your designed page width */
-      --gutter: clamp(20px, 4vw, 24px);             /* consistent side padding */
-    }
+   :root {
+  --base-width: 1100px;                 /* your design width */
+  --gutter: clamp(16px, 6vw, 28px);     /* page side margins on small screens */
+  --sai-l: env(safe-area-inset-left, 0px);
+  --sai-r: env(safe-area-inset-right, 0px);
+  --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
+  --inset: clamp(16px, 6vw, 28px);      /* inner rails padding (nav/sections) */
+}
 
-    /* ---------- Scale-to-fit wrapper (left anchored) ---------- */
-    .page-scale-outer{
-      width:100vw;                                   /* fill viewport width */
-      overflow-x:hidden;                             /* no horizontal scrollbars */
-      padding-left: env(safe-area-inset-left, 0);    /* iOS safe areas */
-      padding-right: env(safe-area-inset-right, 0);
-      /* optional top spacing for content across the site */
-      padding-top: clamp(12px, 1.8vw, 24px);
-    }
+/* outer wrapper carries real side padding; clip any stray overflow */
+.page-scale-outer{
+  width: 100svw;                                         /* use small viewport width */
+  padding-left:  calc(var(--gutter) + var(--sai-l));
+  padding-right: calc(var(--gutter) + var(--sai-r));
+  overflow-x: clip;                                      /* more robust than hidden on iOS */
+}
+
+/* the actual fixed-width page that gets scaled */
+.page-scale-frame{
+  width: var(--base-width);
+  transform-origin: top left;                            /* keep left-anchored */
+}
+
+/* shrink proportionally below base width */
+@media (max-width: 1100px){
+  .page-scale-frame{
+    /* subtract gutters + safe areas + a tiny cushion to kill rounding overflow */
+    transform: scale(
+      calc( (max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width) )
+    );
+  }
+}
+
+/* at/above base width: no scale, center it */
+@media (min-width: 1100px){
+  .page-scale-frame{
+    transform: none;
+    margin: 0 auto;
+  }
+}
+
+/* fallback for browsers that don't support svw (older Android/desktop) */
+@supports not (width: 100svw){
+  .page-scale-outer{ width: 100vw; }
+  @media (max-width: 1100px){
     .page-scale-frame{
-      width:var(--base-width);
-      transform-origin: top left;                    /* anchor to left edge */
+      transform: scale(
+        calc( (100vw - var(--page-pad) - 1px) / var(--base-width) )
+      );
     }
-    /* Below base width -> scale down proportionally (fits screen) */
-    @media (max-width: 1100px){
-      .page-scale-frame{
-        transform: scale(calc(100vw / var(--base-width)));
-      }
-    }
-    /* At/above base width -> full size and centered */
-    @media (min-width: 1100px){
-      .page-scale-frame{ transform:none; margin:0 auto; }
-    }
-
+  }
+}
     /* ---------- Shared rails & containers ---------- */
     /* This matches the width rail you use on pages and nav */
     .container-narrow{

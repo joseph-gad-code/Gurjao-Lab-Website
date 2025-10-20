@@ -44,7 +44,6 @@ nav: contact
     font-size: 16px;
     margin-bottom: 10px;
     font-weight: 700;
-    text-transform: none;
   }
 
   .contact-value-col p {
@@ -53,23 +52,24 @@ nav: contact
     line-height: 1.6;
   }
 
-  /* === Layout alignment for Contact top section === */
-  .contact-row {
+  /* === Contact top section layout === */
+  .contact-top {
     display: flex;
-    flex-wrap: wrap;
     align-items: stretch;
+    justify-content: space-between;
+    gap: 40px;
     margin-top: 40px;
-    gap: 20px;
+    flex-wrap: nowrap;
   }
 
   .contact-left {
-    flex: 1 1 60%;
+    flex: 0 0 60%;
     font-family: 'Nunito', sans-serif;
     color: #000;
   }
 
   .contact-right {
-    flex: 1 1 40%;
+    flex: 0 0 40%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -81,8 +81,6 @@ nav: contact
     border-radius: 10px;
     padding: 12px;
     width: 100%;
-    max-width: 360px;
-    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -91,22 +89,22 @@ nav: contact
 
   .contact-logo-box img {
     width: auto;
-    height: 90%;
+    height: 100%;
+    max-height: 100%;
     object-fit: contain;
     display: block;
   }
 
   @media (max-width: 768px) {
-    .contact-row {
+    .contact-top {
       flex-direction: column;
       align-items: center;
     }
-    .contact-right {
-      width: 100%;
-      margin-top: 20px;
+    .contact-left, .contact-right {
+      flex: 1 1 100%;
     }
     .contact-logo-box {
-      max-width: 300px;
+      max-width: 320px;
       height: auto;
     }
     .contact-logo-box img {
@@ -119,8 +117,8 @@ nav: contact
 <!-- Match Home's width rail -->
 <section style="max-width:1100px;margin:0 auto;padding:0 15px;">
 
-  <!-- Top row (flexbox, equal heights) -->
-  <div class="contact-row">
+  <!-- Top row (side-by-side flex with equal heights) -->
+  <div class="contact-top">
 
     <!-- LEFT: Text -->
     <div class="contact-left">
@@ -151,7 +149,7 @@ nav: contact
       </div>
     </div>
 
-    <!-- RIGHT: Logo (matches text height) -->
+    <!-- RIGHT: Logo -->
     <div class="contact-right">
       <div class="contact-logo-box">
         <img
@@ -159,6 +157,7 @@ nav: contact
           alt="Université de Montréal – IRIC Logo">
       </div>
     </div>
+
   </div>
 
   <!-- Bottom section (formatted like Core Values) -->

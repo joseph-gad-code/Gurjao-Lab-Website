@@ -16,6 +16,7 @@ lab_names:
   --lightgray: #777;
   --border: #eee;
   --card-bg: #fff;
+  --white: #fff;
 }
 
 /* Layout */
@@ -103,14 +104,13 @@ h2 {
 
 .pub-meta em {
   font-style: italic;
-  color: #555;
 }
 
 .pub-button {
   display: inline-block;
   margin-top: 10px;
-  background-color: var(--blue);
-  color: #fff;
+  background-color: var(--white);
+  color: var(--lightblue);
   text-decoration: none;
   font-weight: 600;
   font-size: 14px;
@@ -141,6 +141,15 @@ h2 {
         </div>
         <div class="pub-authors">
           {% for author in p.authors %}
+            {% assign parts = author | split: " " %}
+            {% assign last = parts | last %}
+            {% assign initials = "" %}
+            {% for part in parts %}
+              {% if forloop.last == false %}
+                {% assign initials = initials | append: part | slice: 0,1 | append: "." %}
+              {% endif %}
+            {% endfor %}
+            {% assign abbreviated = initials | append: " " | append: last %}
             {% assign match = false %}
             {% for lab in page.lab_names %}
               {% if author contains lab %}
@@ -148,15 +157,15 @@ h2 {
               {% endif %}
             {% endfor %}
             {% if match %}
-              <strong>{{ author }}</strong>{% if forloop.last == false %}, {% endif %}
+              <strong>{{ abbreviated }}</strong>{% if forloop.last == false %}, {% endif %}
             {% else %}
-              {{ author }}{% if forloop.last == false %}, {% endif %}
+              {{ abbreviated }}{% if forloop.last == false %}, {% endif %}
             {% endif %}
           {% endfor %}
         </div>
         <div class="pub-meta">
           {% if p.journal %}<em>{{ p.journal }}</em>{% endif %}
-          {% if p.year %}, {{ p.year }}{% endif %}
+          {% if p.year %},{{ p.year }}{% endif %}
         </div>
         {% if p.doi %}
           <a class="pub-button" href="https://doi.org/{{ p.doi }}" target="_blank">Link</a>
@@ -179,6 +188,15 @@ h2 {
         </div>
         <div class="pub-authors">
           {% for author in p.authors %}
+            {% assign parts = author | split: " " %}
+            {% assign last = parts | last %}
+            {% assign initials = "" %}
+            {% for part in parts %}
+              {% if forloop.last == false %}
+                {% assign initials = initials | append: part | slice: 0,1 | append: "." %}
+              {% endif %}
+            {% endfor %}
+            {% assign abbreviated = initials | append: " " | append: last %}
             {% assign match = false %}
             {% for lab in page.lab_names %}
               {% if author contains lab %}
@@ -186,15 +204,15 @@ h2 {
               {% endif %}
             {% endfor %}
             {% if match %}
-              <strong>{{ author }}</strong>{% if forloop.last == false %}, {% endif %}
+              <strong>{{ abbreviated }}</strong>{% if forloop.last == false %}, {% endif %}
             {% else %}
-              {{ author }}{% if forloop.last == false %}, {% endif %}
+              {{ abbreviated }}{% if forloop.last == false %}, {% endif %}
             {% endif %}
           {% endfor %}
         </div>
         <div class="pub-meta">
           {% if p.journal %}<em>{{ p.journal }}</em>{% endif %}
-          {% if p.year %}, {{ p.year }}{% endif %}
+          {% if p.year %},{{ p.year }}{% endif %}
         </div>
       </div>
     {% endfor %}

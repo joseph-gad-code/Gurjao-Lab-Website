@@ -55,8 +55,8 @@
   - Kana Wu
   - Shuji Ogino
   - Marios Giannakis
-  selected_publication: 'no'
-  image: ''
+  selected_publication: 'yes'
+  image: '/Pages/Publications/Images/Paper_2021.jpeg'
   volume: '11'
   issue: '10'
   pages: 2446-2455
@@ -376,8 +376,8 @@
   - Tal Korem
   - Hanina Hibshoosh
   - Benjamin Izar
-  selected_publication: 'no'
-  image: ''
+  selected_publication: 'yes'
+  image: '/Pages/Publications/Images/Paper_2025.png'
   volume: '84'
   issue: 6_Supplement
   pages: 994-994

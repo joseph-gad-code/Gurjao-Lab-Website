@@ -1,5 +1,6 @@
 import os
 import time
+import re
 import requests
 import yaml
 from urllib.parse import quote_plus
@@ -10,7 +11,7 @@ CROSSREF_BASE = "https://api.crossref.org/works/"
 REQUEST_PAUSE = 0.4  # polite delay between API calls
 
 # ---------------------------------------------------------------------
-# --- Crossref access helpers ---
+# --- Crossref helpers ---
 # ---------------------------------------------------------------------
 
 def crossref_get(doi: str) -> dict:
@@ -33,17 +34,16 @@ def crossref_search_title(title: str) -> dict:
         r = requests.get(url, timeout=20)
         r.raise_for_status()
         items = r.json().get("message", {}).get("items", []) or []
-        # Filter only those containing "C. Gurjao" or "Carino Gurjao"
         for item in items:
             authors = extract_authors(item)
-            if any(is_carino_gurjao(a) for a in authors):
+            if any(is_carino_gurjao_strict(a) for a in authors):
                 return item
         return {}
     except Exception:
         return {}
 
 # ---------------------------------------------------------------------
-# --- Author parsing and filtering logic ---
+# --- Author parsing and strict filtering ---
 # ---------------------------------------------------------------------
 
 def extract_authors(msg: dict) -> list[str]:
@@ -57,18 +57,36 @@ def extract_authors(msg: dict) -> list[str]:
             authors.append(full_name)
     return authors
 
-def is_carino_gurjao(name: str) -> bool:
+def normalize_author_name(name: str) -> str:
+    """Normalize an author name for consistent comparison."""
+    name = re.sub(r"\s+", " ", name.strip())
+    name = re.sub(r"\s*,\s*", ", ", name)
+    name = re.sub(r"\s*\.\s*", ". ", name)
+    return name.strip()
+
+def is_carino_gurjao_strict(name: str) -> bool:
     """
-    Return True if the author's name corresponds to Carino Gurjao or a valid variant:
-      - Must contain 'Gurjao' (case-insensitive)
-      - Must have first name or initial starting with 'C' (no others)
+    Return True only for exact known variants of 'Carino Gurjao' or 'C. Gurjao' (and reversals).
+    Accepts punctuation and spacing variations.
     """
-    parts = name.strip().split()
-    if len(parts) < 2:
-        return False
-    family = parts[-1].lower()
-    first = parts[0].lower().replace(".", "")
-    return (family == "gurjao") and first.startswith("c") and not first.startswith("e")  # exclude wrong initials
+    name = normalize_author_name(name).lower()
+
+    valid_variants = {
+        "carino gurjao",
+        "c. gurjao",
+        "c gurjao",
+        "gurjao, carino",
+        "gurjao, c.",
+        "gurjao, c",
+        "gurjao c.",
+        "gurjao c",
+    }
+
+    # Remove extra spaces and periods for comparison
+    name_nopunct = re.sub(r"[.\s]", "", name)
+    variants_nopunct = {re.sub(r"[.\s]", "", v) for v in valid_variants}
+
+    return name in valid_variants or name_nopunct in variants_nopunct
 
 # ---------------------------------------------------------------------
 # --- Metadata normalization ---
@@ -79,7 +97,6 @@ def extract_from_crossref(msg: dict) -> dict:
     if not msg:
         return {}
 
-    # Try multiple date fields
     year = None
     for k in ("published-print", "published-online", "issued"):
         dp = ((msg.get(k) or {}).get("date-parts") or [[]])
@@ -104,7 +121,7 @@ def extract_from_crossref(msg: dict) -> dict:
     }
 
 # ---------------------------------------------------------------------
-# --- Publication enrichment ---
+# --- Enrichment ---
 # ---------------------------------------------------------------------
 
 def enrich_with_crossref(pub: dict) -> dict:
@@ -138,7 +155,7 @@ def enrich_with_crossref(pub: dict) -> dict:
     return out
 
 # ---------------------------------------------------------------------
-# --- YAML file update ---
+# --- YAML helpers ---
 # ---------------------------------------------------------------------
 
 def load_yaml(path: str) -> list:
@@ -164,12 +181,11 @@ def main():
     for pub in publications:
         enriched = enrich_with_crossref(pub)
         authors = enriched.get("authors", [])
-        # Only keep records containing a valid "C. Gurjao" or "Carino Gurjao"
-        if any(is_carino_gurjao(a) for a in authors):
+        if any(is_carino_gurjao_strict(a) for a in authors):
             updated.append(enriched)
 
     save_yaml(DATA_PATH, updated)
-    print(f"✅ Updated {len(updated)} publications containing Carino Gurjao (or valid variants).")
+    print(f"Updated {len(updated)} publications containing Carino Gurjao (strict name matching).")
 
 # ---------------------------------------------------------------------
 if __name__ == "__main__":

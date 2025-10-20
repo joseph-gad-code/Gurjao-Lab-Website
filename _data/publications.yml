@@ -1,14 +1,3 @@
-- title: Faculty Opinions recommendation of Mutational signature in colorectal cancer
-    caused by genotoxic pks+ E. coli.
-  authors:
-  - Vivian Li
-  journal: Faculty Opinions – Post-Publication Peer Review of the Biomedical Literature
-  year: 2020
-  url: https://doi.org/10.3410/f.737443012.793571829
-  citation_count: 1057
-  doi: 10.3410/f.737443012.793571829
-  publisher: H1 Connect
-  type: dataset
 - title: Metabolomic adaptations and correlates of survival to immune checkpoint blockade
   authors:
   - Haoxin Li
@@ -42,30 +31,6 @@
   doi: 10.1038/s41467-019-12361-9
   publisher: Springer Science and Business Media LLC
   type: journal-article
-- title: 'Mismatch Repair-Deficient Colorectal Cancer: Building on Checkpoint Blockade'
-  authors:
-  - Zhaohui Jin
-  - Frank A. Sinicrope
-  journal: Journal of Clinical Oncology
-  year: 2022
-  url: https://doi.org/10.1200/jco.21.02691
-  citation_count: 88
-  volume: '40'
-  issue: '24'
-  pages: 2735-2750
-  doi: 10.1200/jco.21.02691
-  publisher: American Society of Clinical Oncology (ASCO)
-  type: journal-article
-- title: Association of Fusobacterium nucleatum in oral cavity and colorectal carcinomas
-  authors:
-  - Yasuhiko Komiya
-  journal: Clinical Cancer Research 27 (10), 2816-2826, 2021
-  year: 2017
-  url: https://doi.org/10.26226/morressier.59a6b34cd462b80290b55ad6
-  citation_count: 86
-  doi: 10.26226/morressier.59a6b34cd462b80290b55ad6
-  publisher: Morressier
-  type: posted-content
 - title: Discovery and Features of an Alkylating Signature in Colorectal Cancer
   authors:
   - Carino Gurjao
@@ -163,32 +128,6 @@
   doi: 10.1158/1538-7445.am2021-960
   publisher: American Association for Cancer Research (AACR)
   type: journal-article
-- title: 'Evaluating Tumour Mutational Burden as a Key Biomarker in Personalized Cancer
-    Immunotherapy: A Pan-Cancer Approach'
-  authors:
-  - Zgura Anca
-  - Chipuc Stefania
-  - Nicolae Bacalbasa
-  - Haineala Bogdan
-  - Rodica Maricela Anghel
-  - Valcea Sebastian
-  journal: eLife, 2020.09. 03.260265, 2020
-  year: 2024
-  url: https://doi.org/10.20944/preprints202411.2060.v1
-  citation_count: 37
-  doi: 10.20944/preprints202411.2060.v1
-  publisher: MDPI AG
-  type: posted-content
-- title: Management of brain metastases
-  authors: S Tagore, L Caprio, AD Amin, K Bestak, K Luthria, E D’Souza, I Barrera,
-    ...
-  journal: 'Fast Facts: Non-Small-Cell Lung Cancer'
-  year: 2016
-  url: https://doi.org/10.1159/000491270
-  citation_count: 18
-  doi: 10.1159/000491270
-  publisher: S. Karger AG
-  type: book-chapter
 - title: Loss of Pip4k2c confers liver-metastatic organotropism through insulin-dependent
     PI3K-AKT pathway activation
   authors:
@@ -449,13 +388,3 @@
   doi: 10.1158/1538-7445.am2024-994
   publisher: American Association for Cancer Research (AACR)
   type: journal-article
-- title: Prothrombotic Mutations and Cancer-Associated Venous Thrombosis
-  authors: C Gurjao
-  journal: Cancer-Associated Thrombosis
-  year: 2007
-  url: https://doi.org/10.3109/9781420048001-15
-  citation_count: null
-  pages: 173-184
-  doi: 10.3109/9781420048001-15
-  publisher: CRC Press
-  type: book-chapter

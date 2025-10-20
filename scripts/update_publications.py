@@ -1,3 +1,4 @@
+import os
 import requests
 import yaml
 import time
@@ -5,7 +6,10 @@ from urllib.parse import quote_plus
 from pathlib import Path
 
 # --- Config ---
-SERPAPI_KEY = "YOUR_SERPAPI_KEY"
+SERPAPI_KEY = os.getenv("SERPAPI_API_KEY")
+if not SERPAPI_KEY:
+    raise RuntimeError("Missing SERPAPI_API_KEY environment variable.")
+
 SCHOLAR_AUTHOR_ID = "m3rLfS4AAAAJ"
 CROSSREF_BASE = "https://api.crossref.org/works/"
 DATA_FILE = Path("_data/publications.yml")

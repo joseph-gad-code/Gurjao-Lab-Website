@@ -52,16 +52,78 @@ nav: contact
     color: #333;
     line-height: 1.6;
   }
+
+  /* === Layout alignment for Contact top section === */
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    margin-top: 40px;
+    gap: 20px;
+  }
+
+  .contact-left {
+    flex: 1 1 60%;
+    font-family: 'Nunito', sans-serif;
+    color: #000;
+  }
+
+  .contact-right {
+    flex: 1 1 40%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-logo-box {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 12px;
+    width: 100%;
+    max-width: 360px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .contact-logo-box img {
+    width: auto;
+    height: 90%;
+    object-fit: contain;
+    display: block;
+  }
+
+  @media (max-width: 768px) {
+    .contact-row {
+      flex-direction: column;
+      align-items: center;
+    }
+    .contact-right {
+      width: 100%;
+      margin-top: 20px;
+    }
+    .contact-logo-box {
+      max-width: 300px;
+      height: auto;
+    }
+    .contact-logo-box img {
+      height: auto;
+      max-width: 100%;
+    }
+  }
 </style>
 
 <!-- Match Home's width rail -->
 <section style="max-width:1100px;margin:0 auto;padding:0 15px;">
 
-  <!-- Top row (ALWAYS two columns like Home) -->
-  <div class="row" style="margin-top:40px;">
+  <!-- Top row (flexbox, equal heights) -->
+  <div class="contact-row">
 
     <!-- LEFT: Text -->
-    <div class="col-xs-7" style="font-family:'Nunito',sans-serif;color:#000;">
+    <div class="contact-left">
 
       <h2 style="font-weight:700;font-size:20px;margin-top:0;margin-bottom:12px;">Affiliations</h2>
       <ul class="list-unstyled" style="margin:0 0 16px 0;">
@@ -89,31 +151,12 @@ nav: contact
       </div>
     </div>
 
-    <!-- RIGHT: Logo (scaled smaller to match text column height) -->
-    <div class="col-xs-5" style="display:flex;align-items:center;justify-content:center;">
-      <div style="
-        background:#fff;
-        border:1px solid #eee;
-        border-radius:10px;
-        padding:12px;
-        width:100%;
-        max-width:350px;
-        display:flex;
-        align-items:center;
-        justify-content:center;
-        overflow:hidden;
-      ">
+    <!-- RIGHT: Logo (matches text height) -->
+    <div class="contact-right">
+      <div class="contact-logo-box">
         <img
           src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}"
-          alt="Université de Montréal – IRIC Logo"
-          class="img-responsive center-block"
-          style="
-            max-width:70%;
-            max-height:70%;
-            height:auto;
-            object-fit:contain;
-            display:block;
-          ">
+          alt="Université de Montréal – IRIC Logo">
       </div>
     </div>
   </div>

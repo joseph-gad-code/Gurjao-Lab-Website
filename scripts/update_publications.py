@@ -1,146 +1,149 @@
-#!/usr/bin/env python3
-import os, requests, time, yaml
+import requests
+import yaml
+import time
 from urllib.parse import quote_plus
+from pathlib import Path
 
-# --- constants ---
+# --- Config ---
+SERPAPI_KEY = "YOUR_SERPAPI_KEY"
+SCHOLAR_AUTHOR_ID = "m3rLfS4AAAAJ"
 CROSSREF_BASE = "https://api.crossref.org/works/"
-SERPAPI_BASE = "https://serpapi.com/search"
+DATA_FILE = Path("_data/publications.yml")
 REQUEST_PAUSE = 0.4
-AUTHOR_ID = "m3rLfS4AAAAJ"  # Carino Gurjao
 
-# --- Google Scholar (via SerpAPI) ---
-def fetch_scholar_pubs(api_key: str):
-    """Fetch all publications from Carino Gurjao's Google Scholar profile."""
-    results = []
-    next_url = f"{SERPAPI_BASE}?engine=google_scholar_author&author_id={AUTHOR_ID}&api_key={api_key}"
-    print("Fetching publications from Google Scholar...")
 
-    while next_url:
-        r = requests.get(next_url, timeout=30)
-        r.raise_for_status()
-        data = r.json()
-        pubs = data.get("articles", [])
-        for p in pubs:
-            entry = {
-                "title": p.get("title", "").strip(),
-                "authors": p.get("authors", []),
-                "journal": p.get("publication", "").strip(),
-                "year": p.get("year"),
-                "url": p.get("link", ""),
-                "citation_count": p.get("cited_by", {}).get("value"),
-            }
-            if entry["title"]:
-                results.append(entry)
-        next_url = data.get("serpapi_pagination", {}).get("next")
-        if next_url:
-            time.sleep(REQUEST_PAUSE)
-    return results
-
-# --- Crossref helpers ---
-def crossref_get(doi: str):
+def crossref_get(doi):
+    """Fetch one Crossref record by DOI."""
     if not doi:
         return {}
     try:
         r = requests.get(CROSSREF_BASE + doi, timeout=20)
         r.raise_for_status()
-        return r.json().get("message", {})
+        return r.json().get("message", {}) or {}
     except Exception:
         return {}
 
-def crossref_search_title(title: str):
+
+def crossref_search_title(title):
+    """Fallback Crossref search by title."""
     if not title:
         return {}
     try:
         url = f"https://api.crossref.org/works?query.bibliographic={quote_plus(title)}&rows=1"
         r = requests.get(url, timeout=20)
         r.raise_for_status()
-        items = r.json().get("message", {}).get("items", [])
+        items = (r.json().get("message", {}).get("items", []) or [])
         return items[0] if items else {}
     except Exception:
         return {}
 
-def extract_crossref_meta(msg: dict):
-    """Normalize metadata from a Crossref record."""
+
+def normalize_author(name):
+    """Abbreviate author name (e.g. 'John D. Smith' -> 'J.D. Smith')."""
+    parts = name.replace(",", "").split()
+    if len(parts) == 0:
+        return name
+    last = parts[-1]
+    initials = "".join([p[0] + "." for p in parts[:-1]])
+    return f"{initials} {last}".strip()
+
+
+def extract_from_crossref(msg):
+    """Extract key metadata fields."""
     if not msg:
         return {}
-    # year
     year = None
     for k in ("published-print", "published-online", "issued"):
         dp = ((msg.get(k) or {}).get("date-parts") or [[]])
         if dp and dp[0]:
-            y = dp[0][0]
-            if isinstance(y, int):
-                year = y
-                break
-    # authors
-    authors = []
-    for a in msg.get("author", []):
-        name = " ".join(filter(None, [a.get("given"), a.get("family")]))
-        if name:
-            authors.append(name.strip())
-
+            year = dp[0][0]
+            break
     return {
-        "title": msg.get("title", [""])[0].strip(),
-        "journal": (msg.get("container-title") or [""])[0].strip(),
-        "volume": msg.get("volume"),
-        "issue": msg.get("issue"),
-        "pages": msg.get("page"),
+        "journal": (msg.get("container-title") or [""])[0],
+        "volume": msg.get("volume") or "",
+        "issue": msg.get("issue") or "",
+        "pages": msg.get("page") or "",
         "year": year,
-        "doi": msg.get("DOI"),
-        "url": msg.get("URL"),
-        "authors": authors,
-        "publisher": msg.get("publisher"),
-        "type": msg.get("type"),
+        "url": msg.get("URL") or "",
+        "doi": msg.get("DOI") or "",
+        "authors": [normalize_author(a.get("given", "") + " " + a.get("family", "")) 
+                    for a in msg.get("author", []) if a.get("family")],
     }
 
-# --- merge logic ---
-def reconcile(scholar_pub: dict, crossref_meta: dict):
-    """Combine Scholar and Crossref metadata (Crossref preferred)."""
-    merged = dict(scholar_pub)
-    for k, v in crossref_meta.items():
-        if v:
-            merged[k] = v  # Crossref overrides
-    # keep Scholar citation count if present
-    if scholar_pub.get("citation_count") is not None:
-        merged["citation_count"] = scholar_pub["citation_count"]
-    return merged
 
-# --- main workflow ---
-def main():
-    api_key = os.environ.get("SERPAPI_API_KEY")
-    if not api_key:
-        raise RuntimeError("Missing SERPAPI_API_KEY")
+def enrich_with_crossref(pub):
+    """Enrich publication with Crossref data."""
+    out = dict(pub)
+    msg = {}
+    doi = out.get("doi", "").strip()
+    title = out.get("title", "").strip()
 
-    scholar_pubs = fetch_scholar_pubs(api_key)
-    print(f"Fetched {len(scholar_pubs)} publications from Google Scholar.")
-
-    enriched = []
-    for i, pub in enumerate(scholar_pubs, 1):
-        title = pub.get("title", "")
-        print(f"[{i}/{len(scholar_pubs)}] Enriching '{title[:60]}…'")
+    if doi:
+        msg = crossref_get(doi)
+        time.sleep(REQUEST_PAUSE)
+    if not msg and title:
         msg = crossref_search_title(title)
-        meta = extract_crossref_meta(msg)
-
-        # Skip if Crossref lacks authors or title
-        if not meta.get("authors") or not meta.get("title"):
-            continue
-
-        # --- FILTER: keep only papers with Gurjao in author list ---
-        author_strs = [a.lower() for a in meta["authors"]]
-        if not any("gurjao" in a for a in author_strs):
-            print(f"    ❌ Skipping (no Gurjao in author list)")
-            continue
-
-        combined = reconcile(pub, meta)
-        enriched.append(combined)
         time.sleep(REQUEST_PAUSE)
 
-    # --- save ---
-    os.makedirs("_data", exist_ok=True)
-    out_path = "_data/publications.yml"
-    with open(out_path, "w") as f:
-        yaml.dump(enriched, f, sort_keys=False, allow_unicode=True)
-    print(f"✅ Saved {len(enriched)} publications to {out_path}")
+    meta = extract_from_crossref(msg)
+    if not meta:
+        return out
+
+    # Update only empty fields
+    for k, v in meta.items():
+        if v and (k not in out or not out[k]):
+            out[k] = v
+
+    # Filter: keep only if "Gurjao" appears in Crossref author list
+    if not any("Gurjao" in a for a in out.get("authors", [])):
+        return None
+
+    return out
+
+
+def get_scholar_publications():
+    """Fetch all publications for given author from Google Scholar."""
+    url = f"https://serpapi.com/search.json?engine=google_scholar_author&author_id={SCHOLAR_AUTHOR_ID}&api_key={SERPAPI_KEY}"
+    r = requests.get(url)
+    r.raise_for_status()
+    data = r.json()
+    pubs = []
+    for item in data.get("articles", []):
+        pubs.append({
+            "title": item.get("title", ""),
+            "url": item.get("link", ""),
+            "doi": item.get("publication_info", {}).get("doi", ""),
+            "authors": [normalize_author(a.strip()) for a in item.get("authors", "").split(",")],
+            "selected_publication": "no",
+            "image": "",
+        })
+    return pubs
+
+
+def update_publications():
+    """Main function to merge and enrich publication data."""
+    # Load existing publications
+    existing = []
+    if DATA_FILE.exists():
+        with open(DATA_FILE, "r") as f:
+            existing = yaml.safe_load(f) or []
+
+    titles_existing = {p["title"] for p in existing if "title" in p}
+    new_pubs = []
+
+    for pub in get_scholar_publications():
+        if pub["title"] in titles_existing:
+            print(f"Skipping existing: {pub['title']}")
+            continue
+        enriched = enrich_with_crossref(pub)
+        if enriched:
+            print(f"Added: {enriched['title']}")
+            new_pubs.append(enriched)
+
+    all_pubs = existing + new_pubs
+    with open(DATA_FILE, "w") as f:
+        yaml.dump(all_pubs, f, sort_keys=False, allow_unicode=True)
+
 
 if __name__ == "__main__":
-    main()
+    update_publications()

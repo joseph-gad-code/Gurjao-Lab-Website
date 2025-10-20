@@ -1,206 +1,104 @@
----
-title: "People"
-layout: default
-permalink: /people/
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Important for mobile scaling -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<style>
-.people-page {
-  font-family: 'Nunito', sans-serif;
-  padding: 100px 20px;
-  text-align: left;
-  color: #000;
-  margin-bottom: 3px;
-}
+  <title>GURJAOLAB | {{ page.title }}</title>
 
-/* Page title */
-.page-title {
-  font-size: 30px;
-  font-weight: 700;
-  margin-bottom: 3px;
-  text-transform: none; /* no uppercase */
-  color: #000; /* black */
-  text-align: left;
-}
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{{ '/Images/favicon.svg' | relative_url }}">
+  <link rel="alternate icon" type="image/x-icon" href="{{ '/Images/favicon.ico' | relative_url }}">
 
-/* Grid layout — exactly two columns on large screens */
-.people-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 50px;
-  justify-items: center;
-  align-items: start;
-}
+  <!-- Fonts & Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
-/* Card */
-.person-card {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  padding: 30px 20px;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  max-width: 400px;
-  width: 100%;
-}
+  <style>
+    /* Base */
+    html { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: inherit; }
+    body { font-family: 'Nunito', sans-serif; color:#000; overflow-x:hidden; line-height:1.5; }
 
-.person-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
-}
+    /* ========= Fixed-layout scale with mobile-safe side gutters =========
+       - Page is authored at 1100px (var(--base-width))
+       - On narrow screens, we add side gutters and scale by (100vw - 2*gutter)
+       - Prevents the right edge from being cut off on phones
+    ===================================================================== */
+    :root {
+      --base-width: 1100px; /* your design width */
+      --gutter: 0px;        /* becomes >0 only on narrow screens */
+    }
 
-/* Image */
-.person-photo-wrap {
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  overflow: hidden;
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+    .page-scale-outer {
+      width: 100vw;
+      padding-inline: var(--gutter); /* side margins on small screens */
+      overflow-x: hidden;            /* no sideways scroll */
+    }
 
-.person-photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+    .page-scale-frame {
+      width: var(--base-width);
+      transform-origin: top left;    /* anchor when scaling */
+    }
 
-/* Metadata */
-.person-name {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 6px;
-  color: #000;
-}
+    /* Below base width: add gutters and scale to fit inside them */
+    @media (max-width: 1100px) {
+      :root { --gutter: 12px; } /* adjust 8–16px if you want wider/narrower side margins */
+      .page-scale-frame {
+        transform: scale( calc( (100vw - (var(--gutter) * 2)) / var(--base-width) ) );
+      }
+    }
 
-.person-status {
-  font-size: 15px;
-  color: #000;
-  margin-bottom: 25px;
-}
+    /* At/above base width: full size, centered (no gutters) */
+    @media (min-width: 1100px) {
+      :root { --gutter: 0px; }
+      .page-scale-frame { transform: none; margin: 0 auto; }
+    }
 
-.person-bio {
-  font-size: 15px;
-  color: #333;
-  line-height: 1.5;
-  margin-bottom: 15px;
-  text-align: center;
-}
+    /* Utilities already used across pages */
+    img, video, svg, canvas { max-width:100%; height:auto; }
+    iframe { max-width:100%; }
 
-/* Read more link */
-.read-more {
-  font-size: 14px;
-  font-weight: 400;
-  color: #6495EC !important;
-  text-decoration: none;
-  margin-top: 5px;
-}
+    .container-narrow { width:100%; max-width:1100px; margin:24px auto; padding:0 15px; }
+    .content-wrap { padding-top: clamp(15px, 2.2vw, 28px); }
 
-.read-more:hover {
-  text-decoration: underline;
-  color: #6495EC !important;
-}
+    /* Navbar cosmetics (header.html controls structure) */
+    .navbar { border:none; border-radius:0; margin-bottom:0; background:#fff; }
+    .navbar-brand { font-weight:800; color:#0D5295 !important; }
+    .navbar-nav > li > a { color:#666 !important; font-weight:600; position:relative; }
+    .navbar-nav > li > a:hover { color:#000 !important; background:transparent !important; }
+    .navbar-nav > .active > a,
+    .navbar-nav > .active > a:focus,
+    .navbar-nav > .active > a:hover { color:#000 !important; background:transparent !important; }
+    .navbar-nav > .active > a::after {
+      content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000;
+    }
 
-/* Social icons */
-.person-social {
-  display: flex;
-  gap: 14px;
-  justify-content: center;
-  margin-top: 12px;
-}
+    /* Footer */
+    footer { margin-top:40px; padding:24px 0; text-align:center; font-size:14px; color:#555; border-top:1px solid #eee; }
+  </style>
 
-.person-social .icon {
-  width: 24px;
-  height: 24px;
-  opacity: 0.85;
-  transition: opacity 0.2s ease;
-}
+  <!-- Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
 
-.person-social .icon:hover {
-  opacity: 1;
-}
+<body>
+  <!-- Everything inside scales together -->
+  <div class="page-scale-outer">
+    <div class="page-scale-frame">
 
-/* Core values */
-.values-section {
-  margin-top: 100px;
-  text-align: center;
-  font-size: 16px; 
-  margin-bottom: 10px;
-}
+      {% include header.html %}
 
-.values-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 40px;
-  justify-content: center;
-}
-
-.value-col {
-  flex: 1 1 400px;
-  background-color: #f8f9fa;
-  border-radius: 12px;
-  padding: 30px;
-  text-align: left;
-}
-
-.value-col h3 {
-  color: #000;
-  font-size: 16px;
-  margin-bottom: 10px;
-  text-transform: none; /* not capitalized */
-}
-
-.value-col p {
-  font-size: 15px;
-  color: #333;
-  line-height: 1.6;
-}
-
-/* Responsive tweaks */
-@media (max-width: 992px) {
-  .people-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .page-title {
-    font-size: 30px;
-    font-size: 26px;
-  }
-  .person-card {
-    padding: 25px 15px;
-  }
-}
-
-@media (max-width: 600px) {
-  .people-list {
-    grid-template-columns: 1fr; /* switch to 1 column only on very small screens */
-  }
-}
-</style>
-
-<section class="people-page">
-  <h2 style="font-weight:700;font-size:20px;margin-top:0;margin-bottom:50px;text-align:left;">Team members</h2>
-
-
-  {% assign folks = site.data.people | default: empty %}
-  <div class="people-list">
-    {% for p in folks %}
-    <article class="person-card">
-      <div class="person-photo-wrap">
-        {% if p.image %}
-          <img class="person-photo" src="{{ p.image | relative_url }}" alt="{{ p.name }}">
-        {% else %}
-          <div class="person-photo placeholder" aria-hidden="true">Image</div>
-        {% endif %}
+      <div class="container-narrow content-wrap">
+        {{ content }}
       </div>
 
-      <div class="person-meta">
-        <h3 class="person-name">{{ p.name }}</h3>
-        {% if p.status %}
-          <div class="person-status">{{ p.status }}</div>
-        {% endif %}
-        {% if p.bio %}
+      {% include footer.html %}
+
+    </div>
+  </div>
+</body>
+</html>

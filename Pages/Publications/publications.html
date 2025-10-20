@@ -139,18 +139,20 @@ h2 {
 </style>
 
 <section class="pubs">
-  <h2>Selected Publications</h2>
-  <div class="selected-grid">
-    {% assign selected = site.data.publications | where: "selected_publication", "yes" | sort: "year" | reverse %}
-    {% for p in selected %}
-      <div class="pub-card">
-        {% if p.image %}
-          <img src="{{ p.image | relative_url }}" alt="{{ p.title }}" class="pub-image">
-        {% endif %}
-        <div class="pub-content">
+  <h2>Full List</h2>
+  {% assign others = site.data.publications | where_exp:"p","p.selected_publication != 'yes'" | sort: "year" | reverse %}
+  {% assign grouped = others | group_by: "year" %}
+
+  {% for year_group in grouped %}
+    <h3 style="margin-top: 30px; border-bottom: 1px solid var(--border); padding-bottom: 4px; color: var(--black);">
+      {{ year_group.name }}
+    </h3>
+    <div class="pub-list">
+      {% for p in year_group.items %}
+        <div class="pub-entry">
           <div class="pub-title">
             {% if p.doi %}
-              <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">{{ p.title }}</a>
+              <a href="https://doi.org/{{ p.doi }}" target="_blank">{{ p.title }}</a>
             {% else %}
               {{ p.title }}
             {% endif %}
@@ -186,13 +188,10 @@ h2 {
               {{ p.year | strip }}
             {% endif %}
           </div>
-          {% if p.doi %}
-            <a class="pub-button" href="https://doi.org/{{ p.doi }}" target="_blank">Link</a>
-          {% endif %}
         </div>
-      </div>
-    {% endfor %}
-  </div>
+      {% endfor %}
+    </div>
+  {% endfor %}
 
   <h2>Full List</h2>
   <div class="pub-list">

@@ -31,13 +31,10 @@
   {%- assign _firsts = '' -%}
   {%- if _tokens.size > 1 -%}
     {%- capture _firsts -%}
-      {%- for t in _tokens offset:0 limit: {{ _tokens.size | minus: 1 }} -%}
-        {%- assign _t = t | strip -%}
-        {%- if _t != '' -%}{{ _t | slice: 0, 1 | upcase }}.{% if forloop.last == false %} {% endif %}{%- endif -%}
-      {%- endfor -%}
+    {%- assign _t0 = _tokens | first | strip -%}
+    {%- if _t0 != '' -%}{{ _t0 | slice: 0, 1 | upcase }}.{%- endif -%}
     {%- endcapture -%}
   {%- endif -%}
-
   {%- assign _abbr = _firsts | append: ' ' | append: _last | strip -%}
 
   {%- assign _name_dn = _name | downcase -%}

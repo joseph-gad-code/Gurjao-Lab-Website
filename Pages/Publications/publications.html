@@ -164,8 +164,11 @@ h2 {
           {% endfor %}
         </div>
         <div class="pub-meta">
-          {% if p.journal %}<em>{{ p.journal | strip }}</em>{% endif %}
-          {% if p.year %}, {{ p.year | strip }}{% endif %}
+          {% if p.journal %}
+            <em>{{ p.journal | strip }}</em>{% if p.year %}, {{ p.year | strip }}{% endif %}
+          {% elsif p.year %}
+            {{ p.year | strip }}
+          {% endif %}
         </div>
         {% if p.doi %}
           <a class="pub-button" href="https://doi.org/{{ p.doi }}" target="_blank">Link</a>
@@ -211,8 +214,11 @@ h2 {
           {% endfor %}
         </div>
         <div class="pub-meta">
-          {% if p.journal %}<em>{{ p.journal | strip }}</em>{% endif %}
-          {% if p.year %}, {{ p.year | strip }}{% endif %}
+          {% if p.journal %}
+            <em>{{ p.journal | strip }}</em>{% if p.year %}, {{ p.year | strip }}{% endif %}
+          {% elsif p.year %}
+            {{ p.year | strip }}
+          {% endif %}
         </div>
       </div>
     {% endfor %}

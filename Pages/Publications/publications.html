@@ -12,57 +12,78 @@ lab_names:
 <style>
 :root {
   --blue: #0D5295;
-  --gray: #666;
-  --lightblue: #6495ED;
+  --lightblue: #007BFF;
   --lightgray: #999;
+  --gray: #444;
+  --card-bg: #fff;
+  --border: #eee;
 }
 
 body {
   font-family: "Nunito", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   color: #000;
+  background-color: #f8f9fa;
   line-height: 1.6;
 }
 
 section.pubs {
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 32px 20px;
+  padding: 40px 20px;
 }
 
 h1, h2 {
   font-weight: 700;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 6px;
-  font-size: 26px;
-  margin-bottom: 16px;
+  font-size: 28px;
+  border-bottom: 2px solid #eee;
+  padding-bottom: 8px;
+  margin-bottom: 24px;
+  text-align: left;
+  color: var(--blue);
 }
 
-.pub-entry {
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #f0f0f0;
+.pub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 20px;
 }
 
-.pub-entry h3 {
-  font-size: 16px;
-  font-weight: 600;
-  margin: 0 0 4px;
+.pub-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pub-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.pub-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 10px;
   line-height: 1.4;
 }
 
-.pub-entry h3 a {
+.pub-title a {
   color: #000;
   text-decoration: none;
 }
-.pub-entry h3 a:hover {
+.pub-title a:hover {
+  color: var(--blue);
   text-decoration: underline;
 }
 
 .pub-authors {
   font-size: 15px;
-  color: #111;
-  margin-bottom: 3px;
-  line-height: 1.4;
+  color: var(--gray);
+  margin-bottom: 10px;
 }
 
 .pub-authors strong {
@@ -72,77 +93,90 @@ h1, h2 {
 
 .pub-meta {
   font-size: 14px;
-  color: var(--gray);
+  color: var(--lightgray);
+  margin-bottom: 12px;
 }
 
 .pub-meta em {
   font-style: italic;
-  color: var(--lightgray);
+  color: #555;
 }
 
-.pub-meta a {
-  color: var(--lightblue);
+.pub-button {
+  align-self: flex-start;
+  background-color: var(--lightblue);
+  color: #fff;
   text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  transition: background 0.2s ease;
 }
-.pub-meta a:hover {
-  text-decoration: underline;
+
+.pub-button:hover {
+  background-color: #0056b3;
 }
 </style>
 
 <section class="pubs">
   <h2>Publications</h2>
-  {% assign pubs = site.data.publications | sort: "year" | reverse %}
-  {% for p in pubs %}
-    <div class="pub-entry">
-      <!-- Line 1: Title -->
-      <h3 class="title">
-        {% if p.doi %}
-          <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">{{ p.title }}</a>
-        {% elsif p.url %}
-          <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
-        {% else %}
-          {{ p.title }}
-        {% endif %}
-      </h3>
+  <div class="pub-grid">
+    {% assign pubs = site.data.publications | sort: "year" | reverse %}
+    {% for p in pubs %}
+      <div class="pub-card">
+        <!-- Title -->
+        <div class="pub-title">
+          {% if p.doi %}
+            <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">{{ p.title }}</a>
+          {% elsif p.url %}
+            <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+          {% else %}
+            {{ p.title }}
+          {% endif %}
+        </div>
 
-      <!-- Line 2: Authors (with lab member highlighting) -->
-      {% if p.authors %}
-        {% capture author_list %}
-          {% assign highlighted_authors = "" %}
-          {% for author in p.authors %}
-            {% assign match = false %}
-            {% for lab in page.lab_names %}
-              {% if author contains lab %}
-                {% assign match = true %}
+        <!-- Authors -->
+        {% if p.authors %}
+          {% capture author_list %}
+            {% assign highlighted_authors = "" %}
+            {% for author in p.authors %}
+              {% assign match = false %}
+              {% for lab in page.lab_names %}
+                {% if author contains lab %}
+                  {% assign match = true %}
+                {% endif %}
+              {% endfor %}
+              {% if match %}
+                {% assign author_html = "<strong>" | append: author | append: "</strong>" %}
+              {% else %}
+                {% assign author_html = author %}
+              {% endif %}
+              {% if forloop.first %}
+                {% assign highlighted_authors = author_html %}
+              {% else %}
+                {% assign highlighted_authors = highlighted_authors | append: ", " | append: author_html %}
               {% endif %}
             {% endfor %}
-            {% if match %}
-              {% assign author_html = "<strong>" | append: author | append: "</strong>" %}
-            {% else %}
-              {% assign author_html = author %}
-            {% endif %}
-            {% if forloop.first %}
-              {% assign highlighted_authors = author_html %}
-            {% else %}
-              {% assign highlighted_authors = highlighted_authors | append: ", " | append: author_html %}
-            {% endif %}
-          {% endfor %}
-          {{ highlighted_authors }}
-        {% endcapture %}
-        <div class="pub-authors">{{ author_list | strip }}</div>
-      {% endif %}
+            {{ highlighted_authors }}
+          {% endcapture %}
+          <div class="pub-authors">{{ author_list | strip }}</div>
+        {% endif %}
 
-      <!-- Line 3: Journal + Year + Link -->
-      <div class="pub-meta">
-        {% assign j = p.journal | default: p.venue %}
-        {% if j %}<em>{{ j }}</em>{% endif %}
-        {% if p.year %}, {{ p.year }}{% endif %}
-        {% if p.doi and p.doi != "" %}
-          , <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">Link</a>
+        <!-- Journal + Year -->
+        <div class="pub-meta">
+          {% assign j = p.journal | default: p.venue %}
+          {% if j %}<em>{{ j }}</em>{% endif %}
+          {% if p.year %}, {{ p.year }}{% endif %}
+        </div>
+
+        <!-- Link Button -->
+        {% if p.doi %}
+          <a class="pub-button" href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">Link</a>
         {% elsif p.url %}
-          , <a href="{{ p.url }}" target="_blank" rel="noopener">Link</a>
+          <a class="pub-button" href="{{ p.url }}" target="_blank" rel="noopener">Link</a>
         {% endif %}
       </div>
-    </div>
-  {% endfor %}
+    {% endfor %}
+  </div>
 </section>

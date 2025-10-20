@@ -1,99 +1,57 @@
+#!/usr/bin/env python3
+"""
+Fetch publications from Google Scholar via SerpAPI,
+enrich them with Crossref metadata, and save to _data/publications.yml.
+"""
+
 import os
 import time
-import re
 import requests
 import yaml
 from urllib.parse import quote_plus
 
-# --- Configuration ---
-DATA_PATH = "_data/publications.yml"
+# === CONFIG ===
+SERPAPI_KEY = os.getenv("SERPAPI_API_KEY")
+if not SERPAPI_KEY:
+    raise RuntimeError("Missing SERPAPI_API_KEY environment variable")
+
 CROSSREF_BASE = "https://api.crossref.org/works/"
-REQUEST_PAUSE = 0.4  # polite delay between API calls
+SERPAPI_BASE = "https://serpapi.com/search.json"
+REQUEST_PAUSE = 0.4  # politeness delay for Crossref
+OUTPUT_PATH = "_data/publications.yml"
+QUERY = "Gad J OR Gurjao L OR Boero-Teyssier OR Hooper L"  # customize this query
 
-# ---------------------------------------------------------------------
-# --- Crossref helpers ---
-# ---------------------------------------------------------------------
 
+# --- CROSSREF HELPERS ---------------------------------------------------------
 def crossref_get(doi: str) -> dict:
-    """Fetch a single Crossref record by DOI."""
+    """Fetch Crossref record by DOI."""
     if not doi:
         return {}
     try:
         r = requests.get(CROSSREF_BASE + doi, timeout=20)
         r.raise_for_status()
-        return r.json().get("message", {}) or {}
+        data = r.json()
+        return data.get("message", {}) or {}
     except Exception:
         return {}
 
+
 def crossref_search_title(title: str) -> dict:
-    """Fallback: search Crossref by title and return the best match."""
+    """Search Crossref by title if no DOI is available."""
     if not title:
         return {}
     try:
-        url = f"https://api.crossref.org/works?query.bibliographic={quote_plus(title)}&rows=5"
+        url = f"https://api.crossref.org/works?query.bibliographic={quote_plus(title)}&rows=1"
         r = requests.get(url, timeout=20)
         r.raise_for_status()
-        items = r.json().get("message", {}).get("items", []) or []
-        for item in items:
-            authors = extract_authors(item)
-            if any(is_carino_gurjao_strict(a) for a in authors):
-                return item
-        return {}
+        items = (r.json().get("message", {}).get("items", []) or [])
+        return items[0] if items else {}
     except Exception:
         return {}
 
-# ---------------------------------------------------------------------
-# --- Author parsing and strict filtering ---
-# ---------------------------------------------------------------------
-
-def extract_authors(msg: dict) -> list[str]:
-    """Extract full author names from a Crossref record."""
-    authors = []
-    for a in msg.get("author", []) or []:
-        given = a.get("given", "").strip()
-        family = a.get("family", "").strip()
-        full_name = " ".join(x for x in [given, family] if x)
-        if full_name:
-            authors.append(full_name)
-    return authors
-
-def normalize_author_name(name: str) -> str:
-    """Normalize an author name for consistent comparison."""
-    name = re.sub(r"\s+", " ", name.strip())
-    name = re.sub(r"\s*,\s*", ", ", name)
-    name = re.sub(r"\s*\.\s*", ". ", name)
-    return name.strip()
-
-def is_carino_gurjao_strict(name: str) -> bool:
-    """
-    Return True only for exact known variants of 'Carino Gurjao' or 'C. Gurjao' (and reversals).
-    Accepts punctuation and spacing variations.
-    """
-    name = normalize_author_name(name).lower()
-
-    valid_variants = {
-        "carino gurjao",
-        "c. gurjao",
-        "c gurjao",
-        "gurjao, carino",
-        "gurjao, c.",
-        "gurjao, c",
-        "gurjao c.",
-        "gurjao c",
-    }
-
-    # Remove extra spaces and periods for comparison
-    name_nopunct = re.sub(r"[.\s]", "", name)
-    variants_nopunct = {re.sub(r"[.\s]", "", v) for v in valid_variants}
-
-    return name in valid_variants or name_nopunct in variants_nopunct
-
-# ---------------------------------------------------------------------
-# --- Metadata normalization ---
-# ---------------------------------------------------------------------
 
 def extract_from_crossref(msg: dict) -> dict:
-    """Normalize relevant metadata from Crossref."""
+    """Normalize Crossref metadata."""
     if not msg:
         return {}
 
@@ -106,11 +64,7 @@ def extract_from_crossref(msg: dict) -> dict:
                 year = y
                 break
 
-    authors = extract_authors(msg)
-
     return {
-        "title": msg.get("title", [""])[0],
-        "authors": authors,
         "journal": (msg.get("container-title") or [""])[0],
         "volume": msg.get("volume") or "",
         "issue": msg.get("issue") or "",
@@ -120,12 +74,9 @@ def extract_from_crossref(msg: dict) -> dict:
         "doi": msg.get("DOI") or "",
     }
 
-# ---------------------------------------------------------------------
-# --- Enrichment ---
-# ---------------------------------------------------------------------
 
 def enrich_with_crossref(pub: dict) -> dict:
-    """Fill missing fields in one publication record using Crossref."""
+    """Merge missing fields from Crossref into a publication record."""
     out = dict(pub)
     msg = {}
 
@@ -138,55 +89,100 @@ def enrich_with_crossref(pub: dict) -> dict:
         if title:
             time.sleep(REQUEST_PAUSE)
             msg = crossref_search_title(title)
-    if not msg:
-        return out
 
     meta = extract_from_crossref(msg)
     if not meta:
         return out
 
-    def set_if_empty(k, v):
-        if v and not out.get(k):
-            out[k] = v
+    def set_if_empty(key, val):
+        if val and not out.get(key):
+            out[key] = val
 
-    for k in ("journal", "volume", "issue", "pages", "year", "url", "doi", "authors", "title"):
-        set_if_empty(k, meta.get(k))
+    set_if_empty("journal", meta.get("journal"))
+    if meta.get("journal") and not out.get("venue"):
+        out["venue"] = meta["journal"]
+    set_if_empty("volume", meta.get("volume"))
+    set_if_empty("issue", meta.get("issue"))
+    set_if_empty("pages", meta.get("pages"))
+    set_if_empty("year", meta.get("year"))
+    set_if_empty("url", meta.get("url"))
+    set_if_empty("doi", meta.get("doi"))
 
     return out
 
-# ---------------------------------------------------------------------
-# --- YAML helpers ---
-# ---------------------------------------------------------------------
 
-def load_yaml(path: str) -> list:
-    """Load publications YAML file."""
-    if not os.path.exists(path):
+# --- GOOGLE SCHOLAR (via SerpAPI) ---------------------------------------------
+def fetch_google_scholar_articles(query: str, num_results: int = 20) -> list:
+    """
+    Fetch articles from Google Scholar via SerpAPI.
+    Returns a list of dicts with title, authors, year, and DOI if found.
+    """
+    params = {
+        "engine": "google_scholar",
+        "q": query,
+        "num": num_results,
+        "api_key": SERPAPI_KEY,
+    }
+    try:
+        r = requests.get(SERPAPI_BASE, params=params, timeout=30)
+        r.raise_for_status()
+        data = r.json()
+    except Exception as e:
+        print(f"Error fetching from SerpAPI: {e}")
         return []
-    with open(path, "r", encoding="utf-8") as f:
-        return yaml.safe_load(f) or []
 
-def save_yaml(path: str, data: list):
-    """Save updated publications to YAML."""
+    results = []
+    for item in data.get("organic_results", []):
+        title = item.get("title") or ""
+        link = item.get("link") or ""
+        pubinfo = item.get("publication_info", {}) or {}
+        year = pubinfo.get("year")
+        authors = pubinfo.get("authors", [])
+        if isinstance(authors, list):
+            authors = [a.get("name", "") if isinstance(a, dict) else a for a in authors]
+        elif isinstance(authors, str):
+            authors = [authors]
+        else:
+            authors = []
+
+        # Extract DOI if link contains one
+        doi = ""
+        if "doi.org" in link:
+            doi = link.split("doi.org/")[-1]
+
+        results.append({
+            "title": title.strip(),
+            "url": link.strip(),
+            "authors": authors,
+            "year": year,
+            "doi": doi,
+        })
+
+    return results
+
+
+# --- MAIN PIPELINE ------------------------------------------------------------
+def scholar_to_crossref(query: str, num_results: int = 20) -> list:
+    """Fetch and enrich results from Scholar via Crossref."""
+    print(f"Fetching top {num_results} results for: {query}")
+    articles = fetch_google_scholar_articles(query, num_results)
+    enriched = []
+    for a in articles:
+        enriched_pub = enrich_with_crossref(a)
+        enriched.append(enriched_pub)
+    print(f"Collected {len(enriched)} publications.")
+    return enriched
+
+
+def save_yaml(records: list, path: str):
+    """Write publication records to YAML."""
+    os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
-        yaml.dump(data, f, sort_keys=False, allow_unicode=True, width=120)
+        yaml.dump(records, f, sort_keys=False, allow_unicode=True)
+    print(f"Saved {len(records)} entries → {path}")
 
-# ---------------------------------------------------------------------
-# --- Main logic ---
-# ---------------------------------------------------------------------
 
-def main():
-    publications = load_yaml(DATA_PATH)
-    updated = []
-
-    for pub in publications:
-        enriched = enrich_with_crossref(pub)
-        authors = enriched.get("authors", [])
-        if any(is_carino_gurjao_strict(a) for a in authors):
-            updated.append(enriched)
-
-    save_yaml(DATA_PATH, updated)
-    print(f"Updated {len(updated)} publications containing Carino Gurjao (strict name matching).")
-
-# ---------------------------------------------------------------------
+# --- EXECUTION ---------------------------------------------------------------
 if __name__ == "__main__":
-    main()
+    publications = scholar_to_crossref(QUERY, num_results=30)
+    save_yaml(publications, OUTPUT_PATH)

@@ -2,23 +2,21 @@ name: Update publications
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   schedule:
-    - cron: "0 3 * * 1"  # Every Monday at 03:00 UTC
+    - cron: "0 3 * * 1"
 
 jobs:
   update:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # allow the workflow to push to the repo
+      contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
-          fetch-depth: 0  # needed for pushing
+          fetch-depth: 0
 
       - name: Set up Git identity
         run: |
@@ -38,7 +36,12 @@ jobs:
           SERPAPI_API_KEY: ${{ secrets.SERPAPI_API_KEY }}
         run: python scripts/update_publications.py
 
+      - name: Show diff before commit
+        run: git diff _data/publications.yml || true
+
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git add _data/publications.yml
           if git diff --cached --quiet; then
@@ -46,6 +49,5 @@ jobs:
             exit 0
           fi
           git commit -m "Auto-update publications [skip ci]"
-          git branch
-          git pull origin "${GITHUB_REF_NAME}" --rebase
-          git push "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:${GITHUB_REF_NAME}
+          git pull origin main --rebase || true
+          git push origin HEAD:main

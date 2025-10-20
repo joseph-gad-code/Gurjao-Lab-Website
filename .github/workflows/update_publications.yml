@@ -1,10 +1,11 @@
 name: Update publications
 
 on:
+  workflow_dispatch:      # ✅ allows manual run from the Actions tab
   push:
     branches: [main]
   schedule:
-    - cron: "0 3 * * 1"
+    - cron: "0 3 * * 1"   # runs automatically every Monday at 03:00 UTC
 
 jobs:
   update:

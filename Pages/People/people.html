@@ -163,15 +163,23 @@ nav: people
 }
 
 /* Responsive tweaks */
+@media (max-width: 992px) {
+  .people-list {
+    grid-template-columns: repeat(2, 1fr); /* keep 2 columns on smaller screens */
+  }
   .page-title {
     font-size: 26px;
   }
   .person-card {
     padding: 25px 15px;
   }
+}
 
-
-
+@media (max-width: 600px) {
+  .people-list {
+    grid-template-columns: 1fr; /* switch to 1 column only on very small screens */
+  }
+}
 </style>
 
 <section class="people-page">

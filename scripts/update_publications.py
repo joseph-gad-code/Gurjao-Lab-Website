@@ -162,7 +162,7 @@ def enrich_with_crossref(pub):
     # Skip
     authors = out.get("authors", [])
     if authors and not any("gurjao" in normalize_text(a) for a in authors):
-        continue
+        return out
     return out
 
 

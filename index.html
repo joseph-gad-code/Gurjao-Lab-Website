@@ -31,7 +31,6 @@ nav: home
   margin:0 auto;
   padding:0 15px;
   margin-top:clamp(4px,0.8vw,10px);
-  /* tighter, but still responsive safety gap under the tips */
   margin-bottom:clamp(4px,1.4vw,12px);
 ">
   <svg viewBox="0 0 1000 150"
@@ -41,7 +40,7 @@ nav: home
       <style>
         .arrow-stroke{
           stroke: #4B85E8;      /* GURJAOLAB blue */
-          stroke-width:2.5;
+          stroke-width:3;
           stroke-linecap:butt;
           stroke-linejoin:miter;
           fill:none;
@@ -57,10 +56,10 @@ nav: home
     <!-- Shortened a touch (end y from ~150 -> ~132) so tips sit closer to the text -->
     <!-- left -->
     <path class="arrow-stroke" marker-end="url(#headSmall)"
-      d="M 395 16 A 260 260 0 0 0 240 136" />
+      d="M 395 16 A 200 200 0 0 0 280 100" />
     <!-- RIGHT arrow: start at ~Treatment, curve CLOCKWISE down-right -->
     <path class="arrow-stroke" marker-end="url(#headSmall)"
-      d="M 605 16 A 260 260 0 0 1 760 136" />
+      d="M 605 16 A 200 200 0 0 1 720 100" />
   </svg>
 </div>
 

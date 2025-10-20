@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-Fetch all publications from Carino Gurjao's Google Scholar profile via SerpAPI,
-enrich them with Crossref metadata, and save to _data/publications.yml.
+Fetch all publication titles from Carino Gurjao's Google Scholar profile via SerpAPI,
+then enrich each title exclusively using Crossref metadata.
+Save final results to _data/publications.yml.
 """
 
 import os
@@ -15,111 +16,20 @@ SERPAPI_KEY = os.getenv("SERPAPI_API_KEY")
 if not SERPAPI_KEY:
     raise RuntimeError("Missing SERPAPI_API_KEY environment variable")
 
-CROSSREF_BASE = "https://api.crossref.org/works/"
+AUTHOR_ID = "m3rLfS4AAAAJ"  # Carino Gurjao
 SERPAPI_BASE = "https://serpapi.com/search.json"
-REQUEST_PAUSE = 0.4  # polite delay to avoid hitting rate limits
+CROSSREF_BASE = "https://api.crossref.org/works"
+REQUEST_PAUSE = 0.5
 OUTPUT_PATH = "_data/publications.yml"
 
-# Carino Gurjao’s Google Scholar author ID
-AUTHOR_ID = "m3rLfS4AAAAJ"
 
-
-# --- CROSSREF HELPERS ---------------------------------------------------------
-def crossref_get(doi: str) -> dict:
-    """Fetch a Crossref record by DOI."""
-    if not doi:
-        return {}
-    try:
-        r = requests.get(CROSSREF_BASE + doi, timeout=20)
-        r.raise_for_status()
-        data = r.json()
-        return data.get("message", {}) or {}
-    except Exception:
-        return {}
-
-
-def crossref_search_title(title: str) -> dict:
-    """Search Crossref by title if no DOI is available."""
-    if not title:
-        return {}
-    try:
-        url = f"https://api.crossref.org/works?query.bibliographic={quote_plus(title)}&rows=1"
-        r = requests.get(url, timeout=20)
-        r.raise_for_status()
-        items = (r.json().get("message", {}).get("items", []) or [])
-        return items[0] if items else {}
-    except Exception:
-        return {}
-
-
-def extract_from_crossref(msg: dict) -> dict:
-    """Normalize Crossref metadata into simple fields."""
-    if not msg:
-        return {}
-
-    year = None
-    for k in ("published-print", "published-online", "issued"):
-        dp = ((msg.get(k) or {}).get("date-parts") or [[]])
-        if dp and dp[0]:
-            y = dp[0][0]
-            if isinstance(y, int):
-                year = y
-                break
-
-    return {
-        "journal": (msg.get("container-title") or [""])[0],
-        "volume": msg.get("volume") or "",
-        "issue": msg.get("issue") or "",
-        "pages": msg.get("page") or "",
-        "year": year,
-        "url": msg.get("URL") or "",
-        "doi": msg.get("DOI") or "",
-    }
-
-
-def enrich_with_crossref(pub: dict) -> dict:
-    """Merge missing metadata from Crossref into the publication record."""
-    out = dict(pub)
-    msg = {}
-
-    doi = (out.get("doi") or "").strip()
-    if doi:
-        time.sleep(REQUEST_PAUSE)
-        msg = crossref_get(doi)
-    if not msg:
-        title = out.get("title", "").strip()
-        if title:
-            time.sleep(REQUEST_PAUSE)
-            msg = crossref_search_title(title)
-
-    meta = extract_from_crossref(msg)
-    if not meta:
-        return out
-
-    def set_if_empty(key, val):
-        if val and not out.get(key):
-            out[key] = val
-
-    set_if_empty("journal", meta.get("journal"))
-    if meta.get("journal") and not out.get("venue"):
-        out["venue"] = meta["journal"]
-    set_if_empty("volume", meta.get("volume"))
-    set_if_empty("issue", meta.get("issue"))
-    set_if_empty("pages", meta.get("pages"))
-    set_if_empty("year", meta.get("year"))
-    set_if_empty("url", meta.get("url"))
-    set_if_empty("doi", meta.get("doi"))
-
-    return out
-
-
-# --- GOOGLE SCHOLAR AUTHOR (via SerpAPI) -------------------------------------
-def fetch_all_scholar_pubs(author_id: str) -> list:
+# --- FETCH TITLES FROM GOOGLE SCHOLAR ----------------------------------------
+def fetch_titles_from_scholar(author_id: str) -> list[str]:
     """
-    Fetch all publications from a Google Scholar author profile.
-    Automatically follows pagination using SerpAPI's next page token.
+    Fetch only publication titles from a Google Scholar author profile.
+    Uses SerpAPI pagination to get all results.
     """
-    all_pubs = []
+    titles = []
     next_token = None
     page = 1
 
@@ -132,7 +42,7 @@ def fetch_all_scholar_pubs(author_id: str) -> list:
         if next_token:
             params["after_author"] = next_token
 
-        print(f"Fetching page {page} from Google Scholar...")
+        print(f"Fetching page {page} of Google Scholar titles...")
         try:
             r = requests.get(SERPAPI_BASE, params=params, timeout=30)
             r.raise_for_status()
@@ -141,57 +51,96 @@ def fetch_all_scholar_pubs(author_id: str) -> list:
             print(f"Error fetching from SerpAPI: {e}")
             break
 
-        publications = data.get("articles", []) or []
-        for pub in publications:
-            title = pub.get("title", "")
-            link = pub.get("link", "")
-            year = pub.get("year")
-            authors = pub.get("authors", "")
-            if isinstance(authors, str):
-                authors = [a.strip() for a in authors.split(",")]
-            doi = ""
-            if "doi.org" in link:
-                doi = link.split("doi.org/")[-1]
-
-            all_pubs.append({
-                "title": title.strip(),
-                "url": link.strip(),
-                "authors": authors,
-                "year": year,
-                "doi": doi,
-            })
+        for art in data.get("articles", []):
+            title = art.get("title", "").strip()
+            if title:
+                titles.append(title)
 
         next_token = data.get("serpapi_pagination", {}).get("next_page_token")
         if not next_token:
             break
         page += 1
-        time.sleep(1.5)  # be polite
+        time.sleep(1.5)
 
-    print(f"Fetched {len(all_pubs)} total publications from Google Scholar.")
-    return all_pubs
+    print(f"Fetched {len(titles)} titles from Google Scholar.")
+    return titles
 
 
-# --- MAIN PIPELINE ------------------------------------------------------------
-def scholar_to_crossref(author_id: str) -> list:
-    """Fetch and enrich all publications for the given author."""
-    articles = fetch_all_scholar_pubs(author_id)
+# --- CROSSREF METADATA RETRIEVAL --------------------------------------------
+def query_crossref_by_title(title: str) -> dict:
+    """Search Crossref for metadata given an article title."""
+    try:
+        url = f"{CROSSREF_BASE}?query.bibliographic={quote_plus(title)}&rows=1"
+        r = requests.get(url, timeout=20)
+        r.raise_for_status()
+        items = (r.json().get("message", {}).get("items", []) or [])
+        return items[0] if items else {}
+    except Exception as e:
+        print(f"Crossref query failed for '{title}': {e}")
+        return {}
+
+
+def normalize_crossref_record(msg: dict, title: str) -> dict:
+    """Extract relevant fields from a Crossref record."""
+    year = None
+    for k in ("published-print", "published-online", "issued"):
+        dp = ((msg.get(k) or {}).get("date-parts") or [[]])
+        if dp and dp[0]:
+            y = dp[0][0]
+            if isinstance(y, int):
+                year = y
+                break
+
+    authors = []
+    for a in msg.get("author", []) or []:
+        name_parts = []
+        if "given" in a:
+            name_parts.append(a["given"])
+        if "family" in a:
+            name_parts.append(a["family"])
+        if name_parts:
+            authors.append(" ".join(name_parts))
+
+    return {
+        "title": title,
+        "authors": authors,
+        "journal": (msg.get("container-title") or [""])[0],
+        "year": year,
+        "volume": msg.get("volume", ""),
+        "issue": msg.get("issue", ""),
+        "pages": msg.get("page", ""),
+        "doi": msg.get("DOI", ""),
+        "url": msg.get("URL", ""),
+    }
+
+
+# --- PIPELINE ----------------------------------------------------------------
+def scholar_titles_to_crossref(author_id: str) -> list:
+    """Fetch titles from Scholar and enrich each using Crossref."""
+    titles = fetch_titles_from_scholar(author_id)
     enriched = []
-    for pub in articles:
-        enriched_pub = enrich_with_crossref(pub)
-        enriched.append(enriched_pub)
-    print(f"Enriched {len(enriched)} publications with Crossref metadata.")
+
+    for i, title in enumerate(titles, 1):
+        print(f"[{i}/{len(titles)}] Enriching '{title[:80]}...'")
+        time.sleep(REQUEST_PAUSE)
+        msg = query_crossref_by_title(title)
+        if msg:
+            record = normalize_crossref_record(msg, title)
+            enriched.append(record)
+        else:
+            enriched.append({"title": title})
     return enriched
 
 
 def save_yaml(records: list, path: str):
-    """Save publication data to YAML file."""
+    """Write the publications list to YAML."""
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "w", encoding="utf-8") as f:
         yaml.dump(records, f, sort_keys=False, allow_unicode=True)
     print(f"Saved {len(records)} entries → {path}")
 
 
-# --- EXECUTION ----------------------------------------------------------------
+# --- MAIN --------------------------------------------------------------------
 if __name__ == "__main__":
-    pubs = scholar_to_crossref(AUTHOR_ID)
+    pubs = scholar_titles_to_crossref(AUTHOR_ID)
     save_yaml(pubs, OUTPUT_PATH)

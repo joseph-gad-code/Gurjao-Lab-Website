@@ -117,14 +117,14 @@ body {
 .pub-card .authors,
 .pub-row .authors {
   margin: 0 0 6px;
-  font-size: 1rem;
+  font-size: 15px;
   line-height: 1.5;
   color: #222;
 }
 
 .pub-card .venue,
 .pub-row .venue {
-  font-size: .95rem;
+  font-size: 15px;
   line-height: 1.35;
 }
 .pub-card .venue a,
@@ -138,7 +138,7 @@ body {
 .pub-card .venue .doi,
 .pub-row .venue .doi {
   margin-left: 8px;
-  font-size: .9rem;
+  font-size: 15px;
   padding: 2px 8px;
   border: 1px solid var(--lightblue);
   border-radius: 999px;
@@ -164,7 +164,7 @@ body {
 
 /* Year Headings */
 .pub-year-header {
-  font-size: 1.3rem;
+  font-size: 15px;
   font-weight: 500;
   margin: 20px 0 10px;
   color: var(--blue);
@@ -172,7 +172,7 @@ body {
 </style>
 
 <section class="pubs">
-  <h2 style="font-weight:700;font-size:20px;margin-top:0;">Selected publications</h2>
+  <h2 style="font-weight:700;font-size:20px;margin-bottom:3px;">Selected publications</h2>
   {%- assign _empty = "" | split: "" -%}
   {%- assign pubs = site.data.publications | default: _empty -%}
 
@@ -225,7 +225,7 @@ body {
     <p>No selected publications yet.</p>
   {% endif %}
 
- <h2 style="font-weight:700;font-size:20px;margin-top:0;">All publications</h2>
+ <h2 style="font-weight:700;font-size:20px;margin-bottom:3px;">All publications</h2>
 
   {%- assign all_sorted = pubs | sort: "year" | reverse -%}
   {%- if all_sorted and all_sorted.size > 0 -%}

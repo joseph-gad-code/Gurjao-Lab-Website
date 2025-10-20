@@ -16,8 +16,12 @@ DATA_FILE = Path("_data/publications.yml")
 REQUEST_PAUSE = 0.4
 
 
+# -------------------------------
+# --- Helper / API Functions ---
+# -------------------------------
+
 def crossref_get(doi):
-    """Fetch one Crossref record by DOI."""
+    """Fetch a single Crossref record by DOI."""
     if not doi:
         return {}
     try:
@@ -29,7 +33,7 @@ def crossref_get(doi):
 
 
 def crossref_search_title(title):
-    """Fallback Crossref search by title."""
+    """Search Crossref by publication title."""
     if not title:
         return {}
     try:
@@ -43,9 +47,9 @@ def crossref_search_title(title):
 
 
 def normalize_author(name):
-    """Abbreviate author name (e.g. 'John D. Smith' -> 'J.D. Smith')."""
+    """Format author name to standardized short form (e.g., 'John D. Smith' -> 'J.D. Smith')."""
     parts = name.replace(",", "").split()
-    if len(parts) == 0:
+    if not parts:
         return name
     last = parts[-1]
     initials = "".join([p[0] + "." for p in parts[:-1]])
@@ -53,7 +57,7 @@ def normalize_author(name):
 
 
 def extract_from_crossref(msg):
-    """Extract key metadata fields."""
+    """Extract key fields from a Crossref record."""
     if not msg:
         return {}
     year = None
@@ -70,18 +74,28 @@ def extract_from_crossref(msg):
         "year": year,
         "url": msg.get("URL") or "",
         "doi": msg.get("DOI") or "",
-        "authors": [normalize_author(a.get("given", "") + " " + a.get("family", "")) 
+        "authors": [normalize_author(a.get("given", "") + " " + a.get("family", ""))
                     for a in msg.get("author", []) if a.get("family")],
     }
 
 
+def author_list_contains_gurjao(authors):
+    """Return True if any author name includes 'Gurjao' (case-insensitive)."""
+    return any("gurjao" in a.lower() for a in authors)
+
+
+# -------------------------------------
+# --- Core Enrichment / Fetch Logic ---
+# -------------------------------------
+
 def enrich_with_crossref(pub):
-    """Enrich publication with Crossref data."""
+    """Enrich publication data using Crossref."""
     out = dict(pub)
     msg = {}
     doi = out.get("doi", "").strip()
     title = out.get("title", "").strip()
 
+    # Fetch by DOI first, then fallback to title
     if doi:
         msg = crossref_get(doi)
         time.sleep(REQUEST_PAUSE)
@@ -93,30 +107,32 @@ def enrich_with_crossref(pub):
     if not meta:
         return out
 
-    # Update only empty fields
+    # Skip entries not authored by Gurjao
+    if not author_list_contains_gurjao(meta.get("authors", [])):
+        return None
+
+    # Fill in missing fields
     for k, v in meta.items():
         if v and (k not in out or not out[k]):
             out[k] = v
-
-    # Filter: keep only if "Gurjao" appears in Crossref author list
-    if not any("Gurjao" in a for a in out.get("authors", [])):
-        return None
 
     return out
 
 
 def get_scholar_publications():
-    """Fetch all publications for given author from Google Scholar."""
+    """Fetch all publications for the given author from Google Scholar (via SerpAPI)."""
     url = f"https://serpapi.com/search.json?engine=google_scholar_author&author_id={SCHOLAR_AUTHOR_ID}&api_key={SERPAPI_KEY}"
     r = requests.get(url)
     r.raise_for_status()
     data = r.json()
     pubs = []
     for item in data.get("articles", []):
+        publication_info = item.get("publication_info", {})
         pubs.append({
-            "title": item.get("title", ""),
-            "url": item.get("link", ""),
-            "doi": item.get("publication_info", {}).get("doi", ""),
+            "title": item.get("title", "").strip(),
+            "url": item.get("link", "").strip(),
+            "journal": publication_info.get("summary", "").strip(),  # journal/source name
+            "doi": publication_info.get("doi", "").strip(),
             "authors": [normalize_author(a.strip()) for a in item.get("authors", "").split(",")],
             "selected_publication": "no",
             "image": "",
@@ -124,8 +140,12 @@ def get_scholar_publications():
     return pubs
 
 
+# ---------------------------
+# --- Main Update Routine ---
+# ---------------------------
+
 def update_publications():
-    """Main function to merge and enrich publication data."""
+    """Merge, enrich, and write publication data."""
     # Load existing publications
     existing = []
     if DATA_FILE.exists():
@@ -143,11 +163,19 @@ def update_publications():
         if enriched:
             print(f"Added: {enriched['title']}")
             new_pubs.append(enriched)
+        else:
+            print(f"Ignored (not Gurjao): {pub['title']}")
 
     all_pubs = existing + new_pubs
     with open(DATA_FILE, "w") as f:
         yaml.dump(all_pubs, f, sort_keys=False, allow_unicode=True)
 
+    print(f"✅ Update complete. Total publications: {len(all_pubs)}")
+
+
+# ---------------------
+# --- Entry Point ---
+# ---------------------
 
 if __name__ == "__main__":
     update_publications()

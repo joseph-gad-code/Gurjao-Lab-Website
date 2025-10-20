@@ -2,7 +2,6 @@
 title: "People"
 layout: default
 permalink: /people/
-nav: people
 ---
 
 <style>
@@ -165,9 +164,11 @@ nav: people
 /* Responsive tweaks */
 @media (max-width: 992px) {
   .people-list {
+    grid-template-columns: 1fr;
     grid-template-columns: repeat(2, 1fr); /* keep 2 columns on smaller screens */
   }
   .page-title {
+    font-size: 30px;
     font-size: 26px;
   }
   .person-card {
@@ -204,61 +205,3 @@ nav: people
           <div class="person-status">{{ p.status }}</div>
         {% endif %}
         {% if p.bio %}
-          <p class="person-bio">{{ p.bio }}</p>
-        {% endif %}
-
-        {% if p.read_more %}
-          <a class="read-more" href="{{ p.read_more | relative_url }}">Read more...</a>
-        {% endif %}
-
-        {% if p.github or p.scholar or p.linkedin %}
-        <div class="person-social">
-          {% if p.github %}
-            <a href="{{ p.github }}" target="_blank" rel="noopener">
-              <img class="icon" src="{{ '/Pages/People/Images/Icons/github.svg' | relative_url }}" alt="GitHub">
-            </a>
-          {% endif %}
-          {% if p.scholar %}
-            <a href="{{ p.scholar }}" target="_blank" rel="noopener">
-              <img class="icon" src="{{ '/Pages/People/Images/Icons/scholar.svg' | relative_url }}" alt="Google Scholar">
-            </a>
-          {% endif %}
-          {% if p.linkedin %}
-            <a href="{{ p.linkedin }}" target="_blank" rel="noopener">
-              <img class="icon" src="{{ '/Pages/People/Images/Icons/linkedin.svg' | relative_url }}" alt="LinkedIn">
-            </a>
-          {% endif %}
-        </div>
-        {% endif %}
-      </div>
-    </article>
-    {% endfor %}
-  </div>
-</section>
-
-<section class="values-section">
-  <h2 style="font-weight:700;font-size:20px;margin-top:0;text-align:left;margin-bottom:50px;">Core Values</h2>
-
-  <div class="values-grid">
-    <div class="value-col">
-      <h3>Lab community</h3>
-      <p>
-        The Gurjao Lab aims to be a vibrant home for curiosity and collaboration.
-        Our members come from diverse backgrounds, bringing together expertise
-        across disciplines to tackle fundamental and applied questions in cancer
-        research. Lab members are trusted to take ownership of their science
-        while being supported by peers and mentors. Outside of the lab, we
-        contribute by the creation of a postdoc mentorship committee at IRIC.
-      </p>
-    </div>
-    <div class="value-col">
-      <h3>DEI commitment</h3>
-      <p>
-        We celebrate diversity as a source of strength and innovation in our work.
-        We are committed to an inclusive, equitable, and welcoming environment
-        for all members. We participate in EDI initiatives at IRIC and pursue
-        research for equitable access to cancer care across demographics.
-      </p>
-    </div>
-  </div>
-</section>

@@ -1,188 +1,176 @@
-#!/usr/bin/env python3
-"""
-update_publications.py
-
-Fetch all publications from Crossref for author 'Carino Gurjao'
-(including variants like 'C. Gurjao' and 'C Gurjao'),
-enrich metadata, and safely update _data/publications.yml
-without duplicating or overwriting existing entries.
-"""
-
+import os
 import time
 import requests
 import yaml
-from pathlib import Path
 from urllib.parse import quote_plus
 
 # --- Configuration ---
-AUTHOR_VARIANTS = [
-    "Carino Gurjao",
-    "C. Gurjao",
-    "C Gurjao"
-]
+DATA_PATH = "_data/publications.yml"
+CROSSREF_BASE = "https://api.crossref.org/works/"
+REQUEST_PAUSE = 0.4  # polite delay between API calls
 
-CROSSREF_API = "https://api.crossref.org/works"
-DATA_PATH = Path("_data/publications.yml")
-REQUEST_PAUSE = 0.3  # be polite to Crossref
+# ---------------------------------------------------------------------
+# --- Crossref access helpers ---
+# ---------------------------------------------------------------------
 
-
-# --- Helper functions ---
-
-def fetch_crossref_by_author(name: str) -> list:
-    """Fetch works from Crossref by author name."""
-    print(f"Fetching publications for author: {name}")
-    pubs = []
-    cursor = "*"
-
+def crossref_get(doi: str) -> dict:
+    """Fetch a single Crossref record by DOI."""
+    if not doi:
+        return {}
     try:
-        while True:
-            url = f"{CROSSREF_API}?query.author={quote_plus(name)}&rows=1000&cursor={cursor}"
-            r = requests.get(url, timeout=30)
-            r.raise_for_status()
-            data = r.json().get("message", {})
-            items = data.get("items", [])
-            pubs.extend(items)
+        r = requests.get(CROSSREF_BASE + doi, timeout=20)
+        r.raise_for_status()
+        return r.json().get("message", {}) or {}
+    except Exception:
+        return {}
 
-            print(f"Fetched {len(items)} records (total so far: {len(pubs)})")
+def crossref_search_title(title: str) -> dict:
+    """Fallback: search Crossref by title and return the best match."""
+    if not title:
+        return {}
+    try:
+        url = f"https://api.crossref.org/works?query.bibliographic={quote_plus(title)}&rows=5"
+        r = requests.get(url, timeout=20)
+        r.raise_for_status()
+        items = r.json().get("message", {}).get("items", []) or []
+        # Filter only those containing "C. Gurjao" or "Carino Gurjao"
+        for item in items:
+            authors = extract_authors(item)
+            if any(is_carino_gurjao(a) for a in authors):
+                return item
+        return {}
+    except Exception:
+        return {}
 
-            cursor = data.get("next-cursor")
-            if not cursor or not items:
-                break
+# ---------------------------------------------------------------------
+# --- Author parsing and filtering logic ---
+# ---------------------------------------------------------------------
 
-            time.sleep(REQUEST_PAUSE)
-
-        return pubs
-
-    except Exception as e:
-        print("Error fetching from Crossref:", e)
-        return []
-
-
-def normalize_crossref_entry(entry: dict) -> dict:
-    """Extract and simplify the essential fields from a Crossref entry."""
-    title = (entry.get("title") or [""])[0]
+def extract_authors(msg: dict) -> list[str]:
+    """Extract full author names from a Crossref record."""
     authors = []
-    for a in entry.get("author", []) or []:
-        name = " ".join(filter(None, [a.get("given"), a.get("family")]))
-        if name:
-            authors.append(name)
+    for a in msg.get("author", []) or []:
+        given = a.get("given", "").strip()
+        family = a.get("family", "").strip()
+        full_name = " ".join(x for x in [given, family] if x)
+        if full_name:
+            authors.append(full_name)
+    return authors
 
-    # Determine publication year
+def is_carino_gurjao(name: str) -> bool:
+    """
+    Return True if the author's name corresponds to Carino Gurjao or a valid variant:
+      - Must contain 'Gurjao' (case-insensitive)
+      - Must have first name or initial starting with 'C' (no others)
+    """
+    parts = name.strip().split()
+    if len(parts) < 2:
+        return False
+    family = parts[-1].lower()
+    first = parts[0].lower().replace(".", "")
+    return (family == "gurjao") and first.startswith("c") and not first.startswith("e")  # exclude wrong initials
+
+# ---------------------------------------------------------------------
+# --- Metadata normalization ---
+# ---------------------------------------------------------------------
+
+def extract_from_crossref(msg: dict) -> dict:
+    """Normalize relevant metadata from Crossref."""
+    if not msg:
+        return {}
+
+    # Try multiple date fields
     year = None
     for k in ("published-print", "published-online", "issued"):
-        dp = (entry.get(k) or {}).get("date-parts", [[]])
+        dp = ((msg.get(k) or {}).get("date-parts") or [[]])
         if dp and dp[0]:
             y = dp[0][0]
             if isinstance(y, int):
                 year = y
                 break
 
+    authors = extract_authors(msg)
+
     return {
-        "title": title.strip(),
+        "title": msg.get("title", [""])[0],
         "authors": authors,
-        "journal": (entry.get("container-title") or [""])[0],
-        "volume": entry.get("volume", ""),
-        "issue": entry.get("issue", ""),
-        "pages": entry.get("page", ""),
+        "journal": (msg.get("container-title") or [""])[0],
+        "volume": msg.get("volume") or "",
+        "issue": msg.get("issue") or "",
+        "pages": msg.get("page") or "",
         "year": year,
-        "doi": entry.get("DOI", ""),
-        "url": entry.get("URL", ""),
+        "url": msg.get("URL") or "",
+        "doi": msg.get("DOI") or "",
     }
 
+# ---------------------------------------------------------------------
+# --- Publication enrichment ---
+# ---------------------------------------------------------------------
 
-def filter_by_author_variants(entries: list) -> list:
-    """Keep only entries where an author matches any variant of 'Carino Gurjao'."""
-    filtered = []
-    variants_lower = [v.lower() for v in AUTHOR_VARIANTS]
+def enrich_with_crossref(pub: dict) -> dict:
+    """Fill missing fields in one publication record using Crossref."""
+    out = dict(pub)
+    msg = {}
 
-    for entry in entries:
-        authors = entry.get("author", []) or []
-        for a in authors:
-            full_name = " ".join(filter(None, [a.get("given"), a.get("family")])).lower()
-            if any(v in full_name for v in variants_lower):
-                filtered.append(entry)
-                break  # Found one matching author, no need to check further
-    return filtered
+    doi = (out.get("doi") or "").strip()
+    if doi:
+        time.sleep(REQUEST_PAUSE)
+        msg = crossref_get(doi)
+    if not msg:
+        title = out.get("title", "").strip()
+        if title:
+            time.sleep(REQUEST_PAUSE)
+            msg = crossref_search_title(title)
+    if not msg:
+        return out
 
+    meta = extract_from_crossref(msg)
+    if not meta:
+        return out
 
-def load_existing_publications() -> list:
-    """Load the current publications.yml (if any)."""
-    if not DATA_PATH.exists():
-        print("No _data/publications.yml found. Starting fresh.")
+    def set_if_empty(k, v):
+        if v and not out.get(k):
+            out[k] = v
+
+    for k in ("journal", "volume", "issue", "pages", "year", "url", "doi", "authors", "title"):
+        set_if_empty(k, meta.get(k))
+
+    return out
+
+# ---------------------------------------------------------------------
+# --- YAML file update ---
+# ---------------------------------------------------------------------
+
+def load_yaml(path: str) -> list:
+    """Load publications YAML file."""
+    if not os.path.exists(path):
         return []
-    try:
-        with open(DATA_PATH, "r", encoding="utf-8") as f:
-            return yaml.safe_load(f) or []
-    except Exception as e:
-        print("Error reading existing YAML:", e)
-        return []
+    with open(path, "r", encoding="utf-8") as f:
+        return yaml.safe_load(f) or []
 
+def save_yaml(path: str, data: list):
+    """Save updated publications to YAML."""
+    with open(path, "w", encoding="utf-8") as f:
+        yaml.dump(data, f, sort_keys=False, allow_unicode=True, width=120)
 
-def is_duplicate(new_pub: dict, existing: list) -> bool:
-    """Check if a new publication already exists (by DOI or title match)."""
-    new_doi = (new_pub.get("doi") or "").lower()
-    new_title = (new_pub.get("title") or "").strip().lower()
-
-    for pub in existing:
-        doi = (pub.get("doi") or "").lower()
-        title = (pub.get("title") or "").strip().lower()
-
-        if new_doi and doi and new_doi == doi:
-            return True
-        if new_title and title and new_title == title:
-            return True
-    return False
-
-
-def save_publications(publications: list):
-    """Write updated publications back to the YAML file."""
-    try:
-        DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
-        with open(DATA_PATH, "w", encoding="utf-8") as f:
-            yaml.dump(publications, f, sort_keys=False, allow_unicode=True)
-        print(f"Saved {len(publications)} publications to {DATA_PATH}")
-    except Exception as e:
-        print("Error writing publications.yml:", e)
-
-
-# --- Main execution ---
+# ---------------------------------------------------------------------
+# --- Main logic ---
+# ---------------------------------------------------------------------
 
 def main():
-    existing_pubs = load_existing_publications()
-    print(f"Loaded {len(existing_pubs)} existing publications.")
+    publications = load_yaml(DATA_PATH)
+    updated = []
 
-    all_new_entries = []
-    for name in AUTHOR_VARIANTS:
-        pubs = fetch_crossref_by_author(name)
-        if pubs:
-            all_new_entries.extend(pubs)
-        time.sleep(REQUEST_PAUSE)
+    for pub in publications:
+        enriched = enrich_with_crossref(pub)
+        authors = enriched.get("authors", [])
+        # Only keep records containing a valid "C. Gurjao" or "Carino Gurjao"
+        if any(is_carino_gurjao(a) for a in authors):
+            updated.append(enriched)
 
-    # Filter duplicates at the raw Crossref level
-    unique_entries = {p.get("DOI", p.get("title", "")): p for p in all_new_entries}.values()
+    save_yaml(DATA_PATH, updated)
+    print(f"✅ Updated {len(updated)} publications containing Carino Gurjao (or valid variants).")
 
-    # Keep only entries actually authored by Carino Gurjao variants
-    filtered_entries = filter_by_author_variants(list(unique_entries))
-    print(f"Filtered down to {len(filtered_entries)} entries with author match.")
-
-    normalized_pubs = [normalize_crossref_entry(p) for p in filtered_entries]
-    print(f"Normalized {len(normalized_pubs)} publications from Crossref.")
-
-    merged = existing_pubs[:]
-    added_count = 0
-
-    for pub in normalized_pubs:
-        if not is_duplicate(pub, merged):
-            merged.append(pub)
-            added_count += 1
-
-    print(f"Added {added_count} new publications (total now {len(merged)}).")
-
-    # Sort by year descending (most recent first)
-    merged.sort(key=lambda x: x.get("year") or 0, reverse=True)
-
-    save_publications(merged)
-
-
+# ---------------------------------------------------------------------
 if __name__ == "__main__":
     main()

@@ -6,25 +6,40 @@ nav: people
 ---
 
 <style>
-@@ -165,9 +164,11 @@
 /* Responsive tweaks */
 @media (max-width: 992px) {
   .people-list {
-    grid-template-columns: 1fr;
     grid-template-columns: repeat(2, 1fr); /* keep 2 columns on smaller screens */
   }
   .page-title {
-    font-size: 30px;
     font-size: 26px;
   }
   .person-card {
-@@ -204,61 +205,3 @@
+    margin-bottom: 20px;
+  }
+}
+</style>
+
+<section class="people-section">
+  <h1 class="page-title">People</h1>
+
+  <div class="people-list">
+    {% for p in site.data.people %}
+    <article class="person-card">
+      <div class="person-photo">
+        <img src="{{ p.image | relative_url }}" alt="{{ p.name }}">
+      </div>
+      <div class="person-info">
+        <h3 class="person-name">{{ p.name }}</h3>
+        {% if p.position %}
+          <div class="person-position">{{ p.position }}</div>
+        {% endif %}
+        {% if p.status %}
           <div class="person-status">{{ p.status }}</div>
         {% endif %}
         {% if p.bio %}
           <p class="person-bio">{{ p.bio }}</p>
         {% endif %}
-
         {% if p.read_more %}
           <a class="read-more" href="{{ p.read_more | relative_url }}">Read more...</a>
         {% endif %}
@@ -66,7 +81,7 @@ nav: people
         across disciplines to tackle fundamental and applied questions in cancer
         research. Lab members are trusted to take ownership of their science
         while being supported by peers and mentors. Outside of the lab, we
-        contribute by the creation of a postdoc mentorship committee at IRIC.
+        contribute through the creation of a postdoc mentorship committee at IRIC.
       </p>
     </div>
     <div class="value-col">

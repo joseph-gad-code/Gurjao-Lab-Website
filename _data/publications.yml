@@ -1,295 +1,428 @@
 - title: Mutational signature in colorectal cancer caused by genotoxic pks+E. coli
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:qxL8FJ1GzNcC
   authors:
-  - C Pleguezuelos-Manzano
-  - J Puschhof
-  - A Rosendahl Huber
-  - A van Hoeck
-  - '...'
-  year: '2020'
-  doi: 10.3410/f.737443012.793571829
+  - Vivian Li
   journal: Faculty Opinions – Post-Publication Peer Review of the Biomedical Literature
-  venue: Faculty Opinions – Post-Publication Peer Review of the Biomedical Literature
+  year: 2020
+  volume: ''
+  issue: ''
+  pages: ''
+  doi: 10.3410/f.737443012.793571829
+  url: https://doi.org/10.3410/f.737443012.793571829
 - title: Metabolomic adaptations and correlates of survival to immune checkpoint blockade
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:YOwf2qJgpHMC
   authors:
-  - H Li
-  - K Bullock
-  - C Gurjao
-  - D Braun
-  - SA Shukla
-  - D Bossé
-  - AKA Lalani
-  - '...'
-  year: '2019'
-  doi: 10.1038/s41467-019-12361-9
+  - Haoxin Li
+  - Kevin Bullock
+  - Carino Gurjao
+  - David Braun
+  - Sachet A. Shukla
+  - Dominick Bossé
+  - Aly-Khan A. Lalani
+  - Shuba Gopal
+  - Chelsea Jin
+  - Christine Horak
+  - Megan Wind-Rotolo
+  - Sabina Signoretti
+  - David F. McDermott
+  - Gordon J. Freeman
+  - Eliezer M. Van Allen
+  - Stuart L. Schreiber
+  - F. Stephen Hodi
+  - William R. Sellers
+  - Levi A. Garraway
+  - Clary B. Clish
+  - Toni K. Choueiri
+  - Marios Giannakis
   journal: Nature Communications
-  venue: Nature Communications
+  year: 2019
   volume: '10'
   issue: '1'
+  pages: ''
+  doi: 10.1038/s41467-019-12361-9
+  url: https://doi.org/10.1038/s41467-019-12361-9
 - title: Intrinsic Resistance to Immune Checkpoint Blockade in a Mismatch Repair–Deficient
     Colorectal Cancer
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:5nxA0vEk-isC
   authors:
-  - C Gurjao
-  - D Liu
-  - M Hofree
-  - SH AlDubayan
-  - I Wakiro
-  - MJ Su
-  - K Felt
-  - E Gjini
-  - '...'
-  year: '2019'
-  doi: 10.1200/jco.21.02691
+  - Zhaohui Jin
+  - Frank A. Sinicrope
   journal: Journal of Clinical Oncology
-  venue: Journal of Clinical Oncology
+  year: 2022
   volume: '40'
   issue: '24'
   pages: 2735-2750
+  doi: 10.1200/jco.21.02691
+  url: https://doi.org/10.1200/jco.21.02691
 - title: Association of Fusobacterium nucleatum with Specific T-cell Subsets in the
     Colorectal Carcinoma Microenvironment
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:_kc_bZDykSQC
   authors:
-  - J Borowsky
-  - K Haruki
-  - MC Lau
-  - A Dias Costa
-  - JP Väyrynen
-  - T Ugai
-  - '...'
-  year: '2021'
+  - Yasuhiko Komiya
+  journal: ''
+  year: 2017
+  volume: ''
+  issue: ''
+  pages: ''
   doi: 10.26226/morressier.59a6b34cd462b80290b55ad6
+  url: https://doi.org/10.26226/morressier.59a6b34cd462b80290b55ad6
 - title: Discovery and features of an alkylating signature in colorectal cancer
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:8k81kl-MbHgC
   authors:
-  - C Gurjao*
-  - R Zhong*
-  - K Haruki*
-  - YY Li
-  - LF Spurr
-  - H Lee-Six
-  - B Reardon
-  - '...'
-  year: '2021'
-  doi: 10.1158/2159-8290.cd-20-1656
+  - Carino Gurjao
+  - Rong Zhong
+  - Koichiro Haruki
+  - Yvonne Y. Li
+  - Liam F. Spurr
+  - Henry Lee-Six
+  - Brendan Reardon
+  - Tomotaka Ugai
+  - Xuehong Zhang
+  - Andrew D. Cherniack
+  - Mingyang Song
+  - Eliezer M. Van Allen
+  - Jeffrey A. Meyerhardt
+  - Jonathan A. Nowak
+  - Edward L. Giovannucci
+  - Charles S. Fuchs
+  - Kana Wu
+  - Shuji Ogino
+  - Marios Giannakis
   journal: Cancer Discovery
-  venue: Cancer Discovery
+  year: 2021
   volume: '11'
   issue: '10'
   pages: 2446-2455
+  doi: 10.1158/2159-8290.cd-20-1656
+  url: https://doi.org/10.1158/2159-8290.cd-20-1656
 - title: Dynamic single-cell RNA sequencing identifies immunotherapy persister cells
     following PD-1 blockade
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:3fE2CSJIrl8C
   authors:
-  - K Sehgal
-  - A Portell
-  - EV Ivanova
-  - PH Lizotte
-  - NR Mahadevan
-  - JR Greene
-  - '...'
-  year: '2021'
-  doi: 10.1172/jci135038
+  - Kartik Sehgal
+  - Andrew Portell
+  - Elena V. Ivanova
+  - Patrick H. Lizotte
+  - Navin R. Mahadevan
+  - Jonathan R. Greene
+  - Amir Vajdi
+  - Carino Gurjao
+  - Tyler Teceno
+  - Luke J. Taus
+  - Tran C. Thai
+  - Shunsuke Kitajima
+  - Derek Liu
+  - Tetsuo Tani
+  - Moataz Noureddine
+  - Christie J. Lau
+  - Paul T. Kirschmeier
+  - David Liu
+  - Marios Giannakis
+  - Russell W. Jenkins
+  - Prafulla C. Gokhale
+  - Silvia Goldoni
+  - Maria Pinzon-Ortiz
+  - William D. Hastings
+  - Peter S. Hammerman
+  - Juan J. Miret
+  - Cloud P. Paweletz
+  - David A. Barbie
   journal: Journal of Clinical Investigation
-  venue: Journal of Clinical Investigation
+  year: 2021
   volume: '131'
   issue: '2'
+  pages: ''
+  doi: 10.1172/jci135038
+  url: https://doi.org/10.1172/jci135038
 - title: RNF43 G659fs is an oncogenic colorectal cancer mutation and sensitizes tumor
     cells to PI3K/mTOR inhibition
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:MXK_kJrjxJIC
   authors:
-  - L Fang
-  - D Ford-Roshon
-  - M Russo
-  - C O’Brien
-  - X Xiong
-  - C Gurjao
-  - '...'
-  year: '2022'
-  doi: 10.1158/1538-7445.am2021-960
+  - Lishan Fang
+  - Dane Ford-Roshon
+  - Max Russo
+  - Casey O'Brien
+  - Carino Gurjao
+  - Maximilien Grandclaudon
+  - Steven M. Corsello
+  - Srivatsan Raghavan
+  - Namrata Udeshi
+  - James Berstler
+  - Ewa Sicinska
+  - Kimmie Ng
+  - Marios Giannakis
   journal: Cancer Research
-  venue: Cancer Research
+  year: 2021
   volume: '81'
   issue: 13_Supplement
   pages: 960-960
+  doi: 10.1158/1538-7445.am2021-960
+  url: https://doi.org/10.1158/1538-7445.am2021-960
 - title: Limited evidence of tumour mutational burden as a biomarker of response to
     immunotherapy
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:aqlVkmm33-oC
   authors:
-  - C Gurjao
-  - D Tsukrov
-  - M Imakaev
-  - LJ Luquette
-  - LA Mirny
-  year: '2020'
+  - Zgura Anca
+  - Chipuc Stefania
+  - Nicolae Bacalbasa
+  - Haineala Bogdan
+  - Rodica Maricela Anghel
+  - Valcea Sebastian
+  journal: ''
+  year: 2024
+  volume: ''
+  issue: ''
+  pages: ''
   doi: 10.20944/preprints202411.2060.v1
+  url: https://doi.org/10.20944/preprints202411.2060.v1
 - title: Single-cell and spatial genomic landscape of non-small cell lung cancer brain
     metastases
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:GnPB-g6toBAC
-  authors:
-  - S Tagore
-  - L Caprio
-  - AD Amin
-  - K Bestak
-  - K Luthria
-  - E D’Souza
-  - I Barrera
-  - '...'
-  year: '2025'
-  doi: 10.1159/000491270
+  authors: []
   journal: 'Fast Facts: Non-Small-Cell Lung Cancer'
-  venue: 'Fast Facts: Non-Small-Cell Lung Cancer'
+  year: 2016
+  volume: ''
+  issue: ''
+  pages: ''
+  doi: 10.1159/000491270
+  url: https://doi.org/10.1159/000491270
 - title: Loss of Pip4k2c confers liver-metastatic organotropism through insulin-dependent
     PI3K-AKT pathway activation
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:isC4tDSrTZIC
   authors:
-  - M Rogava
-  - TJ Aprati
-  - WY Chi
-  - JC Melms
-  - C Hug
-  - SH Davis
-  - EM Earlie
-  - '...'
-  year: '2024'
-  doi: 10.1038/s43018-023-00704-x
+  - Meri Rogava
+  - Tyler J. Aprati
+  - Wei-Yu Chi
+  - Johannes C. Melms
+  - Clemens Hug
+  - Stephanie H. Davis
+  - Ethan M. Earlie
+  - Charlie Chung
+  - Sachin K. Deshmukh
+  - Sharon Wu
+  - George Sledge
+  - Stephen Tang
+  - Patricia Ho
+  - Amit Dipak Amin
+  - Lindsay Caprio
+  - Carino Gurjao
+  - Somnath Tagore
+  - Bryan Ngo
+  - Michael J. Lee
+  - Giorgia Zanetti
+  - Yiping Wang
+  - Sean Chen
+  - William Ge
+  - Luiza Martins Nascentes Melo
+  - Gabriele Allies
+  - Jonas Rösler
+  - Goeffrey T. Gibney
+  - Oliver J. Schmitz
+  - Megan Sykes
+  - Rémi J. Creusot
+  - Thomas Tüting
+  - Dirk Schadendorf
+  - Martin Röcken
+  - Thomas K. Eigentler
+  - Andrei Molotkov
+  - Akiva Mintz
+  - Samuel F. Bakhoum
+  - Semir Beyaz
+  - Lewis C. Cantley
+  - Peter K. Sorger
+  - Sven W. Meckelmann
+  - Alpaslan Tasdogan
+  - David Liu
+  - Ashley M. Laughney
+  - Benjamin Izar
   journal: Nature Cancer
-  venue: Nature Cancer
+  year: 2024
   volume: '5'
   issue: '3'
   pages: 433-447
+  doi: 10.1038/s43018-023-00704-x
+  url: https://doi.org/10.1038/s43018-023-00704-x
 - title: Bayesian risk prediction model for colorectal cancer mortality through integration
     of clinicopathologic and genomic data
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:ZeXyd9-uunAC
   authors:
-  - M Zhao
-  - MC Lau
-  - K Haruki
-  - JP Väyrynen
-  - C Gurjao
-  - SA Väyrynen
-  - '...'
-  year: '2023'
-  doi: 10.1038/s41698-023-00406-8
+  - Melissa Zhao
+  - Mai Chan Lau
+  - Koichiro Haruki
+  - Juha P. Väyrynen
+  - Carino Gurjao
+  - Sara A. Väyrynen
+  - Andressa Dias Costa
+  - Jennifer Borowsky
+  - Kenji Fujiyoshi
+  - Kota Arima
+  - Tsuyoshi Hamada
+  - Jochen K. Lennerz
+  - Charles S. Fuchs
+  - Reiko Nishihara
+  - Andrew T. Chan
+  - Kimmie Ng
+  - Xuehong Zhang
+  - Jeffrey A. Meyerhardt
+  - Mingyang Song
+  - Molin Wang
+  - Marios Giannakis
+  - Jonathan A. Nowak
+  - Kun-Hsing Yu
+  - Tomotaka Ugai
+  - Shuji Ogino
   journal: npj Precision Oncology
-  venue: npj Precision Oncology
+  year: 2023
   volume: '7'
   issue: '1'
+  pages: ''
+  doi: 10.1038/s41698-023-00406-8
+  url: https://doi.org/10.1038/s41698-023-00406-8
 - title: Clinical and Genomic Characterization of Interval Colorectal Cancer in Three
     Prospective Cohorts
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:kNdYIx-mwKoC
   authors:
-  - K Yang*
-  - Y Cao*
-  - C Gurjao*
-  - Y Liu*
-  - CG Guo*
-  - CH Lo
-  - X Zong
-  - D Drew
-  - '...'
-  year: '2022'
-  doi: 10.1016/s0016-5085(22)60451-7
+  - Keming Yang
+  - Yin Cao
+  - Yang Liu
+  - Carino Gurjao
+  - Chuan-Guo Guo
+  - Chun-Han Lo
+  - Xiaoyu Zong
+  - David A. Drew
+  - Connor M. Geraghty
+  - Elizabeth Prezioso
+  - Matthew Moore
+  - Craig R. Williams
+  - Tom Riley
+  - Melissa Saul
+  - Brenda Diergaarde
+  - Shuji Ogino
+  - Marios Giannakis
+  - Adam Bass
+  - Robert E. Schoen
+  - Andrew Chan
   journal: Gastroenterology
-  venue: Gastroenterology
+  year: 2022
   volume: '162'
   issue: '7'
   pages: S-188-S-189
+  doi: 10.1016/s0016-5085(22)60451-7
+  url: https://doi.org/10.1016/s0016-5085(22)60451-7
 - title: 'Smoking habit and long-term colorectal cancer incidence by exome-wide mutational
     and neoantigen loads: evidence based on the prospective cohort incident-tumour
     biobank method'
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:O3NaXMp0MMsC
   authors:
-  - T Hamada*
-  - T Ugai*
-  - C Gurjao*
-  - S Ugai
-  - X Zhang
-  - K Haruki
-  - Y Takashima
-  - '...'
-  year: '2025'
-  doi: 10.1136/bmjonc-2025-000787
+  - Tsuyoshi Hamada
+  - Tomotaka Ugai
+  - Carino Gurjao
+  - Satoko Ugai
+  - Xuehong Zhang
+  - Koichiro Haruki
+  - Yasutoshi Takashima
+  - Naohiko Akimoto
+  - Mai Chan Lau
+  - Kosuke Matsuda
+  - Nobuhiro Nakazawa
+  - Mayu Higashioka
+  - Satoshi Miyahara
+  - Keisuke Kosumi
+  - Yohei Masugi
+  - Li Liu
+  - Yin Cao
+  - Daniel Nevo
+  - Molin Wang
+  - Reiko Nishihara
+  - Sachet A Shukla
+  - Catherine J Wu
+  - Levi A Garraway
+  - Jeffrey A Meyerhardt
+  - Edward L Giovannucci
+  - Jonathan A Nowak
+  - Charles S Fuchs
+  - Andrew T Chan
+  - Mingyang Song
+  - Marios Giannakis
+  - Shuji Ogino
   journal: BMJ Oncology
-  venue: BMJ Oncology
+  year: 2025
   volume: '4'
   issue: '1'
   pages: e000787
+  doi: 10.1136/bmjonc-2025-000787
+  url: https://doi.org/10.1136/bmjonc-2025-000787
 - title: Alcohol and colorectal cancer risk, subclassified by mutational signatures
     of DNA mismatch repair deficiency
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:blknAaTinKkC
   authors:
-  - A Fang
-  - T Ugai
-  - C Gurjao
-  - R Zhong
-  - Z Liu
-  - X Zhang
-  - P Wang
-  - J Nowak
-  - '...'
-  year: '2024'
-  doi: 10.1093/jnci/djae078
+  - Aiping Fang
+  - Tomotaka Ugai
+  - Carino Gurjao
+  - Rong Zhong
+  - Zhenhua Liu
+  - Xinyuan Zhang
+  - Peilu Wang
+  - Jonathan Nowak
+  - Molin Wang
+  - Marios Giannakis
+  - Shuji Ogino
+  - Xuehong Zhang
+  - Edward Giovannucci
   journal: 'JNCI: Journal of the National Cancer Institute'
-  venue: 'JNCI: Journal of the National Cancer Institute'
+  year: 2024
   volume: '116'
   issue: '8'
   pages: 1255-1263
+  doi: 10.1093/jnci/djae078
+  url: https://doi.org/10.1093/jnci/djae078
 - title: Germline predisposition to oncogenic alkylating damage in colorectal cancer
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:RGFaLdJalmkC
   authors:
-  - C Gurjao
-  - J Cazaubiel
-  - C Tan
-  - B Reardon
-  - M Hofree
-  - T Ugai
-  - '...'
-  year: '2025'
+  - Carino Gurjao
+  - Jules Cazaubiel
+  - Chichun Tan
+  - Brendan Reardon
+  - Matan Hofree
+  - Tomotaka Ugai
+  - Jeffrey A. Meyerhardt
+  - Jonathan A. Nowak
+  - Edward L. Giovannucci
+  - Jeffrey P. Townsend
+  - Shuji Ogino
+  - Marios Giannakis
+  journal: ''
+  year: 2025
+  volume: ''
+  issue: ''
+  pages: ''
   doi: 10.1101/2025.06.30.25330572
+  url: https://doi.org/10.1101/2025.06.30.25330572
 - title: Increased vulnerability of colorectal cancer with high alkylation damage
     to NTHL1 inactivation
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:YFjsv_pBGBYC
   authors:
-  - H Kim
-  - J Cazaubiel
-  - TL Chiang
-  - C Gurjao
-  - S Fitzgerald
-  - M Giannakis
-  year: '2024'
-  doi: 10.1158/1538-7445.tumbody-a019
+  - Hyeoncheol Kim
+  - Jules Cazaubiel
+  - Tung-Lin Chiang
+  - Carino Gurjao
+  - Samantha Fitzgerald
+  - Marios Giannakis
   journal: Cancer Research
-  venue: Cancer Research
+  year: 2024
   volume: '84'
   issue: 22_Supplement
   pages: A019-A019
+  doi: 10.1158/1538-7445.tumbody-a019
+  url: https://doi.org/10.1158/1538-7445.tumbody-a019
 - title: Single analyte profiling of the mutational, immune and microbiome landscape
     in african american colon cancer patients
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:JV2RwH3_ST0C
   authors:
-  - C Gurjao
-  - E Chan
-  - MJ Lee
-  - S Hangai
-  - R Rabadan
-  - T Korem
-  - H Hibshoosh
-  - '...'
-  year: '2024'
-  doi: 10.1158/1538-7445.am2024-994
+  - Carino Gurjao
+  - Edmond Chan
+  - Michael J. Lee
+  - Sho Hangai
+  - Raul Rabadan
+  - Tal Korem
+  - Hanina Hibshoosh
+  - Benjamin Izar
   journal: Cancer Research
-  venue: Cancer Research
+  year: 2024
   volume: '84'
   issue: 6_Supplement
   pages: 994-994
+  doi: 10.1158/1538-7445.am2024-994
+  url: https://doi.org/10.1158/1538-7445.am2024-994
 - title: Leveraging passenger mutations to guide cancer treatment and prevention
-  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:TFP_iSt0sucC
-  authors:
-  - C Gurjao
-  year: '2021'
-  doi: 10.3109/9781420048001-15
+  authors: []
   journal: Cancer-Associated Thrombosis
-  venue: Cancer-Associated Thrombosis
+  year: 2007
+  volume: ''
+  issue: ''
   pages: 173-184
+  doi: 10.3109/9781420048001-15
+  url: https://doi.org/10.3109/9781420048001-15

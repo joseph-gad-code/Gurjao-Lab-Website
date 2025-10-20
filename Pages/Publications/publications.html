@@ -40,42 +40,43 @@ h2 {
 /* Selected publication cards */
 .selected-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  grid-template-columns: repeat(2, 1fr); /* two columns */
   gap: 20px;
 }
 
 .pub-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
   background: var(--card-bg);
-  border-radius: 16px;
+  border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  padding: 20px 24px;
+  padding: 14px 16px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .pub-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
 }
 
 .pub-image {
-  width: 100%;
-  border-radius: 12px;
-  margin-bottom: 12px;
+  width: 120px;
+  height: 100px; /* consistent height for visual alignment */
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  margin: 0;
 }
 
-/* Compact “news-card” publications */
-.pub-list .pub-entry {
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: #fff;
-  padding: 12px 16px;
-  margin-bottom: 12px;
+.pub-content {
+  flex: 1;
 }
 
 .pub-title {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   line-height: 1.4;
 }
 
@@ -88,9 +89,9 @@ h2 {
 }
 
 .pub-authors {
-  font-size: 12px;
+  font-size: 13px;
+  margin-bottom: 4px;
   color: #000;
-  margin-bottom: 6px;
 }
 
 .pub-authors strong {
@@ -98,7 +99,7 @@ h2 {
 }
 
 .pub-meta {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--lightgray);
 }
 
@@ -108,18 +109,30 @@ h2 {
 
 .pub-button {
   display: inline-block;
-  margin-top: 10px;
+  margin-top: 8px;
   background-color: var(--white);
-  color: var(--lightblue);
+  color: var(--blue);
   text-decoration: none;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 13px;
   padding: 6px 12px;
   border-radius: 6px;
-  transition: background 0.2s ease;
+  border: 1px solid var(--blue);
+  transition: background 0.2s ease, color 0.2s ease;
 }
+
 .pub-button:hover {
-  background-color: #083a6d;
+  background-color: var(--blue);
+  color: var(--white);
+}
+
+/* Compact “news-card” publications */
+.pub-list .pub-entry {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  padding: 12px 16px;
+  margin-bottom: 12px;
 }
 </style>
 
@@ -132,47 +145,49 @@ h2 {
         {% if p.image %}
           <img src="{{ p.image | relative_url }}" alt="{{ p.title }}" class="pub-image">
         {% endif %}
-        <div class="pub-title">
-          {% if p.doi %}
-            <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">{{ p.title }}</a>
-          {% else %}
-            {{ p.title }}
-          {% endif %}
-        </div>
-        <div class="pub-authors">
-          {% for author in p.authors %}
-            {% assign parts = author | split: " " %}
-            {% assign last = parts | last %}
-            {% assign initials = "" %}
-            {% for part in parts %}
-              {% if forloop.last == false %}
-                {% assign initials = initials | append: part | slice: 0,1 | append: "." %}
-              {% endif %}
-            {% endfor %}
-            {% assign abbreviated = initials | append: " " | append: last %}
-            {% assign match = false %}
-            {% for lab in page.lab_names %}
-              {% if author contains lab %}
-                {% assign match = true %}
-              {% endif %}
-            {% endfor %}
-            {% if match %}
-              <strong>{{ abbreviated }}</strong>{% if forloop.last == false %}, {% endif %}
+        <div class="pub-content">
+          <div class="pub-title">
+            {% if p.doi %}
+              <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">{{ p.title }}</a>
             {% else %}
-              {{ abbreviated }}{% if forloop.last == false %}, {% endif %}
+              {{ p.title }}
             {% endif %}
-          {% endfor %}
-        </div>
-        <div class="pub-meta">
-          {% if p.journal %}
-            <em>{{ p.journal | strip }}</em>{% if p.year %}, {{ p.year | strip }}{% endif %}
-          {% elsif p.year %}
-            {{ p.year | strip }}
+          </div>
+          <div class="pub-authors">
+            {% for author in p.authors %}
+              {% assign parts = author | split: " " %}
+              {% assign last = parts | last %}
+              {% assign initials = "" %}
+              {% for part in parts %}
+                {% if forloop.last == false %}
+                  {% assign initials = initials | append: part | slice: 0,1 | append: "." %}
+                {% endif %}
+              {% endfor %}
+              {% assign abbreviated = initials | append: " " | append: last %}
+              {% assign match = false %}
+              {% for lab in page.lab_names %}
+                {% if author contains lab %}
+                  {% assign match = true %}
+                {% endif %}
+              {% endfor %}
+              {% if match %}
+                <strong>{{ abbreviated }}</strong>{% if forloop.last == false %}, {% endif %}
+              {% else %}
+                {{ abbreviated }}{% if forloop.last == false %}, {% endif %}
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="pub-meta">
+            {% if p.journal %}
+              <em>{{ p.journal | strip }}</em>{% if p.year %}, {{ p.year | strip }}{% endif %}
+            {% elsif p.year %}
+              {{ p.year | strip }}
+            {% endif %}
+          </div>
+          {% if p.doi %}
+            <a class="pub-button" href="https://doi.org/{{ p.doi }}" target="_blank">Link</a>
           {% endif %}
         </div>
-        {% if p.doi %}
-          <a class="pub-button" href="https://doi.org/{{ p.doi }}" target="_blank">Link</a>
-        {% endif %}
       </div>
     {% endfor %}
   </div>

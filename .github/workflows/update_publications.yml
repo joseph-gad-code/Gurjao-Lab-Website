@@ -1,7 +1,7 @@
 name: Update publications
 
 on:
-  workflow_dispatch:      # ✅ allows manual run from the Actions tab
+  workflow_dispatch:
   push:
     branches: [main]
   schedule:

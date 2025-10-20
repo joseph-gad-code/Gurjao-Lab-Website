@@ -16,12 +16,8 @@ DATA_FILE = Path("_data/publications.yml")
 REQUEST_PAUSE = 0.4
 
 
-# -------------------------------
-# --- Helper / API Functions ---
-# -------------------------------
-
 def crossref_get(doi):
-    """Fetch a single Crossref record by DOI."""
+    """Fetch one Crossref record by DOI."""
     if not doi:
         return {}
     try:
@@ -33,7 +29,7 @@ def crossref_get(doi):
 
 
 def crossref_search_title(title):
-    """Search Crossref by publication title."""
+    """Fallback Crossref search by title."""
     if not title:
         return {}
     try:
@@ -46,26 +42,28 @@ def crossref_search_title(title):
         return {}
 
 
-def normalize_author(name):
-    """Format author name to standardized short form (e.g., 'John D. Smith' -> 'J.D. Smith')."""
-    parts = name.replace(",", "").split()
-    if not parts:
-        return name
-    last = parts[-1]
-    initials = "".join([p[0] + "." for p in parts[:-1]])
-    return f"{initials} {last}".strip()
-
-
 def extract_from_crossref(msg):
-    """Extract key fields from a Crossref record."""
+    """Extract key metadata fields (full author list included)."""
     if not msg:
         return {}
+
+    # Determine publication year
     year = None
     for k in ("published-print", "published-online", "issued"):
         dp = ((msg.get(k) or {}).get("date-parts") or [[]])
         if dp and dp[0]:
             year = dp[0][0]
             break
+
+    # Extract all authors in full format
+    authors = []
+    for a in msg.get("author", []):
+        given = a.get("given", "").strip()
+        family = a.get("family", "").strip()
+        full = " ".join([given, family]).strip()
+        if full:
+            authors.append(full)
+
     return {
         "journal": (msg.get("container-title") or [""])[0],
         "volume": msg.get("volume") or "",
@@ -74,28 +72,17 @@ def extract_from_crossref(msg):
         "year": year,
         "url": msg.get("URL") or "",
         "doi": msg.get("DOI") or "",
-        "authors": [normalize_author(a.get("given", "") + " " + a.get("family", ""))
-                    for a in msg.get("author", []) if a.get("family")],
+        "authors": authors,
     }
 
 
-def author_list_contains_gurjao(authors):
-    """Return True if any author name includes 'Gurjao' (case-insensitive)."""
-    return any("gurjao" in a.lower() for a in authors)
-
-
-# -------------------------------------
-# --- Core Enrichment / Fetch Logic ---
-# -------------------------------------
-
 def enrich_with_crossref(pub):
-    """Enrich publication data using Crossref."""
+    """Enrich publication with Crossref data, preserving Scholar journal/title."""
     out = dict(pub)
     msg = {}
     doi = out.get("doi", "").strip()
     title = out.get("title", "").strip()
 
-    # Fetch by DOI first, then fallback to title
     if doi:
         msg = crossref_get(doi)
         time.sleep(REQUEST_PAUSE)
@@ -107,45 +94,46 @@ def enrich_with_crossref(pub):
     if not meta:
         return out
 
-    # Skip entries not authored by Gurjao
-    if not author_list_contains_gurjao(meta.get("authors", [])):
-        return None
+    # Keep Google Scholar title and URL
+    meta["title"] = out.get("title", "")
+    meta["url"] = out.get("url", meta.get("url", ""))
 
-    # Fill in missing fields
-    for k, v in meta.items():
-        if v and (k not in out or not out[k]):
-            out[k] = v
+    # Merge metadata
+    out.update(meta)
+
+    # Filter: keep only if any author name contains 'Gurjao'
+    authors = out.get("authors", [])
+    if not any("gurjao" in a.lower() for a in authors):
+        return None
 
     return out
 
 
 def get_scholar_publications():
-    """Fetch all publications for the given author from Google Scholar (via SerpAPI)."""
-    url = f"https://serpapi.com/search.json?engine=google_scholar_author&author_id={SCHOLAR_AUTHOR_ID}&api_key={SERPAPI_KEY}"
+    """Fetch all publications for given author from Google Scholar."""
+    url = (
+        f"https://serpapi.com/search.json?"
+        f"engine=google_scholar_author&author_id={SCHOLAR_AUTHOR_ID}&api_key={SERPAPI_KEY}"
+    )
     r = requests.get(url)
     r.raise_for_status()
     data = r.json()
     pubs = []
     for item in data.get("articles", []):
-        publication_info = item.get("publication_info", {})
         pubs.append({
-            "title": item.get("title", "").strip(),
-            "url": item.get("link", "").strip(),
-            "journal": publication_info.get("summary", "").strip(),  # journal/source name
-            "doi": publication_info.get("doi", "").strip(),
-            "authors": [normalize_author(a.strip()) for a in item.get("authors", "").split(",")],
+            "title": item.get("title", ""),
+            "url": item.get("link", ""),
+            "doi": item.get("publication_info", {}).get("doi", ""),
+            "journal": item.get("publication", ""),
+            "authors": [],
             "selected_publication": "no",
             "image": "",
         })
     return pubs
 
 
-# ---------------------------
-# --- Main Update Routine ---
-# ---------------------------
-
 def update_publications():
-    """Merge, enrich, and write publication data."""
+    """Main function to merge and enrich publication data."""
     # Load existing publications
     existing = []
     if DATA_FILE.exists():
@@ -164,18 +152,12 @@ def update_publications():
             print(f"Added: {enriched['title']}")
             new_pubs.append(enriched)
         else:
-            print(f"Ignored (not Gurjao): {pub['title']}")
+            print(f"Filtered (no Gurjao): {pub['title']}")
 
     all_pubs = existing + new_pubs
     with open(DATA_FILE, "w") as f:
         yaml.dump(all_pubs, f, sort_keys=False, allow_unicode=True)
 
-    print(f"✅ Update complete. Total publications: {len(all_pubs)}")
-
-
-# ---------------------
-# --- Entry Point ---
-# ---------------------
 
 if __name__ == "__main__":
     update_publications()

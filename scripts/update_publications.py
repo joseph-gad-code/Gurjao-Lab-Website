@@ -2,41 +2,47 @@
 """
 update_publications.py
 
-Fetch all publications from Crossref using ORCID ID, enrich metadata,
-and safely update _data/publications.yml without duplicating or overwriting
-existing entries.
+Fetch all publications from Crossref for author 'Carino Gurjao'
+(including variants like 'C. Gurjao' and 'C Gurjao'),
+enrich metadata, and safely update _data/publications.yml
+without duplicating or overwriting existing entries.
 """
 
-import os
 import time
 import requests
 import yaml
 from pathlib import Path
+from urllib.parse import quote_plus
 
 # --- Configuration ---
-ORCID_ID = "0000-0002-4813-5460"
-CROSSREF_API = f"https://api.crossref.org/works?filter=orcid:{ORCID_ID}&rows=1000"
+AUTHOR_VARIANTS = [
+    "Carino Gurjao",
+    "C. Gurjao",
+    "C Gurjao"
+]
+
+CROSSREF_API = "https://api.crossref.org/works"
 DATA_PATH = Path("_data/publications.yml")
-REQUEST_PAUSE = 0.3  # polite pause between Crossref requests
+REQUEST_PAUSE = 0.3  # be polite to Crossref
 
 
 # --- Helper functions ---
 
-def fetch_crossref_publications() -> list:
-    """Fetch all works associated with the ORCID ID from Crossref."""
-    print(f"Fetching publications for ORCID {ORCID_ID} from Crossref...")
+def fetch_crossref_by_author(name: str) -> list:
+    """Fetch works from Crossref by author name."""
+    print(f"Fetching publications for author: {name}")
     pubs = []
     cursor = "*"
 
     try:
         while True:
-            url = f"{CROSSREF_API}&cursor={cursor}"
+            url = f"{CROSSREF_API}?query.author={quote_plus(name)}&rows=1000&cursor={cursor}"
             r = requests.get(url, timeout=30)
             r.raise_for_status()
             data = r.json().get("message", {})
-
             items = data.get("items", [])
             pubs.extend(items)
+
             print(f"Fetched {len(items)} records (total so far: {len(pubs)})")
 
             cursor = data.get("next-cursor")
@@ -61,7 +67,7 @@ def normalize_crossref_entry(entry: dict) -> dict:
         if name:
             authors.append(name)
 
-    # Try to find a reasonable publication year
+    # Determine publication year
     year = None
     for k in ("published-print", "published-online", "issued"):
         dp = (entry.get(k) or {}).get("date-parts", [[]])
@@ -82,6 +88,21 @@ def normalize_crossref_entry(entry: dict) -> dict:
         "doi": entry.get("DOI", ""),
         "url": entry.get("URL", ""),
     }
+
+
+def filter_by_author_variants(entries: list) -> list:
+    """Keep only entries where an author matches any variant of 'Carino Gurjao'."""
+    filtered = []
+    variants_lower = [v.lower() for v in AUTHOR_VARIANTS]
+
+    for entry in entries:
+        authors = entry.get("author", []) or []
+        for a in authors:
+            full_name = " ".join(filter(None, [a.get("given"), a.get("family")])).lower()
+            if any(v in full_name for v in variants_lower):
+                filtered.append(entry)
+                break  # Found one matching author, no need to check further
+    return filtered
 
 
 def load_existing_publications() -> list:
@@ -130,8 +151,21 @@ def main():
     existing_pubs = load_existing_publications()
     print(f"Loaded {len(existing_pubs)} existing publications.")
 
-    new_crossref_pubs = fetch_crossref_publications()
-    normalized_pubs = [normalize_crossref_entry(p) for p in new_crossref_pubs]
+    all_new_entries = []
+    for name in AUTHOR_VARIANTS:
+        pubs = fetch_crossref_by_author(name)
+        if pubs:
+            all_new_entries.extend(pubs)
+        time.sleep(REQUEST_PAUSE)
+
+    # Filter duplicates at the raw Crossref level
+    unique_entries = {p.get("DOI", p.get("title", "")): p for p in all_new_entries}.values()
+
+    # Keep only entries actually authored by Carino Gurjao variants
+    filtered_entries = filter_by_author_variants(list(unique_entries))
+    print(f"Filtered down to {len(filtered_entries)} entries with author match.")
+
+    normalized_pubs = [normalize_crossref_entry(p) for p in filtered_entries]
     print(f"Normalized {len(normalized_pubs)} publications from Crossref.")
 
     merged = existing_pubs[:]

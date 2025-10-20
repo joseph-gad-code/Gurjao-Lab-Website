@@ -6,6 +6,162 @@ nav: people
 ---
 
 <style>
+.people-page {
+  font-family: 'Nunito', sans-serif;
+  padding: 100px 20px;
+  text-align: left;
+  color: #000;
+  margin-bottom: 3px;
+}
+
+/* Page title */
+.page-title {
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 3px;
+  text-transform: none; /* no uppercase */
+  color: #000; /* black */
+  text-align: left;
+}
+
+/* Grid layout — exactly two columns on large screens */
+.people-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
+  justify-items: center;
+  align-items: start;
+}
+
+/* Card */
+.person-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  padding: 30px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-width: 400px;
+  width: 100%;
+}
+
+.person-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
+}
+
+/* Image */
+.person-photo-wrap {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.person-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Metadata */
+.person-name {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #000;
+}
+
+.person-status {
+  font-size: 15px;
+  color: #000;
+  margin-bottom: 25px;
+}
+
+.person-bio {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Read more link */
+.read-more {
+  font-size: 14px;
+  font-weight: 400;
+  color: #6495EC !important;
+  text-decoration: none;
+  margin-top: 5px;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+  color: #6495EC !important;
+}
+
+/* Social icons */
+.person-social {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+.person-social .icon {
+  width: 24px;
+  height: 24px;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.person-social .icon:hover {
+  opacity: 1;
+}
+
+/* Core values */
+.values-section {
+  margin-top: 100px;
+  text-align: center;
+  font-size: 16px; 
+  margin-bottom: 10px;
+}
+
+.values-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+}
+
+.value-col {
+  flex: 1 1 400px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: left;
+}
+
+.value-col h3 {
+  color: #000;
+  font-size: 16px;
+  margin-bottom: 10px;
+  text-transform: none; /* not capitalized */
+}
+
+.value-col p {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.6;
+}
+
 /* Responsive tweaks */
 @media (max-width: 992px) {
   .people-list {
@@ -15,31 +171,42 @@ nav: people
     font-size: 26px;
   }
   .person-card {
-    margin-bottom: 20px;
+    padding: 25px 15px;
+  }
+}
+
+@media (max-width: 600px) {
+  .people-list {
+    grid-template-columns: 1fr; /* switch to 1 column only on very small screens */
   }
 }
 </style>
 
-<section class="people-section">
-  <h1 class="page-title">People</h1>
+<section class="people-page">
+  <h2 style="font-weight:700;font-size:20px;margin-top:0;margin-bottom:50px;text-align:left;">Team members</h2>
 
+
+  {% assign folks = site.data.people | default: empty %}
   <div class="people-list">
-    {% for p in site.data.people %}
+    {% for p in folks %}
     <article class="person-card">
-      <div class="person-photo">
-        <img src="{{ p.image | relative_url }}" alt="{{ p.name }}">
-      </div>
-      <div class="person-info">
-        <h3 class="person-name">{{ p.name }}</h3>
-        {% if p.position %}
-          <div class="person-position">{{ p.position }}</div>
+      <div class="person-photo-wrap">
+        {% if p.image %}
+          <img class="person-photo" src="{{ p.image | relative_url }}" alt="{{ p.name }}">
+        {% else %}
+          <div class="person-photo placeholder" aria-hidden="true">Image</div>
         {% endif %}
+      </div>
+
+      <div class="person-meta">
+        <h3 class="person-name">{{ p.name }}</h3>
         {% if p.status %}
           <div class="person-status">{{ p.status }}</div>
         {% endif %}
         {% if p.bio %}
           <p class="person-bio">{{ p.bio }}</p>
         {% endif %}
+
         {% if p.read_more %}
           <a class="read-more" href="{{ p.read_more | relative_url }}">Read more...</a>
         {% endif %}
@@ -81,7 +248,7 @@ nav: people
         across disciplines to tackle fundamental and applied questions in cancer
         research. Lab members are trusted to take ownership of their science
         while being supported by peers and mentors. Outside of the lab, we
-        contribute through the creation of a postdoc mentorship committee at IRIC.
+        contribute by the creation of a postdoc mentorship committee at IRIC.
       </p>
     </div>
     <div class="value-col">

@@ -1,111 +1,82 @@
 ---
-title: People
+title: "People"
 layout: default
 permalink: /people/
 nav: people
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <!-- Important for mobile scaling -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+@@ -165,9 +164,11 @@
+/* Responsive tweaks */
+@media (max-width: 992px) {
+  .people-list {
+    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr); /* keep 2 columns on smaller screens */
+  }
+  .page-title {
+    font-size: 30px;
+    font-size: 26px;
+  }
+  .person-card {
+@@ -204,61 +205,3 @@
+          <div class="person-status">{{ p.status }}</div>
+        {% endif %}
+        {% if p.bio %}
+          <p class="person-bio">{{ p.bio }}</p>
+        {% endif %}
 
-  <title>GURJAOLAB | {{ page.title }}</title>
+        {% if p.read_more %}
+          <a class="read-more" href="{{ p.read_more | relative_url }}">Read more...</a>
+        {% endif %}
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="{{ '/Images/favicon.svg' | relative_url }}">
-  <link rel="alternate icon" type="image/x-icon" href="{{ '/Images/favicon.ico' | relative_url }}">
-
-  <!-- Fonts & Styles -->
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-
-  <style>
-    /* Base */
-    html { box-sizing: border-box; }
-    *, *::before, *::after { box-sizing: inherit; }
-    body { font-family: 'Nunito', sans-serif; color:#000; overflow-x:hidden; line-height:1.5; }
-
-    /* ========= Fixed-layout scale with mobile-safe side gutters =========
-       - Page is authored at 1100px (var(--base-width))
-       - On narrow screens, we add side gutters and scale by (100vw - 2*gutter)
-       - Prevents the right edge from being cut off on phones
-    ===================================================================== */
-    :root {
-      --base-width: 1100px; /* your design width */
-      --gutter: 0px;        /* becomes >0 only on narrow screens */
-    }
-
-    .page-scale-outer {
-      width: 100vw;
-      padding-inline: var(--gutter); /* side margins on small screens */
-      overflow-x: hidden;            /* no sideways scroll */
-    }
-
-    .page-scale-frame {
-      width: var(--base-width);
-      transform-origin: top left;    /* anchor when scaling */
-    }
-
-    /* Below base width: add gutters and scale to fit inside them */
-    @media (max-width: 1100px) {
-      :root { --gutter: 12px; } /* adjust 8–16px if you want wider/narrower side margins */
-      .page-scale-frame {
-        transform: scale( calc( (100vw - (var(--gutter) * 2)) / var(--base-width) ) );
-      }
-    }
-
-    /* At/above base width: full size, centered (no gutters) */
-    @media (min-width: 1100px) {
-      :root { --gutter: 0px; }
-      .page-scale-frame { transform: none; margin: 0 auto; }
-    }
-
-    /* Utilities already used across pages */
-    img, video, svg, canvas { max-width:100%; height:auto; }
-    iframe { max-width:100%; }
-
-    .container-narrow { width:100%; max-width:1100px; margin:24px auto; padding:0 15px; }
-    .content-wrap { padding-top: clamp(15px, 2.2vw, 28px); }
-
-    /* Navbar cosmetics (header.html controls structure) */
-    .navbar { border:none; border-radius:0; margin-bottom:0; background:#fff; }
-    .navbar-brand { font-weight:800; color:#0D5295 !important; }
-    .navbar-nav > li > a { color:#666 !important; font-weight:600; position:relative; }
-    .navbar-nav > li > a:hover { color:#000 !important; background:transparent !important; }
-    .navbar-nav > .active > a,
-    .navbar-nav > .active > a:focus,
-    .navbar-nav > .active > a:hover { color:#000 !important; background:transparent !important; }
-    .navbar-nav > .active > a::after {
-      content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000;
-    }
-
-    /* Footer */
-    footer { margin-top:40px; padding:24px 0; text-align:center; font-size:14px; color:#555; border-top:1px solid #eee; }
-  </style>
-
-  <!-- Scripts -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-
-<body>
-  <!-- Everything inside scales together -->
-  <div class="page-scale-outer">
-    <div class="page-scale-frame">
-
-      {% include header.html %}
-
-      <div class="container-narrow content-wrap">
-        {{ content }}
+        {% if p.github or p.scholar or p.linkedin %}
+        <div class="person-social">
+          {% if p.github %}
+            <a href="{{ p.github }}" target="_blank" rel="noopener">
+              <img class="icon" src="{{ '/Pages/People/Images/Icons/github.svg' | relative_url }}" alt="GitHub">
+            </a>
+          {% endif %}
+          {% if p.scholar %}
+            <a href="{{ p.scholar }}" target="_blank" rel="noopener">
+              <img class="icon" src="{{ '/Pages/People/Images/Icons/scholar.svg' | relative_url }}" alt="Google Scholar">
+            </a>
+          {% endif %}
+          {% if p.linkedin %}
+            <a href="{{ p.linkedin }}" target="_blank" rel="noopener">
+              <img class="icon" src="{{ '/Pages/People/Images/Icons/linkedin.svg' | relative_url }}" alt="LinkedIn">
+            </a>
+          {% endif %}
+        </div>
+        {% endif %}
       </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
 
-      {% include footer.html %}
+<section class="values-section">
+  <h2 style="font-weight:700;font-size:20px;margin-top:0;text-align:left;margin-bottom:50px;">Core Values</h2>
 
+  <div class="values-grid">
+    <div class="value-col">
+      <h3>Lab community</h3>
+      <p>
+        The Gurjao Lab aims to be a vibrant home for curiosity and collaboration.
+        Our members come from diverse backgrounds, bringing together expertise
+        across disciplines to tackle fundamental and applied questions in cancer
+        research. Lab members are trusted to take ownership of their science
+        while being supported by peers and mentors. Outside of the lab, we
+        contribute by the creation of a postdoc mentorship committee at IRIC.
+      </p>
+    </div>
+    <div class="value-col">
+      <h3>DEI commitment</h3>
+      <p>
+        We celebrate diversity as a source of strength and innovation in our work.
+        We are committed to an inclusive, equitable, and welcoming environment
+        for all members. We participate in EDI initiatives at IRIC and pursue
+        research for equitable access to cancer care across demographics.
+      </p>
     </div>
   </div>
-</body>
-</html>
+</section>

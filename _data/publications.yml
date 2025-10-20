@@ -1,13 +1,14 @@
-- title: Mutational signature in colorectal cancer caused by genotoxic pks+E. coli
+- title: Faculty Opinions recommendation of Mutational signature in colorectal cancer
+    caused by genotoxic pks+ E. coli.
   authors:
   - Vivian Li
   journal: Faculty Opinions – Post-Publication Peer Review of the Biomedical Literature
   year: 2020
-  volume: ''
-  issue: ''
-  pages: ''
-  doi: 10.3410/f.737443012.793571829
   url: https://doi.org/10.3410/f.737443012.793571829
+  citation_count: 1057
+  doi: 10.3410/f.737443012.793571829
+  publisher: H1 Connect
+  type: dataset
 - title: Metabolomic adaptations and correlates of survival to immune checkpoint blockade
   authors:
   - Haoxin Li
@@ -34,35 +35,38 @@
   - Marios Giannakis
   journal: Nature Communications
   year: 2019
+  url: https://doi.org/10.1038/s41467-019-12361-9
+  citation_count: 233
   volume: '10'
   issue: '1'
-  pages: ''
   doi: 10.1038/s41467-019-12361-9
-  url: https://doi.org/10.1038/s41467-019-12361-9
-- title: Intrinsic Resistance to Immune Checkpoint Blockade in a Mismatch Repair–Deficient
-    Colorectal Cancer
+  publisher: Springer Science and Business Media LLC
+  type: journal-article
+- title: 'Mismatch Repair-Deficient Colorectal Cancer: Building on Checkpoint Blockade'
   authors:
   - Zhaohui Jin
   - Frank A. Sinicrope
   journal: Journal of Clinical Oncology
   year: 2022
+  url: https://doi.org/10.1200/jco.21.02691
+  citation_count: 88
   volume: '40'
   issue: '24'
   pages: 2735-2750
   doi: 10.1200/jco.21.02691
-  url: https://doi.org/10.1200/jco.21.02691
-- title: Association of Fusobacterium nucleatum with Specific T-cell Subsets in the
-    Colorectal Carcinoma Microenvironment
+  publisher: American Society of Clinical Oncology (ASCO)
+  type: journal-article
+- title: Association of Fusobacterium nucleatum in oral cavity and colorectal carcinomas
   authors:
   - Yasuhiko Komiya
-  journal: ''
+  journal: Clinical Cancer Research 27 (10), 2816-2826, 2021
   year: 2017
-  volume: ''
-  issue: ''
-  pages: ''
-  doi: 10.26226/morressier.59a6b34cd462b80290b55ad6
   url: https://doi.org/10.26226/morressier.59a6b34cd462b80290b55ad6
-- title: Discovery and features of an alkylating signature in colorectal cancer
+  citation_count: 86
+  doi: 10.26226/morressier.59a6b34cd462b80290b55ad6
+  publisher: Morressier
+  type: posted-content
+- title: Discovery and Features of an Alkylating Signature in Colorectal Cancer
   authors:
   - Carino Gurjao
   - Rong Zhong
@@ -85,11 +89,14 @@
   - Marios Giannakis
   journal: Cancer Discovery
   year: 2021
+  url: https://doi.org/10.1158/2159-8290.cd-20-1656
+  citation_count: 74
   volume: '11'
   issue: '10'
   pages: 2446-2455
   doi: 10.1158/2159-8290.cd-20-1656
-  url: https://doi.org/10.1158/2159-8290.cd-20-1656
+  publisher: American Association for Cancer Research (AACR)
+  type: journal-article
 - title: Dynamic single-cell RNA sequencing identifies immunotherapy persister cells
     following PD-1 blockade
   authors:
@@ -123,13 +130,15 @@
   - David A. Barbie
   journal: Journal of Clinical Investigation
   year: 2021
+  url: https://doi.org/10.1172/jci135038
+  citation_count: 71
   volume: '131'
   issue: '2'
-  pages: ''
   doi: 10.1172/jci135038
-  url: https://doi.org/10.1172/jci135038
-- title: RNF43 G659fs is an oncogenic colorectal cancer mutation and sensitizes tumor
-    cells to PI3K/mTOR inhibition
+  publisher: American Society for Clinical Investigation
+  type: journal-article
+- title: 'Abstract 960: RNF43 G659fs is an oncogenic mutation in colorectal cancer
+    and sensitizes tumor cells to PI3K/mTOR inhibition'
   authors:
   - Lishan Fang
   - Dane Ford-Roshon
@@ -146,13 +155,16 @@
   - Marios Giannakis
   journal: Cancer Research
   year: 2021
+  url: https://doi.org/10.1158/1538-7445.am2021-960
+  citation_count: 46
   volume: '81'
   issue: 13_Supplement
   pages: 960-960
   doi: 10.1158/1538-7445.am2021-960
-  url: https://doi.org/10.1158/1538-7445.am2021-960
-- title: Limited evidence of tumour mutational burden as a biomarker of response to
-    immunotherapy
+  publisher: American Association for Cancer Research (AACR)
+  type: journal-article
+- title: 'Evaluating Tumour Mutational Burden as a Key Biomarker in Personalized Cancer
+    Immunotherapy: A Pan-Cancer Approach'
   authors:
   - Zgura Anca
   - Chipuc Stefania
@@ -160,23 +172,23 @@
   - Haineala Bogdan
   - Rodica Maricela Anghel
   - Valcea Sebastian
-  journal: ''
+  journal: eLife, 2020.09. 03.260265, 2020
   year: 2024
-  volume: ''
-  issue: ''
-  pages: ''
-  doi: 10.20944/preprints202411.2060.v1
   url: https://doi.org/10.20944/preprints202411.2060.v1
-- title: Single-cell and spatial genomic landscape of non-small cell lung cancer brain
-    metastases
-  authors: []
+  citation_count: 37
+  doi: 10.20944/preprints202411.2060.v1
+  publisher: MDPI AG
+  type: posted-content
+- title: Management of brain metastases
+  authors: S Tagore, L Caprio, AD Amin, K Bestak, K Luthria, E D’Souza, I Barrera,
+    ...
   journal: 'Fast Facts: Non-Small-Cell Lung Cancer'
   year: 2016
-  volume: ''
-  issue: ''
-  pages: ''
-  doi: 10.1159/000491270
   url: https://doi.org/10.1159/000491270
+  citation_count: 18
+  doi: 10.1159/000491270
+  publisher: S. Karger AG
+  type: book-chapter
 - title: Loss of Pip4k2c confers liver-metastatic organotropism through insulin-dependent
     PI3K-AKT pathway activation
   authors:
@@ -227,11 +239,14 @@
   - Benjamin Izar
   journal: Nature Cancer
   year: 2024
+  url: https://doi.org/10.1038/s43018-023-00704-x
+  citation_count: 15
   volume: '5'
   issue: '3'
   pages: 433-447
   doi: 10.1038/s43018-023-00704-x
-  url: https://doi.org/10.1038/s43018-023-00704-x
+  publisher: Springer Science and Business Media LLC
+  type: journal-article
 - title: Bayesian risk prediction model for colorectal cancer mortality through integration
     of clinicopathologic and genomic data
   authors:
@@ -262,13 +277,15 @@
   - Shuji Ogino
   journal: npj Precision Oncology
   year: 2023
+  url: https://doi.org/10.1038/s41698-023-00406-8
+  citation_count: 12
   volume: '7'
   issue: '1'
-  pages: ''
   doi: 10.1038/s41698-023-00406-8
-  url: https://doi.org/10.1038/s41698-023-00406-8
-- title: Clinical and Genomic Characterization of Interval Colorectal Cancer in Three
-    Prospective Cohorts
+  publisher: Springer Science and Business Media LLC
+  type: journal-article
+- title: '785: CLINICAL AND GENOMIC CHARACTERIZATION OF INTERVAL COLORECTAL CANCER
+    IN THREE PROSPECTIVE COHORTS'
   authors:
   - Keming Yang
   - Yin Cao
@@ -292,11 +309,14 @@
   - Andrew Chan
   journal: Gastroenterology
   year: 2022
+  url: https://doi.org/10.1016/s0016-5085(22)60451-7
+  citation_count: 10
   volume: '162'
   issue: '7'
   pages: S-188-S-189
   doi: 10.1016/s0016-5085(22)60451-7
-  url: https://doi.org/10.1016/s0016-5085(22)60451-7
+  publisher: Elsevier BV
+  type: journal-article
 - title: 'Smoking habit and long-term colorectal cancer incidence by exome-wide mutational
     and neoantigen loads: evidence based on the prospective cohort incident-tumour
     biobank method'
@@ -334,11 +354,14 @@
   - Shuji Ogino
   journal: BMJ Oncology
   year: 2025
+  url: https://doi.org/10.1136/bmjonc-2025-000787
+  citation_count: 2
   volume: '4'
   issue: '1'
   pages: e000787
   doi: 10.1136/bmjonc-2025-000787
-  url: https://doi.org/10.1136/bmjonc-2025-000787
+  publisher: BMJ
+  type: journal-article
 - title: Alcohol and colorectal cancer risk, subclassified by mutational signatures
     of DNA mismatch repair deficiency
   authors:
@@ -357,11 +380,14 @@
   - Edward Giovannucci
   journal: 'JNCI: Journal of the National Cancer Institute'
   year: 2024
+  url: https://doi.org/10.1093/jnci/djae078
+  citation_count: 2
   volume: '116'
   issue: '8'
   pages: 1255-1263
   doi: 10.1093/jnci/djae078
-  url: https://doi.org/10.1093/jnci/djae078
+  publisher: Oxford University Press (OUP)
+  type: journal-article
 - title: Germline predisposition to oncogenic alkylating damage in colorectal cancer
   authors:
   - Carino Gurjao
@@ -376,15 +402,15 @@
   - Jeffrey P. Townsend
   - Shuji Ogino
   - Marios Giannakis
-  journal: ''
+  journal: medRxiv, 2025.06. 30.25330572, 2025
   year: 2025
-  volume: ''
-  issue: ''
-  pages: ''
-  doi: 10.1101/2025.06.30.25330572
   url: https://doi.org/10.1101/2025.06.30.25330572
-- title: Increased vulnerability of colorectal cancer with high alkylation damage
-    to NTHL1 inactivation
+  citation_count: null
+  doi: 10.1101/2025.06.30.25330572
+  publisher: Cold Spring Harbor Laboratory
+  type: posted-content
+- title: 'Abstract A019: Increased vulnerability of colorectal cancer with high alkylation
+    damage to NTHL1 inactivation'
   authors:
   - Hyeoncheol Kim
   - Jules Cazaubiel
@@ -394,13 +420,16 @@
   - Marios Giannakis
   journal: Cancer Research
   year: 2024
+  url: https://doi.org/10.1158/1538-7445.tumbody-a019
+  citation_count: null
   volume: '84'
   issue: 22_Supplement
   pages: A019-A019
   doi: 10.1158/1538-7445.tumbody-a019
-  url: https://doi.org/10.1158/1538-7445.tumbody-a019
-- title: Single analyte profiling of the mutational, immune and microbiome landscape
-    in african american colon cancer patients
+  publisher: American Association for Cancer Research (AACR)
+  type: journal-article
+- title: 'Abstract 994: Single analyte profiling of the mutational, immune and microbiome
+    landscape in african american colon cancer patients'
   authors:
   - Carino Gurjao
   - Edmond Chan
@@ -412,17 +441,21 @@
   - Benjamin Izar
   journal: Cancer Research
   year: 2024
+  url: https://doi.org/10.1158/1538-7445.am2024-994
+  citation_count: null
   volume: '84'
   issue: 6_Supplement
   pages: 994-994
   doi: 10.1158/1538-7445.am2024-994
-  url: https://doi.org/10.1158/1538-7445.am2024-994
-- title: Leveraging passenger mutations to guide cancer treatment and prevention
-  authors: []
+  publisher: American Association for Cancer Research (AACR)
+  type: journal-article
+- title: Prothrombotic Mutations and Cancer-Associated Venous Thrombosis
+  authors: C Gurjao
   journal: Cancer-Associated Thrombosis
   year: 2007
-  volume: ''
-  issue: ''
+  url: https://doi.org/10.3109/9781420048001-15
+  citation_count: null
   pages: 173-184
   doi: 10.3109/9781420048001-15
-  url: https://doi.org/10.3109/9781420048001-15
+  publisher: CRC Press
+  type: book-chapter

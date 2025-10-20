@@ -172,8 +172,7 @@ body {
 </style>
 
 <section class="pubs">
-  <h1>Selected publications</h1>
-
+  <h2 style="font-weight:700;font-size:20px;margin-top:0;">Selected publications</h2>
   {%- assign _empty = "" | split: "" -%}
   {%- assign pubs = site.data.publications | default: _empty -%}
 
@@ -226,7 +225,7 @@ body {
     <p>No selected publications yet.</p>
   {% endif %}
 
-  <h1>All publications</h1>
+ <h2 style="font-weight:700;font-size:20px;margin-top:0;">All publications</h2>
 
   {%- assign all_sorted = pubs | sort: "year" | reverse -%}
   {%- if all_sorted and all_sorted.size > 0 -%}

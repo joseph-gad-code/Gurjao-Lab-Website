@@ -231,3 +231,41 @@
   journal: Cancer-Associated Thrombosis
   pages: 173-184
   year: 2007
+- title: Dynamic single-cell RNA sequencing identifies immunotherapy persister cells
+    following PD-1 blockade
+  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:3fE2CSJIrl8C
+  journal: Journal of Clinical Investigation
+  doi: 10.1172/jci135038
+  authors:
+  - K. Sehgal
+  - A. Portell
+  - E. Ivanova
+  - P. Lizotte
+  - N. Mahadevan
+  - J. Greene
+  - '...'
+  selected_publication: 'no'
+  image: ''
+  volume: '131'
+  issue: '2'
+  year: 2021
+- title: Loss of Pip4k2c confers liver-metastatic organotropism through insulin-dependent
+    PI3K-AKT pathway activation
+  url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:isC4tDSrTZIC
+  journal: Nature Cancer
+  doi: 10.1038/s43018-023-00704-x
+  authors:
+  - M. Rogava
+  - T. Aprati
+  - W. Chi
+  - J. Melms
+  - C. Hug
+  - S. Davis
+  - E. Earlie
+  - '...'
+  selected_publication: 'no'
+  image: ''
+  volume: '5'
+  issue: '3'
+  pages: 433-447
+  year: 2024

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <!-- Keep this for proper mobile scaling -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <title>GURJAOLAB | {{ page.title }}</title>
@@ -16,67 +17,93 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
   <style>
-    html { box-sizing: border-box; margin-right:0.5px; margin-left:0.5px }
-    *, *:before, *:after { box-sizing: inherit; }
-    body { font-family: 'Nunito', sans-serif; color:#000; overflow-x:hidden; line-height:1.5; }
+    /* ---------- Base / variables ---------- */
+    html { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: inherit; }
+    body { margin:0; font-family:'Nunito',sans-serif; color:#000; line-height:1.5; overflow-x:hidden; }
 
-   /* SCALE-TO-FIT (left-aligned): page always fits the viewport width */
-  :root { --base-width: 1100px; }             /* your design width */
-  .page-scale-outer {
-    width: 100vw;
-    overflow-x: hidden;                        /* no horizontal scroll */
-  }
-  .page-scale-frame {
-    width: var(--base-width);
-    /* anchor the scaled page to the LEFT (fixes big left gutter) */
-    transform-origin: top left;
-    /* no margin here so it hugs the left when scaled */
-  }
-
-  /* Below the base width: shrink proportionally (left-aligned) */
-  @media (max-width: 1100px) {
-    .page-scale-frame {
-      transform: scale(calc(100vw / var(--base-width)));
+    /* Site width and gutters */
+    :root{
+      --base-width: 1100px;                         /* your designed page width */
+      --gutter: clamp(16px, 4vw, 24px);             /* consistent side padding */
     }
-  }
 
-  /* At/above base width: full size and centered */
-  @media (min-width: 1100px) {
-    .page-scale-frame {
-      transform: none;
-      margin: 0 auto;                          /* center only when not scaled */
+    /* ---------- Scale-to-fit wrapper (left anchored) ---------- */
+    .page-scale-outer{
+      width:100vw;                                   /* fill viewport width */
+      overflow-x:hidden;                             /* no horizontal scrollbars */
+      padding-left: env(safe-area-inset-left, 0);    /* iOS safe areas */
+      padding-right: env(safe-area-inset-right, 0);
+      /* optional top spacing for content across the site */
+      padding-top: clamp(12px, 1.8vw, 24px);
     }
-  }
+    .page-scale-frame{
+      width:var(--base-width);
+      transform-origin: top left;                    /* anchor to left edge */
+    }
+    /* Below base width -> scale down proportionally (fits screen) */
+    @media (max-width: 1100px){
+      .page-scale-frame{
+        transform: scale(calc(100vw / var(--base-width)));
+      }
+    }
+    /* At/above base width -> full size and centered */
+    @media (min-width: 1100px){
+      .page-scale-frame{ transform:none; margin:0 auto; }
+    }
 
+    /* ---------- Shared rails & containers ---------- */
+    /* This matches the width rail you use on pages and nav */
+    .container-narrow{
+      width:100%;
+      max-width:var(--base-width);
+      margin: 0 auto;
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
+      /* extra bottom spacing before footer */
+      padding-bottom: clamp(16px, 2vw, 28px);
+    }
 
-    /* Basic utilities the page already uses */
-    img, video, svg, canvas { max-width:100%; height:auto; }
+    /* Ensure the header's rail uses the same gutter (overrides inline) */
+    nav[aria-label="Main navigation"] .nav-rail{
+      padding-left: var(--gutter) !important;
+      padding-right: var(--gutter) !important;
+    }
+
+    /* ---------- Media defaults ---------- */
+    img, video, svg, canvas { max-width:100%; height:auto; display:block; }
     iframe { max-width:100%; }
 
-    .container-narrow { width:100%; max-width:1100px; margin: 24px auto; padding: 0 15px; }
-
-    /* Navbar cosmetics (kept simple; will scale in the frame) */
-    .navbar { border:none; border-radius:0; margin-bottom:0; background:#fff; }
-    .navbar-brand { font-weight:800; color:#0D5295 !important; }
-    .navbar-nav > li > a { color:#666 !important; font-weight:600; position:relative; }
-    .navbar-nav > li > a:hover { color:#000 !important; background:transparent !important; }
+    /* ---------- Simple navbar cosmetics (your header.html handles logic) ---------- */
+    .navbar{ border:none; border-radius:0; margin-bottom:0; background:#fff; }
+    .navbar-brand{ font-weight:800; color:#0D5295 !important; }
+    .navbar-nav > li > a{ color:#666 !important; font-weight:600; position:relative; }
+    .navbar-nav > li > a:hover{ color:#000 !important; background:transparent !important; }
     .navbar-nav > .active > a,
     .navbar-nav > .active > a:focus,
-    .navbar-nav > .active > a:hover { color:#000 !important; background:transparent !important; }
-    .navbar-nav > .active > a::after { content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000; }
+    .navbar-nav > .active > a:hover{ color:#000 !important; background:transparent !important; }
+    .navbar-nav > .active > a::after{
+      content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000;
+    }
 
-    footer { margin-top:40px; padding:24px 0; text-align:center; font-size:14px; color:#555; border-top:1px solid #eee; }
-    .content-wrap {
-    padding-top: clamp(15px, 2.2vw, 28px);
-  }
+    /* ---------- Footer ---------- */
+    footer{
+      margin-top: clamp(24px, 3vw, 40px);
+      padding: 24px 0;
+      text-align:center;
+      font-size:14px;
+      color:#555;
+      border-top:1px solid #eee;
+    }
   </style>
 
+  <!-- Scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-  <!-- Everything inside scales together -->
+  <!-- Everything inside scales together and shares the same gutters -->
   <div class="page-scale-outer">
     <div class="page-scale-frame">
 

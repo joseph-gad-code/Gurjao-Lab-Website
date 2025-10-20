@@ -1,100 +1,154 @@
-# --- add these imports at the top ---
+#!/usr/bin/env python3
+"""
+update_publications.py
+
+Fetch all publications from Crossref using ORCID ID, enrich metadata,
+and safely update _data/publications.yml without duplicating or overwriting
+existing entries.
+"""
+
+import os
 import time
-from urllib.parse import quote_plus
+import requests
+import yaml
+from pathlib import Path
 
-CROSSREF_BASE = "https://api.crossref.org/works/"
-REQUEST_PAUSE = 0.4  # be polite to Crossref
+# --- Configuration ---
+ORCID_ID = "0000-0002-4813-5460"
+CROSSREF_API = f"https://api.crossref.org/works?filter=orcid:{ORCID_ID}&rows=1000"
+DATA_PATH = Path("_data/publications.yml")
+REQUEST_PAUSE = 0.3  # polite pause between Crossref requests
 
-def crossref_get(doi: str) -> dict:
-    """Fetch one Crossref record by DOI. Returns {} on any error."""
-    if not doi:
-        return {}
+
+# --- Helper functions ---
+
+def fetch_crossref_publications() -> list:
+    """Fetch all works associated with the ORCID ID from Crossref."""
+    print(f"Fetching publications for ORCID {ORCID_ID} from Crossref...")
+    pubs = []
+    cursor = "*"
+
     try:
-        r = requests.get(CROSSREF_BASE + doi, timeout=20)
-        r.raise_for_status()
-        data = r.json()
-        return data.get("message", {}) or {}
-    except Exception:
-        return {}
+        while True:
+            url = f"{CROSSREF_API}&cursor={cursor}"
+            r = requests.get(url, timeout=30)
+            r.raise_for_status()
+            data = r.json().get("message", {})
 
-def crossref_search_title(title: str) -> dict:
-    """Very light title search fallback if we have no DOI."""
-    if not title:
-        return {}
-    try:
-        url = f"https://api.crossref.org/works?query.bibliographic={quote_plus(title)}&rows=1"
-        r = requests.get(url, timeout=20)
-        r.raise_for_status()
-        items = (r.json().get("message", {}).get("items", []) or [])
-        return items[0] if items else {}
-    except Exception:
-        return {}
+            items = data.get("items", [])
+            pubs.extend(items)
+            print(f"Fetched {len(items)} records (total so far: {len(pubs)})")
 
-def extract_from_crossref(msg: dict) -> dict:
-    """Normalize the fields we care about from a Crossref record."""
-    if not msg:
-        return {}
-    # try published print, then published online
+            cursor = data.get("next-cursor")
+            if not cursor or not items:
+                break
+
+            time.sleep(REQUEST_PAUSE)
+
+        return pubs
+
+    except Exception as e:
+        print("Error fetching from Crossref:", e)
+        return []
+
+
+def normalize_crossref_entry(entry: dict) -> dict:
+    """Extract and simplify the essential fields from a Crossref entry."""
+    title = (entry.get("title") or [""])[0]
+    authors = []
+    for a in entry.get("author", []) or []:
+        name = " ".join(filter(None, [a.get("given"), a.get("family")]))
+        if name:
+            authors.append(name)
+
+    # Try to find a reasonable publication year
     year = None
     for k in ("published-print", "published-online", "issued"):
-        dp = ((msg.get(k) or {}).get("date-parts") or [[]])
+        dp = (entry.get(k) or {}).get("date-parts", [[]])
         if dp and dp[0]:
             y = dp[0][0]
             if isinstance(y, int):
                 year = y
                 break
+
     return {
-        "journal": (msg.get("container-title") or [""])[0],
-        "volume": msg.get("volume") or "",
-        "issue": msg.get("issue") or "",
-        "pages": msg.get("page") or "",
+        "title": title.strip(),
+        "authors": authors,
+        "journal": (entry.get("container-title") or [""])[0],
+        "volume": entry.get("volume", ""),
+        "issue": entry.get("issue", ""),
+        "pages": entry.get("page", ""),
         "year": year,
-        "url": msg.get("URL") or "",
-        "doi": msg.get("DOI") or "",
+        "doi": entry.get("DOI", ""),
+        "url": entry.get("URL", ""),
     }
 
-def enrich_with_crossref(pub: dict) -> dict:
-    """
-    Given one pub dict from SerpAPI mapping, fill any missing fields
-    (journal/venue, volume, issue, pages, year, url) from Crossref.
-    Does not overwrite non-empty values.
-    """
-    out = dict(pub)  # copy
-    msg = {}
 
-    doi = (out.get("doi") or "").strip()
-    if doi:
-        time.sleep(REQUEST_PAUSE)
-        msg = crossref_get(doi)
-    if not msg:
-        # No DOI or DOI didn’t resolve -> gentle title search
-        title = out.get("title", "").strip()
-        if title:
-            time.sleep(REQUEST_PAUSE)
-            msg = crossref_search_title(title)
+def load_existing_publications() -> list:
+    """Load the current publications.yml (if any)."""
+    if not DATA_PATH.exists():
+        print("No _data/publications.yml found. Starting fresh.")
+        return []
+    try:
+        with open(DATA_PATH, "r", encoding="utf-8") as f:
+            return yaml.safe_load(f) or []
+    except Exception as e:
+        print("Error reading existing YAML:", e)
+        return []
 
-    meta = extract_from_crossref(msg)
-    if not meta:
-        return out
 
-    def set_if_empty(key, val):
-        if val:
-            if not out.get(key):
-                out[key] = val
+def is_duplicate(new_pub: dict, existing: list) -> bool:
+    """Check if a new publication already exists (by DOI or title match)."""
+    new_doi = (new_pub.get("doi") or "").lower()
+    new_title = (new_pub.get("title") or "").strip().lower()
 
-    # Map into your YAML schema
-    set_if_empty("journal", meta.get("journal"))
-    # If you use `venue` in templates too, keep it synced when journal is present
-    if meta.get("journal") and not out.get("venue"):
-        out["venue"] = meta["journal"]
+    for pub in existing:
+        doi = (pub.get("doi") or "").lower()
+        title = (pub.get("title") or "").strip().lower()
 
-    set_if_empty("volume", meta.get("volume"))
-    set_if_empty("issue", meta.get("issue"))
-    set_if_empty("pages", meta.get("pages"))
-    set_if_empty("year", meta.get("year"))
-    # Prefer DOI URL if no url set
-    set_if_empty("url", meta.get("url"))
-    # If SerpAPI didn’t give DOI but Crossref did, keep it
-    set_if_empty("doi", meta.get("doi"))
+        if new_doi and doi and new_doi == doi:
+            return True
+        if new_title and title and new_title == title:
+            return True
+    return False
 
-    return out
+
+def save_publications(publications: list):
+    """Write updated publications back to the YAML file."""
+    try:
+        DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with open(DATA_PATH, "w", encoding="utf-8") as f:
+            yaml.dump(publications, f, sort_keys=False, allow_unicode=True)
+        print(f"Saved {len(publications)} publications to {DATA_PATH}")
+    except Exception as e:
+        print("Error writing publications.yml:", e)
+
+
+# --- Main execution ---
+
+def main():
+    existing_pubs = load_existing_publications()
+    print(f"Loaded {len(existing_pubs)} existing publications.")
+
+    new_crossref_pubs = fetch_crossref_publications()
+    normalized_pubs = [normalize_crossref_entry(p) for p in new_crossref_pubs]
+    print(f"Normalized {len(normalized_pubs)} publications from Crossref.")
+
+    merged = existing_pubs[:]
+    added_count = 0
+
+    for pub in normalized_pubs:
+        if not is_duplicate(pub, merged):
+            merged.append(pub)
+            added_count += 1
+
+    print(f"Added {added_count} new publications (total now {len(merged)}).")
+
+    # Sort by year descending (most recent first)
+    merged.sort(key=lambda x: x.get("year") or 0, reverse=True)
+
+    save_publications(merged)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,74 +1,103 @@
-import os
-import requests
-import yaml
-import time
-import unicodedata
-from urllib.parse import quote_plus
-from pathlib import Path
+#!/usr/bin/env python3
+"""
+update_publications.py
 
-# --- Configuration ---
+- Fetches publications from Google Scholar (via SerpAPI) for a given author_id
+- Correct SerpAPI pagination (extracts the after_author token from 'next' URL)
+- Enriches each item with Crossref metadata (DOI/journal/volume/pages/authors/year)
+- Keeps Scholar-only items if the raw authors string contains a target author
+- Merges with existing YAML without duplicating entries
+- Preserves curated fields (image, selected_publication) on re-run
+"""
+
+import os
+import time
+import yaml
+import unicodedata
+import requests
+from urllib.parse import quote_plus, urlparse, parse_qs
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+# -------------------
+# Configuration
+# -------------------
 SERPAPI_KEY = os.getenv("SERPAPI_API_KEY")
 if not SERPAPI_KEY:
     raise RuntimeError("Missing SERPAPI_API_KEY environment variable.")
 
-SCHOLAR_AUTHOR_ID = "m3rLfS4AAAAJ"
-CROSSREF_BASE = "https://api.crossref.org/works/"
+SCHOLAR_AUTHOR_ID = "m3rLfS4AAAAJ"     # your Google Scholar author ID
 DATA_FILE = Path("_data/publications.yml")
-REQUEST_PAUSE = 0.4
+REQUEST_PAUSE = 0.5                     # polite delay between requests
 
-# Author filtering: any of these tokens must appear in an author full name
-TARGET_AUTHORS = {"gurjao"}  # add more lowercased last names if needed
+# Crossref
+CROSSREF_BASE = "https://api.crossref.org/works/"
+
+# Target lab surnames to keep when enrichment fails
+TARGET_AUTHORS = {
+    "gurjao",
+    # add more lab surnames here if desired:
+    # "boero-teyssier", "hooper", "gad"
+}
 
 
-# --- Utility functions ---
-def normalize_text(s: str) -> str:
+# -------------------
+# Utilities
+# -------------------
+def normalize_text(s: Optional[str]) -> str:
     """Normalize Unicode and lowercase for comparison."""
-    return unicodedata.normalize("NFKD", (s or "")).encode("ascii", "ignore").decode("utf-8").lower().strip()
+    return unicodedata.normalize("NFKD", s or "").encode("ascii", "ignore").decode("utf-8").lower()
 
 
-def title_key(s: str) -> str:
-    """Loose key for dedup (strip spaces/punct/case)."""
-    t = normalize_text(s)
-    keep = []
-    for ch in t:
-        if ch.isalnum():
-            keep.append(ch)
-        elif ch.isspace():
-            keep.append(" ")
-    return " ".join("".join(keep).split())
-
-
-def author_list_from_crossref(msg) -> list[str]:
-    authors = []
-    for a in (msg or {}).get("author", []) or []:
-        given = (a.get("given") or "").strip()
-        family = (a.get("family") or "").strip()
-        full = " ".join([given, family]).strip()
-        if full:
-            authors.append(full)
-    return authors
-
-
-def authors_match_target(authors) -> bool:
+def authors_match_target(authors: Any) -> bool:
     """
-    True if any TARGET_AUTHORS token appears in any author name (case/accents ignored).
-    `authors` can be list[str] or a single string.
+    True if any of the target surnames appear in a string or a list of strings.
+    Accepts either the raw authors string (from SerpAPI) or a list (from Crossref).
     """
     if not authors:
         return False
-    if isinstance(authors, str):
-        pool = [authors]
-    else:
-        pool = list(authors)
+    pool = [authors] if isinstance(authors, str) else list(authors)
     for a in pool:
         dn = normalize_text(a)
-        # match on last-name token anywhere in the string
-        if any(tok in dn.split() or tok in dn for tok in TARGET_AUTHORS):
+        if any(tok in dn for tok in TARGET_AUTHORS):
             return True
     return False
 
 
-def crossref_get(doi: str) -> dict:
+def load_existing_yaml(path: Path) -> List[Dict[str, Any]]:
+    if not path.exists():
+        return []
+    try:
+        with path.open("r", encoding="utf-8") as f:
+            data = yaml.safe_load(f) or []
+            return data if isinstance(data, list) else []
+    except Exception as e:
+        print(f"⚠️  Could not parse {path}: {e}")
+        return []
+
+
+def write_yaml(items: List[Dict[str, Any]], path: Path) -> None:
+    # sort by year desc when possible
+    def safe_year(x):
+        y = x.get("year")
+        if isinstance(y, int):
+            return y
+        try:
+            return int(y)
+        except Exception:
+            return -1
+
+    items = sorted(items, key=safe_year, reverse=True)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as f:
+        yaml.safe_dump(items, f, sort_keys=False, allow_unicode=True)
+
+
+# -------------------
+# Crossref helpers
+# -------------------
+def crossref_get(doi: str) -> Dict[str, Any]:
+    """Fetch one Crossref record by DOI."""
     if not doi:
         return {}
     try:
@@ -82,72 +111,66 @@ def crossref_get(doi: str) -> dict:
         return {}
 
 
-def pick_best_crossref(items: list[dict], wanted_title: str) -> dict:
-    """
-    Choose the best Crossref item:
-      1) title similar
-      2) AND authors include target (preferred)
-      3) otherwise the first title-similar item
-    """
-    if not items:
-        return {}
-    wkey = title_key(wanted_title)
-    similar = []
-    for it in items:
-        t = (it.get("title") or [""])[0]
-        if not t:
-            continue
-        if title_key(t) == wkey or wkey in title_key(t) or title_key(t) in wkey:
-            similar.append(it)
-
-    if not similar:
-        return {}
-
-    # prefer author match
-    similar_with_author = [it for it in similar if authors_match_target(author_list_from_crossref(it))]
-    if similar_with_author:
-        return similar_with_author[0]
-    return similar[0]
-
-
-def crossref_search_title(title: str) -> dict:
+def crossref_search_title(title: str) -> Dict[str, Any]:
+    """Search Crossref by title only (simple fallback)."""
     if not title:
         return {}
     try:
-        url = f"https://api.crossref.org/works?query.title={quote_plus(title)}&rows=8"
+        url = f"https://api.crossref.org/works?query.title={quote_plus(title)}&rows=5"
         print(f"🔍 Crossref title search: {url}")
         r = requests.get(url, timeout=20)
         r.raise_for_status()
         items = (r.json().get("message", {}).get("items", []) or [])
-        return pick_best_crossref(items, title)
+        if not items:
+            return {}
+        title_norm = normalize_text(title).split(":")[0]
+        # prefer the closest title
+        for it in items:
+            cand_title = normalize_text((it.get("title") or [""])[0])
+            if title_norm in cand_title or cand_title in title_norm:
+                return it
+        return items[0]
     except Exception as e:
         print(f"⚠️ Crossref title search failed for {title}: {e}")
         return {}
 
 
-def crossref_search_scholar_metadata(pub: dict) -> dict:
-    """Crossref search by a composite query from Scholar metadata."""
-    title = pub.get("title", "") or ""
-    journal = pub.get("journal", "") or ""
+def crossref_search_biblio(pub: Dict[str, Any]) -> Dict[str, Any]:
+    """Search Crossref using richer metadata from Scholar (title + first author + journal + year)."""
+    title = pub.get("title", "")
+    journal = pub.get("journal", "")
     year = str(pub.get("year", "") or "")
-    serpa_authors = pub.get("authors_str", "") or ""  # store SerpAPI authors string
+    authors_str = pub.get("authors_str", "")
+    first_author = (authors_str.split(",")[0] if authors_str else "").strip()
 
-    query = " ".join(filter(None, [title, serpa_authors, journal, year]))
+    query = " ".join(filter(None, [title, first_author, journal, year]))
+    if not query.strip():
+        return {}
+
+    url = f"https://api.crossref.org/works?query.bibliographic={quote_plus(query)}&rows=6"
+    print(f"🔍 Crossref metadata search: {url}")
     try:
-        url = f"https://api.crossref.org/works?query.bibliographic={quote_plus(query)}&rows=8"
-        print(f"🔍 Crossref metadata search: {url}")
         r = requests.get(url, timeout=20)
         r.raise_for_status()
         items = (r.json().get("message", {}).get("items", []) or [])
-        return pick_best_crossref(items, title)
+        if not items:
+            return {}
+        title_norm = normalize_text(title).split(":")[0]
+        for it in items:
+            cand_title = normalize_text((it.get("title") or [""])[0])
+            if title_norm in cand_title or cand_title in title_norm:
+                return it
+        return items[0]
     except Exception as e:
         print(f"⚠️ Crossref metadata search failed for {title}: {e}")
         return {}
 
 
-def extract_from_crossref(msg: dict) -> dict:
+def extract_from_crossref(msg: Dict[str, Any]) -> Dict[str, Any]:
+    """Extract structured fields from a Crossref work message."""
     if not msg:
         return {}
+
     # year
     year = None
     for k in ("published-print", "published-online", "issued"):
@@ -155,74 +178,89 @@ def extract_from_crossref(msg: dict) -> dict:
         if dp and dp[0]:
             year = dp[0][0]
             break
-    # authors
-    authors = author_list_from_crossref(msg)
-    return {
-        "journal": (msg.get("container-title") or [""])[0],
-        "volume": msg.get("volume") or "",
-        "issue": msg.get("issue") or "",
-        "pages": msg.get("page") or "",
-        "year": year,
-        "url": msg.get("URL") or "",
-        "doi": msg.get("DOI") or "",
-        "authors": authors,
+
+    # authors (list of "Given Family")
+    authors_list = []
+    for a in msg.get("author", []) or []:
+        given = (a.get("given") or "").strip()
+        family = (a.get("family") or "").strip()
+        full = " ".join([given, family]).strip()
+        if full:
+            authors_list.append(full)
+
+    out = {
+        "journal": ((msg.get("container-title") or [""])[0] or "").strip(),
+        "volume": (msg.get("volume") or "").strip(),
+        "issue":  (msg.get("issue") or "").strip(),
+        "pages":  (msg.get("page") or "").strip(),
+        "year":   year,
+        "url":    (msg.get("URL") or "").strip(),
+        "doi":    (msg.get("DOI") or "").strip(),
+        "authors": authors_list,
     }
+    return out
 
 
-def enrich_with_crossref(pub: dict) -> dict | None:
+def enrich_with_crossref(pub: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     """
-    Enrich a pub with Crossref. If after enrichment we cannot confirm the target author,
-    return None so the caller can skip it.
+    Try DOI lookup, then title search, then biblio search.
+    If no Crossref match, keep the Scholar record ONLY if it matches target authors.
     """
     out = dict(pub)
     doi = (out.get("doi") or "").strip()
     title = (out.get("title") or "").strip()
-    msg = {}
 
-    # 1) DOI lookup
+    msg = {}
     if doi:
         msg = crossref_get(doi)
         time.sleep(REQUEST_PAUSE)
 
-    # 2) Title search fallback
     if not msg and title:
         msg = crossref_search_title(title)
         time.sleep(REQUEST_PAUSE)
 
-    # 3) Metadata search fallback
     if not msg:
-        msg = crossref_search_scholar_metadata(out)
+        msg = crossref_search_biblio(out)
         time.sleep(REQUEST_PAUSE)
 
-    meta = extract_from_crossref(msg)
-    if not meta:
-        print(f"⚠️ No Crossref match found for: {title}")
-        # final guard: if SerpAPI authors string already matches our target, keep minimal record
+    if not msg:
+        print(f"⚠️ No Crossref match: {title}")
+        # FINAL GUARD: keep Scholar record if the raw authors string matches
         if authors_match_target(out.get("authors_str", "")):
             out.setdefault("selected_publication", False)
             return out
         return None
 
-    # prefer Crossref authors if present
-    out.update(meta)
+    meta = extract_from_crossref(msg)
+    # Merge: prefer Crossref fields for structured metadata, but keep Scholar title/url if set
+    merged = {
+        "title": title or meta.get("title") or "",
+        "url": out.get("url") or meta.get("url") or "",
+        "journal": meta.get("journal", out.get("journal", "")),
+        "volume": meta.get("volume", ""),
+        "issue": meta.get("issue", ""),
+        "pages": meta.get("pages", ""),
+        "year": meta.get("year", out.get("year", "")),
+        "doi": meta.get("doi", doi),
+        "authors": meta.get("authors", []),
+        "selected_publication": out.get("selected_publication", False),
+        "image": out.get("image", ""),
+        "authors_str": out.get("authors_str", ""),
+    }
 
-    # author guards: Crossref authors OR SerpAPI authors must match target
-    if not authors_match_target(out.get("authors")) and not authors_match_target(out.get("authors_str", "")):
-        print(f"⛔ Dropping (author mismatch): {title}")
-        return None
-
-    # Keep the original title if Crossref title capitalization differs
-    out["title"] = pub.get("title", meta.get("title", "")) or ""
-    # Prefer Crossref URL if we have a DOI URL; otherwise keep SerpAPI link
-    out["url"] = meta.get("url") or pub.get("url", "")
-    out.setdefault("selected_publication", False)
-    return out
+    # Guard: if Crossref authors don’t show target names, still allow,
+    # because Scholar already said the item belongs to this author_id.
+    return merged
 
 
-def get_scholar_publications() -> list[dict]:
-    """Retrieve Google Scholar publications (SerpAPI) with pagination."""
-    pubs = []
-    after_token = None
+# -------------------
+# SerpAPI (Google Scholar)
+# -------------------
+def get_scholar_publications() -> List[Dict[str, Any]]:
+    """Retrieve ALL publications for an author via SerpAPI (with correct pagination)."""
+    pubs: List[Dict[str, Any]] = []
+    after_token: Optional[str] = None
+    page = 1
 
     while True:
         base = "https://serpapi.com/search.json"
@@ -234,82 +272,112 @@ def get_scholar_publications() -> list[dict]:
             params += f"&after_author={quote_plus(after_token)}"
         url = f"{base}?{params}"
 
+        print(f"🔎 Fetching Scholar page {page} ...")
         r = requests.get(url, timeout=30)
         r.raise_for_status()
         data = r.json()
 
-        for item in data.get("articles", []):
-            # SerpAPI returns authors string in 'authors' or 'publication_info'. Handle both.
-            authors_str = item.get("authors") or item.get("publication_info", {}).get("authors") or ""
+        for item in data.get("articles", []) or []:
+            authors_str = (
+                item.get("authors")
+                or (item.get("publication_info") or {}).get("authors")
+                or ""
+            )
             pubs.append({
                 "title": item.get("title", "") or "",
                 "url": item.get("link", "") or "",
-                "doi": (item.get("publication_info", {}) or {}).get("doi", "") or "",
+                "doi": ((item.get("publication_info") or {}).get("doi") or ""),
                 "journal": item.get("publication", "") or "",
-                "authors": [],                   # Crossref will fill a full list
-                "authors_str": authors_str,      # keep raw string for guard
-                "selected_publication": False,   # boolean
+                "authors": [],                 # will be filled by Crossref
+                "authors_str": authors_str,    # keep raw string for guards
+                "selected_publication": False, # default field included
                 "image": "",
             })
 
-        after_token = data.get("serpapi_pagination", {}).get("next")
+        # Extract after_author token from the 'next' URL
+        next_url = (data.get("serpapi_pagination", {}) or {}).get("next")
+        if not next_url:
+            break
+        try:
+            qs = parse_qs(urlparse(next_url).query)
+            after_token = (qs.get("after_author") or [None])[0]
+        except Exception:
+            after_token = None
+
         if not after_token:
             break
 
-        print("🔄 Loading next page of Google Scholar results...")
+        page += 1
         time.sleep(REQUEST_PAUSE)
 
     print(f"✅ Total publications fetched from Scholar: {len(pubs)}")
     return pubs
 
 
-def load_existing() -> list[dict]:
-    if DATA_FILE.exists():
-        with open(DATA_FILE, "r", encoding="utf-8") as f:
-            return yaml.safe_load(f) or []
-    return []
+# -------------------
+# Merge & Update
+# -------------------
+PRESERVE_FIELDS = {"image", "selected_publication"}  # keep curated values
+
+def norm_key(title: str) -> str:
+    return normalize_text(title)
+
+
+def merge_existing(existing: List[Dict[str, Any]], new_items: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    Merge on normalized title; preserve curated fields.
+    """
+    idx = {norm_key(e.get("title", "")): e for e in existing if e.get("title")}
+    merged = idx.copy()
+
+    for it in new_items:
+        t = it.get("title", "")
+        if not t:
+            continue
+        k = norm_key(t)
+        if k in merged:
+            prev = merged[k]
+            # preserve curated fields if present in previous
+            for f in PRESERVE_FIELDS:
+                if f in prev and prev[f] not in (None, "", []):
+                    it[f] = prev[f]
+            # also preserve a better URL/DOI if prev has and new doesn't
+            if prev.get("doi") and not it.get("doi"):
+                it["doi"] = prev["doi"]
+            if prev.get("url") and not it.get("url"):
+                it["url"] = prev["url"]
+        merged[k] = it
+
+    return list(merged.values())
 
 
 def update_publications():
-    existing = load_existing()
+    # Load existing YAML
+    existing = load_existing_yaml(DATA_FILE)
+    existing_keys = {norm_key(p["title"]) for p in existing if p.get("title")}
 
-    # dedup map by normalized title
-    by_title = {title_key(p.get("title", "")): p for p in existing if p.get("title")}
+    # Fetch from Scholar
+    scholar_items = get_scholar_publications()
 
-    new_count = 0
-    for pub in get_scholar_publications():
-        k = title_key(pub.get("title", ""))
-        if not k:
+    # Only enrich new titles
+    new_enriched: List[Dict[str, Any]] = []
+    for pub in scholar_items:
+        key = norm_key(pub.get("title", ""))
+        if not key or key in existing_keys:
+            # already present; will be merged later
             continue
-        if k in by_title:
-            print(f"⏩ Skipping existing (by normalized title): {pub['title']}")
-            continue
-
         enriched = enrich_with_crossref(pub)
-        if not enriched:
-            print(f"⚠️ Skipped (no match or author mismatch): {pub['title']}")
+        if enriched is None:
+            # filtered out (no match and no target author signal)
             continue
+        new_enriched.append(enriched)
 
-        by_title[k] = enriched
-        new_count += 1
-        print(f"✅ Added: {enriched['title']}")
+    # Merge and write
+    final_list = merge_existing(existing, new_enriched)
+    write_yaml(final_list, DATA_FILE)
 
-    all_pubs = list(by_title.values())
-    # Sort newest first (fallback -1 puts undated at end)
-    def safe_year(p):
-        y = p.get("year")
-        try:
-            return int(y)
-        except Exception:
-            return -1
-    all_pubs.sort(key=safe_year, reverse=True)
-
-    DATA_FILE.parent.mkdir(parents=True, exist_ok=True)
-    with open(DATA_FILE, "w", encoding="utf-8") as f:
-        yaml.safe_dump(all_pubs, f, sort_keys=False, allow_unicode=True)
-
-    print(f"\n✅ Updated publications file with {new_count} new entries.")
-    print(f"📁 Total entries now: {len(all_pubs)}")
+    print(f"\n📁 Wrote {len(final_list)} publications to {DATA_FILE}")
+    print(f"➕ Newly added this run: {len(new_enriched)}")
 
 
 if __name__ == "__main__":

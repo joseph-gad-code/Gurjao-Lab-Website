@@ -193,9 +193,13 @@ h2 {
                   {%- assign a_trim = a | strip -%}
                   {%- assign parts = a_trim | split: " " -%}
                   {%- assign last  = parts | last -%}
+
+                  {%- assign limit_n = parts.size | minus: 1 -%}
+                  {%- if limit_n < 0 -%}{% assign limit_n = 0 %}{% endif %}
+
                   {%- assign initials = "" -%}
                   {%- if parts.size > 1 -%}
-                    {%- for part in parts limit: {{ parts.size | minus: 1 }} -%}
+                    {%- for part in parts limit: limit_n -%}
                       {%- assign initials = initials | append: part | strip | slice: 0,1 | upcase | append: "." -%}
                     {%- endfor -%}
                   {%- endif -%}
@@ -223,18 +227,14 @@ h2 {
 
             <div class="pub-meta">
               {%- assign venue = p.venue | default: p.journal -%}
+              {%- assign y = p.year.first | default: p.year | append: '' -%}
               {% if venue %}
                 <em>{{ venue | strip }}</em>
                 {%- if p.volume and p.volume != "" -%}, {{ p.volume }}{%- endif -%}
                 {%- if p.issue and p.issue != "" -%}({{ p.issue }}){%- endif -%}
                 {%- if p.pages and p.pages != "" -%}, {{ p.pages }}{%- endif -%}
-                {%- comment -%} show year if present {%- endcomment -%}
-                {%- assign y = "" -%}
-                {%- if p.year and p.year.first -%}{%- assign y = p.year.first -%}{%- else -%}{%- assign y = p.year -%}{%- endif -%}
                 {%- if y and y != "" -%} ({{ y }}){%- endif -%}
               {% else %}
-                {%- assign y = "" -%}
-                {%- if p.year and p.year.first -%}{%- assign y = p.year.first -%}{%- else -%}{%- assign y = p.year -%}{%- endif -%}
                 {% if y and y != "" %}{{ y }}{% endif %}
               {% endif %}
             </div>
@@ -262,15 +262,11 @@ h2 {
   {%- endcomment -%}
   {%- assign years = _empty -%}
   {%- for p in others -%}
-    {%- assign y = "" -%}
-    {%- if p.year and p.year.first -%}
-      {%- assign y = p.year.first | stringify -%}
-    {%- else -%}
-      {%- assign y = p.year | stringify -%}
-    {%- endif -%}
-    {%- assign y = y | strip -%}
-    {%- if y != "" and years contains y == false -%}
-      {%- assign years = years | push: y -%}
+    {%- assign y = p.year.first | default: p.year | append: '' | strip -%}
+    {%- if y != '' -%}
+      {%- unless years contains y -%}
+        {%- assign years = years | push: y -%}
+      {%- endunless -%}
     {%- endif -%}
   {%- endfor -%}
   {%- assign years = years | sort | reverse -%}
@@ -314,9 +310,13 @@ h2 {
                 {%- assign a_trim = a | strip -%}
                 {%- assign parts = a_trim | split: " " -%}
                 {%- assign last  = parts | last -%}
+
+                {%- assign limit_n = parts.size | minus: 1 -%}
+                {%- if limit_n < 0 -%}{% assign limit_n = 0 %}{% endif %}
+
                 {%- assign initials = "" -%}
                 {%- if parts.size > 1 -%}
-                  {%- for part in parts limit: {{ parts.size | minus: 1 }} -%}
+                  {%- for part in parts limit: limit_n -%}
                     {%- assign initials = initials | append: part | strip | slice: 0,1 | upcase | append: "." -%}
                   {%- endfor -%}
                 {%- endif -%}
@@ -344,17 +344,14 @@ h2 {
 
           <div class="pub-meta">
             {%- assign venue = p.venue | default: p.journal -%}
+            {%- assign yy = p.year.first | default: p.year | append: '' -%}
             {% if venue %}
               <em>{{ venue | strip }}</em>
               {%- if p.volume and p.volume != "" -%}, {{ p.volume }}{%- endif -%}
               {%- if p.issue and p.issue != "" -%}({{ p.issue }}){%- endif -%}
               {%- if p.pages and p.pages != "" -%}, {{ p.pages }}{%- endif -%}
-              {%- assign yy = "" -%}
-              {%- if p.year and p.year.first -%}{%- assign yy = p.year.first -%}{%- else -%}{%- assign yy = p.year -%}{%- endif -%}
               {%- if yy and yy != "" -%} ({{ yy }}){%- endif -%}
             {% else %}
-              {%- assign yy = "" -%}
-              {%- if p.year and p.year.first -%}{%- assign yy = p.year.first -%}{%- else -%}{%- assign yy = p.year -%}{%- endif -%}
               {% if yy and yy != "" %}{{ yy }}{% endif %}
             {% endif %}
           </div>

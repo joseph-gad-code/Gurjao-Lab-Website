@@ -1,84 +1,106 @@
 <nav class="navbar navbar-default" role="navigation" aria-label="Main navigation"
      style="background:#ffffff;border-bottom:0;margin-bottom:0;">
-  <div class="nav-rail"
-       style="max-width:1100px;margin:0 auto;padding:0 15px;display:flex;align-items:center;">
+  <div class="nav-rail">
     
     <!-- Brand -->
     <a class="navbar-brand"
-       href="{{ '/' | relative_url }}"
-       style="color:#0D5295 !important;font-weight:800;font-family:'Nunito',sans-serif;
-              font-size:clamp(26px,3vw,34px);line-height:1;padding:16px 0;">
+       href="{{ '/' | relative_url }}">
       GURJAOLAB
     </a>
 
     <!-- Links -->
-    <ul class="nav navbar-nav"
-        style="float:none !important;display:flex;align-items:center;margin:0 0 0 auto;padding:0;gap:0;white-space:nowrap;">
+    <ul class="nav navbar-nav">
       <li {% if page.url == '/' %}class="active"{% endif %}>
-        <a href="{{ '/' | relative_url }}"
-           style="font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
-                  position:relative;display:inline-block;margin:0 10px;line-height:1.2;
-                  padding:14px 0 6px;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
-          Home
-        </a>
+        <a href="{{ '/' | relative_url }}">Home</a>
       </li>
       <li {% if page.url contains '/research/' %}class="active"{% endif %}>
-        <a href="{{ '/research/' | relative_url }}"
-           style="font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
-                  position:relative;display:inline-block;margin:0 10px;line-height:1.2;
-                  padding:14px 0 6px;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
-          Research
-        </a>
+        <a href="{{ '/research/' | relative_url }}">Research</a>
       </li>
       <li {% if page.url contains '/publications/' %}class="active"{% endif %}>
-        <a href="{{ '/publications/' | relative_url }}"
-           style="font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
-                  position:relative;display:inline-block;margin:0 10px;line-height:1.2;
-                  padding:14px 0 6px;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
-          Publications
-        </a>
+        <a href="{{ '/publications/' | relative_url }}">Publications</a>
       </li>
       <li {% if page.url contains '/people/' %}class="active"{% endif %}>
-        <a href="{{ '/people/' | relative_url }}"
-           style="font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
-                  position:relative;display:inline-block;margin:0 10px;line-height:1.2;
-                  padding:14px 0 6px;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
-          People
-        </a>
+        <a href="{{ '/people/' | relative_url }}">People</a>
       </li>
       <li {% if page.url contains '/contact/' %}class="active"{% endif %}>
-        <a href="{{ '/contact/' | relative_url }}"
-           style="font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
-                  position:relative;display:inline-block;margin:0 10px;line-height:1.2;
-                  padding:14px 0 6px;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
-          Contact
-        </a>
+        <a href="{{ '/contact/' | relative_url }}">Contact</a>
       </li>
     </ul>
   </div>
 </nav>
+
 <style>
-  /* Scope everything to THIS nav to beat other styles */
-  nav[aria-label="Main navigation"] .navbar-nav > li > a {
-    color: #777 !important;                 /* default grey for all */
-    background: transparent !important;
+  /* === GLOBAL HEADER STYLES === */
+  nav[aria-label="Main navigation"] {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  /* Layout container for header content */
+  nav[aria-label="Main navigation"] .nav-rail {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    overflow: hidden;
+  }
+
+  /* Brand styling */
+  nav[aria-label="Main navigation"] .navbar-brand {
+    color: #0D5295 !important;
+    font-weight: 800;
+    font-size: clamp(26px, 3vw, 34px);
+    line-height: 1.2;
+    padding: 14px 0 !important;
     text-decoration: none !important;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Nav links container */
+  nav[aria-label="Main navigation"] .navbar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+    gap: 0;
+    list-style: none;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+  }
+
+  /* Nav links (default) */
+  nav[aria-label="Main navigation"] .navbar-nav > li > a {
+    font-weight: 600;
+    color: #777 !important;
+    background: transparent !important;
+    font-size: clamp(15px, 2vw, 17px);
+    line-height: 1.2;
+    padding: 14px 10px;
+    text-decoration: none !important;
+    display: inline-block;
     transition: color .15s ease;
   }
 
-  /* visited should also look grey unless active/hover */
+  /* visited links */
   nav[aria-label="Main navigation"] .navbar-nav > li > a:visited {
     color: #777 !important;
   }
 
-  /* hover: always turn black (active will keep underline via rule below) */
+  /* hover state */
   nav[aria-label="Main navigation"] .navbar-nav > li > a:hover,
   nav[aria-label="Main navigation"] .navbar-nav > li > a:focus {
     color: #000 !important;
     text-decoration: none !important;
   }
 
-  /* active page: black + underline (and stays black on hover/focus) */
+  /* active state */
   nav[aria-label="Main navigation"] .navbar-nav > li.active > a,
   nav[aria-label="Main navigation"] .navbar-nav > li.active > a:hover,
   nav[aria-label="Main navigation"] .navbar-nav > li.active > a:focus {
@@ -87,5 +109,38 @@
     text-decoration-thickness: 2px;
     text-underline-offset: 6px;
     background: transparent !important;
+  }
+
+  /* Consistent height */
+  header, nav[aria-label="Main navigation"], .navbar {
+    min-height: 64px;
+  }
+
+  /* === MOBILE STYLES === */
+  @media (max-width: 700px) {
+    nav[aria-label="Main navigation"] .nav-rail {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 10px;
+      text-align: center;
+    }
+
+    nav[aria-label="Main navigation"] .navbar-brand {
+      font-size: clamp(22px, 6vw, 28px);
+      padding: 10px 0 !important;
+    }
+
+    nav[aria-label="Main navigation"] .navbar-nav {
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 6px;
+    }
+
+    nav[aria-label="Main navigation"] .navbar-nav > li > a {
+      font-size: clamp(16px, 4.5vw, 18px);
+      padding: 12px 10px;
+      min-width: 60px;
+    }
   }
 </style>

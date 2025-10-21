@@ -1,91 +1,163 @@
-<nav class="navbar navbar-default" role="navigation" aria-label="Main navigation"
-     style="background:#ffffff;border-bottom:0;margin-bottom:0;">
-  <div class="nav-rail"
-       style="max-width:1100px;margin:0 auto;padding:0 15px;display:flex;align-items:center;">
-    
+<nav class="navbar" role="navigation" aria-label="Main navigation">
+  <div class="nav-rail">
     <!-- Brand -->
-    <a class="navbar-brand"
-       href="{{ '/' | relative_url }}"
-       style="color:#0D5295 !important;font-weight:800;font-family:'Nunito',sans-serif;
-              font-size:clamp(26px,3vw,34px);line-height:1;padding:16px 0;">
-      GURJAOLAB
-    </a>
+    <a class="navbar-brand" href="{{ '/' | relative_url }}">GURJAOLAB</a>
 
-    <!-- Links -->
-    <ul class="nav navbar-nav"
-        style="float:none !important;display:flex;align-items:center;margin:0 0 0 auto;padding:0;gap:0;white-space:nowrap;">
+    <!-- Hamburger button -->
+    <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Menu Links -->
+    <ul class="nav-links">
       <li {% if page.url == '/' %}class="active"{% endif %}>
-        <a href="{{ '/' | relative_url }}"
-           style="font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
-                  position:relative;display:inline-block;margin:0 10px;line-height:1.2;
-                  padding:14px 0 6px;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
-          Home
-        </a>
+        <a href="{{ '/' | relative_url }}">Home</a>
       </li>
       <li {% if page.url contains '/research/' %}class="active"{% endif %}>
-        <a href="{{ '/research/' | relative_url }}"
-           style="font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
-                  position:relative;display:inline-block;margin:0 10px;line-height:1.2;
-                  padding:14px 0 6px;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
-          Research
-        </a>
+        <a href="{{ '/research/' | relative_url }}">Research</a>
       </li>
       <li {% if page.url contains '/publications/' %}class="active"{% endif %}>
-        <a href="{{ '/publications/' | relative_url }}"
-           style="font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
-                  position:relative;display:inline-block;margin:0 10px;line-height:1.2;
-                  padding:14px 0 6px;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
-          Publications
-        </a>
+        <a href="{{ '/publications/' | relative_url }}">Publications</a>
       </li>
       <li {% if page.url contains '/people/' %}class="active"{% endif %}>
-        <a href="{{ '/people/' | relative_url }}"
-           style="font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
-                  position:relative;display:inline-block;margin:0 10px;line-height:1.2;
-                  padding:14px 0 6px;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
-          People
-        </a>
+        <a href="{{ '/people/' | relative_url }}">People</a>
       </li>
       <li {% if page.url contains '/contact/' %}class="active"{% endif %}>
-        <a href="{{ '/contact/' | relative_url }}"
-           style="font-family:'Nunito',sans-serif;font-weight:600;background:transparent !important;
-                  position:relative;display:inline-block;margin:0 10px;line-height:1.2;
-                  padding:14px 0 6px;text-decoration:none !important;font-size:clamp(14px,1.9vw,16px);">
-          Contact
-        </a>
+        <a href="{{ '/contact/' | relative_url }}">Contact</a>
       </li>
     </ul>
   </div>
 </nav>
+
 <style>
-  /* Scope everything to THIS nav to beat other styles */
-  nav[aria-label="Main navigation"] .navbar-nav > li > a {
-    color: #777 !important;                 /* default grey for all */
-    background: transparent !important;
-    text-decoration: none !important;
-    transition: color .15s ease;
+/* ===== Base Layout ===== */
+.navbar {
+  background: #fff;
+  border-bottom: 0;
+  margin-bottom: 0;
+  width: 100%;
+}
+
+.nav-rail {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ===== Brand ===== */
+.navbar-brand {
+  color: #0D5295;
+  font-weight: 800;
+  font-family: 'Nunito', sans-serif;
+  font-size: clamp(26px, 4vw, 34px);
+  line-height: 1;
+  padding: 16px 0;
+  text-decoration: none;
+}
+
+/* ===== Links ===== */
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  gap: 10px;
+}
+
+.nav-links li a {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  font-size: clamp(14px, 1.9vw, 16px);
+  color: #777;
+  text-decoration: none;
+  padding: 14px 0 6px;
+  transition: color 0.2s ease;
+}
+
+.nav-links li a:hover {
+  color: #000;
+}
+
+.nav-links li.active a {
+  color: #000;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+
+/* ===== Hamburger Button ===== */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 26px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.menu-toggle span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: #000;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* ===== Mobile View ===== */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: flex;
   }
 
-  /* visited should also look grey unless active/hover */
-  nav[aria-label="Main navigation"] .navbar-nav > li > a:visited {
-    color: #777 !important;
+  .nav-links {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    padding: 40px 0;
+    display: none;
   }
 
-  /* hover: always turn black (active will keep underline via rule below) */
-  nav[aria-label="Main navigation"] .navbar-nav > li > a:hover,
-  nav[aria-label="Main navigation"] .navbar-nav > li > a:focus {
-    color: #000 !important;
-    text-decoration: none !important;
+  .nav-links.open {
+    display: flex;
   }
 
-  /* active page: black + underline (and stays black on hover/focus) */
-  nav[aria-label="Main navigation"] .navbar-nav > li.active > a,
-  nav[aria-label="Main navigation"] .navbar-nav > li.active > a:hover,
-  nav[aria-label="Main navigation"] .navbar-nav > li.active > a:focus {
-    color: #000 !important;
-    text-decoration: underline !important;
-    text-decoration-thickness: 2px;
-    text-underline-offset: 6px;
-    background: transparent !important;
+  /* Animate hamburger to X */
+  .menu-toggle.open span:nth-child(1) {
+    transform: rotate(45deg) translateY(8px);
   }
+  .menu-toggle.open span:nth-child(2) {
+    opacity: 0;
+  }
+  .menu-toggle.open span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-8px);
+  }
+}
 </style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const toggle = document.querySelector(".menu-toggle");
+  const links = document.querySelector(".nav-links");
+
+  toggle.addEventListener("click", () => {
+    const isOpen = toggle.classList.toggle("open");
+    links.classList.toggle("open", isOpen);
+    toggle.setAttribute("aria-expanded", isOpen);
+  });
+});
+</script>

@@ -110,7 +110,7 @@
     ...
 - title: Germline predisposition to oncogenic alkylating damage in colorectal cancer
   url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:RGFaLdJalmkC
-  journal: ''
+  journal:  medRxiv
   volume: ''
   issue: ''
   pages: ''
@@ -489,9 +489,9 @@
     ...
 - title: Leveraging passenger mutations to guide cancer treatment and prevention
   url: https://scholar.google.com/citations?view_op=view_citation&hl=en&user=m3rLfS4AAAAJ&citation_for_view=m3rLfS4AAAAJ:TFP_iSt0sucC
-  doi: ''
+  doi: https://theses.hal.science/tel-04187066/
   journal: Université Paris Cité, 2021
-  authors: []
+  authors: C Gurjao
   authors_str: C Gurjao
   year: '2021'
   selected_publication: false

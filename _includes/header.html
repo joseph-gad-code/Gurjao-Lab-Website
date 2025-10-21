@@ -88,9 +88,9 @@
     text-underline-offset: 6px;
     background: transparent !important;
   }
-</style>
 
-/* --- Responsive navbar adjustments --- */
+<style>
+/* --- Responsive navbar adjustments (no wrapping) --- */
 @media (max-width: 1100px) {
   .nav-rail {
     padding: 0 10px;
@@ -110,7 +110,7 @@
   }
 
   nav[aria-label="Main navigation"] .navbar-nav::-webkit-scrollbar {
-    display: none; /* hide scrollbar for WebKit */
+    display: none; /* hide scrollbar for WebKit browsers */
   }
 
   nav[aria-label="Main navigation"] .navbar-nav > li > a {
@@ -121,7 +121,7 @@
   }
 }
 
-/* Optional: tighter adjustments for very small phones */
+/* tighter adjustments for very small phones */
 @media (max-width: 480px) {
   nav[aria-label="Main navigation"] .navbar-brand {
     font-size: clamp(20px, 5vw, 26px) !important;
@@ -131,3 +131,4 @@
     font-size: 13px !important;
   }
 }
+</style>

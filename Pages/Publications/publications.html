@@ -41,7 +41,7 @@ h2 {
 /* Selected publication cards */
 .selected-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* two columns */
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
 }
 
@@ -56,15 +56,11 @@ h2 {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   object-fit: contain;
 }
-
-.pub-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
-}
+.pub-card:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.12); }
 
 .pub-image {
   width: 120px;
-  height: 100px; /* consistent height for visual alignment */
+  height: 100px;
   border-radius: 8px;
   object-fit: contain;
   flex-shrink: 0;
@@ -73,26 +69,14 @@ h2 {
 
 .pub-content { flex: 1; }
 
-.pub-title {
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 4px;
-  line-height: 1.4;
-}
+.pub-title { font-size: 16px; font-weight: 700; margin-bottom: 4px; line-height: 1.4; }
 .pub-title a { color: #000; text-decoration: none; }
 .pub-title a:hover { text-decoration: underline; }
 
-.pub-authors {
-  font-size: 13px;
-  margin-bottom: 4px;
-  color: #000;
-}
+.pub-authors { font-size: 13px; margin-bottom: 4px; color: #000; }
 .pub-authors strong { font-weight: 700; }
 
-.pub-meta {
-  font-size: 13px;
-  color: var(--lightgray);
-}
+.pub-meta { font-size: 13px; color: var(--lightgray); }
 .pub-meta em { font-style: italic; }
 
 .pub-button {
@@ -110,7 +94,7 @@ h2 {
 }
 .pub-button:hover { background-color: var(--lightblue); color: var(--white); }
 
-/* Compact “news-card” list */
+/* Compact list “news cards” */
 .pub-list .pub-entry {
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -126,10 +110,10 @@ h2 {
   {%- assign _empty = "" | split: "" -%}
   {%- assign _pubs = site.data.publications | default: _empty -%}
 
-  {%- comment -%}
-    Selected if selected_publication is boolean true OR string "yes"
-  {%- endcomment -%}
-  {%- assign selected = _pubs | where_exp:"p","p.selected_publication == true or p.selected_publication == 'yes'" -%}
+  {%- comment -%} selected if boolean true OR "yes" {%- endcomment -%}
+  {%- assign selected_bool = _pubs | where: "selected_publication", true -%}
+  {%- assign selected_yes  = _pubs | where: "selected_publication", "yes" -%}
+  {%- assign selected = selected_bool | concat: selected_yes -%}
 
   <div class="selected-grid">
     {% for p in selected %}
@@ -148,7 +132,6 @@ h2 {
             {% endif %}
           </div>
 
-          {%- comment -%} Authors: abbreviate and bold lab names {%- endcomment -%}
           <div class="pub-authors">
             {% if p.authors %}
               {% for author in p.authors %}
@@ -161,26 +144,18 @@ h2 {
                   {% endif %}
                 {% endfor %}
                 {% assign abbreviated = initials | append: " " | append: last %}
-
                 {% assign match = false %}
                 {% for lab in page.lab_names %}
-                  {% if author contains lab %}
-                    {% assign match = true %}
-                  {% endif %}
+                  {% if author contains lab %}{% assign match = true %}{% endif %}
                 {% endfor %}
-
-                {% if match %}
-                  <strong>{{ abbreviated }}</strong>{% if forloop.last == false %}, {% endif %}
-                {% else %}
-                  {{ abbreviated }}{% if forloop.last == false %}, {% endif %}
-                {% endif %}
+                {% if match %}<strong>{{ abbreviated }}</strong>{% else %}{{ abbreviated }}{% endif %}
+                {% if forloop.last == false %}, {% endif %}
               {% endfor %}
             {% endif %}
           </div>
 
+          {%- assign y = p.year | first | default: p.year | append: '' -%}
           <div class="pub-meta">
-            {%- comment -%} normalize year to string without using .first {%- endcomment -%}
-            {%- assign y = p.year | first | default: p.year | append: '' -%}
             {% if p.journal %}
               <em>{{ p.journal | strip }}</em>{% if y %}, {{ y | strip }}{% endif %}
             {% elsif y %}
@@ -196,17 +171,13 @@ h2 {
     {% endfor %}
   </div>
 
-  <!-- ===================== -->
-  <!-- FULL LIST BY YEAR -->
-  <!-- ===================== -->
-
   <h2>Full List</h2>
 
-  {%- assign others = _pubs | where_exp:"p","p.selected_publication != true and p.selected_publication != 'yes'" -%}
+  {%- comment -%} non-selected pubs {%- endcomment -%}
+  {%- assign non_sel_a = _pubs | where_exp:"p","p.selected_publication != true" -%}
+  {%- assign others    = non_sel_a | where_exp:"p","p.selected_publication != 'yes'" -%}
 
-  {%- comment -%}
-    Build a unique, sorted, descending list of year strings (handles number|string|array)
-  {%- endcomment -%}
+  {%- comment -%} build a unique, sorted DESC list of years as strings {%- endcomment -%}
   {%- capture _year_pipe -%}
     {%- for p in others -%}
       {%- assign yy = p.year | first | default: p.year | append: '' -%}
@@ -220,63 +191,56 @@ h2 {
       {{ y }}
     </h3>
 
-    {%- comment -%}
-      Filter pubs whose year equals this y, supporting year as scalar or array.
-      (No filters inside where_exp; use p.year[0] directly.)
-    {%- endcomment -%}
-    {%- assign pubs_for_year = others | where_exp:"p","(p.year == y) or (p.year and p.year[0] == y)" -%}
-
     <div class="pub-list">
-      {% for p in pubs_for_year %}
-        <div class="pub-entry">
-          <div class="pub-title">
-            {% if p.doi %}
-              <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">{{ p.title }}</a>
-            {% elsif p.url %}
-              <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
-            {% else %}
-              {{ p.title }}
-            {% endif %}
-          </div>
+      {%- comment -%}
+        Filter inside the loop to avoid where_exp parsing issues.
+        Normalize per-item year to string and compare to y.
+      {%- endcomment -%}
+      {% for p in others %}
+        {%- assign py = p.year | first | default: p.year | append: '' -%}
+        {% if py == y %}
+          <div class="pub-entry">
+            <div class="pub-title">
+              {% if p.doi %}
+                <a href="https://doi.org/{{ p.doi }}" target="_blank" rel="noopener">{{ p.title }}</a>
+              {% elsif p.url %}
+                <a href="{{ p.url }}" target="_blank" rel="noopener">{{ p.title }}</a>
+              {% else %}
+                {{ p.title }}
+              {% endif %}
+            </div>
 
-          <div class="pub-authors">
-            {% if p.authors %}
-              {% for author in p.authors %}
-                {% assign parts = author | split: " " %}
-                {% assign last = parts | last %}
-                {% assign initials = "" %}
-                {% for part in parts %}
-                  {% if forloop.last == false %}
-                    {% assign initials = initials | append: part | slice: 0,1 | append: "." %}
-                  {% endif %}
+            <div class="pub-authors">
+              {% if p.authors %}
+                {% for author in p.authors %}
+                  {% assign parts = author | split: " " %}
+                  {% assign last = parts | last %}
+                  {% assign initials = "" %}
+                  {% for part in parts %}
+                    {% if forloop.last == false %}
+                      {% assign initials = initials | append: part | slice: 0,1 | append: "." %}
+                    {% endif %}
+                  {% endfor %}
+                  {% assign abbreviated = initials | append: " " | append: last %}
+                  {% assign match = false %}
+                  {% for lab in page.lab_names %}
+                    {% if author contains lab %}{% assign match = true %}{% endif %}
+                  {% endfor %}
+                  {% if match %}<strong>{{ abbreviated }}</strong>{% else %}{{ abbreviated }}{% endif %}
+                  {% if forloop.last == false %}, {% endif %}
                 {% endfor %}
-                {% assign abbreviated = initials | append: " " | append: last %}
+              {% endif %}
+            </div>
 
-                {% assign match = false %}
-                {% for lab in page.lab_names %}
-                  {% if author contains lab %}
-                    {% assign match = true %}
-                  {% endif %}
-                {% endfor %}
-
-                {% if match %}
-                  <strong>{{ abbreviated }}</strong>{% if forloop.last == false %}, {% endif %}
-                {% else %}
-                  {{ abbreviated }}{% if forloop.last == false %}, {% endif %}
-                {% endif %}
-              {% endfor %}
-            {% endif %}
+            <div class="pub-meta">
+              {% if p.journal %}
+                <em>{{ p.journal | strip }}</em>{% if py %}, {{ py | strip }}{% endif %}
+              {% elsif py %}
+                {{ py | strip }}
+              {% endif %}
+            </div>
           </div>
-
-          <div class="pub-meta">
-            {%- assign yy = p.year | first | default: p.year | append: '' -%}
-            {% if p.journal %}
-              <em>{{ p.journal | strip }}</em>{% if yy %}, {{ yy | strip }}{% endif %}
-            {% elsif yy %}
-              {{ yy | strip }}
-            {% endif %}
-          </div>
-        </div>
+        {% endif %}
       {% endfor %}
     </div>
   {% endfor %}

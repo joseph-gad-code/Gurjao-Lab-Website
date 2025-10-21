@@ -58,41 +58,34 @@
   </div>
 </nav>
 <style>
-  /* === MOBILE NAV OPTIMIZATION === */
-  @media (max-width: 700px) {
-    nav[aria-label="Main navigation"] .navbar-brand {
-      font-size: clamp(22px, 6vw, 28px) !important;
-      padding: 10px 0 !important;
-    }
-
-    nav[aria-label="Main navigation"] .navbar-nav > li > a {
-      font-size: clamp(16px, 4.2vw, 18px) !important;
-      padding: 16px 8px !important;   /* ensures tall, tappable area */
-      margin: 0 4px !important;
-    }
-
-    nav[aria-label="Main navigation"] .nav-rail {
-      flex-wrap: wrap !important;     /* allows wrapping if screen is narrow */
-      justify-content: space-between;
-      gap: 6px;
-    }
-
-    /* prevent text clipping */
-    nav[aria-label="Main navigation"] .navbar-nav {
-      flex-wrap: wrap;
-      gap: 4px;
-      white-space: normal !important;
-    }
+  /* Scope everything to THIS nav to beat other styles */
+  nav[aria-label="Main navigation"] .navbar-nav > li > a {
+    color: #777 !important;                 /* default grey for all */
+    background: transparent !important;
+    text-decoration: none !important;
+    transition: color .15s ease;
   }
 
-  @media (max-width: 400px) {
-    nav[aria-label="Main navigation"] .navbar-brand {
-      font-size: 22px !important;
-    }
+  /* visited should also look grey unless active/hover */
+  nav[aria-label="Main navigation"] .navbar-nav > li > a:visited {
+    color: #777 !important;
+  }
 
-    nav[aria-label="Main navigation"] .navbar-nav > li > a {
-      font-size: 16px !important;
-      padding: 14px 6px !important;
-    }
+  /* hover: always turn black (active will keep underline via rule below) */
+  nav[aria-label="Main navigation"] .navbar-nav > li > a:hover,
+  nav[aria-label="Main navigation"] .navbar-nav > li > a:focus {
+    color: #000 !important;
+    text-decoration: none !important;
+  }
+
+  /* active page: black + underline (and stays black on hover/focus) */
+  nav[aria-label="Main navigation"] .navbar-nav > li.active > a,
+  nav[aria-label="Main navigation"] .navbar-nav > li.active > a:hover,
+  nav[aria-label="Main navigation"] .navbar-nav > li.active > a:focus {
+    color: #000 !important;
+    text-decoration: underline !important;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+    background: transparent !important;
   }
 </style>

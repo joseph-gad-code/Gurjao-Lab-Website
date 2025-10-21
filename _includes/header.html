@@ -89,3 +89,45 @@
     background: transparent !important;
   }
 </style>
+
+/* --- Responsive navbar adjustments --- */
+@media (max-width: 1100px) {
+  .nav-rail {
+    padding: 0 10px;
+  }
+
+  nav[aria-label="Main navigation"] .navbar-brand {
+    font-size: clamp(22px, 2.6vw, 30px) !important;
+    white-space: nowrap; /* prevents brand wrapping */
+    padding: 14px 0 !important;
+  }
+
+  nav[aria-label="Main navigation"] .navbar-nav {
+    flex-wrap: nowrap; /* keep items on one line */
+    gap: clamp(4px, 1vw, 12px);
+    overflow-x: auto;  /* allows sideways scrolling if needed */
+    scrollbar-width: none; /* hide scrollbar for Firefox */
+  }
+
+  nav[aria-label="Main navigation"] .navbar-nav::-webkit-scrollbar {
+    display: none; /* hide scrollbar for WebKit */
+  }
+
+  nav[aria-label="Main navigation"] .navbar-nav > li > a {
+    font-size: clamp(13px, 1.8vw, 15px) !important;
+    white-space: nowrap; /* prevent link wrapping */
+    padding: 14px 4px !important;
+    margin: 0 4px !important;
+  }
+}
+
+/* Optional: tighter adjustments for very small phones */
+@media (max-width: 480px) {
+  nav[aria-label="Main navigation"] .navbar-brand {
+    font-size: clamp(20px, 5vw, 26px) !important;
+  }
+
+  nav[aria-label="Main navigation"] .navbar-nav > li > a {
+    font-size: 13px !important;
+  }
+}

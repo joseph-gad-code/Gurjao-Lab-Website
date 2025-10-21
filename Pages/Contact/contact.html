@@ -55,7 +55,7 @@ nav: contact
   /* === Contact top section layout === */
   .contact-top {
     display: flex;
-    align-items: stretch;
+    align-items: center;      /* centers vertically */
     justify-content: space-between;
     gap: 40px;
     margin-top: 40px;
@@ -63,56 +63,85 @@ nav: contact
   }
 
   .contact-left {
-    flex: 0 0 60%;
+    flex: 1 1 60%;
     font-family: 'Nunito', sans-serif;
     color: #000;
+    min-width: 0; /* prevents overflow on small screens */
   }
 
-.contact-right {
-  flex: 0 0 35%; /* reduces the horizontal footprint */
-  display: flex;
-  align-items: flex-start; /* top aligns the logo with text */
-  justify-content: center;
-}
+  .contact-right {
+    flex: 0 1 35%;
+    display: flex;
+    align-items: center; /* vertically centers image with text */
+    justify-content: center;
+  }
 
-.contact-logo-box {
-  max-height: 300px;  /* ✅ controls container height directly */
-  width: 100%;
-  border: 1px solid #eee;
-  border-radius: 10px;
-  padding: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
+  .contact-logo-box {
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background-color: #fff;
+  }
 
-.contact-logo-box img {
-  width: auto;
-  height: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  display: block;
-}
+  .contact-logo-box img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+    max-height: 200px; /* harmonizes image height with text block */
+  }
 
-  @media (max-width: 768px) {
+  /* === Responsive behaviour === */
+  @media (max-width: 950px) {
+    .contact-top {
+      gap: 20px;
+    }
+
+    .contact-left {
+      flex: 1 1 55%;
+    }
+
+    .contact-right {
+      flex: 1 1 40%;
+    }
+
+    .contact-logo-box img {
+      max-height: 160px;
+    }
+  }
+
+  /* For mobile: allow stacking, but centered and proportional */
+  @media (max-width: 700px) {
     .contact-top {
       flex-direction: column;
       align-items: center;
+      text-align: center;
     }
+
     .contact-left, .contact-right {
       flex: 1 1 100%;
-    }
-    .contact-logo-box {
-      max-width: 320px;
-      height: auto;
-    }
-    .contact-logo-box img {
-      height: auto;
       max-width: 100%;
+    }
+
+    .contact-logo-box {
+      max-width: 280px;
+      margin-top: 20px;
+    }
+
+    .contact-logo-box img {
+      width: 100%;
+      height: auto;
+      max-height: 150px;
     }
   }
 </style>
+
 
 <!-- Match Home's width rail -->
 <section style="max-width:1100px;margin:0 auto;padding:0 15px;">

@@ -149,7 +149,7 @@ h2 {
                   {% if author contains lab %}{% assign match = true %}{% endif %}
                 {% endfor %}
                 {% if match %}<strong>{{ abbreviated }}</strong>{% else %}{{ abbreviated }}{% endif %}
-                {% if forloop.last == false %}, {% endif %}
+                {% if forloop.last == false %},{% endif %}
               {% endfor %}
             {% endif %}
           </div>

@@ -17,7 +17,7 @@ nav: contact
     text-decoration: underline;
   }
 
-  /* === Overall section layout === */
+  /* === Page container === */
   section {
     max-width: 1100px;
     margin: 0 auto;
@@ -30,45 +30,45 @@ nav: contact
   /* === Flex container for text + logo === */
   .contact-top {
     display: flex;
-    align-items: stretch;          /* makes both columns equal height */
+    align-items: stretch;          /* Equal height columns */
     justify-content: space-between;
-    gap: 40px;
+    gap: 2vw;
     margin-top: 40px;
-    flex-wrap: nowrap;             /* keeps them side-by-side always */
-    overflow-x: hidden;            /* prevents horizontal scroll */
+    flex-wrap: nowrap;             /* Never wrap vertically */
+    overflow-x: hidden;
   }
 
-  /* === Left column (text) === */
+  /* === Text column === */
   .contact-left {
     flex: 1 1 50%;
     background-color: #fff;
     border-radius: 10px;
-    padding: 30px;
+    padding: 2vw;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-width: 0; /* prevents overflow text from stretching flexbox */
   }
 
-  /* === Right column (logo) === */
+  /* === Logo column === */
   .contact-right {
     flex: 1 1 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
-    padding: 30px;
-    box-sizing: border-box;
+    padding: 2vw;
     background-color: #fff;
+    min-width: 0;
   }
 
   .contact-logo-box {
     width: 100%;
     height: 100%;
-    max-height: 350px;
+    aspect-ratio: 1 / 1; /* keeps it proportional */
     border: 1px solid #eee;
     border-radius: 10px;
-    padding: 10px;
     background-color: #fff;
     display: flex;
     justify-content: center;
@@ -87,7 +87,7 @@ nav: contact
   /* === Text styling === */
   h2 {
     font-weight: 700;
-    font-size: 20px;
+    font-size: clamp(16px, 2vw, 20px);
     margin: 0 0 12px 0;
   }
 
@@ -100,9 +100,10 @@ nav: contact
   .contact-left p {
     margin: 4px 0;
     line-height: 1.6;
+    font-size: clamp(14px, 1.8vw, 16px);
   }
 
-  /* === Bottom section (open positions & contribute) === */
+  /* === Secondary section === */
   .contact-values-section {
     margin-top: 60px;
     text-align: center;
@@ -137,46 +138,48 @@ nav: contact
     line-height: 1.6;
   }
 
-  /* === Responsive behavior === */
-  @media (max-width: 850px) {
+  /* === Responsive: never stack, but scale === */
+  @media (max-width: 800px) {
     .contact-top {
-      flex-direction: row;
-      gap: 20px;
+      gap: 3vw;
     }
 
-    .contact-left, .contact-right {
-      flex: 1 1 50%;
-      padding: 20px;
+    .contact-left,
+    .contact-right {
+      padding: 3vw;
     }
 
     .contact-logo-box {
-      max-height: 300px;
+      aspect-ratio: auto;
+      height: auto;
     }
 
     .contact-logo-box img {
       width: 100%;
-      max-height: 100%;
     }
   }
 
-  @media (max-width: 600px) {
+  @media (max-width: 500px) {
     section {
-      padding: 0 10px;
+      padding: 0 8px;
+    }
+
+    .contact-left p {
+      font-size: clamp(12px, 3.5vw, 14px);
     }
 
     .contact-top {
-      flex-direction: column;
-      align-items: stretch;
+      gap: 2vw;
     }
 
-    .contact-left, .contact-right {
-      width: 100%;
-      flex: none;
-      padding: 20px;
+    .contact-left,
+    .contact-right {
+      flex: 1 1 50%;
+      padding: 3vw;
     }
 
-    .contact-logo-box {
-      max-height: 250px;
+    .contact-logo-box img {
+      width: 95%;
     }
   }
 </style>

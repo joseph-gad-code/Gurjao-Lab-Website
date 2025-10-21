@@ -17,40 +17,55 @@ nav: contact
     text-decoration: underline;
   }
 
-  /* === Section container === */
+  /* === Overall section layout === */
   section {
     max-width: 1100px;
     margin: 0 auto;
     padding: 0 15px;
     font-family: 'Nunito', sans-serif;
     color: #000;
+    box-sizing: border-box;
   }
 
-  /* === Top section layout (text + logo) === */
+  /* === Flex container for text + logo === */
   .contact-top {
     display: flex;
-    align-items: center;
+    align-items: stretch;          /* makes both columns equal height */
     justify-content: space-between;
     gap: 40px;
     margin-top: 40px;
-    flex-wrap: nowrap;
+    flex-wrap: nowrap;             /* keeps them side-by-side always */
+    overflow-x: hidden;            /* prevents horizontal scroll */
   }
 
+  /* === Left column (text) === */
   .contact-left {
-    flex: 1 1 60%;
-    min-width: 0;
+    flex: 1 1 50%;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
+  /* === Right column (logo) === */
   .contact-right {
-    flex: 0 1 35%;
+    flex: 1 1 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 10px;
+    padding: 30px;
+    box-sizing: border-box;
+    background-color: #fff;
   }
 
   .contact-logo-box {
     width: 100%;
-    max-width: 350px;
+    height: 100%;
+    max-height: 350px;
     border: 1px solid #eee;
     border-radius: 10px;
     padding: 10px;
@@ -58,17 +73,18 @@ nav: contact
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
   }
 
   .contact-logo-box img {
-    width: 100%;
+    width: 90%;
     height: auto;
-    max-height: 180px;
     object-fit: contain;
     display: block;
+    max-height: 100%;
   }
 
-  /* === Typography === */
+  /* === Text styling === */
   h2 {
     font-weight: 700;
     font-size: 20px;
@@ -86,7 +102,7 @@ nav: contact
     line-height: 1.6;
   }
 
-  /* === Bottom info boxes (Open positions, Contribute) === */
+  /* === Bottom section (open positions & contribute) === */
   .contact-values-section {
     margin-top: 60px;
     text-align: center;
@@ -122,26 +138,45 @@ nav: contact
   }
 
   /* === Responsive behavior === */
-  @media (max-width: 900px) {
+  @media (max-width: 850px) {
     .contact-top {
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 30px;
+      flex-direction: row;
+      gap: 20px;
     }
 
     .contact-left, .contact-right {
-      flex: 1 1 100%;
-      max-width: 100%;
+      flex: 1 1 50%;
+      padding: 20px;
     }
 
     .contact-logo-box {
-      max-width: 280px;
-      margin-top: 10px;
+      max-height: 300px;
     }
 
     .contact-logo-box img {
-      max-height: 150px;
+      width: 100%;
+      max-height: 100%;
+    }
+  }
+
+  @media (max-width: 600px) {
+    section {
+      padding: 0 10px;
+    }
+
+    .contact-top {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .contact-left, .contact-right {
+      width: 100%;
+      flex: none;
+      padding: 20px;
+    }
+
+    .contact-logo-box {
+      max-height: 250px;
     }
   }
 </style>

@@ -1,73 +1,111 @@
+<!-- Responsive Navbar -->
 <nav class="gurjaolab-navbar" role="navigation" aria-label="Main navigation">
   <div class="nav-rail">
     <!-- Brand -->
     <a class="navbar-brand" href="{{ '/' | relative_url }}">GURJAOLAB</a>
 
-    <!-- Hamburger toggle -->
+    <!-- Hamburger Button -->
     <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
       <span></span>
       <span></span>
       <span></span>
     </button>
 
-    <!-- Navigation links -->
+    <!-- Menu Links -->
     <ul class="nav-links">
-      <li {% if page.url == '/' %}class="active"{% endif %}><a href="{{ '/' | relative_url }}">Home</a></li>
-      <li {% if page.url contains '/research/' %}class="active"{% endif %}><a href="{{ '/research/' | relative_url }}">Research</a></li>
-      <li {% if page.url contains '/publications/' %}class="active"{% endif %}><a href="{{ '/publications/' | relative_url }}">Publications</a></li>
-      <li {% if page.url contains '/people/' %}class="active"{% endif %}><a href="{{ '/people/' | relative_url }}">People</a></li>
-      <li {% if page.url contains '/contact/' %}class="active"{% endif %}><a href="{{ '/contact/' | relative_url }}">Contact</a></li>
+      <li {% if page.url == '/' %}class="active"{% endif %}>
+        <a href="{{ '/' | relative_url }}">Home</a>
+      </li>
+      <li {% if page.url contains '/research/' %}class="active"{% endif %}>
+        <a href="{{ '/research/' | relative_url }}">Research</a>
+      </li>
+      <li {% if page.url contains '/publications/' %}class="active"{% endif %}>
+        <a href="{{ '/publications/' | relative_url }}">Publications</a>
+      </li>
+      <li {% if page.url contains '/people/' %}class="active"{% endif %}>
+        <a href="{{ '/people/' | relative_url }}">People</a>
+      </li>
+      <li {% if page.url contains '/contact/' %}class="active"{% endif %}>
+        <a href="{{ '/contact/' | relative_url }}">Contact</a>
+      </li>
     </ul>
   </div>
 </nav>
 
 <style>
-/* =======================================
-   SCOPE ALL RULES TO .gurjaolab-navbar
-   ======================================= */
+/* ===== Base Layout ===== */
 .gurjaolab-navbar {
   background: #fff;
   border-bottom: 0;
-  margin-bottom: 0;
+  margin: 0;
   width: 100%;
-  position: relative;
-  z-index: 1000;
+  margin-top: 24px; /* 🔹 padding above the navbar */
 }
 
-/* Layout container */
 .gurjaolab-navbar .nav-rail {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 0 15px;
+  padding: 20px 15px 10px; /* 🔹 extra padding on top */
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* Brand logo/text */
+/* ===== Brand ===== */
 .gurjaolab-navbar .navbar-brand {
-  color: #0D5295 !important;
+  color: #0D5295;
   font-weight: 800;
   font-family: 'Nunito', sans-serif;
-  font-size: clamp(26px, 3vw, 34px);
+  font-size: clamp(26px, 4vw, 34px);
   line-height: 1;
-  padding: 16px 0;
   text-decoration: none;
 }
 
-/* Hamburger menu button */
+/* ===== Links ===== */
+.gurjaolab-navbar .nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  gap: 10px;
+}
+
+.gurjaolab-navbar .nav-links li a {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  font-size: clamp(14px, 1.9vw, 16px);
+  color: #777;
+  text-decoration: none;
+  padding: 14px 0 6px;
+  transition: color 0.2s ease;
+}
+
+/* Preserve underline style for active page */
+.gurjaolab-navbar .nav-links li.active a {
+  color: #000;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+
+.gurjaolab-navbar .nav-links li a:hover {
+  color: #000;
+}
+
+/* ===== Hamburger Button ===== */
 .gurjaolab-navbar .menu-toggle {
   display: none;
   flex-direction: column;
   justify-content: space-between;
-  width: 26px;
+  width: 28px;
   height: 20px;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 1001;
 }
+
 .gurjaolab-navbar .menu-toggle span {
   display: block;
   height: 2px;
@@ -75,98 +113,56 @@
   background: #000;
   border-radius: 2px;
   transition: all 0.3s ease;
+  transform-origin: center; /* 🔹 ensures perfect X rotation */
 }
 
-/* Navigation links (desktop) */
-.gurjaolab-navbar .nav-links {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  gap: 0;
-  white-space: nowrap;
+/* 🔹 Perfectly symmetrical X */
+.gurjaolab-navbar .menu-toggle.open span:nth-child(1) {
+  transform: rotate(45deg) translateY(7px);
 }
-.gurjaolab-navbar .nav-links li {
-  list-style: none;
+.gurjaolab-navbar .menu-toggle.open span:nth-child(2) {
+  opacity: 0;
 }
-.gurjaolab-navbar .nav-links li a {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 600;
-  background: transparent !important;
-  position: relative;
-  display: inline-block;
-  margin: 0 10px;
-  line-height: 1.2;
-  padding: 14px 0 6px;
-  text-decoration: none !important;
-  font-size: clamp(14px, 1.9vw, 16px);
-  color: #777 !important;
-  transition: color 0.15s ease;
+.gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
+  transform: rotate(-45deg) translateY(-7px);
 }
 
-/* Hover, visited, and active underline (unchanged from your version) */
-.gurjaolab-navbar .nav-links li a:visited {
-  color: #777 !important;
-}
-.gurjaolab-navbar .nav-links li a:hover,
-.gurjaolab-navbar .nav-links li a:focus {
-  color: #000 !important;
-  text-decoration: none !important;
-}
-.gurjaolab-navbar .nav-links li.active > a,
-.gurjaolab-navbar .nav-links li.active > a:hover,
-.gurjaolab-navbar .nav-links li.active > a:focus {
-  color: #000 !important;
-  text-decoration: underline !important;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 6px;
-  background: transparent !important;
-}
-
-/* =======================================
-   Mobile view
-   ======================================= */
+/* ===== Mobile View ===== */
 @media (max-width: 768px) {
   .gurjaolab-navbar .menu-toggle {
     display: flex;
   }
 
   .gurjaolab-navbar .nav-links {
-    display: none;
     position: absolute;
-    top: 70px;
+    top: 80px; /* below navbar */
     left: 0;
     width: 100%;
     background: #fff;
     flex-direction: column;
     align-items: center;
-    padding: 40px 0;
     gap: 30px;
-    border-top: 1px solid #ddd;
+    padding: 40px 0;
+    display: none;
+    z-index: 1000;
   }
 
   .gurjaolab-navbar .nav-links.open {
     display: flex;
   }
 
-  /* Animate hamburger into a clean X */
-  .gurjaolab-navbar .menu-toggle.open span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-  .gurjaolab-navbar .menu-toggle.open span:nth-child(2) {
-    opacity: 0;
-  }
-  .gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
+  /* 🔹 Larger text in mobile dropdown */
+  .gurjaolab-navbar .nav-links li a {
+    font-size: 20px;
+    font-weight: 700;
   }
 }
 </style>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const toggle = document.querySelector(".gurjaolab-navbar .menu-toggle");
-  const links = document.querySelector(".gurjaolab-navbar .nav-links");
+  const toggle = document.querySelector(".menu-toggle");
+  const links = document.querySelector(".nav-links");
 
   toggle.addEventListener("click", () => {
     const isOpen = toggle.classList.toggle("open");

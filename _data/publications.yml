@@ -256,7 +256,7 @@
   - Hanina Hibshoosh
   - Benjamin Izar
   selected_publication: true
-  image: '/Pages/Publications/Images/Paper_2025.png'
+  image: /Pages/Publications/Images/Paper_2025.png
   authors_str: C Gurjao, E Chan, MJ Lee, S Hangai, R Rabadan, T Korem, H Hibshoosh,
     ...
 - title: Bayesian risk prediction model for colorectal cancer mortality through integration
@@ -442,7 +442,7 @@
   - Shuji Ogino
   - Marios Giannakis
   selected_publication: true
-  image: '/Pages/Publications/Images/Paper_2021.jpeg'
+  image: /Pages/Publications/Images/Paper_2021.jpeg
   authors_str: C Gurjao*, R Zhong*, K Haruki*, YY Li, LF Spurr, H Lee-Six, B Reardon,
     ...
 - title: Dynamic single-cell RNA sequencing identifies immunotherapy persister cells

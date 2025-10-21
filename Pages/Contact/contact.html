@@ -6,6 +6,7 @@ nav: contact
 ---
 
 <style>
+  /* === General link styling === */
   a.contact-link {
     text-decoration: none;
     color: #6495EC;
@@ -16,11 +17,79 @@ nav: contact
     text-decoration: underline;
   }
 
+  /* === Section container === */
+  section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 15px;
+    font-family: 'Nunito', sans-serif;
+    color: #000;
+  }
+
+  /* === Top section layout (text + logo) === */
+  .contact-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: 40px;
+    flex-wrap: nowrap;
+  }
+
+  .contact-left {
+    flex: 1 1 60%;
+    min-width: 0;
+  }
+
+  .contact-right {
+    flex: 0 1 35%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contact-logo-box {
+    width: 100%;
+    max-width: 350px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .contact-logo-box img {
+    width: 100%;
+    height: auto;
+    max-height: 180px;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* === Typography === */
+  h2 {
+    font-weight: 700;
+    font-size: 20px;
+    margin: 0 0 12px 0;
+  }
+
+  .contact-left ul {
+    margin: 0 0 16px 0;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .contact-left p {
+    margin: 4px 0;
+    line-height: 1.6;
+  }
+
+  /* === Bottom info boxes (Open positions, Contribute) === */
   .contact-values-section {
     margin-top: 60px;
     text-align: center;
-    font-family: 'Nunito', sans-serif;
-    color: #000;
   }
 
   .contact-values-grid {
@@ -52,76 +121,13 @@ nav: contact
     line-height: 1.6;
   }
 
-  /* === Contact top section layout === */
-  .contact-top {
-    display: flex;
-    align-items: center;      /* centers vertically */
-    justify-content: space-between;
-    gap: 40px;
-    margin-top: 40px;
-    flex-wrap: nowrap;
-  }
-
-  .contact-left {
-    flex: 1 1 60%;
-    font-family: 'Nunito', sans-serif;
-    color: #000;
-    min-width: 0; /* prevents overflow on small screens */
-  }
-
-  .contact-right {
-    flex: 0 1 35%;
-    display: flex;
-    align-items: center; /* vertically centers image with text */
-    justify-content: center;
-  }
-
-  .contact-logo-box {
-    width: 100%;
-    max-width: 400px;
-    border: 1px solid #eee;
-    border-radius: 10px;
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background-color: #fff;
-  }
-
-  .contact-logo-box img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-    max-height: 200px; /* harmonizes image height with text block */
-  }
-
-  /* === Responsive behaviour === */
-  @media (max-width: 950px) {
-    .contact-top {
-      gap: 20px;
-    }
-
-    .contact-left {
-      flex: 1 1 55%;
-    }
-
-    .contact-right {
-      flex: 1 1 40%;
-    }
-
-    .contact-logo-box img {
-      max-height: 160px;
-    }
-  }
-
-  /* For mobile: allow stacking, but centered and proportional */
-  @media (max-width: 700px) {
+  /* === Responsive behavior === */
+  @media (max-width: 900px) {
     .contact-top {
       flex-direction: column;
       align-items: center;
       text-align: center;
+      gap: 30px;
     }
 
     .contact-left, .contact-right {
@@ -131,78 +137,61 @@ nav: contact
 
     .contact-logo-box {
       max-width: 280px;
-      margin-top: 20px;
+      margin-top: 10px;
     }
 
     .contact-logo-box img {
-      width: 100%;
-      height: auto;
       max-height: 150px;
     }
   }
 </style>
 
+<!-- === Main Contact Section === -->
+<section>
 
-<!-- Match Home's width rail -->
-<section style="max-width:1100px;margin:0 auto;padding:0 15px;">
-
-  <!-- Top row (side-by-side flex with equal heights) -->
   <div class="contact-top">
 
-    <!-- LEFT: Text -->
+    <!-- LEFT COLUMN: Info -->
     <div class="contact-left">
-
-      <h2 style="font-weight:700;font-size:20px;margin-top:0;margin-bottom:12px;">Affiliations</h2>
-      <ul class="list-unstyled" style="margin:0 0 16px 0;">
+      <h2>Affiliations</h2>
+      <ul>
         <li>Institut de recherche en immunologie et en cancérologie (IRIC)</li>
         <li>Department of Medicine, Faculty of Medicine, Université de Montréal</li>
       </ul>
 
-      <div style="line-height:1.6;">
-        <p style="font-weight:700;margin:12px 0 4px;">Address:</p>
-        <p style="margin:0;">Marcelle-Coutu Pavilion</p>
-        <p style="margin:0;">2950 Chemin de Polytechnique</p>
-        <p style="margin:0;">Montréal, QC H3T 1J4, Canada</p>
+      <div>
+        <p><strong>Address:</strong></p>
+        <p>Marcelle-Coutu Pavilion</p>
+        <p>2950 Chemin de Polytechnique</p>
+        <p>Montréal, QC H3T 1J4, Canada</p>
 
-        <p style="font-weight:700;margin:16px 0 4px;">Phone:</p>
-        <p style="margin:0;">
-          <a href="tel:+15143436111" class="contact-link">(514) 343-6111, ext. 17206</a>
-        </p>
+        <p style="margin-top: 16px;"><strong>Phone:</strong></p>
+        <p><a href="tel:+15143436111" class="contact-link">(514) 343-6111, ext. 17206</a></p>
 
-        <p style="font-weight:700;margin:16px 0 4px;">Email:</p>
-        <p style="margin:0;">
-          <a href="mailto:carino.gurjao@umontreal.ca" class="contact-link">
-            carino.gurjao@umontreal.ca
-          </a>
-        </p>
+        <p style="margin-top: 16px;"><strong>Email:</strong></p>
+        <p><a href="mailto:carino.gurjao@umontreal.ca" class="contact-link">carino.gurjao@umontreal.ca</a></p>
       </div>
     </div>
 
-    <!-- RIGHT: Logo -->
+    <!-- RIGHT COLUMN: Logo -->
     <div class="contact-right">
-     <div class="contact-logo-box" style="text-align:center;">
-       <img src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}" 
-         alt="Université de Montréal – IRIC Logo"
-         style="width: 70%; height: auto;">
-     </div>
+      <div class="contact-logo-box">
+        <img src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}"
+             alt="Université de Montréal – IRIC Logo">
+      </div>
     </div>
-
   </div>
 
-  <!-- Bottom section (formatted like Core Values) -->
+  <!-- === Secondary Section (Open Positions, Contribute) === -->
   <section class="contact-values-section">
     <div class="contact-values-grid">
       <div class="contact-value-col">
         <h3>Open positions</h3>
-        <p>
-          We are currently open to hiring at all levels. Please send applications to the e-mail address above.
-        </p>
+        <p>We are currently open to hiring at all levels. Please send applications to the e-mail address above.</p>
       </div>
       <div class="contact-value-col">
         <h3>Contribute</h3>
-        <p>
-          We welcome all types of contributions — collaborations, donations, or ideas to make our science more accessible and open source. Get in touch by e-mail!
-        </p>
+        <p>We welcome all types of contributions — collaborations, donations, or ideas to make our science more accessible and open source. Get in touch by e-mail!</p>
       </div>
     </div>
   </section>

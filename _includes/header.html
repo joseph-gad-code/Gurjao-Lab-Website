@@ -1,46 +1,41 @@
-<nav class="navbar" role="navigation" aria-label="Main navigation">
+<nav class="gurjaolab-navbar" role="navigation" aria-label="Main navigation">
   <div class="nav-rail">
     <!-- Brand -->
     <a class="navbar-brand" href="{{ '/' | relative_url }}">GURJAOLAB</a>
 
-    <!-- Hamburger button -->
+    <!-- Hamburger toggle -->
     <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
       <span></span>
       <span></span>
       <span></span>
     </button>
 
-    <!-- Menu Links -->
+    <!-- Navigation links -->
     <ul class="nav-links">
-      <li {% if page.url == '/' %}class="active"{% endif %}>
-        <a href="{{ '/' | relative_url }}">Home</a>
-      </li>
-      <li {% if page.url contains '/research/' %}class="active"{% endif %}>
-        <a href="{{ '/research/' | relative_url }}">Research</a>
-      </li>
-      <li {% if page.url contains '/publications/' %}class="active"{% endif %}>
-        <a href="{{ '/publications/' | relative_url }}">Publications</a>
-      </li>
-      <li {% if page.url contains '/people/' %}class="active"{% endif %}>
-        <a href="{{ '/people/' | relative_url }}">People</a>
-      </li>
-      <li {% if page.url contains '/contact/' %}class="active"{% endif %}>
-        <a href="{{ '/contact/' | relative_url }}">Contact</a>
-      </li>
+      <li {% if page.url == '/' %}class="active"{% endif %}><a href="{{ '/' | relative_url }}">Home</a></li>
+      <li {% if page.url contains '/research/' %}class="active"{% endif %}><a href="{{ '/research/' | relative_url }}">Research</a></li>
+      <li {% if page.url contains '/publications/' %}class="active"{% endif %}><a href="{{ '/publications/' | relative_url }}">Publications</a></li>
+      <li {% if page.url contains '/people/' %}class="active"{% endif %}><a href="{{ '/people/' | relative_url }}">People</a></li>
+      <li {% if page.url contains '/contact/' %}class="active"{% endif %}><a href="{{ '/contact/' | relative_url }}">Contact</a></li>
     </ul>
   </div>
 </nav>
 
 <style>
-/* ===== Base Layout ===== */
-.navbar {
+/* =======================================
+   SCOPE ALL RULES TO .gurjaolab-navbar
+   ======================================= */
+.gurjaolab-navbar {
   background: #fff;
   border-bottom: 0;
   margin-bottom: 0;
   width: 100%;
+  position: relative;
+  z-index: 1000;
 }
 
-.nav-rail {
+/* Layout container */
+.gurjaolab-navbar .nav-rail {
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 15px;
@@ -49,50 +44,19 @@
   justify-content: space-between;
 }
 
-/* ===== Brand ===== */
-.navbar-brand {
-  color: #0D5295;
+/* Brand logo/text */
+.gurjaolab-navbar .navbar-brand {
+  color: #0D5295 !important;
   font-weight: 800;
   font-family: 'Nunito', sans-serif;
-  font-size: clamp(26px, 4vw, 34px);
+  font-size: clamp(26px, 3vw, 34px);
   line-height: 1;
   padding: 16px 0;
   text-decoration: none;
 }
 
-/* ===== Links ===== */
-.nav-links {
-  list-style: none;
-  display: flex;
-  align-items: center;
-  margin: 0;
-  padding: 0;
-  gap: 10px;
-}
-
-.nav-links li a {
-  font-family: 'Nunito', sans-serif;
-  font-weight: 600;
-  font-size: clamp(14px, 1.9vw, 16px);
-  color: #777;
-  text-decoration: none;
-  padding: 14px 0 6px;
-  transition: color 0.2s ease;
-}
-
-.nav-links li a:hover {
-  color: #000;
-}
-
-.nav-links li.active a {
-  color: #000;
-  text-decoration: underline;
-  text-underline-offset: 6px;
-  text-decoration-thickness: 2px;
-}
-
-/* ===== Hamburger Button ===== */
-.menu-toggle {
+/* Hamburger menu button */
+.gurjaolab-navbar .menu-toggle {
   display: none;
   flex-direction: column;
   justify-content: space-between;
@@ -102,9 +66,9 @@
   border: none;
   cursor: pointer;
   padding: 0;
+  z-index: 1001;
 }
-
-.menu-toggle span {
+.gurjaolab-navbar .menu-toggle span {
   display: block;
   height: 2px;
   width: 100%;
@@ -113,13 +77,63 @@
   transition: all 0.3s ease;
 }
 
-/* ===== Mobile View ===== */
+/* Navigation links (desktop) */
+.gurjaolab-navbar .nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  gap: 0;
+  white-space: nowrap;
+}
+.gurjaolab-navbar .nav-links li {
+  list-style: none;
+}
+.gurjaolab-navbar .nav-links li a {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
+  background: transparent !important;
+  position: relative;
+  display: inline-block;
+  margin: 0 10px;
+  line-height: 1.2;
+  padding: 14px 0 6px;
+  text-decoration: none !important;
+  font-size: clamp(14px, 1.9vw, 16px);
+  color: #777 !important;
+  transition: color 0.15s ease;
+}
+
+/* Hover, visited, and active underline (unchanged from your version) */
+.gurjaolab-navbar .nav-links li a:visited {
+  color: #777 !important;
+}
+.gurjaolab-navbar .nav-links li a:hover,
+.gurjaolab-navbar .nav-links li a:focus {
+  color: #000 !important;
+  text-decoration: none !important;
+}
+.gurjaolab-navbar .nav-links li.active > a,
+.gurjaolab-navbar .nav-links li.active > a:hover,
+.gurjaolab-navbar .nav-links li.active > a:focus {
+  color: #000 !important;
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+  background: transparent !important;
+}
+
+/* =======================================
+   Mobile view
+   ======================================= */
 @media (max-width: 768px) {
-  .menu-toggle {
+  .gurjaolab-navbar .menu-toggle {
     display: flex;
   }
 
-  .nav-links {
+  .gurjaolab-navbar .nav-links {
+    display: none;
     position: absolute;
     top: 70px;
     left: 0;
@@ -127,23 +141,23 @@
     background: #fff;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
     padding: 40px 0;
-    display: none;
+    gap: 30px;
+    border-top: 1px solid #ddd;
   }
 
-  .nav-links.open {
+  .gurjaolab-navbar .nav-links.open {
     display: flex;
   }
 
   /* Animate hamburger to X */
-  .menu-toggle.open span:nth-child(1) {
+  .gurjaolab-navbar .menu-toggle.open span:nth-child(1) {
     transform: rotate(45deg) translateY(8px);
   }
-  .menu-toggle.open span:nth-child(2) {
+  .gurjaolab-navbar .menu-toggle.open span:nth-child(2) {
     opacity: 0;
   }
-  .menu-toggle.open span:nth-child(3) {
+  .gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
     transform: rotate(-45deg) translateY(-8px);
   }
 }
@@ -151,8 +165,8 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  const toggle = document.querySelector(".menu-toggle");
-  const links = document.querySelector(".nav-links");
+  const toggle = document.querySelector(".gurjaolab-navbar .menu-toggle");
+  const links = document.querySelector(".gurjaolab-navbar .nav-links");
 
   toggle.addEventListener("click", () => {
     const isOpen = toggle.classList.toggle("open");

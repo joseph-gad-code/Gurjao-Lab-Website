@@ -18,6 +18,10 @@ lab_names:
   --border: #eee;
   --card-bg: #fff;
   --white: #fff;
+
+  /* new: theme-matched card border */
+  --card-border: rgba(13, 82, 149, 0.25);  /* Gurjao blue @ 25% */
+  --card-border-hover: rgba(13, 82, 149, 0.45);
 }
 
 /* Layout */
@@ -53,10 +57,19 @@ h2 {
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
   padding: 14px 16px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   object-fit: contain;
+
+  /* changed: explicit themed border */
+  border: 1.5px solid var(--card-border);
 }
-.pub-card:hover { transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.12); }
+.pub-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+  border-color: var(--card-border-hover);
+}
+
+.pub-image-link { display: block; line-height: 0; } /* keep layout tidy when image is a link */
 
 .pub-image {
   width: 120px;
@@ -119,8 +132,16 @@ h2 {
     {% for p in selected %}
       <div class="pub-card">
         {% if p.image %}
-          <img src="{{ p.image | relative_url }}" alt="{{ p.title }}" class="pub-image">
+          {% capture link_url %}{% if p.doi %}https://doi.org/{{ p.doi }}{% elsif p.url %}{{ p.url }}{% endif %}{% endcapture %}
+          {% if link_url != "" %}
+            <a href="{{ link_url }}" target="_blank" rel="noopener" class="pub-image-link">
+              <img src="{{ p.image | relative_url }}" alt="{{ p.title }}" class="pub-image">
+            </a>
+          {% else %}
+            <img src="{{ p.image | relative_url }}" alt="{{ p.title }}" class="pub-image">
+          {% endif %}
         {% endif %}
+
         <div class="pub-content">
           <div class="pub-title">
             {% if p.doi %}
@@ -173,11 +194,9 @@ h2 {
 
   <h2>Full List</h2>
 
-  {%- comment -%} non-selected pubs {%- endcomment -%}
   {%- assign non_sel_a = _pubs | where_exp:"p","p.selected_publication != true" -%}
   {%- assign others    = non_sel_a | where_exp:"p","p.selected_publication != 'yes'" -%}
 
-  {%- comment -%} build a unique, sorted DESC list of years as strings {%- endcomment -%}
   {%- capture _year_pipe -%}
     {%- for p in others -%}
       {%- assign yy = p.year | first | default: p.year | append: '' -%}
@@ -187,15 +206,11 @@ h2 {
   {%- assign years = _year_pipe | split:'|' | compact | uniq | sort | reverse -%}
 
   {% for y in years %}
-    <h3 style="margin-top: 30px; border-bottom: 1px solid var(--border); padding-bottom: 4px; color: var(--black);">
+    <h3 style="margin-top: 30px; border-bottom: 1px solid var(--border); padding-bottom: 4px; color: var(--blue);">
       {{ y }}
     </h3>
 
     <div class="pub-list">
-      {%- comment -%}
-        Filter inside the loop to avoid where_exp parsing issues.
-        Normalize per-item year to string and compare to y.
-      {%- endcomment -%}
       {% for p in others %}
         {%- assign py = p.year | first | default: p.year | append: '' -%}
         {% if py == y %}

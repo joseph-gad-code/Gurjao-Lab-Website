@@ -158,6 +158,19 @@ nav: home
 /* Equal-height Mission + News only on desktop */
 .mission-news-row {
   display: flex;
+  align-items: stretch; /* ensures equal height columns */
+}
+
+.news-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Allow scrolling on desktop */
+.news-scroll {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding-right: 6px;
 }
 
 /* MOBILE: stack and constrain height */
@@ -173,17 +186,13 @@ nav: home
 
   .news-col {
     margin-top: 20px;
-    display: flex;
-    flex-direction: column;
-    max-height: 60vh;
+    max-height: 60vh;  /* only limit height on mobile */
     overflow: hidden;
   }
 
   .news-scroll {
-    flex: 1 1 auto;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
-    padding-right: 6px;
   }
 }
 </style>

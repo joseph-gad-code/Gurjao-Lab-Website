@@ -155,25 +155,23 @@
 /* ===== Desktop override: inline menu only on devices with hover+fine pointer ===== */
 @media (hover: hover) and (pointer: fine) {
   .gurjaolab-navbar .menu-toggle { display: none; }
+
   .gurjaolab-navbar .nav-links {
     position: static;
     display: flex !important;
     flex-direction: row;
     align-items: center;
-    padding: 0;
-    box-shadow: none;
     margin-left: auto;
     justify-content: flex-end;
-    gap: clamp(24px, 3vw, 50px);
+    gap: clamp(24px, 3vw, 50px); /* spacing between tab names */
+    padding: 0;
+    box-shadow: none;
   }
+
   .gurjaolab-navbar .nav-links li a {
     font-weight: 600;
-    font-size: clamp(14px, 1.9vw, 16px);
-    padding: 56px 24px;
-    gap: 36px;
-    font-size: 40px;
-    max-height: calc(100dvh - 64px);
-    overflow-y: auto;
+    font-size: clamp(14px, 1.9vw, 16px); /* keep tabs modest on desktop */
+    padding: 14px 0 6px;                 /* normal header height */
   }
 }
 

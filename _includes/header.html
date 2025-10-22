@@ -101,8 +101,8 @@
 .gurjaolab-navbar .nav-links li.active a {
   color: #000;
   text-decoration: underline;
-  text-underline-offset: 6px;
-  text-decoration-thickness: 2px;
+  text-underline-offset: 8px;
+  text-decoration-thickness: 3px;
 }
 
 .gurjaolab-navbar .nav-links li a:hover { color: #000; }
@@ -169,7 +169,11 @@
   .gurjaolab-navbar .nav-links li a {
     font-weight: 600;
     font-size: clamp(14px, 1.9vw, 16px);
-    padding: 14px 0 6px;
+    padding: 56px 24px;
+    gap: 36px;
+    font-size: 40px;
+    max-height: calc(100dvh - 64px);
+    overflow-y: auto;
   }
 }
 

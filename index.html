@@ -154,3 +154,22 @@ nav: home
     </aside>
   </div>
 </div>
+
+<style>
+/* Ensure the news section remains scrollable on mobile */
+@media (max-width: 767px) {
+  /* Stack mission + news vertically */
+  .container .row > .col-xs-8,
+  .container .row > .col-xs-4 {
+    width: 100% !important;
+  }
+
+  /* Scrollable news box on small screens */
+  aside.col-xs-4 {
+    max-height: 60vh !important;
+    overflow-y: auto !important;
+    margin-top: 20px;
+    padding-right: 6px;
+  }
+}
+</style>

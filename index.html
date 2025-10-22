@@ -120,7 +120,7 @@ nav: home
 
     <aside class="col-xs-4" style="font-family:'Nunito';color:#000;display:block;">
       <h2 style="font-weight:700;font-size:20px;margin-bottom:25px;">Latest news</h2>
-      <div style="flex-grow:1;max-height:100%;overflow-y:auto;padding-right:4px;">
+      <div style="flex-grow:1;max-height:60vh;overflow-y:auto;padding-right:4px;">
         {% assign items = site.data.news | sort: "date" | reverse %}
         {% if items and items.size > 0 %}
           {% for n in items %}

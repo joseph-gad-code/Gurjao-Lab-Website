@@ -5,14 +5,15 @@
     <a class="navbar-brand" href="{{ '/' | relative_url }}">GURJAOLAB</a>
 
     <!-- Hamburger Button -->
-    <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
+    <button class="menu-toggle"
+            aria-label="Toggle navigation"
+            aria-expanded="false"
+            aria-controls="primary-nav">
+      <span></span><span></span><span></span>
     </button>
 
     <!-- Menu Links -->
-    <ul class="nav-links">
+    <ul id="primary-nav" class="nav-links" hidden>
       <li {% if page.url == '/' %}class="active"{% endif %}>
         <a href="{{ '/' | relative_url }}">Home</a>
       </li>
@@ -39,13 +40,14 @@
   border-bottom: 0;
   margin: 0;
   width: 100%;
-  margin-top: 24px; /* 🔹 padding above the navbar */
+  margin-top: 24px;
+  position: relative;
 }
 
 .gurjaolab-navbar .nav-rail {
   max-width: 1100px;
   margin: 0 auto;
-  padding: 20px 15px 10px; /* 🔹 extra padding on top */
+  padding: 20px 15px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -53,7 +55,7 @@
 
 /* ===== Brand ===== */
 .gurjaolab-navbar .navbar-brand {
-  color: #0D5295;
+  color: #0D5295;                /* brand blue */
   font-weight: 800;
   font-family: 'Nunito', sans-serif;
   font-size: clamp(26px, 4vw, 34px);
@@ -61,27 +63,40 @@
   text-decoration: none;
 }
 
-/* ===== Links ===== */
+/* ===== Links (drawer defaults) ===== */
 .gurjaolab-navbar .nav-links {
   list-style: none;
-  display: flex;
-  align-items: center;
   margin: 0;
   padding: 0;
-  gap: 10px;
+
+  /* Drawer positioning by default (all devices) */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 40px 0;
+  z-index: 1000;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.08);
 }
+
+.gurjaolab-navbar .nav-links.open { display: flex; }
+.gurjaolab-navbar .nav-links[hidden] { display: none !important; }
 
 .gurjaolab-navbar .nav-links li a {
   font-family: 'Nunito', sans-serif;
-  font-weight: 600;
-  font-size: clamp(14px, 1.9vw, 16px);
+  font-weight: 700;              /* bold in drawer for readability */
+  font-size: 20px;               /* base drawer size (will increase on touch below) */
   color: #777;
   text-decoration: none;
-  padding: 14px 0 6px;
+  padding: 8px 0;
   transition: color 0.2s ease;
 }
 
-/* Preserve underline style for active page */
 .gurjaolab-navbar .nav-links li.active a {
   color: #000;
   text-decoration: underline;
@@ -89,17 +104,15 @@
   text-decoration-thickness: 2px;
 }
 
-.gurjaolab-navbar .nav-links li a:hover {
-  color: #000;
-}
+.gurjaolab-navbar .nav-links li a:hover { color: #000; }
 
-/* ===== Hamburger Button ===== */
+/* ===== Hamburger Button (CodePen-inspired) ===== */
+/* 28×16 track, 4px bars; bars slide to center then rotate ±45°, middle fades */
 .gurjaolab-navbar .menu-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
+  position: relative;
   width: 28px;
-  height: 20px;
+  height: 16px;
+  display: flex;   /* maintain box size; spans positioned absolutely */
   background: none;
   border: none;
   cursor: pointer;
@@ -107,67 +120,133 @@
 }
 
 .gurjaolab-navbar .menu-toggle span {
-  display: block;
-  height: 2px;
+  position: absolute;
+  left: 0;
   width: 100%;
-  background: #000;
+  height: 4px;
+  background: #bbb;
   border-radius: 2px;
-  transition: all 0.3s ease;
-  transform-origin: center; /* 🔹 ensures perfect X rotation */
+  transition: transform .3s ease-out, opacity .1s ease-out, top .3s ease-out;
+  transform-origin: center;
 }
 
-/* 🔹 Perfectly symmetrical X */
+.gurjaolab-navbar .menu-toggle span:nth-child(1) { top: 0; }
+.gurjaolab-navbar .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.gurjaolab-navbar .menu-toggle span:nth-child(3) { top: 100%; transform: translateY(-100%); }
+
 .gurjaolab-navbar .menu-toggle.open span:nth-child(1) {
-  transform: rotate(45deg) translateY(7px);
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
 }
 .gurjaolab-navbar .menu-toggle.open span:nth-child(2) {
   opacity: 0;
 }
 .gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
-  transform: rotate(-45deg) translateY(-7px);
+  top: 50%;
+  transform: translateY(-50%) rotate(-45deg);
 }
 
-/* ===== Mobile View ===== */
-@media (max-width: 768px) {
-  .gurjaolab-navbar .menu-toggle {
-    display: flex;
-  }
+/* Hover affordance for desktop pointers */
+@media (hover:hover) and (pointer:fine) {
+  .gurjaolab-navbar .menu-toggle:hover span { background: #000; }
+}
 
+/* ===== Desktop override: inline menu only on devices with hover+fine pointer ===== */
+@media (hover: hover) and (pointer: fine) {
+  .gurjaolab-navbar .menu-toggle { display: none; }
   .gurjaolab-navbar .nav-links {
-    position: absolute;
-    top: 80px; /* below navbar */
-    left: 0;
-    width: 100%;
-    background: #fff;
-    flex-direction: column;
+    position: static;
+    display: flex !important;
+    flex-direction: row;
     align-items: center;
-    gap: 30px;
-    padding: 40px 0;
-    display: none;
-    z-index: 1000;
+    gap: 10px;
+    padding: 0;
+    box-shadow: none;
   }
-
-  .gurjaolab-navbar .nav-links.open {
-    display: flex;
-  }
-
-  /* 🔹 Larger text in mobile dropdown */
   .gurjaolab-navbar .nav-links li a {
-    font-size: 20px;
-    font-weight: 700;
+    font-weight: 600;
+    font-size: clamp(14px, 1.9vw, 16px);
+    padding: 14px 0 6px;
   }
+}
+
+/* ===== Touch / mobile-first typography bump (brand + drawer) ===== */
+@media (hover: none) {
+  /* Bigger brand on phones/tablets */
+  .gurjaolab-navbar .navbar-brand {
+    font-size: clamp(34px, 8vw, 48px);
+    line-height: 1.05;
+    letter-spacing: 0.2px;
+  }
+  /* Larger dropdown text & touch targets */
+  .gurjaolab-navbar .nav-links li a {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.3;
+    padding: 12px 0;  /* taller tap area */
+  }
+  .gurjaolab-navbar .nav-links {
+    gap: 36px;       /* a bit more breathing room */
+  }
+}
+
+/* Extra-narrow phones: tiny nudge */
+@media (max-width: 360px) {
+  .gurjaolab-navbar .navbar-brand { font-size: clamp(32px, 9vw, 50px); }
+  .gurjaolab-navbar .nav-links li a { font-size: 23px; }
 }
 </style>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const toggle = document.querySelector(".menu-toggle");
-  const links = document.querySelector(".nav-links");
+  const links  = document.querySelector("#primary-nav");
+  const body   = document.body;
 
-  toggle.addEventListener("click", () => {
-    const isOpen = toggle.classList.toggle("open");
-    links.classList.toggle("open", isOpen);
-    toggle.setAttribute("aria-expanded", isOpen);
+  function openMenu() {
+    toggle.classList.add("open");
+    toggle.setAttribute("aria-expanded", "true");
+    links.classList.add("open");
+    links.removeAttribute("hidden");
+    body.style.overflow = "hidden";     // scroll lock behind drawer
+  }
+  function closeMenu() {
+    toggle.classList.remove("open");
+    toggle.setAttribute("aria-expanded", "false");
+    links.classList.remove("open");
+    links.setAttribute("hidden", "");
+    body.style.overflow = "";
+  }
+  const isOpen = () => toggle.classList.contains("open");
+
+  // Toggle click
+  toggle.addEventListener("click", () => (isOpen() ? closeMenu() : openMenu()));
+
+  // Close on Escape
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isOpen()) closeMenu();
   });
+
+  // Click outside to close
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".gurjaolab-navbar") && isOpen()) closeMenu();
+  });
+
+  // Keep states sane across input-mode changes
+  const desktopQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+  function handleDesktopChange(e) {
+    if (e.matches) {
+      // Desktop inline: menu visible, no drawer state
+      body.style.overflow = "";
+      toggle.classList.remove("open");
+      links.classList.remove("open");
+      links.removeAttribute("hidden");
+    } else {
+      // Touch/tablet: start closed
+      closeMenu();
+    }
+  }
+  handleDesktopChange(desktopQuery);
+  desktopQuery.addEventListener("change", handleDesktopChange);
 });
 </script>

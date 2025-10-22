@@ -42,7 +42,6 @@
   width: 100%;
   margin-top: 24px;
   position: relative;
-  
 }
 
 .gurjaolab-navbar .nav-rail {
@@ -56,7 +55,7 @@
 
 /* ===== Brand ===== */
 .gurjaolab-navbar .navbar-brand {
-  color: #0D5295;                /* brand blue */
+  color: #0D5295;
   font-weight: 800;
   font-family: 'Nunito', sans-serif;
   font-size: clamp(26px, 4vw, 34px);
@@ -69,8 +68,6 @@
   list-style: none;
   margin: 0;
   padding: 0;
-
-  /* Drawer positioning by default (all devices) */
   position: absolute;
   top: 100%;
   left: 0;
@@ -85,18 +82,24 @@
   box-shadow: 0 12px 24px rgba(0,0,0,0.08);
 }
 
-.gurjaolab-navbar .nav-links.open { display: flex; }
-.gurjaolab-navbar .nav-links[hidden] { display: none !important; }
-
+/* --- UPDATED: larger base font for dropdown --- */
 .gurjaolab-navbar .nav-links li a {
   font-family: 'Nunito', sans-serif;
-  font-weight: 700;              /* bold in drawer for readability */
-  font-size: 20px;               /* base drawer size (will increase on touch below) */
+  font-weight: 700;
+  font-size: 24px;        /* was 20px */
   color: #777;
   text-decoration: none;
-  padding: 8px 0;
+  padding: 14px 0;        /* taller tap area */
+  line-height: 1.35;
   transition: color 0.2s ease;
 }
+
+.gurjaolab-navbar .nav-links {
+  gap: 36px;              /* more spacing between items */
+}
+
+.gurjaolab-navbar .nav-links.open { display: flex; }
+.gurjaolab-navbar .nav-links[hidden] { display: none !important; }
 
 .gurjaolab-navbar .nav-links li.active a {
   color: #000;
@@ -108,12 +111,11 @@
 .gurjaolab-navbar .nav-links li a:hover { color: #000; }
 
 /* ===== Hamburger Button (CodePen-inspired) ===== */
-/* 28×16 track, 4px bars; bars slide to center then rotate ±45°, middle fades */
 .gurjaolab-navbar .menu-toggle {
   position: relative;
   width: 40px;
   height: 24px;
-  display: flex;   /* maintain box size; spans positioned absolutely */
+  display: flex;
   background: none;
   border: none;
   cursor: pointer;
@@ -163,35 +165,34 @@
     align-items: center;
     margin-left: auto;
     justify-content: flex-end;
-    gap: clamp(24px, 3vw, 50px); /* spacing between tab names */
+    gap: clamp(24px, 3vw, 50px);
     padding: 0;
     box-shadow: none;
   }
 
+  /* --- unchanged desktop sizes --- */
   .gurjaolab-navbar .nav-links li a {
     font-weight: 600;
-    font-size: clamp(14px, 1.9vw, 16px); /* keep tabs modest on desktop */
-    padding: 14px 0 6px;                 /* normal header height */
+    font-size: clamp(14px, 1.9vw, 16px);
+    padding: 14px 0 6px;
   }
+}
+
+/* --- Fallback for devices misreporting hover (narrow screens) --- */
+@media (max-width: 900px) {
+  .gurjaolab-navbar .nav-links li a {
+    font-size: 24px;   /* same as base dropdown */
+    padding: 14px 0;
+  }
+  .gurjaolab-navbar .nav-links { gap: 36px; }
 }
 
 /* ===== Touch / mobile-first typography bump (brand + drawer) ===== */
 @media (hover: none) {
-  /* Bigger brand on phones/tablets */
   .gurjaolab-navbar .navbar-brand {
     font-size: clamp(34px, 8vw, 48px);
     line-height: 1.05;
     letter-spacing: 0.2px;
-  }
-  /* Larger dropdown text & touch targets */
-  .gurjaolab-navbar .nav-links li a {
-    font-size: 22px;
-    font-weight: 700;
-    line-height: 1.3;
-    padding: 12px 0;  /* taller tap area */
-  }
-  .gurjaolab-navbar .nav-links {
-    gap: 36px;       /* a bit more breathing room */
   }
 }
 
@@ -213,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
     toggle.setAttribute("aria-expanded", "true");
     links.classList.add("open");
     links.removeAttribute("hidden");
-    body.style.overflow = "hidden";     // scroll lock behind drawer
+    body.style.overflow = "hidden";
   }
   function closeMenu() {
     toggle.classList.remove("open");
@@ -224,30 +225,24 @@ document.addEventListener("DOMContentLoaded", function () {
   }
   const isOpen = () => toggle.classList.contains("open");
 
-  // Toggle click
   toggle.addEventListener("click", () => (isOpen() ? closeMenu() : openMenu()));
 
-  // Close on Escape
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && isOpen()) closeMenu();
   });
 
-  // Click outside to close
   document.addEventListener("click", (e) => {
     if (!e.target.closest(".gurjaolab-navbar") && isOpen()) closeMenu();
   });
 
-  // Keep states sane across input-mode changes
   const desktopQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
   function handleDesktopChange(e) {
     if (e.matches) {
-      // Desktop inline: menu visible, no drawer state
       body.style.overflow = "";
       toggle.classList.remove("open");
       links.classList.remove("open");
       links.removeAttribute("hidden");
     } else {
-      // Touch/tablet: start closed
       closeMenu();
     }
   }

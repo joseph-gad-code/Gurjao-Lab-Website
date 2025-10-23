@@ -30,7 +30,7 @@
       --sai-r: env(safe-area-inset-right, 0px);
       --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
       --inset: clamp(16px, 6vw, 28px);      /* inner rails padding (nav/sections) */
-      --page-scale: 1;                      /* ADD: shared scale var */
+      --page-scale: 1;                      /* NEW: shared scale var */
     }
 
     /* outer wrapper carries real side padding; clip any stray overflow */
@@ -39,29 +39,27 @@
       padding-left:  calc(var(--gutter) + var(--sai-l));
       padding-right: calc(var(--gutter) + var(--sai-r));
       overflow-x: clip;                                      /* more robust than hidden on iOS */
-      overflow-y: hidden;
-      min-height: 100dvh;                                    /* ADD: make outer fill viewport */
-      display: flex;                                         /* ADD: so inner can size against it */
+      overflow-y: hidden; 
     }
 
     .page-scale-frame {
       overflow-y: auto;
       transform-origin: top left;
+      /* NEW: make footer sticky & allow height control via JS */
+      display: flex;
+      flex-direction: column;
     }
 
     /* the actual fixed-width page that gets scaled */
     .page-scale-frame{
       width: var(--base-width);
       transform-origin: top left;                            /* keep left-anchored */
-      display: flex;                                         /* ADD: for sticky footer */
-      flex-direction: column;                                /* ADD */
-      height: calc(100dvh / var(--page-scale));              /* ADD: exact visual height */
     }
 
     /* shrink proportionally below base width */
     @media (max-width: 1100px){
       :root{
-        /* ADD/CHANGED: compute scale once */
+        /* NEW: compute scale once for CSS; JS will mirror this */
         --page-scale: calc( (max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width) );
       }
       .page-scale-frame{
@@ -78,7 +76,6 @@
       .page-scale-frame{
         transform: none;
         margin: 0 auto;
-        height: 100dvh;                                      /* ADD: fill viewport when unscaled */
       }
     }
 
@@ -91,7 +88,6 @@
         }
         .page-scale-frame{
           transform: scale(var(--page-scale));
-          height: calc(100dvh / var(--page-scale));          /* ADD: keep heights in sync */
         }
       }
     }
@@ -106,7 +102,8 @@
       padding-right: var(--gutter);
       /* extra bottom spacing before footer */
       padding-bottom: clamp(16px, 2vw, 28px);
-      flex: 1 0 auto;                                        /* ADD: content grows, footer sticks */
+      /* NEW: let content grow so footer can stick */
+      flex: 1 0 auto;
     }
 
     /* Ensure the header's rail uses the same gutter (overrides inline) */
@@ -133,15 +130,16 @@
 
     /* ---------- Footer ---------- */
     footer{
-      margin-top: auto;                                      /* CHANGED: stick to bottom */
-      padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px)); /* CHANGED: safe area */
+      /* NEW: stick to bottom & avoid home-indicator overlap */
+      margin-top: auto;
+      padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px));
       text-align:center;
       font-size:14px;
       color:#555;
       border-top:1px solid #eee;
     }
 
-    /* ADD: remove stray bottom margins that can create gaps above footer */
+    /* NEW: remove stray bottom margins that create false gaps */
     .content-wrap > :last-child,
     .container-narrow > :last-child { margin-bottom: 0; }
   </style>
@@ -149,6 +147,39 @@
   <!-- Scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <!-- NEW: tiny helper to force scaled frame height = visible viewport height -->
+  <script>
+    (function () {
+      function num(cssVar, fallback) {
+        var v = getComputedStyle(document.documentElement).getPropertyValue(cssVar).trim();
+        return v ? parseFloat(v) : (fallback || 0);
+      }
+      function applyScaleHeight() {
+        var base = num('--base-width', 1100);
+        var gutter = num('--gutter', 16);
+        var saiL = num('--sai-l', 0);
+        var saiR = num('--sai-r', 0);
+        var pagePad = (gutter * 2) + saiL + saiR;
+
+        var vw = Math.max(320, (window.visualViewport ? window.visualViewport.width : window.innerWidth));
+        var scale = (vw >= base) ? 1 : ( (vw - pagePad - 1) / base );
+        document.documentElement.style.setProperty('--page-scale', scale);
+
+        var frame = document.querySelector('.page-scale-frame');
+        if (!frame) return;
+
+        var vh = (window.visualViewport ? window.visualViewport.height : window.innerHeight);
+        frame.style.height = (vh / (scale || 1)) + 'px';     // key line: exact visual height
+        frame.style.transform = (scale < 1) ? 'scale(' + scale + ')' : 'none';
+        frame.style.margin = (scale < 1) ? '0' : '0 auto';   // center when unscaled
+      }
+
+      window.addEventListener('resize', applyScaleHeight, { passive: true });
+      window.addEventListener('orientationchange', applyScaleHeight, { passive: true });
+      window.addEventListener('DOMContentLoaded', applyScaleHeight);
+    })();
+  </script>
 </head>
 
 <body>

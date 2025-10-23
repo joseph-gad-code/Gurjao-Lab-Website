@@ -15,50 +15,87 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
   <style>
-    /* ---- Base / variables ---- */
+    /* ---------- Base / variables ---------- */
     html { box-sizing: border-box; }
     *, *::before, *::after { box-sizing: inherit; }
 
     :root{
-      --base-width: 1100px;                 /* design rail */
-      --gutter: clamp(16px, 6vw, 28px);     /* side gutters */
+      --base-width: 1100px;                 /* fixed design rail */
+      --gutter: clamp(16px, 6vw, 28px);     /* page side gutters on small screens */
+      --page-scale: 1;
     }
 
-    /* Keep scrollbar width reserved so navbar never shifts */
+    /* keep the vertical gutter reserved so the navbar doesn’t nudge */
     html, body { scrollbar-gutter: stable both-edges; }
 
+    /* BODY is the only scroll container */
     body{
       margin:0;
       font-family:'Nunito',sans-serif;
       color:#000;
       line-height:1.5;
-      overflow-x:hidden;       /* no sideways scroll */
-      overflow-y: scroll;      /* single, stable scrollbar on body */
+      overflow-x:hidden;
+      overflow-y: scroll;                   /* stable scrollbar */
+      overscroll-behavior-y: none;          /* no rubber-band past footer */
+      -webkit-overflow-scrolling: touch;
       background:#fff;
-      min-height:100svh;       /* fill screen height */
+      min-height:100svh;
       display:flex;
       flex-direction:column;
     }
 
-    /* ---- Wrapper (no transforms, no special heights) ---- */
+    /* ---------- Wrapper (no scrolling here) ---------- */
     .page-scale-outer{
       width: 100%;
       padding-left:  var(--gutter);
       padding-right: var(--gutter);
-      flex: 1 0 auto;          /* take remaining height between header/footer */
+      flex: 1 0 auto;                       /* take remaining height between header/footer */
       display:flex;
+      justify-content:center;
+      align-items:flex-start;
+      background:#fff;
     }
 
+    /* fixed-width frame that can scale on narrow screens */
     .page-scale-frame{
-      width: 100%;
-      max-width: var(--base-width);
-      margin: 0 auto;          /* center rail */
+      width: var(--base-width);
+      margin: 0 auto;
       display:flex;
-      flex-direction: column;
-      min-height: 100%;        /* so footer can push down */
+      flex-direction:column;                /* for sticky footer */
+      transform-origin: top center;
+      overflow: visible;                    /* body handles scrolling */
+      min-height: 100%;                     /* allow footer push */
     }
 
-    /* ---- Shared rails & containers ---- */
+    /* ---------- Narrow screens: whole-page scaling (keeps 2-column home intact) ---------- */
+    @media (max-width: 1100px){
+      :root{
+        /* fit 1100px rail inside viewport minus gutters (with 1px cushion) */
+        --page-scale: calc((max(320px, 100svw) - (var(--gutter)*2) - 1px) / var(--base-width));
+      }
+      .page-scale-outer{ min-height: 100svh; }
+      .page-scale-frame{
+        transform: scale(var(--page-scale));
+        /* after scaling, visually fill the viewport (no bottom white gap) */
+        min-height: calc((100svh - env(safe-area-inset-bottom, 0px) - 2px) / var(--page-scale));
+      }
+    }
+
+    /* Fallback if svh isn’t supported */
+    @supports not (height: 100svh){
+      @media (max-width: 1100px){
+        :root{
+          --page-scale: calc((max(320px, 100vw) - (var(--gutter)*2) - 1px) / var(--base-width));
+        }
+        .page-scale-outer{ min-height: 100dvh; }
+        .page-scale-frame{
+          transform: scale(var(--page-scale));
+          min-height: calc((100dvh - env(safe-area-inset-bottom, 0px) - 2px) / var(--page-scale));
+        }
+      }
+    }
+
+    /* ---------- Shared rails & containers ---------- */
     .container-narrow{
       width:100%;
       max-width:var(--base-width);
@@ -66,7 +103,7 @@
       padding-left: var(--gutter);
       padding-right: var(--gutter);
       padding-bottom: clamp(16px, 2vw, 28px);
-      flex: 1 0 auto;          /* content grows; footer sticks */
+      flex: 1 0 auto;                       /* content grows; footer sticks */
     }
 
     nav[aria-label="Main navigation"] .nav-rail{
@@ -74,11 +111,11 @@
       padding-right: var(--gutter) !important;
     }
 
-    /* ---- Media defaults ---- */
+    /* ---------- Media defaults ---------- */
     img, video, svg, canvas { max-width:100%; height:auto; display:block; }
     iframe { max-width:100%; }
 
-    /* ---- Navbar cosmetics (unchanged) ---- */
+    /* ---------- Navbar cosmetics ---------- */
     .navbar{ border:none; border-radius:0; margin-bottom:0; background:#fff; }
     .navbar-brand{ font-weight:800; color:#0D5295 !important; }
     .navbar-nav > li > a{ color:#666 !important; font-weight:600; position:relative; }
@@ -90,9 +127,9 @@
       content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000;
     }
 
-    /* ---- Footer sticks to bottom with short content ---- */
+    /* ---------- Footer ---------- */
     footer{
-      margin-top: auto;
+      margin-top: auto;                      /* sticks to bottom with short content */
       padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px));
       text-align:center;
       font-size:14px;
@@ -101,9 +138,9 @@
       background:#fff;
     }
 
-    /* Tidy */
+    /* ---------- Tidy ---------- */
     .content-wrap > :last-child,
-    .container-narrow > :last-child { margin-bottom:0; }
+    .container-narrow > :last-child { margin-bottom: 0; }
   </style>
 
   <!-- Scripts -->

@@ -2,9 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- Proper mobile scaling -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
   <title>GURJAOLAB | {{ page.title }}</title>
 
   <!-- Favicon -->
@@ -17,87 +15,50 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
   <style>
-    /* ---------- Base / variables ---------- */
+    /* ---- Base / variables ---- */
     html { box-sizing: border-box; }
     *, *::before, *::after { box-sizing: inherit; }
 
     :root{
       --base-width: 1100px;                 /* design rail */
-      --gutter: clamp(16px, 6vw, 28px);     /* small-screen page gutters */
-      --sai-l: env(safe-area-inset-left, 0px);
-      --sai-r: env(safe-area-inset-right, 0px);
-      --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
-      --inset: clamp(16px, 6vw, 28px);      /* inner rails */
-      --page-scale: 1;
+      --gutter: clamp(16px, 6vw, 28px);     /* side gutters */
     }
 
-    /* ---------- Make BODY the single, stable scroll container ---------- */
-    html, body {
-      height: 100%;
-      overflow-x: hidden;
-      overflow-y: scroll;                    /* always show scrollbar -> no menu shift */
-      scrollbar-gutter: stable both-edges;   /* reserve space even with overlay scrollbars */
-      overscroll-behavior-y: none;           /* no rubber-band */
-      background:#fff;
-    }
+    /* Keep scrollbar width reserved so navbar never shifts */
+    html, body { scrollbar-gutter: stable both-edges; }
 
-    body {
+    body{
       margin:0;
       font-family:'Nunito',sans-serif;
       color:#000;
       line-height:1.5;
-      -webkit-overflow-scrolling: touch;
+      overflow-x:hidden;       /* no sideways scroll */
+      overflow-y: scroll;      /* single, stable scrollbar on body */
+      background:#fff;
+      min-height:100svh;       /* fill screen height */
+      display:flex;
+      flex-direction:column;
     }
 
-    /* ---------- Outer wrapper: no scrolling here, just centering/gutters ---------- */
+    /* ---- Wrapper (no transforms, no special heights) ---- */
     .page-scale-outer{
-      width: 100svw;
-      padding-left:  calc(var(--gutter) + var(--sai-l));
-      padding-right: calc(var(--gutter) + var(--sai-r));
-      display: flex;
-      justify-content: center;   /* center by default; works for desktop too */
-      align-items: flex-start;
-      overflow: visible;         /* BODY scrolls */
-      min-height: 100svh;        /* ensures at least viewport height */
-      background: #fff;
+      width: 100%;
+      padding-left:  var(--gutter);
+      padding-right: var(--gutter);
+      flex: 1 0 auto;          /* take remaining height between header/footer */
+      display:flex;
     }
 
-    /* ---------- Fixed-width frame that scales on narrow screens ---------- */
     .page-scale-frame{
-      width: var(--base-width);
-      display: flex;
-      flex-direction: column;    /* for sticky footer */
-      transform-origin: top center;
-      overflow: visible;         /* BODY scrolls */
+      width: 100%;
+      max-width: var(--base-width);
+      margin: 0 auto;          /* center rail */
+      display:flex;
+      flex-direction: column;
+      min-height: 100%;        /* so footer can push down */
     }
 
-    /* ---------- Narrow screens: compute scale & ensure no bottom gap ---------- */
-    @media (max-width: 1100px){
-      :root{
-        --page-scale: calc((max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width));
-      }
-      .page-scale-frame{
-        transform: scale(var(--page-scale));
-        /* make the unscaled frame tall enough so the SCALED result fills the viewport */
-        min-height: calc((100svh - env(safe-area-inset-bottom, 0px) - 2px) / var(--page-scale));
-      }
-    }
-
-    /* Fallback if svh isn't supported */
-    @supports not (height: 100svh){
-      .page-scale-outer{ min-height: 100dvh; }
-      @media (max-width: 1100px){
-        :root{
-          --page-scale: calc((max(320px, 100vw) - var(--page-pad) - 1px) / var(--base-width));
-        }
-        .page-scale-frame{
-          transform: scale(var(--page-scale));
-          min-height: calc((100dvh - env(safe-area-inset-bottom, 0px) - 2px) / var(--page-scale));
-        }
-      }
-    }
-
-    /* ---------- Shared rails & containers ---------- */
+    /* ---- Shared rails & containers ---- */
     .container-narrow{
       width:100%;
       max-width:var(--base-width);
@@ -105,7 +66,7 @@
       padding-left: var(--gutter);
       padding-right: var(--gutter);
       padding-bottom: clamp(16px, 2vw, 28px);
-      flex: 1 0 auto;            /* content grows; footer pushes to bottom */
+      flex: 1 0 auto;          /* content grows; footer sticks */
     }
 
     nav[aria-label="Main navigation"] .nav-rail{
@@ -113,11 +74,11 @@
       padding-right: var(--gutter) !important;
     }
 
-    /* ---------- Media defaults ---------- */
+    /* ---- Media defaults ---- */
     img, video, svg, canvas { max-width:100%; height:auto; display:block; }
     iframe { max-width:100%; }
 
-    /* ---------- Navbar cosmetics ---------- */
+    /* ---- Navbar cosmetics (unchanged) ---- */
     .navbar{ border:none; border-radius:0; margin-bottom:0; background:#fff; }
     .navbar-brand{ font-weight:800; color:#0D5295 !important; }
     .navbar-nav > li > a{ color:#666 !important; font-weight:600; position:relative; }
@@ -129,7 +90,7 @@
       content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000;
     }
 
-    /* ---------- Footer ---------- */
+    /* ---- Footer sticks to bottom with short content ---- */
     footer{
       margin-top: auto;
       padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px));
@@ -140,9 +101,9 @@
       background:#fff;
     }
 
-    /* ---------- Tidy ---------- */
+    /* Tidy */
     .content-wrap > :last-child,
-    .container-narrow > :last-child { margin-bottom: 0; }
+    .container-narrow > :last-child { margin-bottom:0; }
   </style>
 
   <!-- Scripts -->
@@ -151,7 +112,6 @@
 </head>
 
 <body>
-  <!-- BODY is the only scroll container -->
   <div class="page-scale-outer">
     <div class="page-scale-frame">
 

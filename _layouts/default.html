@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+fpage<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -33,16 +33,18 @@
       --page-scale: 1;                      /* ADD: define reusable scale variable */
     }
 
-    /* outer wrapper carries real side padding; clip any stray overflow */
     .page-scale-outer {
-      width: 100svw;                                         /* use small viewport width */
-      padding-left:  calc(var(--gutter) + var(--sai-l));
-      padding-right: calc(var(--gutter) + var(--sai-r));
-      overflow-x: hidden; /* CHANGED: ensure no horizontal scroll */
-      overflow-y: auto;   /* CHANGED: outer handles scrolling */
-      height: 100dvh;     /* ADD: match visible viewport height */
-      background: #fff;   /* ADD: remove possible transparent gap on mobile */
-    }
+  width: 100svw;
+  padding-left:  calc(var(--gutter) + var(--sai-l));
+  padding-right: calc(var(--gutter) + var(--sai-r));
+  overflow-x: hidden;                     /* no horizontal scroll */
+  overflow-y: auto;                       /* single outer scroll */
+  height: 100dvh;                         /* limit to actual visible viewport */
+  display: flex;                          /* ensures scaling frame aligns top */
+  align-items: flex-start;                /* prevents vertical centering */
+  justify-content: center;                /* centers on large screens */
+  background: #fff;                       /* removes contrast gap */
+}
 
     /* the actual fixed-width page that gets scaled */
     .page-scale-frame {

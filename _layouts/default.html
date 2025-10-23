@@ -1,8 +1,11 @@
+@@ -1,44 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <!-- Keep this for proper mobile scaling -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
   <title>GURJAOLAB | {{ page.title }}</title>
 
   <!-- Favicon -->
@@ -15,80 +18,136 @@
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
   <style>
-    /* -------- base -------- */
+    /* ---------- Base / variables ---------- */
     html { box-sizing: border-box; }
     *, *::before, *::after { box-sizing: inherit; }
-    body { margin:0; font-family:'Nunito',sans-serif; line-height:1.5; color:#000; overflow-x:hidden; }
+    body { margin:0; font-family:'Nunito',sans-serif; color:#000; line-height:1.5; overflow-x:hidden; }
 
-    /* responsive rails (no transforms) */
-    :root{
-      --rail: 1100px;                          /* content width cap */
-      --gutter: clamp(16px, 6vw, 28px);        /* side padding on small screens */
-      --sai-l: env(safe-area-inset-left, 0px); /* notches */
-      --sai-r: env(safe-area-inset-right, 0px);
-      --inset: calc(var(--gutter) + var(--sai-l));
-      --inset-r: calc(var(--gutter) + var(--sai-r));
+    /* Site width and gutters */
+   :root {
+  --base-width: 1100px;                 /* your design width */
+  --gutter: clamp(16px, 6vw, 28px);     /* page side margins on small screens */
+  --sai-l: env(safe-area-inset-left, 0px);
+  --sai-r: env(safe-area-inset-right, 0px);
+  --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
+  --inset: clamp(16px, 6vw, 28px);      /* inner rails padding (nav/sections) */
+}
+
+/* outer wrapper carries real side padding; clip any stray overflow */
+.page-scale-outer{
+  width: 100svw;                                         /* use small viewport width */
+  padding-left:  calc(var(--gutter) + var(--sai-l));
+  padding-right: calc(var(--gutter) + var(--sai-r));
+  overflow-x: clip;                                      /* more robust than hidden on iOS */
+  overflow-y: hidden; 
+  overflow-y: auto; 
+}
+    .page-scale-frame {
+  overflow-y: auto;
+@@ -49,105 +49,106 @@
+.page-scale-frame{
+  width: var(--base-width);
+  transform-origin: top left;                            /* keep left-anchored */
+  padding-bottom: 1px;
+}
+
+/* shrink proportionally below base width */
+@media (max-width: 1100px){
+  .page-scale-frame{
+    /* subtract gutters + safe areas + a tiny cushion to kill rounding overflow */
+    transform: scale(
+      calc( (max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width) )
+    );
+  }
+}
+@media (min-width: 700px){
+    .content-intro-wrapper {
+        min-height: auto;
     }
+}
+/* at/above base width: no scale, center it */
+@media (min-width: 1100px){
+  .page-scale-frame{
+    transform: none;
+    margin: 0 auto;
+  }
+}
 
-    /* page rail */
+/* fallback for browsers that don't support svw (older Android/desktop) */
+@supports not (width: 100svw){
+  .page-scale-outer{ width: 100vw; }
+  @media (max-width: 1100px){
+    .page-scale-frame{
+      transform: scale(
+        calc( (100vw - var(--page-pad) - 1px) / var(--base-width) )
+      );
+    }
+  }
+}
+    /* ---------- Shared rails & containers ---------- */
+    /* This matches the width rail you use on pages and nav */
     .container-narrow{
       width:100%;
-      max-width: var(--rail);
+      max-width:var(--base-width);
       margin: 0 auto;
-      padding-left: var(--inset);
-      padding-right: var(--inset-r);
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
+      /* extra bottom spacing before footer */
       padding-bottom: clamp(16px, 2vw, 28px);
     }
 
-    /* make the nav bar use the same rail */
+    /* Ensure the header's rail uses the same gutter (overrides inline) */
     nav[aria-label="Main navigation"] .nav-rail{
-      max-width: var(--rail);
-      margin: 0 auto;
-      padding-left: var(--inset) !important;
-      padding-right: var(--inset-r) !important;
-      display:flex; align-items:center;
+      padding-left: var(--gutter) !important;
+      padding-right: var(--gutter) !important;
     }
 
-    /* media defaults */
+    /* ---------- Media defaults ---------- */
     img, video, svg, canvas { max-width:100%; height:auto; display:block; }
     iframe { max-width:100%; }
 
-    /* navbar cosmetics */
+    /* ---------- Simple navbar cosmetics (your header.html handles logic) ---------- */
     .navbar{ border:none; border-radius:0; margin-bottom:0; background:#fff; }
     .navbar-brand{ font-weight:800; color:#0D5295 !important; }
-    .navbar-nav>li>a{ color:#666 !important; font-weight:600; position:relative; }
-    .navbar-nav>li>a:hover{ color:#000 !important; background:transparent !important; }
-    .navbar-nav>.active>a,
-    .navbar-nav>.active>a:focus,
-    .navbar-nav>.active>a:hover{ color:#000 !important; background:transparent !important; }
-    .navbar-nav>.active>a::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000; }
+    .navbar-nav > li > a{ color:#666 !important; font-weight:600; position:relative; }
+    .navbar-nav > li > a:hover{ color:#000 !important; background:transparent !important; }
+    .navbar-nav > .active > a,
+    .navbar-nav > .active > a:focus,
+    .navbar-nav > .active > a:hover{ color:#000 !important; background:transparent !important; }
+    .navbar-nav > .active > a::after{
+      content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000;
+    }
 
-    /* small breathing room under the brand on narrow screens */
-    .navbar-brand { padding-right: clamp(8px, 2vw, 16px); }
-
-    /* footer */
+    /* ---------- Footer ---------- */
     footer{
       margin-top: clamp(24px, 3vw, 40px);
       padding: 24px 0;
       text-align:center;
-      font-size:14px; color:#555;
+      font-size:14px;
+      color:#555;
       border-top:1px solid #eee;
     }
-
-    /* optional: avoid body getting larger than needed due to collapsed margins */
-    .content-wrap { padding-top: clamp(12px, 2vw, 28px); }
   </style>
 
+  <!-- Scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
+
 <body>
-  {% include header.html %}
+  <!-- Everything inside scales together and shares the same gutters -->
+  <div class="page-scale-outer">
+    <div class="page-scale-frame">
 
-  <div class="container-narrow content-wrap">
-    {{ content }}
+      {% include header.html %}
+
+      <div class="container-narrow content-wrap">
+        {{ content }}
+      </div>
+
+      {% include footer.html %}
+
+    </div>
   </div>
-
-  {% include footer.html %}
 </body>
 </html>

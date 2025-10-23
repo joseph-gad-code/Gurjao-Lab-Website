@@ -45,14 +45,14 @@ fpage<!DOCTYPE html>
   justify-content: center;                /* centers on large screens */
   background: #fff;                       /* removes contrast gap */
 }
-
-    /* the actual fixed-width page that gets scaled */
-    .page-scale-frame {
-      width: var(--base-width);
-      transform-origin: top left;
-      display: flex;              /* ADD: for sticky footer layout */
-      flex-direction: column;
-      overflow: visible;          /* CHANGED: inner frame shouldn't scroll */
+/* Force the scaled frame not to overflow beyond viewport height */
+.page-scale-frame {
+  max-height: 100%;                       /* keeps visual fit */
+  width: var(--base-width);
+  transform-origin: top left;
+  display: flex;              /* ADD: for sticky footer layout */
+  flex-direction: column;
+  overflow: visible;          /* CHANGED: inner frame shouldn't scroll */
     }
 
     /* shrink proportionally below base width */

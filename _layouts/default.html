@@ -43,17 +43,18 @@
       --page-scale: 1;
     }
 
-    /* ---------- Outer container (single, stable scrollbar) ---------- */
+    /* ---------- Outer container (single scroll when needed; no elastic overscroll) ---------- */
     .page-scale-outer{
       width: 100svw;
       padding-left:  calc(var(--gutter) + var(--sai-l));
       padding-right: calc(var(--gutter) + var(--sai-r));
       display: flex;
-      justify-content: flex-start;   /* overridden to center on narrow */
+      justify-content: flex-start;          /* overridden to center on narrow */
       align-items: flex-start;
-      height: 100dvh;                /* overridden to svh on narrow */
+      height: 100dvh;                       /* overridden to svh on narrow */
       overflow-x: hidden;
-      overflow-y: scroll;            /* ALWAYS reserve gutter; prevents nav “jump” */
+      overflow-y: auto;                      /* scroll only if needed (prevents fake scroll) */
+      overscroll-behavior-y: none;           /* stop rubber-band past the footer */
       -webkit-overflow-scrolling: touch;
       background: #fff;
     }
@@ -65,7 +66,6 @@
       display: flex;                 /* sticky footer layout */
       flex-direction: column;
       overflow: visible;             /* outer handles scrolling */
-      max-height: 100%;
     }
 
     /* ---------- Narrow screens: scale, center, and fill viewport without bottom gap ---------- */
@@ -110,12 +110,11 @@
         width: 100%;               /* avoid svw quirks on desktop */
         justify-content: center;   /* center the 1100px rail */
         height: auto;              /* natural page height */
-        /* keep overflow-y: scroll from base so gutter remains reserved */
+        /* keep overflow-y:auto from base to avoid ghost scrolling */
       }
       .page-scale-frame{
         transform: none;
         margin: 0 auto;
-        max-height: none;
         justify-content: flex-start;
       }
     }

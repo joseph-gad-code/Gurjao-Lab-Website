@@ -24,83 +24,66 @@
 
     /* Site width and gutters */
    :root {
-      --base-width: 1100px;                 /* your design width */
-      --gutter: clamp(16px, 6vw, 28px);     /* page side margins on small screens */
-      --sai-l: env(safe-area-inset-left, 0px);
-      --sai-r: env(safe-area-inset-right, 0px);
-      --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
-      --inset: clamp(16px, 6vw, 28px);      /* inner rails padding (nav/sections) */
-      --page-scale: 1;                      /* ADD: used to sync transform + height */
-    }
+  --base-width: 1100px;                 /* your design width */
+  --gutter: clamp(16px, 6vw, 28px);     /* page side margins on small screens */
+  --sai-l: env(safe-area-inset-left, 0px);
+  --sai-r: env(safe-area-inset-right, 0px);
+  --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
+  --inset: clamp(16px, 6vw, 28px);      /* inner rails padding (nav/sections) */
+}
 
-    /* outer wrapper carries real side padding; clip any stray overflow */
-    .page-scale-outer{
-      width: 100svw;                                         /* use small viewport width */
-      padding-left:  calc(var(--gutter) + var(--sai-l));
-      padding-right: calc(var(--gutter) + var(--sai-r));
-      overflow-x: clip;                                      /* more robust than hidden on iOS */
-      overflow-y: hidden; 
-    }
-
-    /* the actual fixed-width page that gets scaled */
+/* outer wrapper carries real side padding; clip any stray overflow */
+.page-scale-outer{
+  width: 100svw;                                         /* use small viewport width */
+  padding-left:  calc(var(--gutter) + var(--sai-l));
+  padding-right: calc(var(--gutter) + var(--sai-r));
+  overflow-x: clip;                                      /* more robust than hidden on iOS */
+  overflow-y: hidden; 
+}
     .page-scale-frame {
-      overflow-y: auto;
-      transform-origin: top left;
-      /* ADD: make the visually scaled page always fill viewport height */
-      display: flex;
-      flex-direction: column;
-      min-height: calc(100dvh / var(--page-scale));
-    }
+  overflow-y: auto;
+  transform-origin: top left;
+}
 
-    /* the actual fixed-width page that gets scaled */
-    .page-scale-frame{
-      width: var(--base-width);
-      transform-origin: top left;                            /* keep left-anchored */
-    }
+/* the actual fixed-width page that gets scaled */
+.page-scale-frame{
+  width: var(--base-width);
+  transform-origin: top left;                            /* keep left-anchored */
+}
 
-    /* shrink proportionally below base width */
-    @media (max-width: 1100px){
-      /* CHANGED: compute scale once, reuse for transform and height */
-      :root{
-        --page-scale: calc( (max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width) );
-      }
-      .page-scale-frame{
-        transform: scale(var(--page-scale));
-      }
-    }
-
-    @media (min-width: 700px){
-      .content-intro-wrapper {
+/* shrink proportionally below base width */
+@media (max-width: 1100px){
+  .page-scale-frame{
+    /* subtract gutters + safe areas + a tiny cushion to kill rounding overflow */
+    transform: scale(
+      calc( (max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width) )
+    );
+  }
+}
+@media (min-width: 700px){
+    .content-intro-wrapper {
         min-height: auto;
-      }
     }
+}
+/* at/above base width: no scale, center it */
+@media (min-width: 1100px){
+  .page-scale-frame{
+    transform: none;
+    margin: 0 auto;
+  }
+}
 
-    /* at/above base width: no scale, center it */
-    @media (min-width: 1100px){
-      .page-scale-frame{
-        transform: none;
-        margin: 0 auto;
-        /* ADD: still fill viewport when not scaled */
-        min-height: 100dvh;
-      }
+/* fallback for browsers that don't support svw (older Android/desktop) */
+@supports not (width: 100svw){
+  .page-scale-outer{ width: 100vw; }
+  @media (max-width: 1100px){
+    .page-scale-frame{
+      transform: scale(
+        calc( (100vw - var(--page-pad) - 1px) / var(--base-width) )
+      );
     }
-
-    /* fallback for browsers that don't support svw (older Android/desktop) */
-    @supports not (width: 100svw){
-      .page-scale-outer{ width: 100vw; }
-      @media (max-width: 1100px){
-        /* CHANGED: same idea for fallback */
-        :root{
-          --page-scale: calc( (100vw - var(--page-pad) - 1px) / var(--base-width) );
-        }
-        .page-scale-frame{
-          transform: scale(var(--page-scale));
-          /* ADD: keep height tied to scale */
-          min-height: calc(100dvh / var(--page-scale));
-        }
-      }
-    }
-
+  }
+}
     /* ---------- Shared rails & containers ---------- */
     /* This matches the width rail you use on pages and nav */
     .container-narrow{
@@ -137,19 +120,13 @@
 
     /* ---------- Footer ---------- */
     footer{
-      /* CHANGED: make footer stick to bottom inside flex frame & respect safe area */
-      margin-top: auto;
-      padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px));
+      margin-top: clamp(24px, 3vw, 40px);
+      padding: 24px 0;
       text-align:center;
       font-size:14px;
       color:#555;
       border-top:1px solid #eee;
     }
-
-    /* ADD: remove stray bottom margins that can push footer and create gaps */
-    .content-wrap { flex: 1 0 auto; }
-    .content-wrap > :last-child,
-    .container-narrow > :last-child { margin-bottom: 0; }
   </style>
 
   <!-- Scripts -->

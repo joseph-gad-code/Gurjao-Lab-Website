@@ -64,11 +64,13 @@
       .page-scale-outer{
         justify-content: center;                                /* equal side gutters */
       }
-      .page-scale-frame{
-        transform: scale(var(--page-scale));                    /* keep scaling */
-        transform-origin: top center;                           /* anchor from center */
-        min-height: calc((100dvh - 1px) / var(--page-scale));   /* remove bottom white gap */
-      }
+    .page-scale-frame{
+      transform: scale(var(--page-scale));
+      transform-origin: top center;
+      /* shave off safe-area + an extra pixel to avoid rounding overshoot */
+      min-height: calc((100dvh - env(safe-area-inset-bottom, 0px) - 2px) / var(--page-scale));
+      .page-scale-outer{ overscroll-behavior: contain; }
+}
     }
 
     @media (min-width: 700px){

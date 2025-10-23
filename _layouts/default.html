@@ -41,7 +41,7 @@
 
       /* Fixes */
       display: flex;                /* line up the scaled frame at the top */
-      justify-content: center;      /* keep centered on wide screens */
+      justify-content: flex-start;      /* keep centered on wide screens */
       align-items: flex-start;      /* stop outer box from stretching */
       
       height: 100dvh;               /* restrict height to visible viewport */
@@ -77,6 +77,7 @@
     /* at/above base width: no scale, center it */
     @media (min-width: 1100px){
       .page-scale-frame {
+        justify-content: center;
         transform: none;
         margin: 0 auto;
       }

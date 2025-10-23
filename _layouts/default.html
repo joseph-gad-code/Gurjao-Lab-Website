@@ -1,4 +1,4 @@
-@@ -1,44 +1,44 @@
+@@ -1,148 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,15 +40,16 @@
   padding-right: calc(var(--gutter) + var(--sai-r));
   overflow-x: clip;                                      /* more robust than hidden on iOS */
   overflow-y: hidden; 
-  overflow-y: auto; 
 }
     .page-scale-frame {
   overflow-y: auto;
-@@ -49,105 +49,106 @@
+  transform-origin: top left;
+}
+
+/* the actual fixed-width page that gets scaled */
 .page-scale-frame{
   width: var(--base-width);
   transform-origin: top left;                            /* keep left-anchored */
-  padding-bottom: 1px;
 }
 
 /* shrink proportionally below base width */

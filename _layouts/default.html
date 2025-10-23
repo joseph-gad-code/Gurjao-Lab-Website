@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- Proper mobile scaling -->
+  <!-- Keep this for proper mobile scaling -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
   <title>GURJAOLAB | {{ page.title }}</title>
@@ -20,95 +20,128 @@
     /* ---------- Base / variables ---------- */
     html { box-sizing: border-box; height: 100%; }
     *, *::before, *::after { box-sizing: inherit; }
-    body {
-      margin: 0;
-      height: 100%;
-      font-family: 'Nunito', sans-serif;
-      color: #000;
-      line-height: 1.5;
-      overflow-x: hidden;
-      background: #fff; /* fill any short pages */
-    }
+    body { margin:0; height:100%; font-family:'Nunito',sans-serif; color:#000; line-height:1.5; overflow-x:hidden; background:#fff; }
 
-    :root{
-      --base-width: 1100px;                 /* design rail */
+    /* Site width and gutters */
+    :root {
+      --base-width: 1100px;                 /* your design width */
       --gutter: clamp(16px, 6vw, 28px);     /* page side margins on small screens */
       --sai-l: env(safe-area-inset-left, 0px);
       --sai-r: env(safe-area-inset-right, 0px);
-      --inset: clamp(16px, 6vw, 28px);      /* inner rails (sections) */
+      --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
+      --inset: clamp(16px, 6vw, 28px);      /* inner rails padding (nav/sections) */
+      --page-scale: 1;                      /* will be overridden below on small screens */
     }
 
-    /* ---------- Outer + inner rails (no transforms) ---------- */
+    /* outer wrapper carries real side padding; clip any stray overflow */
     .page-scale-outer{
-      width: 100%;
+      width: 100svw;                                         /* use small viewport width */
       padding-left:  calc(var(--gutter) + var(--sai-l));
       padding-right: calc(var(--gutter) + var(--sai-r));
-      overflow-x: hidden;
+      overflow-x: clip;                                      /* more robust than hidden on iOS */
+      overflow-y: hidden;
     }
-    .page-scale-frame{
-      width: 100%;
-      max-width: var(--base-width);
-      margin: 0 auto; /* center at/above base width */
 
-      /* Sticky-footer / no-bottom-white-space layout */
-      min-height: 100dvh;   /* use dynamic viewport to avoid iOS/Chrome bars gap */
+    /* the actual fixed-width page that gets scaled */
+    .page-scale-frame{
+      width: var(--base-width);
+      transform-origin: top left;                            /* keep left-anchored */
+      /* Make the scaled page always fill the visible viewport vertically */
+      min-height: calc(100dvh / var(--page-scale));
+      /* Sticky footer layout within the frame */
       display: flex;
       flex-direction: column;
+      overflow-y: auto; /* allow scrolling when content is taller than the frame */
     }
-    @supports not (height: 100dvh){
-      .page-scale-frame{ min-height: 100vh; }
+
+    /* shrink proportionally below base width */
+    @media (max-width: 1100px){
+      :root{
+        /* compute the same scale used by transform and reuse it for min-height */
+        --page-scale: calc( (max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width) );
+      }
+      .page-scale-frame{
+        transform: scale(var(--page-scale));
+      }
+    }
+
+    @media (min-width: 700px){
+      .content-intro-wrapper { min-height: auto; }
+    }
+
+    /* at/above base width: no scale, center it */
+    @media (min-width: 1100px){
+      .page-scale-frame{
+        transform: none;
+        margin: 0 auto;
+        min-height: 100dvh; /* still fill the viewport */
+      }
+    }
+
+    /* fallback for browsers that don't support svw (older Android/desktop) */
+    @supports not (width: 100svw){
+      .page-scale-outer{ width: 100vw; }
+      @media (max-width: 1100px){
+        :root{
+          --page-scale: calc( (100vw - var(--page-pad) - 1px) / var(--base-width) );
+        }
+        .page-scale-frame{
+          transform: scale(var(--page-scale));
+          min-height: calc(100dvh / var(--page-scale));
+        }
+      }
     }
 
     /* ---------- Shared rails & containers ---------- */
     .container-narrow{
-      width: 100%;
-      max-width: var(--base-width);
+      width:100%;
+      max-width:var(--base-width);
       margin: 0 auto;
       padding-left: var(--inset);
       padding-right: var(--inset);
+      /* extra bottom spacing before footer */
       padding-bottom: clamp(16px, 2vw, 28px);
     }
 
-    /* Ensure the header’s rail uses the same gutter (matches outer gutters on small screens) */
+    /* Ensure the header's rail uses the same gutter (overrides inline) */
     nav[aria-label="Main navigation"] .nav-rail{
       padding-left: var(--gutter) !important;
       padding-right: var(--gutter) !important;
     }
 
     /* ---------- Media defaults ---------- */
-    img, video, svg, canvas { max-width: 100%; height: auto; display: block; }
-    iframe { max-width: 100%; }
+    img, video, svg, canvas { max-width:100%; height:auto; display:block; }
+    iframe { max-width:100%; }
 
-    /* ---------- Navbar cosmetics ---------- */
-    .navbar{ border: none; border-radius: 0; margin-bottom: 0; background: #fff; }
-    .navbar-brand{ font-weight: 800; color: #0D5295 !important; }
-    .navbar-nav > li > a{ color: #666 !important; font-weight: 600; position: relative; }
-    .navbar-nav > li > a:hover{ color: #000 !important; background: transparent !important; }
+    /* ---------- Simple navbar cosmetics (your header.html handles logic) ---------- */
+    .navbar{ border:none; border-radius:0; margin-bottom:0; background:#fff; }
+    .navbar-brand{ font-weight:800; color:#0D5295 !important; }
+    .navbar-nav > li > a{ color:#666 !important; font-weight:600; position:relative; }
+    .navbar-nav > li > a:hover{ color:#000 !important; background:transparent !important; }
     .navbar-nav > .active > a,
     .navbar-nav > .active > a:focus,
-    .navbar-nav > .active > a:hover{ color: #000 !important; background: transparent !important; }
+    .navbar-nav > .active > a:hover{ color:#000 !important; background:transparent !important; }
     .navbar-nav > .active > a::after{
-      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: #000;
+      content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000;
     }
 
-    /* ---------- Content area grows to push footer down ---------- */
+    /* ---------- Content grows, footer sticks ---------- */
     .content-wrap{ flex: 1 0 auto; }
-    /* Trim accidental extra space from last elements’ margins */
     .content-wrap > :last-child{ margin-bottom: 0; }
     .container-narrow > :last-child{ margin-bottom: 0; }
 
-    /* ---------- Footer (respects bottom safe area) ---------- */
+    /* ---------- Footer ---------- */
     footer{
-      margin-top: auto; /* sits at bottom even on short pages */
-      padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px));
-      text-align: center;
-      font-size: 14px;
-      color: #555;
-      border-top: 1px solid #eee;
-      background: #fff;
+      margin-top: auto; /* push to bottom even on short pages */
+      padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px)); /* respect bottom safe area */
+      text-align:center;
+      font-size:14px;
+      color:#555;
+      border-top:1px solid #eee;
+      background:#fff;
     }
 
-    /* ---------- Small-screen tidy-ups ---------- */
+    /* ---------- Small-screen tidy ---------- */
     @media (max-width: 480px){
       .container-narrow{ padding-bottom: 16px; }
     }
@@ -120,7 +153,7 @@
 </head>
 
 <body>
-  <!-- Everything inside shares the same gutters; no transform scaling -->
+  <!-- Everything inside scales together and shares the same gutters -->
   <div class="page-scale-outer">
     <div class="page-scale-frame">
 

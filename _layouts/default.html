@@ -33,17 +33,20 @@
       --page-scale: 1;                      /* ADD: define reusable scale variable */
     }
 
-    .page-scale-outer {
+   page-scale-outer {
   width: 100svw;
   padding-left:  calc(var(--gutter) + var(--sai-l));
   padding-right: calc(var(--gutter) + var(--sai-r));
-  overflow-x: hidden;                     /* no horizontal scroll */
-  overflow-y: auto;                       /* single outer scroll */
-  height: 100dvh;                         /* limit to actual visible viewport */
-  display: flex;                          /* ensures scaling frame aligns top */
-  align-items: flex-start;                /* prevents vertical centering */
-  justify-content: center;                /* centers on large screens */
-  background: #fff;                       /* removes contrast gap */
+
+  /* Fixes */
+  display: flex;                /* line up the scaled frame at the top */
+  justify-content: center;      /* keep centered on wide screens */
+  align-items: flex-start;      /* stop outer box from stretching */
+  
+  height: 100dvh;               /* restrict height to visible viewport */
+  overflow-x: hidden;           /* no horizontal scroll */
+  overflow-y: auto;             /* single vertical scrollbar only */
+  background: #fff;             /* fill color under iOS/desktop gaps */
 }
 /* Force the scaled frame not to overflow beyond viewport height */
 .page-scale-frame {
@@ -54,6 +57,7 @@
   flex-direction: column;
   overflow: visible;          /* CHANGED: inner frame shouldn't scroll */
     }
+
 
     /* shrink proportionally below base width */
     @media (max-width: 1100px){

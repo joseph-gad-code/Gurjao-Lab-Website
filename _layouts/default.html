@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <!-- Keep this for proper mobile scaling -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
   <title>GURJAOLAB | {{ page.title }}</title>
 
   <!-- Favicon -->
@@ -18,94 +20,83 @@
     /* ---------- Base / variables ---------- */
     html { box-sizing: border-box; }
     *, *::before, *::after { box-sizing: inherit; }
+    body { margin:0; font-family:'Nunito',sans-serif; color:#000; line-height:1.5; overflow-x:hidden; }
 
-    :root{
-      --base-width: 1100px;                 /* fixed design rail */
-      --gutter: clamp(16px, 6vw, 28px);     /* page side gutters on small screens */
-      --page-scale: 1;
+    /* Site width and gutters */
+   :root {
+  --base-width: 1100px;                 /* your design width */
+  --gutter: clamp(16px, 6vw, 28px);     /* page side margins on small screens */
+  --sai-l: env(safe-area-inset-left, 0px);
+  --sai-r: env(safe-area-inset-right, 0px);
+  --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
+  --inset: clamp(16px, 6vw, 28px);      /* inner rails padding (nav/sections) */
+}
+
+/* outer wrapper carries real side padding; clip any stray overflow */
+.page-scale-outer{
+  width: 100svw;                                         /* use small viewport width */
+  padding-left:  calc(var(--gutter) + var(--sai-l));
+  padding-right: calc(var(--gutter) + var(--sai-r));
+  overflow-x: clip;                                      /* more robust than hidden on iOS */
+  overflow-y: hidden; 
+}
+    .page-scale-frame {
+  overflow-y: auto;
+  transform-origin: top left;
+}
+
+/* the actual fixed-width page that gets scaled */
+.page-scale-frame{
+  width: var(--base-width);
+  transform-origin: top left;                            /* keep left-anchored */
+}
+
+/* shrink proportionally below base width */
+@media (max-width: 1100px){
+  .page-scale-frame{
+    /* subtract gutters + safe areas + a tiny cushion to kill rounding overflow */
+    transform: scale(
+      calc( (max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width) )
+    );
+  }
+}
+@media (min-width: 700px){
+    .content-intro-wrapper {
+        min-height: auto;
     }
+}
+/* at/above base width: no scale, center it */
+@media (min-width: 1100px){
+  .page-scale-frame{
+    transform: none;
+    margin: 0 auto;
+  }
+}
 
-    /* keep the vertical gutter reserved so the navbar doesn’t nudge */
-    html, body { scrollbar-gutter: stable both-edges; }
-
-    /* BODY is the only scroll container */
-    body{
-      margin:0;
-      font-family:'Nunito',sans-serif;
-      color:#000;
-      line-height:1.5;
-      overflow-x:hidden;
-      overflow-y: scroll;                   /* stable scrollbar */
-      overscroll-behavior-y: none;          /* no rubber-band past footer */
-      -webkit-overflow-scrolling: touch;
-      background:#fff;
-      min-height:100svh;
-      display:flex;
-      flex-direction:column;
-    }
-
-    /* ---------- Wrapper (no scrolling here) ---------- */
-    .page-scale-outer{
-      width: 100%;
-      padding-left:  var(--gutter);
-      padding-right: var(--gutter);
-      flex: 1 0 auto;                       /* take remaining height between header/footer */
-      display:flex;
-      justify-content:center;
-      align-items:flex-start;
-      background:#fff;
-    }
-
-    /* fixed-width frame that can scale on narrow screens */
+/* fallback for browsers that don't support svw (older Android/desktop) */
+@supports not (width: 100svw){
+  .page-scale-outer{ width: 100vw; }
+  @media (max-width: 1100px){
     .page-scale-frame{
-      width: var(--base-width);
-      margin: 0 auto;
-      display:flex;
-      flex-direction:column;                /* for sticky footer */
-      transform-origin: top center;
-      overflow: visible;                    /* body handles scrolling */
-      min-height: 100%;                     /* allow footer push */
+      transform: scale(
+        calc( (100vw - var(--page-pad) - 1px) / var(--base-width) )
+      );
     }
-
-    /* ---------- Narrow screens: whole-page scaling (keeps 2-column home intact) ---------- */
-    @media (max-width: 1100px){
-      :root{
-        /* fit 1100px rail inside viewport minus gutters (with 1px cushion) */
-        --page-scale: calc((max(320px, 100svw) - (var(--gutter)*2) - 1px) / var(--base-width));
-      }
-      .page-scale-outer{ min-height: 100svh; }
-      .page-scale-frame{
-        transform: scale(var(--page-scale));
-        /* after scaling, visually fill the viewport (no bottom white gap) */
-        min-height: calc((100svh - env(safe-area-inset-bottom, 0px) - 2px) / var(--page-scale));
-      }
-    }
-
-    /* Fallback if svh isn’t supported */
-    @supports not (height: 100svh){
-      @media (max-width: 1100px){
-        :root{
-          --page-scale: calc((max(320px, 100vw) - (var(--gutter)*2) - 1px) / var(--base-width));
-        }
-        .page-scale-outer{ min-height: 100dvh; }
-        .page-scale-frame{
-          transform: scale(var(--page-scale));
-          min-height: calc((100dvh - env(safe-area-inset-bottom, 0px) - 2px) / var(--page-scale));
-        }
-      }
-    }
-
+  }
+}
     /* ---------- Shared rails & containers ---------- */
+    /* This matches the width rail you use on pages and nav */
     .container-narrow{
       width:100%;
       max-width:var(--base-width);
       margin: 0 auto;
       padding-left: var(--gutter);
       padding-right: var(--gutter);
+      /* extra bottom spacing before footer */
       padding-bottom: clamp(16px, 2vw, 28px);
-      flex: 1 0 auto;                       /* content grows; footer sticks */
     }
 
+    /* Ensure the header's rail uses the same gutter (overrides inline) */
     nav[aria-label="Main navigation"] .nav-rail{
       padding-left: var(--gutter) !important;
       padding-right: var(--gutter) !important;
@@ -115,7 +106,7 @@
     img, video, svg, canvas { max-width:100%; height:auto; display:block; }
     iframe { max-width:100%; }
 
-    /* ---------- Navbar cosmetics ---------- */
+    /* ---------- Simple navbar cosmetics (your header.html handles logic) ---------- */
     .navbar{ border:none; border-radius:0; margin-bottom:0; background:#fff; }
     .navbar-brand{ font-weight:800; color:#0D5295 !important; }
     .navbar-nav > li > a{ color:#666 !important; font-weight:600; position:relative; }
@@ -129,18 +120,13 @@
 
     /* ---------- Footer ---------- */
     footer{
-      margin-top: auto;                      /* sticks to bottom with short content */
-      padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px));
+      margin-top: clamp(24px, 3vw, 40px);
+      padding: 24px 0;
       text-align:center;
       font-size:14px;
       color:#555;
       border-top:1px solid #eee;
-      background:#fff;
     }
-
-    /* ---------- Tidy ---------- */
-    .content-wrap > :last-child,
-    .container-narrow > :last-child { margin-bottom: 0; }
   </style>
 
   <!-- Scripts -->
@@ -149,6 +135,7 @@
 </head>
 
 <body>
+  <!-- Everything inside scales together and shares the same gutters -->
   <div class="page-scale-outer">
     <div class="page-scale-frame">
 

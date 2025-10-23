@@ -18,19 +18,19 @@
 
   <style>
     /* ---------- Base / variables ---------- */
-    html { box-sizing: border-box; height: 100%; }
+    html { box-sizing: border-box; }
     *, *::before, *::after { box-sizing: inherit; }
-    body { margin:0; height:100%; font-family:'Nunito',sans-serif; color:#000; line-height:1.5; overflow-x:hidden; background:#fff; }
+    body { margin:0; font-family:'Nunito',sans-serif; color:#000; line-height:1.5; overflow-x:hidden; }
 
     /* Site width and gutters */
-    :root {
+   :root {
       --base-width: 1100px;                 /* your design width */
       --gutter: clamp(16px, 6vw, 28px);     /* page side margins on small screens */
       --sai-l: env(safe-area-inset-left, 0px);
       --sai-r: env(safe-area-inset-right, 0px);
       --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
       --inset: clamp(16px, 6vw, 28px);      /* inner rails padding (nav/sections) */
-      --page-scale: 1;                      /* will be overridden below on small screens */
+      --page-scale: 1;                      /* ADD: used to sync transform + height */
     }
 
     /* outer wrapper carries real side padding; clip any stray overflow */
@@ -39,25 +39,29 @@
       padding-left:  calc(var(--gutter) + var(--sai-l));
       padding-right: calc(var(--gutter) + var(--sai-r));
       overflow-x: clip;                                      /* more robust than hidden on iOS */
-      overflow-y: hidden;
+      overflow-y: hidden; 
+    }
+
+    /* the actual fixed-width page that gets scaled */
+    .page-scale-frame {
+      overflow-y: auto;
+      transform-origin: top left;
+      /* ADD: make the visually scaled page always fill viewport height */
+      display: flex;
+      flex-direction: column;
+      min-height: calc(100dvh / var(--page-scale));
     }
 
     /* the actual fixed-width page that gets scaled */
     .page-scale-frame{
       width: var(--base-width);
       transform-origin: top left;                            /* keep left-anchored */
-      /* Make the scaled page always fill the visible viewport vertically */
-      min-height: calc(100dvh / var(--page-scale));
-      /* Sticky footer layout within the frame */
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto; /* allow scrolling when content is taller than the frame */
     }
 
     /* shrink proportionally below base width */
     @media (max-width: 1100px){
+      /* CHANGED: compute scale once, reuse for transform and height */
       :root{
-        /* compute the same scale used by transform and reuse it for min-height */
         --page-scale: calc( (max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width) );
       }
       .page-scale-frame{
@@ -66,7 +70,9 @@
     }
 
     @media (min-width: 700px){
-      .content-intro-wrapper { min-height: auto; }
+      .content-intro-wrapper {
+        min-height: auto;
+      }
     }
 
     /* at/above base width: no scale, center it */
@@ -74,7 +80,8 @@
       .page-scale-frame{
         transform: none;
         margin: 0 auto;
-        min-height: 100dvh; /* still fill the viewport */
+        /* ADD: still fill viewport when not scaled */
+        min-height: 100dvh;
       }
     }
 
@@ -82,23 +89,26 @@
     @supports not (width: 100svw){
       .page-scale-outer{ width: 100vw; }
       @media (max-width: 1100px){
+        /* CHANGED: same idea for fallback */
         :root{
           --page-scale: calc( (100vw - var(--page-pad) - 1px) / var(--base-width) );
         }
         .page-scale-frame{
           transform: scale(var(--page-scale));
+          /* ADD: keep height tied to scale */
           min-height: calc(100dvh / var(--page-scale));
         }
       }
     }
 
     /* ---------- Shared rails & containers ---------- */
+    /* This matches the width rail you use on pages and nav */
     .container-narrow{
       width:100%;
       max-width:var(--base-width);
       margin: 0 auto;
-      padding-left: var(--inset);
-      padding-right: var(--inset);
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
       /* extra bottom spacing before footer */
       padding-bottom: clamp(16px, 2vw, 28px);
     }
@@ -125,26 +135,21 @@
       content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000;
     }
 
-    /* ---------- Content grows, footer sticks ---------- */
-    .content-wrap{ flex: 1 0 auto; }
-    .content-wrap > :last-child{ margin-bottom: 0; }
-    .container-narrow > :last-child{ margin-bottom: 0; }
-
     /* ---------- Footer ---------- */
     footer{
-      margin-top: auto; /* push to bottom even on short pages */
-      padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px)); /* respect bottom safe area */
+      /* CHANGED: make footer stick to bottom inside flex frame & respect safe area */
+      margin-top: auto;
+      padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px));
       text-align:center;
       font-size:14px;
       color:#555;
       border-top:1px solid #eee;
-      background:#fff;
     }
 
-    /* ---------- Small-screen tidy ---------- */
-    @media (max-width: 480px){
-      .container-narrow{ padding-bottom: 16px; }
-    }
+    /* ADD: remove stray bottom margins that can push footer and create gaps */
+    .content-wrap { flex: 1 0 auto; }
+    .content-wrap > :last-child,
+    .container-narrow > :last-child { margin-bottom: 0; }
   </style>
 
   <!-- Scripts -->

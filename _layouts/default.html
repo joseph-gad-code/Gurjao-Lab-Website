@@ -1,69 +1,138 @@
-<style>
-  /* ---------- Base / variables ---------- */
-  html { box-sizing: border-box; }
-  *, *::before, *::after { box-sizing: inherit; }
-  body { margin:0; font-family:'Nunito',sans-serif; color:#000; line-height:1.5; overflow-x:hidden; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- Proper mobile scaling -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
-  :root{
-    --base-width: 1100px;                 /* design rail */
-    --gutter: clamp(16px, 6vw, 28px);     /* page side margins on small screens */
-    --sai-l: env(safe-area-inset-left, 0px);
-    --sai-r: env(safe-area-inset-right, 0px);
-    --inset: clamp(16px, 6vw, 28px);      /* inner rails (sections) */
-  }
+  <title>GURJAOLAB | {{ page.title }}</title>
 
-  /* ---------- Outer + inner rails (no transforms) ---------- */
-  .page-scale-outer{
-    width: 100%;
-    padding-left:  calc(var(--gutter) + var(--sai-l));
-    padding-right: calc(var(--gutter) + var(--sai-r));
-    overflow-x: hidden;
-  }
-  .page-scale-frame{
-    width: 100%;
-    max-width: var(--base-width);
-    margin: 0 auto; /* center at/above base width */
-  }
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{{ '/Images/favicon.svg' | relative_url }}">
+  <link rel="alternate icon" type="image/x-icon" href="{{ '/Images/favicon.ico' | relative_url }}">
 
-  /* ---------- Shared rails & containers ---------- */
-  .container-narrow{
-    width:100%;
-    max-width:var(--base-width);
-    margin: 0 auto;
-    padding-left: var(--inset);
-    padding-right: var(--inset);
-    padding-bottom: clamp(16px, 2vw, 28px);
-  }
+  <!-- Fonts & Styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
-  /* Ensure the header’s rail uses the same gutter (matches outer gutters on small screens) */
-  nav[aria-label="Main navigation"] .nav-rail{
-    padding-left: var(--gutter) !important;
-    padding-right: var(--gutter) !important;
-  }
+  <style>
+    /* ---------- Base / variables ---------- */
+    html { box-sizing: border-box; height: 100%; }
+    *, *::before, *::after { box-sizing: inherit; }
+    body {
+      margin: 0;
+      height: 100%;
+      font-family: 'Nunito', sans-serif;
+      color: #000;
+      line-height: 1.5;
+      overflow-x: hidden;
+      background: #fff; /* fill any short pages */
+    }
 
-  /* ---------- Media defaults ---------- */
-  img, video, svg, canvas { max-width:100%; height:auto; display:block; }
-  iframe { max-width:100%; }
+    :root{
+      --base-width: 1100px;                 /* design rail */
+      --gutter: clamp(16px, 6vw, 28px);     /* page side margins on small screens */
+      --sai-l: env(safe-area-inset-left, 0px);
+      --sai-r: env(safe-area-inset-right, 0px);
+      --inset: clamp(16px, 6vw, 28px);      /* inner rails (sections) */
+    }
 
-  /* ---------- Navbar cosmetics ---------- */
-  .navbar{ border:none; border-radius:0; margin-bottom:0; background:#fff; }
-  .navbar-brand{ font-weight:800; color:#0D5295 !important; }
-  .navbar-nav > li > a{ color:#666 !important; font-weight:600; position:relative; }
-  .navbar-nav > li > a:hover{ color:#000 !important; background:transparent !important; }
-  .navbar-nav > .active > a,
-  .navbar-nav > .active > a:focus,
-  .navbar-nav > .active > a:hover{ color:#000 !important; background:transparent !important; }
-  .navbar-nav > .active > a::after{
-    content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000;
-  }
+    /* ---------- Outer + inner rails (no transforms) ---------- */
+    .page-scale-outer{
+      width: 100%;
+      padding-left:  calc(var(--gutter) + var(--sai-l));
+      padding-right: calc(var(--gutter) + var(--sai-r));
+      overflow-x: hidden;
+    }
+    .page-scale-frame{
+      width: 100%;
+      max-width: var(--base-width);
+      margin: 0 auto; /* center at/above base width */
 
-  /* ---------- Footer ---------- */
-  footer{
-    margin-top: clamp(24px, 3vw, 40px);
-    padding: 24px 0;
-    text-align:center;
-    font-size:14px;
-    color:#555;
-    border-top:1px solid #eee;
-  }
-</style>
+      /* Sticky-footer / no-bottom-white-space layout */
+      min-height: 100dvh;   /* use dynamic viewport to avoid iOS/Chrome bars gap */
+      display: flex;
+      flex-direction: column;
+    }
+    @supports not (height: 100dvh){
+      .page-scale-frame{ min-height: 100vh; }
+    }
+
+    /* ---------- Shared rails & containers ---------- */
+    .container-narrow{
+      width: 100%;
+      max-width: var(--base-width);
+      margin: 0 auto;
+      padding-left: var(--inset);
+      padding-right: var(--inset);
+      padding-bottom: clamp(16px, 2vw, 28px);
+    }
+
+    /* Ensure the header’s rail uses the same gutter (matches outer gutters on small screens) */
+    nav[aria-label="Main navigation"] .nav-rail{
+      padding-left: var(--gutter) !important;
+      padding-right: var(--gutter) !important;
+    }
+
+    /* ---------- Media defaults ---------- */
+    img, video, svg, canvas { max-width: 100%; height: auto; display: block; }
+    iframe { max-width: 100%; }
+
+    /* ---------- Navbar cosmetics ---------- */
+    .navbar{ border: none; border-radius: 0; margin-bottom: 0; background: #fff; }
+    .navbar-brand{ font-weight: 800; color: #0D5295 !important; }
+    .navbar-nav > li > a{ color: #666 !important; font-weight: 600; position: relative; }
+    .navbar-nav > li > a:hover{ color: #000 !important; background: transparent !important; }
+    .navbar-nav > .active > a,
+    .navbar-nav > .active > a:focus,
+    .navbar-nav > .active > a:hover{ color: #000 !important; background: transparent !important; }
+    .navbar-nav > .active > a::after{
+      content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: #000;
+    }
+
+    /* ---------- Content area grows to push footer down ---------- */
+    .content-wrap{ flex: 1 0 auto; }
+    /* Trim accidental extra space from last elements’ margins */
+    .content-wrap > :last-child{ margin-bottom: 0; }
+    .container-narrow > :last-child{ margin-bottom: 0; }
+
+    /* ---------- Footer (respects bottom safe area) ---------- */
+    footer{
+      margin-top: auto; /* sits at bottom even on short pages */
+      padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px));
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+      border-top: 1px solid #eee;
+      background: #fff;
+    }
+
+    /* ---------- Small-screen tidy-ups ---------- */
+    @media (max-width: 480px){
+      .container-narrow{ padding-bottom: 16px; }
+    }
+  </style>
+
+  <!-- Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <!-- Everything inside shares the same gutters; no transform scaling -->
+  <div class="page-scale-outer">
+    <div class="page-scale-frame">
+
+      {% include header.html %}
+
+      <div class="container-narrow content-wrap">
+        {{ content }}
+      </div>
+
+      {% include footer.html %}
+
+    </div>
+  </div>
+</body>
+</html>

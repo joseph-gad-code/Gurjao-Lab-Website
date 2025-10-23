@@ -40,42 +40,45 @@
     }
 
     /* ---------- Page structure ---------- */
-    .page-scale-outer {
+    .page-scale-outer{
       width: 100svw;
       padding-left:  calc(var(--gutter) + var(--sai-l));
       padding-right: calc(var(--gutter) + var(--sai-r));
       display: flex;
-      justify-content: center;
+      justify-content: center;     /* centered by default */
       align-items: flex-start;
-      height: 100dvh;
+      height: 100dvh;              /* visible viewport height */
       overflow-x: hidden;
-      overflow-y: auto;
+      overflow-y: auto;            /* single scrollbar */
       background: #fff;
+      padding-bottom: env(safe-area-inset-bottom, 0px);
     }
 
-    .page-scale-frame {
+    .page-scale-frame{
       width: var(--base-width);
       transform-origin: top left;
       display: flex;
       flex-direction: column;
-      overflow: visible;
+      overflow: visible;           /* outer handles scrolling */
     }
 
     /* ---------- Scaling for small screens ---------- */
     @media (max-width: 1100px){
-      :root {
+      :root{
         --page-scale: calc( (max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width) );
       }
       .page-scale-outer{
-        justify-content: center;      /* Center scaled content */
+        justify-content: center;        /* keep equal side gutters */
       }
       .page-scale-frame{
         transform: scale(var(--page-scale));
-        transform-origin: top center; /* Center the scaled frame */
+        transform-origin: top center;   /* anchor at top-center while scaled */
+        /* KEY FIX: make the scaled page visually fill viewport height */
+        min-height: calc(100dvh / var(--page-scale));
       }
     }
 
-    /* ---------- Intermediate fix for tablets ---------- */
+    /* ---------- Tablet minor fix ---------- */
     @media (min-width: 700px){
       .content-intro-wrapper { min-height: auto; }
     }
@@ -83,10 +86,10 @@
     /* ---------- Desktop (no scale) ---------- */
     @media (min-width: 1100px){
       .page-scale-outer{
-        justify-content: center;
-        height: auto;
-        overflow-y: visible;
         width: 100%;
+        justify-content: center;
+        height: auto;                 /* normal page height */
+        overflow-y: visible;          /* body scrolls */
       }
       .page-scale-frame{
         transform: none;
@@ -98,30 +101,31 @@
 
     /* ---------- Fallback for older browsers ---------- */
     @supports not (width: 100svw){
-      .page-scale-outer { width: 100vw; }
+      .page-scale-outer{ width: 100vw; }
       @media (max-width: 1100px){
-        :root {
+        :root{
           --page-scale: calc( (100vw - var(--page-pad) - 1px) / var(--base-width) );
         }
-        .page-scale-frame {
+        .page-scale-frame{
           transform: scale(var(--page-scale));
           transform-origin: top center;
+          min-height: calc(100dvh / var(--page-scale)); /* keep footer flush */
         }
       }
     }
 
     /* ---------- Shared rails & containers ---------- */
-    .container-narrow {
+    .container-narrow{
       width:100%;
       max-width:var(--base-width);
       margin: 0 auto;
       padding-left: var(--gutter);
       padding-right: var(--gutter);
       padding-bottom: clamp(16px, 2vw, 28px);
-      flex: 1 0 auto;
+      flex: 1 0 auto;               /* content grows; footer sticks */
     }
 
-    nav[aria-label="Main navigation"] .nav-rail {
+    nav[aria-label="Main navigation"] .nav-rail{
       padding-left: var(--gutter) !important;
       padding-right: var(--gutter) !important;
     }
@@ -131,41 +135,20 @@
     iframe { max-width:100%; }
 
     /* ---------- Navbar ---------- */
-    .navbar {
-      border:none;
-      border-radius:0;
-      margin-bottom:0;
-      background:#fff;
-    }
-    .navbar-brand {
-      font-weight:800;
-      color:#0D5295 !important;
-    }
-    .navbar-nav > li > a {
-      color:#666 !important;
-      font-weight:600;
-      position:relative;
-    }
-    .navbar-nav > li > a:hover {
-      color:#000 !important;
-      background:transparent !important;
-    }
+    .navbar{ border:none; border-radius:0; margin-bottom:0; background:#fff; }
+    .navbar-brand{ font-weight:800; color:#0D5295 !important; }
+    .navbar-nav > li > a{ color:#666 !important; font-weight:600; position:relative; }
+    .navbar-nav > li > a:hover{ color:#000 !important; background:transparent !important; }
     .navbar-nav > .active > a,
     .navbar-nav > .active > a:focus,
-    .navbar-nav > .active > a:hover {
-      color:#000 !important;
-      background:transparent !important;
-    }
-    .navbar-nav > .active > a::after {
-      content:"";
-      position:absolute;
-      left:0; right:0; bottom:0;
-      height:2px; background:#000;
+    .navbar-nav > .active > a:hover{ color:#000 !important; background:transparent !important; }
+    .navbar-nav > .active > a::after{
+      content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000;
     }
 
     /* ---------- Footer ---------- */
-    footer {
-      margin-top: auto;
+    footer{
+      margin-top: auto; /* sticks to bottom when content is short */
       padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px));
       text-align:center;
       font-size:14px;
@@ -174,7 +157,7 @@
       background:#fff;
     }
 
-    /* ---------- Misc ---------- */
+    /* ---------- Tidy ---------- */
     .page-scale-outer::-webkit-scrollbar-track { background:#fff; }
     .content-wrap > :last-child,
     .container-narrow > :last-child { margin-bottom: 0; }
@@ -186,7 +169,7 @@
 </head>
 
 <body>
-  <!-- Everything inside scales together and shares the same gutters -->
+  <!-- Everything inside shares the same gutters and scales together -->
   <div class="page-scale-outer">
     <div class="page-scale-frame">
 

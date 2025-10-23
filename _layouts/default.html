@@ -20,8 +20,18 @@
     /* ---------- Base / variables ---------- */
     html { box-sizing: border-box; }
     *, *::before, *::after { box-sizing: inherit; }
-    html, body, .page-scale-outer { scrollbar-gutter: stable both-edges; } /* keep navbar from shifting */
-    body { margin:0; font-family:'Nunito',sans-serif; color:#000; line-height:1.5; overflow-x:hidden; background:#fff; }
+
+    /* Keep a stable gutter so the navbar/content don't shift */
+    html, body, .page-scale-outer { scrollbar-gutter: stable both-edges; }
+
+    body {
+      margin:0;
+      font-family:'Nunito',sans-serif;
+      color:#000;
+      line-height:1.5;
+      overflow-x:hidden;
+      background:#fff;
+    }
 
     :root{
       --base-width: 1100px;                 /* design rail */
@@ -33,17 +43,18 @@
       --page-scale: 1;
     }
 
-    /* ---------- Outer container (scrolls on small screens) ---------- */
+    /* ---------- Outer container (single, stable scrollbar) ---------- */
     .page-scale-outer{
       width: 100svw;
       padding-left:  calc(var(--gutter) + var(--sai-l));
       padding-right: calc(var(--gutter) + var(--sai-r));
       display: flex;
-      justify-content: flex-start;   /* left-align by default; overridden on narrow */
+      justify-content: flex-start;   /* overridden to center on narrow */
       align-items: flex-start;
-      height: 100dvh;                /* base height; overridden to svh on narrow */
+      height: 100dvh;                /* overridden to svh on narrow */
       overflow-x: hidden;
-      overflow-y: auto;              /* single scrollbar */
+      overflow-y: scroll;            /* ALWAYS reserve gutter; prevents nav “jump” */
+      -webkit-overflow-scrolling: touch;
       background: #fff;
     }
 
@@ -69,7 +80,7 @@
       .page-scale-frame{
         transform: scale(var(--page-scale));
         transform-origin: top center;
-        /* exact post-transform height; subtract safe area + rounding px */
+        /* exact post-transform height; subtract safe area + tiny rounding */
         min-height: calc((100svh - env(safe-area-inset-bottom, 0px) - 2px) / var(--page-scale));
       }
     }
@@ -93,23 +104,23 @@
       .content-intro-wrapper { min-height: auto; }
     }
 
-    /* ---------- Desktop (no scaling, centered rail, normal page scroll) ---------- */
+    /* ---------- Desktop (no scaling, centered rail) ---------- */
     @media (min-width:1100px){
       .page-scale-outer{
-        width: 100%;                 /* avoid svw quirks on desktop */
-        justify-content: center;     /* center the 1100px rail */
-        height: auto;                /* let page grow normally */
-        overflow-y: visible;         /* body scrolls */
+        width: 100%;               /* avoid svw quirks on desktop */
+        justify-content: center;   /* center the 1100px rail */
+        height: auto;              /* natural page height */
+        /* keep overflow-y: scroll from base so gutter remains reserved */
       }
       .page-scale-frame{
         transform: none;
-        margin: 0 auto;              /* center inside outer */
+        margin: 0 auto;
         max-height: none;
-        justify-content: flex-start; /* no vertical centering */
+        justify-content: flex-start;
       }
     }
 
-    /* Fallback for browsers without svw */
+    /* ---------- Fallback for browsers without svw ---------- */
     @supports not (width: 100svw){
       .page-scale-outer{ width: 100vw; }
       @media (max-width: 1100px){
@@ -117,7 +128,6 @@
         .page-scale-frame{
           transform: scale(var(--page-scale));
           transform-origin: top center;
-          /* keep same no-gap behavior even without svh */
           min-height: calc((100dvh - env(safe-area-inset-bottom, 0px) - 2px) / var(--page-scale));
         }
       }

@@ -30,34 +30,35 @@
       --sai-r: env(safe-area-inset-right, 0px);
       --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
       --inset: clamp(16px, 6vw, 28px);      /* inner rails padding (nav/sections) */
-      --page-scale: 1;                      /* ADD: define reusable scale variable */
+      --page-scale: 1;                      /* define reusable scale variable */
     }
 
-   page-scale-outer {
-  width: 100svw;
-  padding-left:  calc(var(--gutter) + var(--sai-l));
-  padding-right: calc(var(--gutter) + var(--sai-r));
+    /* ⬇️ FIXED: added the missing dot before page-scale-outer */
+    .page-scale-outer {
+      width: 100svw;
+      padding-left:  calc(var(--gutter) + var(--sai-l));
+      padding-right: calc(var(--gutter) + var(--sai-r));
 
-  /* Fixes */
-  display: flex;                /* line up the scaled frame at the top */
-  justify-content: center;      /* keep centered on wide screens */
-  align-items: flex-start;      /* stop outer box from stretching */
-  
-  height: 100dvh;               /* restrict height to visible viewport */
-  overflow-x: hidden;           /* no horizontal scroll */
-  overflow-y: auto;             /* single vertical scrollbar only */
-  background: #fff;             /* fill color under iOS/desktop gaps */
-}
-/* Force the scaled frame not to overflow beyond viewport height */
-.page-scale-frame {
-  max-height: 100%;                       /* keeps visual fit */
-  width: var(--base-width);
-  transform-origin: top left;
-  display: flex;              /* ADD: for sticky footer layout */
-  flex-direction: column;
-  overflow: visible;          /* CHANGED: inner frame shouldn't scroll */
+      /* Fixes */
+      display: flex;                /* line up the scaled frame at the top */
+      justify-content: center;      /* keep centered on wide screens */
+      align-items: flex-start;      /* stop outer box from stretching */
+      
+      height: 100dvh;               /* restrict height to visible viewport */
+      overflow-x: hidden;           /* no horizontal scroll */
+      overflow-y: auto;             /* single vertical scrollbar only */
+      background: #fff;             /* fill color under iOS/desktop gaps */
     }
 
+    /* Force the scaled frame not to overflow beyond viewport height */
+    .page-scale-frame {
+      max-height: 100%;                       /* keeps visual fit */
+      width: var(--base-width);
+      transform-origin: top left;
+      display: flex;              /* for sticky footer layout */
+      flex-direction: column;
+      overflow: visible;          /* inner frame shouldn't scroll */
+    }
 
     /* shrink proportionally below base width */
     @media (max-width: 1100px){
@@ -102,7 +103,7 @@
       padding-left: var(--gutter);
       padding-right: var(--gutter);
       padding-bottom: clamp(16px, 2vw, 28px);
-      flex: 1 0 auto; /* ADD: content grows to push footer down */
+      flex: 1 0 auto; /* content grows to push footer down */
     }
 
     nav[aria-label="Main navigation"] .nav-rail {
@@ -128,8 +129,8 @@
 
     /* ---------- Footer ---------- */
     footer {
-      margin-top: auto; /* ADD: sticks footer to bottom */
-      padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px)); /* ADD: safe area */
+      margin-top: auto; /* sticks footer to bottom */
+      padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px)); /* safe area */
       text-align:center;
       font-size:14px;
       color:#555;
@@ -137,7 +138,7 @@
       background:#fff;
     }
 
-    /* ---------- Fix white scrollable bottom area ---------- */
+    /* ---------- Tidy ---------- */
     .page-scale-outer::-webkit-scrollbar-track { background:#fff; } /* keep visual clean */
     .content-wrap > :last-child,
     .container-narrow > :last-child { margin-bottom: 0; }

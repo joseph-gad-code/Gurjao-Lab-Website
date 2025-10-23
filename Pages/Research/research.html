@@ -6,7 +6,7 @@ nav: research
 ---
 
 <style>
-  /* Page rail: MATCH the layout/nav rail exactly */
+  /* Match the layout/nav rail exactly */
   .research-rail {
     width: 100%;
     max-width: var(--base-width);
@@ -19,76 +19,45 @@ nav: research
   }
 
   /* Section spacing */
-  .research-section {
-    margin: 120px 0; /* adjust if you want more/less vertical space */
-  }
+  .research-section { margin: 120px 0; }
 
-  /* Fixed side-by-side layout (never stacks; page scales instead) */
+  /* Fixed two-column layout (page scales instead of stacking) */
   .research-flex {
     display: flex;
-    flex-wrap: nowrap;           /* do not wrap; keeps two columns always */
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
-    gap: 80px;                   /* gutter between text and image */
+    gap: 80px;
   }
 
-  /* Text block (left/right depending on section) */
+  /* Text column */
   .research-text {
     flex: 0 0 52%;
     max-width: 52%;
-    min-width: 300px;            /* avoid text getting too narrow inside the scale frame */
+    min-width: 300px; /* keeps text readable inside scaled layout */
   }
-
-  .research-text h2 {
-    font-weight: 400;
-    font-size: 20px;
-    margin-bottom: 16px;
-  }
-
-  .research-text ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-  .research-text li {
-    margin-bottom: 8px;
-    position: relative;
-    padding-left: 28px;
-  }
+  .research-text h2 { font-weight: 400; font-size: 20px; margin-bottom: 16px; }
+  .research-text ul { margin: 0; padding: 0; list-style: none; }
+  .research-text li { margin-bottom: 8px; position: relative; padding-left: 28px; }
   .research-text li span {
-    position: absolute;
-    left: 0;
-    top: 0.75em;
-    width: 16px;
-    height: 2px;
-    background-color: #000;
+    position: absolute; left: 0; top: 0.75em; width: 16px; height: 2px; background-color: #000;
   }
 
   /* Image column */
   .research-image {
     flex: 0 0 48%;
     max-width: 48%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: flex; justify-content: center; align-items: center;
   }
-
-  /* Image styling — bounded so it never pushes layout wider than the rail */
   .research-image img {
-    display: block;
-    width: auto;
-    height: auto;
-    max-width: 420px;           /* tune per asset; scaling wrapper shrinks when needed */
-    max-height: 70vh;
-    object-fit: contain;
+    display: block; width: auto; height: auto;
+    max-width: 420px; max-height: 70vh; object-fit: contain;
     transition: transform 0.3s ease-in-out;
   }
-
-  /* Optional rotations you already had */
   .research-image.rotate-right img { transform: rotate(90deg); }
   .research-image.rotate-left  img { transform: rotate(-90deg); }
 
-  /* We intentionally do NOT stack on smaller screens; the layout scales the page. */
+  /* We do not stack on small screens; the layout scales the entire page. */
 </style>
 
 <!-- SECTION 1 -->
@@ -97,7 +66,9 @@ nav: research
     <div class="research-flex">
       <div class="research-text">
         <h2 style="font-weight: 700;">What causes cancer mutations?</h2>
-        <p style="font-size:15px;">Every person’s tumour tells a story—our lifestyle habits, our microbes, even our immune system shape the tumour’s DNA and can leave marks. We aim to discover and study such marks to understand how cancer develops.</p>
+        <p style="font-size:15px;">
+          Every person’s tumour tells a story—our lifestyle habits, our microbes, even our immune system shape the tumour’s DNA and can leave marks. We aim to discover and study such marks to understand how cancer develops.
+        </p>
 
         <p><em>Our discoveries so far:</em></p>
         <ul>
@@ -106,7 +77,9 @@ nav: research
           <li><span></span>Assessed the long-term effects of smoking on the colorectal cancer genomes.</li>
         </ul>
 
-        <p style="margin-top:12px;">In collaborations, we also assessed how alcohol and certain bacterial strains leave mutational marks.</p>
+        <p style="margin-top:12px;">
+          In collaborations, we also assessed how alcohol and certain bacterial strains leave mutational marks.
+        </p>
       </div>
 
       <div class="research-image rotate-right">
@@ -116,13 +89,15 @@ nav: research
   </div>
 </div>
 
-<!-- SECTION 2 (image on left, text on right) -->
+<!-- SECTION 2 (image left, text right) -->
 <div class="research-rail">
   <div class="research-section">
     <div class="research-flex" style="flex-direction: row-reverse;">
       <div class="research-text">
         <h2 style="font-weight: 700;">How can tumor mutations guide treatment?</h2>
-        <p>Cancer immunotherapies are transforming treatment, yet not all patients respond the same way. Studying the mutational landscape of tumors can inform the best course of treatment and predict aggressiveness.</p>
+        <p>
+          Cancer immunotherapies are transforming treatment, yet not all patients respond the same way. Studying the mutational landscape of tumors can inform the best course of treatment and predict aggressiveness.
+        </p>
 
         <p><em>Our discoveries so far:</em></p>
         <ul>
@@ -131,7 +106,9 @@ nav: research
           <li><span></span>Germline predisposition to oncogenic alkylating damage in colorectal cancer.</li>
         </ul>
 
-        <p style="margin-top:12px;">We have also contributed to studies on how tumor cells change after treatment, and how specific genetic contexts influence sensitivity to therapy.</p>
+        <p style="margin-top:12px;">
+          We have also contributed to studies on how tumor cells change after treatment, and how specific genetic contexts influence sensitivity to therapy.
+        </p>
       </div>
 
       <div class="research-image rotate-left">
@@ -147,14 +124,18 @@ nav: research
     <div class="research-flex">
       <div class="research-text">
         <h2 style="font-weight: 700;">Novel experimental and computational methods</h2>
-        <p>We work closely with clinicians and physicists to push the boundaries of how cancer is studied. Together, we are developing new approaches to:</p>
+        <p>
+          We work closely with clinicians and physicists to push the boundaries of how cancer is studied. Together, we are developing new approaches to:
+        </p>
 
         <ul>
           <li><span></span>Map the spatial architecture of tumors—understanding how cancer cells interact with their surroundings within tissues; to do so, we engineer tools.</li>
           <li><span></span>Reveal hidden microbial signals in tumor data—creating better ways to detect and analyze microbes that may influence cancer development.</li>
         </ul>
 
-        <p style="margin-top:12px;">These tools help answer fundamental questions about cancer biology and provide the community with new methods to accelerate discovery.</p>
+        <p style="margin-top:12px;">
+          These tools help answer fundamental questions about cancer biology and provide the community with new methods to accelerate discovery.
+        </p>
       </div>
 
       <div class="research-image rotate-right">

@@ -30,88 +30,76 @@
       --sai-r: env(safe-area-inset-right, 0px);
       --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
       --inset: clamp(16px, 6vw, 28px);      /* inner rails padding (nav/sections) */
-      --page-scale: 1;                      /* NEW: share scale between transform & height */
+      --page-scale: 1;                      /* ADD: define reusable scale variable */
     }
 
     /* outer wrapper carries real side padding; clip any stray overflow */
-    .page-scale-outer{
+    .page-scale-outer {
       width: 100svw;                                         /* use small viewport width */
       padding-left:  calc(var(--gutter) + var(--sai-l));
       padding-right: calc(var(--gutter) + var(--sai-r));
-      overflow-x: clip;                                      /* keep x clipped */
-      overflow-y: auto;                                      /* NEW: scroll the OUTER, not the scaled inner */
-      min-height: 100dvh;                                    /* ensure page fills viewport */
-      /* no display:flex here; the frame itself will handle sticky footer */
+      overflow-x: hidden; /* CHANGED: ensure no horizontal scroll */
+      overflow-y: auto;   /* CHANGED: outer handles scrolling */
+      height: 100dvh;     /* ADD: match visible viewport height */
+      background: #fff;   /* ADD: remove possible transparent gap on mobile */
     }
 
     /* the actual fixed-width page that gets scaled */
     .page-scale-frame {
-      /* was overflow-y:auto; -> causes a scaled, inset scrollbar. Remove it. */
-      overflow: visible;                                     /* NEW: let the OUTER scroll */
-      transform-origin: top left;
-    }
-
-    /* the actual fixed-width page that gets scaled */
-    .page-scale-frame{
       width: var(--base-width);
-      transform-origin: top left;                            /* keep left-anchored */
-      display: flex;                                         /* NEW: for sticky footer */
+      transform-origin: top left;
+      display: flex;              /* ADD: for sticky footer layout */
       flex-direction: column;
-      /* NEW: make the UN-SCALED height such that after transform it visually fills 100dvh */
-      min-height: calc(100dvh / var(--page-scale));
+      overflow: visible;          /* CHANGED: inner frame shouldn't scroll */
     }
 
     /* shrink proportionally below base width */
     @media (max-width: 1100px){
-      /* NEW: compute scale once; reuse it */
-      :root{
+      :root {
         --page-scale: calc( (max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width) );
       }
-      .page-scale-frame{
+      .page-scale-frame {
         transform: scale(var(--page-scale));
       }
     }
+
     @media (min-width: 700px){
       .content-intro-wrapper { min-height: auto; }
     }
+
     /* at/above base width: no scale, center it */
     @media (min-width: 1100px){
-      .page-scale-frame{
+      .page-scale-frame {
         transform: none;
         margin: 0 auto;
-        min-height: 100dvh; /* still fill viewport when unscaled */
       }
     }
 
     /* fallback for browsers that don't support svw (older Android/desktop) */
     @supports not (width: 100svw){
-      .page-scale-outer{ width: 100vw; }
+      .page-scale-outer { width: 100vw; }
       @media (max-width: 1100px){
-        :root{
+        :root {
           --page-scale: calc( (100vw - var(--page-pad) - 1px) / var(--base-width) );
         }
-        .page-scale-frame{
+        .page-scale-frame {
           transform: scale(var(--page-scale));
-          min-height: calc(100dvh / var(--page-scale));
         }
       }
     }
 
     /* ---------- Shared rails & containers ---------- */
-    /* This matches the width rail you use on pages and nav */
-    .container-narrow{
+    .container-narrow {
       width:100%;
       max-width:var(--base-width);
       margin: 0 auto;
       padding-left: var(--gutter);
       padding-right: var(--gutter);
-      /* extra bottom spacing before footer */
       padding-bottom: clamp(16px, 2vw, 28px);
-      flex: 1 0 auto;                                        /* NEW: content grows, footer sticks */
+      flex: 1 0 auto; /* ADD: content grows to push footer down */
     }
 
-    /* Ensure the header's rail uses the same gutter (overrides inline) */
-    nav[aria-label="Main navigation"] .nav-rail{
+    nav[aria-label="Main navigation"] .nav-rail {
       padding-left: var(--gutter) !important;
       padding-right: var(--gutter) !important;
     }
@@ -120,22 +108,22 @@
     img, video, svg, canvas { max-width:100%; height:auto; display:block; }
     iframe { max-width:100%; }
 
-    /* ---------- Simple navbar cosmetics (your header.html handles logic) ---------- */
-    .navbar{ border:none; border-radius:0; margin-bottom:0; background:#fff; }
-    .navbar-brand{ font-weight:800; color:#0D5295 !important; }
-    .navbar-nav > li > a{ color:#666 !important; font-weight:600; position:relative; }
-    .navbar-nav > li > a:hover{ color:#000 !important; background:transparent !important; }
+    /* ---------- Navbar ---------- */
+    .navbar { border:none; border-radius:0; margin-bottom:0; background:#fff; }
+    .navbar-brand { font-weight:800; color:#0D5295 !important; }
+    .navbar-nav > li > a { color:#666 !important; font-weight:600; position:relative; }
+    .navbar-nav > li > a:hover { color:#000 !important; background:transparent !important; }
     .navbar-nav > .active > a,
     .navbar-nav > .active > a:focus,
-    .navbar-nav > .active > a:hover{ color:#000 !important; background:transparent !important; }
-    .navbar-nav > .active > a::after{
+    .navbar-nav > .active > a:hover { color:#000 !important; background:transparent !important; }
+    .navbar-nav > .active > a::after {
       content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000;
     }
 
     /* ---------- Footer ---------- */
-    footer{
-      margin-top: auto;                                      /* NEW: stick to bottom inside frame */
-      padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px)); /* respect iOS bottom area */
+    footer {
+      margin-top: auto; /* ADD: sticks footer to bottom */
+      padding: 24px 0 calc(24px + env(safe-area-inset-bottom, 0px)); /* ADD: safe area */
       text-align:center;
       font-size:14px;
       color:#555;
@@ -143,9 +131,15 @@
       background:#fff;
     }
 
-    /* NEW: remove stray bottom margins that can create a ghost gap above footer */
+    /* ---------- Fix white scrollable bottom area ---------- */
+    .page-scale-outer::-webkit-scrollbar-track { background:#fff; } /* keep visual clean */
     .content-wrap > :last-child,
     .container-narrow > :last-child { margin-bottom: 0; }
+
+    html, body {
+      background: #fff;
+      overflow-x: hidden;
+    }
   </style>
 
   <!-- Scripts -->

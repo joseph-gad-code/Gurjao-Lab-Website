@@ -42,26 +42,22 @@
       width: 100svw;
       padding-left: calc(var(--gutter) + var(--sai-l));
       padding-right: calc(var(--gutter) + var(--sai-r));
-      overflow-x: clip; /* Prevent horizontal overflow */
+      overflow-x: clip;
     }
 
     /* The actual fixed-width page that gets scaled */
     .page-scale-frame {
       width: var(--base-width);
-      min-height: 100svh; /* Ensure it fills the viewport height */
       transform-origin: top left;
-      overflow-y: auto; /* Allow vertical scrolling within the frame */
+      overflow-y: auto; /* Allow vertical scrolling based on content */
     }
 
     /* Shrink proportionally below base width */
     @media (max-width: 1100px) {
       .page-scale-frame {
-        /* Scale based on available width, adjusted for padding and safe areas */
         transform: scale(
           calc((max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width))
         );
-        /* Adjust height proportionally to maintain aspect ratio */
-        height: calc(100svh * ((max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width)));
       }
     }
 
@@ -70,7 +66,6 @@
       .page-scale-frame {
         transform: none;
         margin: 0 auto;
-        min-height: auto; /* Reset min-height for larger screens */
       }
     }
 
@@ -82,7 +77,6 @@
           transform: scale(
             calc((100vw - var(--page-pad) - 1px) / var(--base-width))
           );
-          height: calc(100vh * ((100vw - var(--page-pad) - 1px) / var(--base-width)));
         }
       }
     }
@@ -101,6 +95,24 @@
     nav[aria-label="Main navigation"] .nav-rail {
       padding-left: var(--gutter);
       padding-right: var(--gutter);
+    }
+
+    /* Content layout: Side-by-side on large screens, stacked on small */
+    .content-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--gutter);
+    }
+
+    .mission-section, .news-section {
+      flex: 1;
+      min-width: 0; /* Prevent overflow */
+    }
+
+    @media (max-width: 767px) { /* Stack on small screens */
+      .mission-section, .news-section {
+        flex: 100%;
+      }
     }
 
     /* ---------- Media defaults ---------- */
@@ -138,7 +150,7 @@
       margin-top: clamp(24px, 3vw, 40px);
       padding: 24px 0;
       text-align: center;
-      font-size: 1rem; /* Improved readability */
+      font-size: 1rem;
       color: #555;
       border-top: 1px solid #eee;
     }
@@ -149,12 +161,30 @@
 </head>
 
 <body>
-  <!-- Everything inside scales together and shares the same gutters -->
   <div class="page-scale-outer">
     <div class="page-scale-frame">
       {% include header.html %}
       <div class="container-narrow content-wrap">
-        {{ content }}
+        <div class="mission-section">
+          <h2>treatment.</h2>
+          <p>Our work broadly focuses on:</p>
+          <ul>
+            <li>Why mutations occur: How lifestyle, microbes, the immune system, and DNA three-dimensional structure leave their mark on the genome.</li>
+            <li>How this knowledge guides treatment: Using tumor mutations to predict which therapies will work best.</li>
+            <li>Building new tools: Developing computational and experimental approaches with clinicians and physicists to push cancer research forward.</li>
+          </ul>
+          <p><a href="#">Read more about our research...</a></p>
+        </div>
+        <div class="news-section">
+          <h2>Latest news</h2>
+          <div class="news-item">
+            <p><strong>Lab awarded multi-year grant on early cancer detection</strong><br>Sep 21, 2025<br>Funding will support our work modeling mutational processes in precancerous tissue.</p>
+          </div>
+          <div class="news-item">
+            <p><strong>Welcome two new trainees!</strong><br>Sep 20, 2025<br>We're excited to welcome Taylor and Maya to the team this fall.</p>
+          </div>
+        </div>
+        <p>We acknowledge that we are located on the territory of the Kanien’kehá:ka (Mohawk) Nation, which has never been ceded by treaty.</p>
       </div>
       {% include footer.html %}
     </div>

@@ -34,56 +34,47 @@
 
     /* Outer wrapper carries real side padding; clip any stray overflow */
     .page-scale-outer {
-      width: 100svw;
+      width: 100vw; /* Use full viewport width */
       padding-left: calc(var(--gutter) + var(--sai-l));
       padding-right: calc(var(--gutter) + var(--sai-r));
       overflow-x: clip;
-      /* Removed min-height: 100svh to let content dictate height */
     }
 
-    /* The actual fixed-width page that gets scaled */
+    /* The actual page container */
     .page-scale-frame {
-      width: var(--base-width);
-      transform-origin: top left;
+      width: 100%; /* Full width, no fixed base width */
       overflow-y: auto; /* Allow scrolling based on content height */
-      height: auto; /* Explicitly set to auto to adapt to content */
-      min-height: 0; /* Ensure no minimum height forces extra space */
+      height: auto; /* Adapt to content height */
     }
 
-    /* Shrink proportionally below base width */
-    @media (max-width: 1100px) {
+    /* Responsive font sizes that decrease with screen size */
+    body {
+      font-size: clamp(14px, 2.5vw, 18px); /* Scales between 14px and 18px based on viewport width */
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-size: clamp(20px, 3.5vw, 30px); /* Scales headings proportionally */
+    }
+    p {
+      font-size: clamp(14px, 2vw, 20px); /* Scales paragraphs */
+    }
+
+    /* Ensure content fits small screens */
+    @media (max-width: 768px) {
       .page-scale-frame {
-        width: calc((max(320px, 100svw) - var(--page-pad) - 1px)); /* Adjust width directly */
-        transform: none; /* Remove transform to avoid height distortion */
-        margin: 0 auto; /* Center the adjusted width */
+        width: 100vw; /* Full viewport width on mobile */
+        padding: 0; /* Remove extra padding on small screens */
       }
-    }
-
-    /* At/above base width: no scale, center it */
-    @media (min-width: 1100px) {
-      .page-scale-frame {
-        transform: none;
-        margin: 0 auto;
-        height: auto; /* Reset height for full width */
-      }
-    }
-
-    /* Fallback for browsers that don't support svw */
-    @supports not (width: 100svw) {
-      .page-scale-outer { width: 100vw; }
-      @media (max-width: 1100px) {
-        .page-scale-frame {
-          width: calc((100vw - var(--page-pad) - 1px)); /* Adjust width directly */
-          transform: none;
-          margin: 0 auto;
-        }
+      .container-narrow {
+        padding-left: 10px; /* Reduced padding for mobile */
+        padding-right: 10px;
+        max-width: 100%; /* Allow full width on small screens */
       }
     }
 
     /* ---------- Shared rails & containers ---------- */
     .container-narrow{
       width:100%;
-      max-width:var(--base-width);
+      max-width: var(--base-width);
       margin: 0 auto;
       padding-left: var(--gutter);
       padding-right: var(--gutter);
@@ -117,7 +108,7 @@
       margin-top: clamp(24px, 3vw, 40px);
       padding: 24px 0;
       text-align:center;
-      font-size:14px;
+      font-size: clamp(12px, 1.5vw, 14px); /* Responsive footer font */
       color:#555;
       border-top:1px solid #eee;
     }

@@ -38,6 +38,7 @@
       padding-left: calc(var(--gutter) + var(--sai-l));
       padding-right: calc(var(--gutter) + var(--sai-r));
       overflow-x: clip;
+      min-height: 100svh; /* Ensure the outer container fills the viewport height */
     }
 
     /* The actual fixed-width page that gets scaled */
@@ -45,6 +46,7 @@
       width: var(--base-width);
       transform-origin: top left;
       overflow-y: auto; /* Allow scrolling based on content height */
+      height: auto; /* Explicitly set height to auto to adapt to content */
     }
 
     /* Shrink proportionally below base width */
@@ -53,6 +55,7 @@
         transform: scale(
           calc((max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width))
         );
+        height: auto; /* Maintain auto height during scaling */
       }
     }
 
@@ -61,17 +64,19 @@
       .page-scale-frame {
         transform: none;
         margin: 0 auto;
+        height: auto; /* Reset height for full width */
       }
     }
 
     /* Fallback for browsers that don't support svw */
     @supports not (width: 100svw) {
-      .page-scale-outer { width: 100vw; }
+      .page-scale-outer { width: 100vw; min-height: 100vh; }
       @media (max-width: 1100px) {
         .page-scale-frame {
           transform: scale(
             calc((100vw - var(--page-pad) - 1px) / var(--base-width))
           );
+          height: auto;
         }
       }
     }

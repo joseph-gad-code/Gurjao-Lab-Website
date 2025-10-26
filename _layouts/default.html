@@ -40,10 +40,11 @@
       overflow-x: clip;
     }
 
+    /* The actual fixed-width page that gets scaled */
     .page-scale-frame {
       width: var(--base-width);
       transform-origin: top left;
-      overflow-y: auto; /* Allow scrolling based on content */
+      overflow-y: auto; /* Allow scrolling based on content height */
     }
 
     /* Shrink proportionally below base width */
@@ -76,7 +77,7 @@
     }
 
     /* ---------- Shared rails & containers ---------- */
-    .container-narrow {
+    .container-narrow{
       width:100%;
       max-width:var(--base-width);
       margin: 0 auto;
@@ -86,7 +87,7 @@
     }
 
     /* Ensure the header's rail uses the same gutter (overrides inline) */
-    nav[aria-label="Main navigation"] .nav-rail {
+    nav[aria-label="Main navigation"] .nav-rail{
       padding-left: var(--gutter) !important;
       padding-right: var(--gutter) !important;
     }

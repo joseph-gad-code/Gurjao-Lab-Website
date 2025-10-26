@@ -23,77 +23,68 @@
     body { margin:0; font-family:'Nunito',sans-serif; color:#000; line-height:1.5; overflow-x:hidden; }
 
     /* Site width and gutters */
-   :root {
-  --base-width: 1100px;                 /* your design width */
-  --gutter: clamp(16px, 6vw, 28px);     /* page side margins on small screens */
-  --sai-l: env(safe-area-inset-left, 0px);
-  --sai-r: env(safe-area-inset-right, 0px);
-  --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
-  --inset: clamp(16px, 6vw, 28px);      /* inner rails padding (nav/sections) */
-}
+    :root {
+      --gutter: clamp(16px, 6vw, 28px);
+      --sai-l: env(safe-area-inset-left, 0px);
+      --sai-r: env(safe-area-inset-right, 0px);
+      --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
+      --inset: clamp(16px, 6vw, 28px);
+    }
 
-/* outer wrapper carries real side padding; clip any stray overflow */
-.page-scale-outer{
-  width: 100svw;                                         /* use small viewport width */
-  padding-left:  calc(var(--gutter) + var(--sai-l));
-  padding-right: calc(var(--gutter) + var(--sai-r));
-  overflow-x: clip;                                      /* more robust than hidden on iOS */
-  overflow-y: hidden; 
-}
+    /* Outer wrapper carries real side padding; clip any stray overflow */
+    .page-scale-outer {
+      width: 100vw;
+      padding-left: calc(var(--gutter) + var(--sai-l));
+      padding-right: calc(var(--gutter) + var(--sai-r));
+      overflow-x: clip;
+    }
+
+    /* The actual page container */
     .page-scale-frame {
-  overflow-y: auto;
-  transform-origin: top left;
-}
-
-/* the actual fixed-width page that gets scaled */
-.page-scale-frame{
-  width: var(--base-width);
-  transform-origin: top left;                            /* keep left-anchored */
-}
-
-/* shrink proportionally below base width */
-@media (max-width: 1100px){
-  .page-scale-frame{
-    /* subtract gutters + safe areas + a tiny cushion to kill rounding overflow */
-    transform: scale(
-      calc( (max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width) )
-    );
-  }
-}
-@media (min-width: 700px){
-    .content-intro-wrapper {
-        min-height: auto;
+      width: 100%; /* Full width, fluid layout */
+      overflow-y: auto; /* Allow scrolling only if content exceeds viewport */
+      height: auto; /* Adapt to content height */
+      display: flex; /* Use flex to contain height */
+      flex-direction: column; /* Stack children vertically */
+      min-height: 0; /* Prevent minimum height forcing extra space */
     }
-}
-/* at/above base width: no scale, center it */
-@media (min-width: 1100px){
-  .page-scale-frame{
-    transform: none;
-    margin: 0 auto;
-  }
-}
 
-/* fallback for browsers that don't support svw (older Android/desktop) */
-@supports not (width: 100svw){
-  .page-scale-outer{ width: 100vw; }
-  @media (max-width: 1100px){
-    .page-scale-frame{
-      transform: scale(
-        calc( (100vw - var(--page-pad) - 1px) / var(--base-width) )
-      );
+    /* Responsive font sizes that decrease with screen size */
+    body {
+      font-size: clamp(14px, 2vw, 18px); /* Scales between 14px and 18px */
     }
-  }
-}
+    h1, h2, h3, h4, h5, h6 {
+      font-size: clamp(20px, 3vw, 30px); /* Scales headings */
+    }
+    p {
+      font-size: clamp(14px, 2vw, 20px); /* Scales paragraphs */
+    }
+
+    /* Ensure content fits and scales on small screens */
+    @media (max-width: 768px) {
+      .page-scale-frame {
+        width: 100vw; /* Full viewport width on mobile */
+      }
+      .container-narrow {
+        padding-left: 10px; /* Reduced padding for mobile */
+        padding-right: 10px;
+        max-width: 100%; /* Allow full width */
+      }
+      /* Stack columns on mobile */
+      .row [class*="col-"] {
+        width: 100%; /* Force full width on mobile */
+      }
+    }
+
     /* ---------- Shared rails & containers ---------- */
-    /* This matches the width rail you use on pages and nav */
     .container-narrow{
       width:100%;
-      max-width:var(--base-width);
+      max-width: 100%; /* Fluid max-width */
       margin: 0 auto;
       padding-left: var(--gutter);
       padding-right: var(--gutter);
-      /* extra bottom spacing before footer */
       padding-bottom: clamp(16px, 2vw, 28px);
+      flex: 1 0 auto; /* Allow container to grow but not shrink beyond content */
     }
 
     /* Ensure the header's rail uses the same gutter (overrides inline) */
@@ -123,9 +114,10 @@
       margin-top: clamp(24px, 3vw, 40px);
       padding: 24px 0;
       text-align:center;
-      font-size:14px;
+      font-size: clamp(12px, 1.5vw, 14px); /* Responsive footer font */
       color:#555;
       border-top:1px solid #eee;
+      flex-shrink: 0; /* Prevent footer from shrinking */
     }
   </style>
 
@@ -138,15 +130,11 @@
   <!-- Everything inside scales together and shares the same gutters -->
   <div class="page-scale-outer">
     <div class="page-scale-frame">
-
       {% include header.html %}
-
       <div class="container-narrow content-wrap">
         {{ content }}
       </div>
-
       {% include footer.html %}
-
     </div>
   </div>
 </body>

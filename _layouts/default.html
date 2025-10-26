@@ -52,9 +52,9 @@
     /* Shrink proportionally below base width */
     @media (max-width: 1100px) {
       .page-scale-frame {
-        transform: scaleX(
+        transform: scale(
           calc((max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width))
-        ); /* Scale only width, not height */
+        ); /* Use full scale for proportional resizing */
         height: auto; /* Preserve natural content height */
       }
     }
@@ -73,9 +73,9 @@
       .page-scale-outer { width: 100vw; min-height: 100vh; }
       @media (max-width: 1100px) {
         .page-scale-frame {
-          transform: scaleX(
+          transform: scale(
             calc((100vw - var(--page-pad) - 1px) / var(--base-width))
-          ); /* Scale only width */
+          ); /* Use full scale */
           height: auto;
         }
       }

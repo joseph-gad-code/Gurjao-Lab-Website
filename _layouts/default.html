@@ -52,10 +52,9 @@
     /* Shrink proportionally below base width */
     @media (max-width: 1100px) {
       .page-scale-frame {
-        transform: scale(
-          calc((max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width))
-        ); /* Use full scale for proportional resizing */
-        height: auto; /* Preserve natural content height */
+        width: calc((max(320px, 100svw) - var(--page-pad) - 1px)); /* Adjust width directly instead of scaling */
+        transform: none; /* Remove transform to avoid height distortion */
+        margin: 0 auto; /* Center the adjusted width */
       }
     }
 
@@ -73,10 +72,9 @@
       .page-scale-outer { width: 100vw; min-height: 100vh; }
       @media (max-width: 1100px) {
         .page-scale-frame {
-          transform: scale(
-            calc((100vw - var(--page-pad) - 1px) / var(--base-width))
-          ); /* Use full scale */
-          height: auto;
+          width: calc((100vw - var(--page-pad) - 1px)); /* Adjust width directly */
+          transform: none;
+          margin: 0 auto;
         }
       }
     }

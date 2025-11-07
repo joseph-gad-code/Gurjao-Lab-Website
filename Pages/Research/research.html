@@ -57,11 +57,7 @@ nav: research
   .research-image.rotate-right img { transform: rotate(90deg); }
   .research-image.rotate-left  img { transform: rotate(-90deg); }
 
-  /* Publication sections */
-  .publication-list { list-style: none; padding: 0; margin: 0; }
-  .publication-list li { margin-bottom: 10px; }
-  .publication-list strong { display: block; font-weight: 600; }
-  .publication-list em { color: #444; }
+  /* We do not stack on small screens; the layout scales the entire page. */
 </style>
 
 <!-- SECTION 1 -->
@@ -93,7 +89,7 @@ nav: research
   </div>
 </div>
 
-<!-- SECTION 2 -->
+<!-- SECTION 2 (image left, text right) -->
 <div class="research-rail">
   <div class="research-section">
     <div class="research-flex" style="flex-direction: row-reverse;">
@@ -145,44 +141,6 @@ nav: research
       <div class="research-image rotate-right">
         <img src="{{ '/Pages/Research/Images/methods.svg' | relative_url }}" alt="Schematic of genome architecture, microbiota, lifestyle and immune system alongside mutational landscape">
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- SELECTED PUBLICATIONS -->
-<div class="research-rail">
-  <div class="research-section">
-    <div class="research-text">
-      <h2 style="font-weight:700;">Selected Publications</h2>
-      <ul class="publication-list">
-        {% for pub in site.data.publications %}
-          {% if pub.selected %}
-          <li>
-            <strong>{{ pub.title }}</strong>
-            {{ pub.authors }}<br>
-            <em>{{ pub.journal }}</em>
-          </li>
-          {% endif %}
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- FULL LIST OF PUBLICATIONS (includes selected) -->
-<div class="research-rail">
-  <div class="research-section">
-    <div class="research-text">
-      <h2 style="font-weight:700;">Full List of Publications</h2>
-      <ul class="publication-list">
-        {% for pub in site.data.publications %}
-        <li>
-          <strong>{{ pub.title }}</strong>
-          {{ pub.authors }}<br>
-          <em>{{ pub.journal }}</em>
-        </li>
-        {% endfor %}
-      </ul>
     </div>
   </div>
 </div>

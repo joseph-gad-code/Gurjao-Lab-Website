@@ -194,8 +194,7 @@ h2 {
 
   <h2>Full List</h2>
 
-  {%- assign non_sel_a = _pubs | where_exp:"p","p.selected_publication != true" -%}
-  {%- assign others    = non_sel_a | where_exp:"p","p.selected_publication != 'yes'" -%}
+  {%- assign others = _pubs -%}  {# include all publications, including selected ones #}
 
   {%- capture _year_pipe -%}
     {%- for p in others -%}

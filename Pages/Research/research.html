@@ -21,7 +21,7 @@ nav: research
   /* Section spacing */
   .research-section { margin: 120px 0; }
 
-  /* Fixed two-column layout (page scales instead of stacking) */
+  /* Default: two-column layout on desktop */
   .research-flex {
     display: flex;
     flex-wrap: nowrap;
@@ -34,8 +34,9 @@ nav: research
   .research-text {
     flex: 0 0 52%;
     max-width: 52%;
-    min-width: 300px; /* keeps text readable inside scaled layout */
+    min-width: 300px;
   }
+
   .research-text h2 { font-weight: 400; font-size: 20px; margin-bottom: 16px; }
   .research-text ul { margin: 0; padding: 0; list-style: none; }
   .research-text li { margin-bottom: 8px; position: relative; padding-left: 28px; }
@@ -49,16 +50,45 @@ nav: research
     max-width: 48%;
     display: flex; justify-content: center; align-items: center;
   }
+
   .research-image img {
-    display: block; width: auto; height: auto;
-    max-width: 420px; max-height: 70vh; object-fit: contain;
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 420px;
+    max-height: 70vh;
+    object-fit: contain;
     transition: transform 0.3s ease-in-out;
   }
-  .research-image.rotate-right img { transform: rotate(90deg); }
-  .research-image.rotate-left  img { transform: rotate(-90deg); }
 
-  /* We do not stack on small screens; the layout scales the entire page. */
+  .research-image.rotate-right img { transform: rotate(90deg); }
+  .research-image.rotate-left img  { transform: rotate(-90deg); }
+
+  /* --- MOBILE VERSION --- */
+  @media (max-width: 768px) {
+    .research-flex {
+      flex-direction: column; /* stack vertically */
+      gap: 40px; /* smaller spacing */
+    }
+
+    .research-image,
+    .research-text {
+      flex: 1 1 100%;
+      max-width: 100%;
+      text-align: center;
+    }
+
+    .research-image img {
+      width: 100%;       /* fill width of container */
+      max-width: 100%;   /* same width as text box */
+      transform: none;   /* disable rotations on small screens (optional) */
+    }
+
+    /* Optional: reduce vertical margins for compactness */
+    .research-section { margin: 60px 0; }
+  }
 </style>
+
 
 <!-- SECTION 1 -->
 <div class="research-rail">

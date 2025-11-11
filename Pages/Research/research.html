@@ -64,29 +64,41 @@ nav: research
   .research-image.rotate-right img { transform: rotate(90deg); }
   .research-image.rotate-left img  { transform: rotate(-90deg); }
 
-  /* --- MOBILE VERSION --- */
-  @media (max-width: 768px) {
-    .research-flex {
-      flex-direction: column; /* stack vertically */
-      gap: 40px; /* smaller spacing */
-    }
-
-    .research-image,
-    .research-text {
-      flex: 1 1 100%;
-      max-width: 100%;
-      text-align: center;
-    }
-
-    .research-image img {
-      width: 100%;       /* fill width of container */
-      max-width: 100%;   /* same width as text box */
-      transform: none;   /* disable rotations on small screens (optional) */
-    }
-
-    /* Optional: reduce vertical margins for compactness */
-    .research-section { margin: 60px 0; }
+/* --- MOBILE VERSION --- */
+@media (max-width: 768px) {
+  .research-flex {
+    flex-direction: column !important; /* override row-reverse in section 2 */
+    gap: 40px;
   }
+
+  .research-image,
+  .research-text {
+    flex: 1 1 100%;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  .research-image img {
+    width: 100%;
+    max-width: 100%;
+    transform: none;
+  }
+
+  /* Larger font sizes on mobile */
+  .research-text h2 {
+    font-size: 24px !important; /* previously 20px */
+  }
+
+  .research-text p,
+  .research-text li {
+    font-size: 18px !important; /* increase readability */
+    line-height: 1.6;
+  }
+
+  .research-section {
+    margin: 60px 0;
+  }
+}
 </style>
 
 

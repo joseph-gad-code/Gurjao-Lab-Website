@@ -66,7 +66,7 @@ nav: research
 
 /* --- MOBILE VERSION --- */
 @media (max-width: 1024px), (pointer: coarse) {
-  /* Force layout to stack vertically even if row-reverse is inline */
+
   .research-flex {
     flex-direction: column !important;
     gap: 40px;
@@ -74,7 +74,7 @@ nav: research
 
   /* Images always above text */
   .research-image {
-    order: -1; /* guarantees image goes above text on all mobile widths */
+    order: -1;
   }
 
   .research-image,
@@ -84,12 +84,13 @@ nav: research
   }
 
   .research-image img {
-    width: flex;
-    max-width: flex;
-    transform: none;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    transform: none !important;
   }
 
-  /* Text scaling for better readability */
+  /* Text scaling for readability */
   .research-text h2 {
     font-size: 28px !important;
     line-height: 1.3;
@@ -105,8 +106,12 @@ nav: research
   .research-section {
     margin: 50px 0;
   }
-  .research-image.rotate-right img { transform: rotate(0deg); }
-.research-image.rotate-left img  { transform: rotate(0deg); }
+
+  /* Remove any rotations */
+  .research-image.rotate-right img,
+  .research-image.rotate-left img {
+    transform: rotate(0deg) !important;
+  }
 }
 
 </style>

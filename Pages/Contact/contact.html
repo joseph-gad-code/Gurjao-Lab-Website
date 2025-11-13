@@ -160,28 +160,29 @@ nav: contact
   }
 
   @media (max-width: 500px) {
-    section {
-      padding: 0 8px;
-    }
-
-    .contact-left p {
-      font-size: clamp(12px, 3.5vw, 14px);
-    }
-
-    .contact-top {
-      gap: 2vw;
-    }
-
-    .contact-left,
-    .contact-right {
-      flex: 1 1 50%;
-      padding: 3vw;
-    }
-
-    .contact-logo-box img {
-      width: 95%;
-    }
+  /* Stack value cards */
+  .contact-values-grid {
+    flex-direction: column;
+    gap: 16px; /* less vertical gap */
   }
+
+  .contact-value-col {
+    flex: 1 1 auto;      /* adapt width & height */
+    width: 100%;         /* full width */
+    padding: 20px;       /* smaller padding to reduce height */
+  }
+
+  .contact-value-col h3 {
+    font-size: 28px;
+    margin-bottom: 8px;  /* reduce spacing under title */
+  }
+
+  .contact-value-col p {
+    font-size: 30px;
+    line-height: 1.4;    /* tighter line height */
+    margin-bottom: 0;    /* remove extra spacing */
+  }
+}
 
   /* === Responsive tweaks for mobile === */
 @media (max-width: 800px) {

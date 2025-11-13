@@ -164,41 +164,67 @@ nav: people
 
 /* Responsive tweaks */
 /* --- MOBILE RESPONSIVE --- */
+/* Responsive tweaks */
+@media (max-width: 992px) {
+  .people-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .page-title {
+    font-size: 26px;
+  }
+  .person-card {
+    padding: 25px 15px;
+  }
+}
+
+/* Mobile-specific adjustments */
 @media (max-width: 600px) {
+
   /* Stack cards vertically */
   .people-list {
-    grid-template-columns: 1fr;
-    gap: 30px; /* add some vertical spacing */
+    grid-template-columns: 1fr; /* one card per row */
+    gap: 40px;
   }
 
-  /* Increase page title */
-  .page-title {
-    font-size: 32px;
-  }
-
-  /* Person card padding */
+  /* Keep card size same as desktop */
   .person-card {
-    padding: 30px 20px;
-    max-width: 100%;
+    max-width: 400px;  /* same as desktop */
+    width: 100%;
+    padding: 30px 20px; /* same as desktop */
   }
 
-  /* Larger text sizes for mobile */
+  /* Increase headings inside cards */
   .person-name {
-    font-size: 28px;
+    font-size: 22px;
   }
 
-  .person-status {
-    font-size: 20px;
-    margin-bottom: 20px;
-  }
-
-  .person-bio {
-    font-size: 18px;
-    line-height: 1.6;
-    margin-bottom: 20px;
-  }
-
+  .person-status,
+  .person-bio,
   .read-more {
+    font-size: 18px;
+  }
+
+  /* Increase page section headings */
+  .page-title,
+  .section-title,
+  h2 {
+    font-size: 48px !important; /* Team Members, Core Values */
+    line-height: 1.3;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+
+  /* Increase spacing in values section */
+  .values-section {
+    margin-top: 60px;
+    margin-bottom: 40px;
+  }
+
+  .value-col h3 {
+    font-size: 20px;
+  }
+
+  .value-col p {
     font-size: 18px;
   }
 
@@ -206,21 +232,6 @@ nav: people
   .person-social .icon {
     width: 28px;
     height: 28px;
-  }
-
-  /* Core values section adjustments */
-  .values-section h2 {
-    font-size: 28px;
-  }
-
-  .value-col h3 {
-    font-size: 20px;
-    margin-bottom: 12px;
-  }
-
-  .value-col p {
-    font-size: 18px;
-    line-height: 1.7;
   }
 }
 

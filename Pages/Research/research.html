@@ -73,22 +73,29 @@ nav: research
   }
 
   /* Images always above text */
-  .research-image {
-    order: -1;
-  }
+ /* Images always above text */
+.research-image {
+  order: -1;
+  width: 100vw; /* let the container span full screen */
+  margin-left: 50%;
+  transform: translateX(-50%); /* center it relative to viewport */
+}
 
-  .research-image,
-  .research-text {
-    flex: 1 1 100%;
-    max-width: 100%;
-  }
+.research-image img {
+  display: block;
+  width: 100vw; /* full viewport width */
+  max-width: none;
+  height: auto;
+  object-fit: cover;
+  transform: none !important;
+}
 
-  .research-image img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    transform: none !important;
-  }
+.research-text {
+  flex: 1 1 100%;
+  max-width: 100%;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
 
   /* Text scaling for readability */
   .research-text h2 {

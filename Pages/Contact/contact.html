@@ -146,18 +146,19 @@ nav: contact
     padding: 0 12px;
   }
 
-  /* Top columns: keep side-by-side */
+  /* === STACK TOP COLUMNS ON MOBILE === */
   .contact-top {
-    gap: 3vw;  /* smaller gap */
-    flex-wrap: nowrap; /* stay horizontal */
+    flex-wrap: wrap;       /* allow vertical stacking */
+    gap: 3vw;              /* spacing between stacked columns */
   }
 
   .contact-left,
   .contact-right {
-    flex: 1 1 50%;  /* keep two columns */
+    flex: 1 1 100%;        /* full width */
+    max-width: 100%;       /* prevent side-by-side on mobile */
     padding: 3vw;
   }
-
+  
   /* Scale text above the cards */
   .contact-left h2 {
     font-size: 50px;  /* larger heading */

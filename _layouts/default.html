@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
+  <!-- Proper mobile scaling -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
   <title>GURJAOLAB | {{ page.title }}</title>
@@ -22,87 +23,68 @@
     body { margin:0; font-family:'Nunito',sans-serif; color:#000; line-height:1.5; overflow-x:hidden; }
 
     :root {
-      --base-width: 1100px;
-      --gutter: clamp(16px, 6vw, 28px);
+      --base-width: 1100px;                 /* design width */
+      --gutter: clamp(16px, 6vw, 28px);     /* page side margins */
       --sai-l: env(safe-area-inset-left, 0px);
       --sai-r: env(safe-area-inset-right, 0px);
       --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
-      --inset: clamp(16px, 6vw, 28px);
     }
 
     /* ---------- Outer wrapper ---------- */
-    .page-scale-outer {
+    .page-scale-outer{
       width: 100svw;
       padding-left: calc(var(--gutter) + var(--sai-l));
       padding-right: calc(var(--gutter) + var(--sai-r));
       overflow-x: clip;
-      height: 100vh; /* restrict viewport height */
       display: flex;
+      flex-direction: column;
+      min-height: 100vh; /* ensure footer sticks on short pages */
     }
 
-    /* ---------- Scaled frame ---------- */
+    /* ---------- Scaled fixed-width frame ---------- */
     .page-scale-frame {
       width: var(--base-width);
       transform-origin: top left;
       display: flex;
       flex-direction: column;
-      flex: 1;
+      flex: 1; /* allows content to grow */
     }
 
-    @media (max-width: 1100px) {
-      .page-scale-frame {
+    /* ---------- Scaling for smaller screens ---------- */
+    @media (max-width: 1100px){
+      .page-scale-frame{
         transform: scale(
-          calc((max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width))
+          calc( (max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width) )
         );
       }
     }
 
-    @media (min-width: 1100px) {
-      .page-scale-frame {
-        transform: none;
-        margin: 0 auto;
-      }
-    }
-
-    @supports not (width: 100svw) {
-      .page-scale-outer { width: 100vw; }
+    @supports not (width: 100svw){
+      .page-scale-outer{ width: 100vw; }
       @media (max-width: 1100px){
         .page-scale-frame{
           transform: scale(
-            calc((100vw - var(--page-pad) - 1px) / var(--base-width))
+            calc( (100vw - var(--page-pad) - 1px) / var(--base-width) )
           );
         }
       }
     }
 
-    /* ---------- Scrollable content wrapper ---------- */
-    .scrollable-content {
-      flex: 1;
-      overflow-y: auto; /* allow vertical scroll only inside this area */
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* ---------- Shared rails & containers ---------- */
-    .container-narrow {
-      width: 100%;
-      max-width: var(--base-width);
+    /* ---------- Container ---------- */
+    .container-narrow{
+      width:100%;
+      max-width:var(--base-width);
       margin: 0 auto;
       padding-left: var(--gutter);
       padding-right: var(--gutter);
       padding-bottom: clamp(16px, 2vw, 28px);
-      flex: 1;
     }
 
-    nav[aria-label="Main navigation"] .nav-rail {
+    /* ---------- Header/Nav ---------- */
+    nav[aria-label="Main navigation"] .nav-rail{
       padding-left: var(--gutter) !important;
       padding-right: var(--gutter) !important;
     }
-
-    img, video, svg, canvas { max-width:100%; height:auto; display:block; }
-    iframe { max-width:100%; }
-
-    /* ---------- Navbar ---------- */
     .navbar{ border:none; border-radius:0; margin-bottom:0; background:#fff; }
     .navbar-brand{ font-weight:800; color:#0D5295 !important; }
     .navbar-nav > li > a{ color:#666 !important; font-weight:600; position:relative; }
@@ -114,14 +96,23 @@
       content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000;
     }
 
+    /* ---------- Media defaults ---------- */
+    img, video, svg, canvas { max-width:100%; height:auto; display:block; }
+    iframe { max-width:100%; }
+
     /* ---------- Footer ---------- */
-    footer {
+    footer{
       margin-top: clamp(24px, 3vw, 40px);
       padding: 24px 0;
-      text-align: center;
-      font-size: 14px;
-      color: #555;
-      border-top: 1px solid #eee;
+      text-align:center;
+      font-size:14px;
+      color:#555;
+      border-top:1px solid #eee;
+    }
+
+    /* ---------- Content area grows to push footer down ---------- */
+    .content-wrap {
+      flex: 1 0 auto;
     }
   </style>
 
@@ -131,18 +122,17 @@
 </head>
 
 <body>
+  <!-- Outer scaling wrapper -->
   <div class="page-scale-outer">
     <div class="page-scale-frame">
 
       {% include header.html %}
 
-      <!-- Scrollable content area -->
-      <div class="scrollable-content">
-        <div class="container-narrow content-wrap">
-          {{ content }}
-        </div>
-        {% include footer.html %}
+      <div class="container-narrow content-wrap">
+        {{ content }}
       </div>
+
+      {% include footer.html %}
 
     </div>
   </div>

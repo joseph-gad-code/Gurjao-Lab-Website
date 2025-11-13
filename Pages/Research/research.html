@@ -75,22 +75,27 @@ nav: research
   }
 
   /* Images always above text and full-width */
-  .research-image {
-    order: -1;
-    width: 100vw; /* stretch to full viewport width */
-    margin-left: 50%;
-    transform: translateX(-50%); /* center inside padded container */
-    margin-bottom: 32px; /* spacing below image */
-  }
+.research-image {
+  order: -1;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  width: 100vw; /* span full viewport width */
+  margin-left: -50vw; /* cancel out half viewport to align with screen edges */
+  margin-right: -50vw;
+  margin-bottom: 32px;
+  transform: none; /* remove any previous transform */
+}
 
-  .research-image img {
-    display: block;
-    width: 100vw; /* edge-to-edge */
-    max-width: none;
-    height: auto;
-    object-fit: cover;
-    transform: none !important;
-  }
+
+.research-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  object-fit: cover;
+  transform: none !important;
+}
 
   /* Keep text padded within the rail */
   .research-text {

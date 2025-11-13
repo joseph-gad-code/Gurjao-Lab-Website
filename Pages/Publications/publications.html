@@ -115,6 +115,36 @@ h2 {
   padding: 12px 16px;
   margin-bottom: 12px;
 }
+
+  /* ===== Mobile-specific adjustments ===== */
+@media (max-width: 900px) {
+  /* Stack selected publications */
+  .selected-grid {
+    grid-template-columns: 1fr; /* single column */
+    gap: 20px;                  /* vertical spacing between cards */
+  }
+
+  /* Increase text sizes for mobile */
+  .pub-title {
+    font-size: 35px;  /* bigger title */
+  }
+
+  .pub-authors,
+  .pub-meta {
+    font-size: 29px;  /* bigger author/journal info */
+  }
+
+  .pub-button {
+    font-size: 25px;  /* larger buttons */
+    padding: 10px 16px;
+  }
+
+  .pub-image {
+    width: 150px;   /* optional: make images a bit bigger */
+    height: auto;
+  }
+}
+
 </style>
 
 <section class="pubs">

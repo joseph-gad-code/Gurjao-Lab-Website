@@ -182,6 +182,70 @@ nav: contact
       width: 95%;
     }
   }
+
+  /* === Responsive tweaks for mobile === */
+@media (max-width: 800px) {
+  /* Top columns remain side by side */
+  .contact-top {
+    gap: 3vw;
+  }
+
+  .contact-left,
+  .contact-right {
+    padding: 3vw;
+  }
+
+  .contact-logo-box {
+    aspect-ratio: auto;
+    height: auto;
+  }
+
+  .contact-logo-box img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* Smaller screens: stack value cards and increase text size */
+@media (max-width: 500px) {
+  section {
+    padding: 0 10px;
+  }
+
+  .contact-left h2 {
+    font-size: 30px; /* larger section title */
+  }
+
+  .contact-left p,
+  .contact-left ul li {
+    font-size: 20px; /* larger contact text */
+    line-height: 1.6;
+  }
+
+  .contact-left ul li {
+    margin-bottom: 8px;
+  }
+
+  /* Stack value cards under "Open positions" and "Contribute" */
+  .contact-values-grid {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-value-col h3 {
+    font-size: 28px; /* larger card title */
+  }
+
+  .contact-value-col p {
+    font-size: 30px; /* larger card text */
+    line-height: 1.5;
+  }
+
+  .contact-logo-box img {
+    width: 95%;
+  }
+}
+
 </style>
 
 <!-- === Main Contact Section === -->

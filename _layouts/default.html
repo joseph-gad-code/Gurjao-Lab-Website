@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <!-- Proper mobile scaling -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
   <title>GURJAOLAB | {{ page.title }}</title>
@@ -20,99 +19,89 @@
     /* ---------- Base / variables ---------- */
     html { box-sizing: border-box; }
     *, *::before, *::after { box-sizing: inherit; }
-    body { margin:0; font-family:'Nunito',sans-serif; color:#000; line-height:1.5; overflow-x:hidden; }
+    body { margin:0; font-family:'Nunito',sans-serif; color:#000; line-height:1.5; overflow-x:hidden; min-height: 100vh; }
 
     :root {
-      --base-width: 1100px;                 /* design width */
-      --gutter: clamp(16px, 6vw, 28px);     /* page side margins */
+      --base-width: 1100px;
+      --gutter: clamp(16px, 6vw, 28px);
       --sai-l: env(safe-area-inset-left, 0px);
       --sai-r: env(safe-area-inset-right, 0px);
       --page-pad: calc(var(--gutter)*2 + var(--sai-l) + var(--sai-r));
     }
 
-    /* ---------- Outer wrapper ---------- */
-    .page-scale-outer{
-      width: 100svw;
+    /* ---------- Outer & frame wrappers ---------- */
+    .page-scale-outer {
+      width: 100%;
       padding-left: calc(var(--gutter) + var(--sai-l));
       padding-right: calc(var(--gutter) + var(--sai-r));
       overflow-x: clip;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh; /* ensure footer sticks on short pages */
     }
 
-    /* ---------- Scaled fixed-width frame ---------- */
     .page-scale-frame {
       width: var(--base-width);
-      transform-origin: top left;
+      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      flex: 1; /* allows content to grow */
+      min-height: 100vh; /* full viewport height for footer sticking */
+      flex: 1;
+      transform-origin: top left;
     }
 
-    /* ---------- Scaling for smaller screens ---------- */
-    @media (max-width: 1100px){
-      .page-scale-frame{
-        transform: scale(
-          calc( (max(320px, 100svw) - var(--page-pad) - 1px) / var(--base-width) )
-        );
+    /* ---------- Responsive scaling for desktop below 1100px ---------- */
+    @media (min-width: 701px) and (max-width: 1099px) {
+      .page-scale-frame {
+        transform: scale(calc((100vw - var(--page-pad)) / var(--base-width)));
       }
     }
 
-    @supports not (width: 100svw){
-      .page-scale-outer{ width: 100vw; }
-      @media (max-width: 1100px){
-        .page-scale-frame{
-          transform: scale(
-            calc( (100vw - var(--page-pad) - 1px) / var(--base-width) )
-          );
-        }
+    /* ---------- Mobile: remove scale, use fluid responsive layout ---------- */
+    @media (max-width: 700px) {
+      .page-scale-frame {
+        transform: none !important;
+        width: 100%;
+      }
+      .page-scale-outer {
+        overflow-y: auto; /* allow scrolling if needed */
       }
     }
 
-    /* ---------- Container ---------- */
-    .container-narrow{
-      width:100%;
-      max-width:var(--base-width);
+    /* ---------- Shared rails & containers ---------- */
+    .container-narrow {
+      width: 100%;
+      max-width: var(--base-width);
       margin: 0 auto;
       padding-left: var(--gutter);
       padding-right: var(--gutter);
-      padding-bottom: clamp(16px, 2vw, 28px);
+      flex: 1; /* grow to fill space above footer */
     }
 
-    /* ---------- Header/Nav ---------- */
-    nav[aria-label="Main navigation"] .nav-rail{
+    nav[aria-label="Main navigation"] .nav-rail {
       padding-left: var(--gutter) !important;
       padding-right: var(--gutter) !important;
     }
-    .navbar{ border:none; border-radius:0; margin-bottom:0; background:#fff; }
-    .navbar-brand{ font-weight:800; color:#0D5295 !important; }
-    .navbar-nav > li > a{ color:#666 !important; font-weight:600; position:relative; }
-    .navbar-nav > li > a:hover{ color:#000 !important; background:transparent !important; }
+
+    img, video, svg, canvas { max-width: 100%; height: auto; display: block; }
+    iframe { max-width: 100%; }
+
+    .navbar { border: none; border-radius: 0; margin-bottom: 0; background: #fff; }
+    .navbar-brand { font-weight: 800; color: #0D5295 !important; }
+    .navbar-nav > li > a { color: #666 !important; font-weight: 600; position: relative; }
+    .navbar-nav > li > a:hover { color: #000 !important; background: transparent !important; }
     .navbar-nav > .active > a,
     .navbar-nav > .active > a:focus,
-    .navbar-nav > .active > a:hover{ color:#000 !important; background:transparent !important; }
-    .navbar-nav > .active > a::after{
-      content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:#000;
-    }
+    .navbar-nav > .active > a:hover { color: #000 !important; background: transparent !important; }
+    .navbar-nav > .active > a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: #000; }
 
-    /* ---------- Media defaults ---------- */
-    img, video, svg, canvas { max-width:100%; height:auto; display:block; }
-    iframe { max-width:100%; }
-
-    /* ---------- Footer ---------- */
-    footer{
+    footer {
       margin-top: clamp(24px, 3vw, 40px);
       padding: 24px 0;
-      text-align:center;
-      font-size:14px;
-      color:#555;
-      border-top:1px solid #eee;
-    }
-
-    /* ---------- Content area grows to push footer down ---------- */
-    .content-wrap {
-      flex: 1 0 auto;
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+      border-top: 1px solid #eee;
     }
   </style>
 
@@ -122,13 +111,12 @@
 </head>
 
 <body>
-  <!-- Outer scaling wrapper -->
   <div class="page-scale-outer">
     <div class="page-scale-frame">
 
       {% include header.html %}
 
-      <div class="container-narrow content-wrap">
+      <div class="container-narrow">
         {{ content }}
       </div>
 

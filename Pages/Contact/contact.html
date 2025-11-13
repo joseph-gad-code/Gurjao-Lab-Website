@@ -139,113 +139,72 @@ nav: contact
   }
 
   /* === Responsive: never stack, but scale === */
-  @media (max-width: 800px) {
-    .contact-top {
-      gap: 3vw;
-    }
-
-    .contact-left,
-    .contact-right {
-      padding: 3vw;
-    }
-
-    .contact-logo-box {
-      aspect-ratio: auto;
-      height: auto;
-    }
-
-    .contact-logo-box img {
-      width: 100%;
-    }
+/* === Mobile styles for Contact page === */
+@media (max-width: 500px) {
+  /* Reduce section padding */
+  section {
+    padding: 0 12px;
   }
 
-  @media (max-width: 500px) {
-  /* Stack value cards */
-  .contact-values-grid {
-    flex-direction: column;
-    gap: 16px; /* less vertical gap */
-  }
-
-  .contact-value-col {
-    flex: 1 1 auto;      /* adapt width & height */
-    width: 100%;         /* full width */
-    padding: 20px;       /* smaller padding to reduce height */
-  }
-
-  .contact-value-col h3 {
-    font-size: 28px;
-    margin-bottom: 8px;  /* reduce spacing under title */
-  }
-
-  .contact-value-col p {
-    font-size: 30px;
-    line-height: 1.4;    /* tighter line height */
-    margin-bottom: 0;    /* remove extra spacing */
-  }
-}
-
-  /* === Responsive tweaks for mobile === */
-@media (max-width: 800px) {
-  /* Top columns remain side by side */
+  /* Top columns: keep side-by-side */
   .contact-top {
-    gap: 3vw;
+    gap: 3vw;  /* smaller gap */
+    flex-wrap: nowrap; /* stay horizontal */
   }
 
   .contact-left,
   .contact-right {
+    flex: 1 1 50%;  /* keep two columns */
     padding: 3vw;
   }
 
-  .contact-logo-box {
-    aspect-ratio: auto;
-    height: auto;
+  /* Scale text above the cards */
+  .contact-left h2 {
+    font-size: 36px;  /* larger heading */
+    margin-bottom: 16px;
   }
 
+  .contact-left p,
+  .contact-left li {
+    font-size: 28px;  /* larger body text */
+    line-height: 1.4;
+  }
+
+  a.contact-link {
+    font-size: 28px;  /* scale links too */
+  }
+
+  /* Logo scaling */
   .contact-logo-box img {
     width: 100%;
     height: auto;
   }
-}
 
-/* Smaller screens: stack value cards and increase text size */
-@media (max-width: 500px) {
-  section {
-    padding: 0 10px;
-  }
-
-  .contact-left h2 {
-    font-size: 30px; /* larger section title */
-  }
-
-  .contact-left p,
-  .contact-left ul li {
-    font-size: 20px; /* larger contact text */
-    line-height: 1.6;
-  }
-
-  .contact-left ul li {
-    margin-bottom: 8px;
-  }
-
-  /* Stack value cards under "Open positions" and "Contribute" */
+  /* === Stack value cards === */
   .contact-values-grid {
     flex-direction: column;
     gap: 20px;
   }
 
+  .contact-value-col {
+    flex: 1 1 auto;      /* adapt to text size */
+    width: 100%;
+    padding: 20px;       /* smaller padding to shrink card vertically */
+  }
+
+  /* Scale card text */
   .contact-value-col h3 {
-    font-size: 28px; /* larger card title */
+    font-size: 40px;
+    margin-bottom: 12px;
   }
 
   .contact-value-col p {
-    font-size: 30px; /* larger card text */
-    line-height: 1.5;
-  }
-
-  .contact-logo-box img {
-    width: 95%;
+    font-size: 30px;
+    line-height: 1.4;
+    margin-bottom: 0;
   }
 }
+
 
 </style>
 

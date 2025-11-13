@@ -163,23 +163,67 @@ nav: people
 }
 
 /* Responsive tweaks */
-@media (max-width: 992px) {
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 600px) {
+  /* Stack cards vertically */
   .people-list {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr;
+    gap: 30px; /* add some vertical spacing */
   }
+
+  /* Increase page title */
   .page-title {
-    font-size: 26px;
+    font-size: 32px;
   }
+
+  /* Person card padding */
   .person-card {
-    padding: 25px 15px;
+    padding: 30px 20px;
+    max-width: 100%;
+  }
+
+  /* Larger text sizes for mobile */
+  .person-name {
+    font-size: 28px;
+  }
+
+  .person-status {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .person-bio {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+
+  .read-more {
+    font-size: 18px;
+  }
+
+  /* Social icons slightly larger */
+  .person-social .icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Core values section adjustments */
+  .values-section h2 {
+    font-size: 28px;
+  }
+
+  .value-col h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .value-col p {
+    font-size: 18px;
+    line-height: 1.7;
   }
 }
 
-@media (max-width: 600px) {
-  .people-list {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
 </style>
 
 <section class="people-page">

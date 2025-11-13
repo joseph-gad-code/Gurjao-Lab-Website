@@ -127,6 +127,19 @@
       color:#555;
       border-top:1px solid #eee;
     }
+
+    /* Make the scaled frame a column flex container so footer sticks to bottom */
+.page-scale-frame {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* full viewport height */
+}
+
+/* Make content area grow to fill available space */
+.content-wrap {
+  flex: 1;
+}
+
   </style>
 
   <!-- Scripts -->

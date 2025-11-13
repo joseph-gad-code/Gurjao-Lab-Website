@@ -84,12 +84,16 @@ nav: research
     max-width: 100%;
   }
 
-  .research-image img {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    transform: none !important;
-  }
+.research-image img {
+  display: block;
+  width: 100vw; /* span the entire viewport width */
+  max-width: none;
+  height: auto;
+  transform: none !important;
+  object-fit: cover;
+  margin-left: 50%;
+  transform: translateX(-50%) !important; /* center image relative to viewport */
+}
 
   /* Text scaling for readability */
   .research-text h2 {

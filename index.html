@@ -1,70 +1,103 @@
+---
+layout: default
+title: Home
+nav: home
+---
 <style>
-/* ================================
-   MOBILE OVERRIDES ONLY (<800px)
-   ================================ */
-@media (max-width: 800px) {
+  /* === Responsive adjustments for Home page === */
 
-  /* 1️⃣ Remove arrows */
-  #mobile-hide-arrows {
-    display: none !important;
+  /* Mobile-only adjustments (max-width 800px) */
+  @media (max-width: 800px) {
+
+    /* 1️⃣ Remove arrows */
+    #mobile-hide-arrows {
+      display: none !important;
+    }
+
+    /* 2️⃣ Stack blurbs vertically */
+    .home-blurbs .col-xs-6 {
+      flex: 1 1 100%;
+      max-width: 100%;
+      margin-bottom: 24px;
+    }
+
+    /* 3️⃣ Stack Our Mission and Latest News */
+    .mission-news .col-xs-8,
+    .mission-news .col-xs-4 {
+      flex: 1 1 100%;
+      max-width: 100%;
+      margin-bottom: 32px;
+    }
+
+    /* 4️⃣ Increase only Mission and News headings to 50px */
+    .mission-news h2 {
+      font-size: 50px !important;
+      line-height: 1.2;
+    }
+
+    /* Optional: slightly scale subheadings */
+    .mission-news h4 {
+      font-size: 28px !important;
+      line-height: 1.25;
+    }
+
+    /* 5️⃣ Keep paragraphs and list items readable without breaking layout */
+    .mission-news p,
+    .mission-news li,
+    .mission-news a {
+      font-size: 20px !important;
+      line-height: 1.45;
+    }
+
+    /* 6️⃣ Adjust mission list bullets for larger heading */
+    .mission-list li span {
+      height: 2px !important;
+      width: 20px !important;
+      top: 1em !important;
+    }
+
+    /* 7️⃣ Adjust container padding for small screens */
+    .container {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+
+    /* 8️⃣ News box scroll height */
+    aside div[style*="overflow-y:auto"] {
+      max-height: 60vh !important;
+    }
   }
 
-  /* 2️⃣ Stack blurbs vertically */
-  .home-blurbs .col-xs-6 {
-    flex: 1 1 100%;
-    max-width: 100%;
-    margin-bottom: 24px;
+  /* Optional: minor spacing adjustments for very small screens */
+  @media (max-width: 500px) {
+    .container {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
   }
-
-  /* 3️⃣ Stack Our Mission and Latest News */
-  .mission-news .col-xs-8,
-  .mission-news .col-xs-4 {
-    flex: 1 1 100%;
-    max-width: 100%;
-    margin-bottom: 32px;
-  }
-
-  /* 4️⃣ Increase only Mission and News headings to 50px */
-  .mission-news h2 {
-    font-size: 50px !important;
-    line-height: 1.2;
-  }
-
-  /* Optional: slightly scale subheadings */
-  .mission-news h4 {
-    font-size: 28px !important;
-    line-height: 1.25;
-  }
-
-  /* 5️⃣ Keep paragraphs and list items readable without breaking layout */
-  .mission-news p,
-  .mission-news li,
-  .mission-news a {
-    font-size: 20px !important;
-    line-height: 1.45;
-  }
-
-  /* 6️⃣ Adjust mission list bullets for larger heading */
-  .mission-list li span {
-    height: 2px !important;
-    width: 20px !important;
-    top: 1em !important;
-  }
-
-  /* 7️⃣ Adjust container padding for small screens */
-  .container {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  /* 8️⃣ News box scroll height */
-  aside div[style*="overflow-y:auto"] {
-    max-height: 60vh !important;
-  }
-}
 </style>
 
-<!-- ARROWS (wrapped in div for mobile hiding) -->
+<!-- HERO IMAGE (same rail as navbar) -->
+<div style="max-width:1100px; margin:0 auto; padding:80px 15px 40px; margin-bottom:2rem;">
+  <img
+    src="{{ '/Pages/Home/Images/homepage-hero-image.svg' | relative_url }}"
+    alt="Cancer genomes research hero"
+    class="img-responsive"
+    style="display:block; margin:0 auto; max-width:100%; height:auto;">
+</div>
+
+<!-- TAGLINE -->
+<div class="text-center"
+     style="margin:20px auto 0;font-size:30px;line-height:1.25;font-weight:400;font-family:'Nunito';">
+  We study cancer genomes for <br>
+  <span id="tag-prevention"
+        style="text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px;">Prevention</span>
+  and
+  <span id="tag-treatment"
+        style="text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px;">Treatment</span>
+</div>
+
+<!-- ARROWS -->
 <div id="mobile-hide-arrows"
      style="position:relative; max-width:1100px; margin:0 auto; padding:0 5px; margin-top:clamp(0px,0.4vw,6px); margin-bottom:clamp(0px,0.8vw,8px);">
   <svg viewBox="0 0 1000 110"
@@ -89,4 +122,97 @@
     <path class="arrow-stroke" marker-end="url(#headSmall)" d="M 395 8 A 200 200 0 0 0 280 100" />
     <path class="arrow-stroke" marker-end="url(#headSmall)" d="M 605 8 A 200 200 0 0 1 720 100" />
   </svg>
+</div>
+
+<!-- BLURBS (ALWAYS TWO COLUMNS) -->
+<div class="container home-blurbs" style="margin:8px auto 28px;">
+  <div class="row text-center" style="font-size:18px;line-height:1.6;font-family:'Nunito';word-wrap:break-word;word-break:break-word;">
+    <div class="col-xs-6" style="padding-bottom:16px;">
+      <h2 style="font-weight:700;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
+        While 80% of cancers are thought to be preventable, only about 5% of cancer funding goes toward prevention.
+      </h2>
+      <p style="font-weight:400;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
+        By understanding how mutations occur, we are moving science closer to stopping cancer before it starts and spreads.
+      </p>
+    </div>
+    <div class="col-xs-6">
+      <h2 style="font-weight:700;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
+        The number of cancer treatments has exploded in recent years, creating a new challenge: ensuring each patient is matched with the right drug(s).
+      </h2>
+      <p style="font-weight:400;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
+        By decoding each tumor’s genetic profile, we are informing tailored cancer treatments.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- MISSION + NEWS (ALWAYS 8/4 COLUMNS) -->
+<div class="container mission-news" style="margin-top:40px;margin-bottom:24px;">
+  <div class="row" style="word-wrap:break-word;word-break:break-word;">
+    <div class="col-xs-8" style="font-family:'Nunito';color:#000;display:block;margin-bottom:16px;">
+      <div class="mission-list">
+        <h2 style="font-weight:700;font-size:20px;margin-top:0;margin-bottom:25px;">Our Mission</h2>
+        <p style="margin-bottom:12px;">
+          We aim to deliver data-driven precision prevention and precision treatment.<br>
+          Our work broadly focuses on:
+        </p>
+        <ul class="list-unstyled" style="margin:0;padding:0;list-style:none;">
+          <li style="margin-bottom:8px;position:relative;padding-left:28px;">
+            <span style="position:absolute;left:0;top:0.9em;width:16px;height:2px;background-color:#000;"></span>
+            <strong>Why mutations occur:</strong> How lifestyle, microbes, the immune system, and DNA three-dimensional structure leave their mark on the genome.
+          </li>
+          <li style="margin-bottom:8px;position:relative;padding-left:28px;">
+            <span style="position:absolute;left:0;top:0.9em;width:16px;height:2px;background-color:#000;"></span>
+            <strong>How this knowledge guides treatment:</strong> Using tumor mutations to predict which therapies will work best.
+          </li>
+          <li style="margin-bottom:8px;position:relative;padding-left:28px;">
+            <span style="position:absolute;left:0;top:0.9em;width:16px;height:2px;background-color:#000;"></span>
+            <strong>Building new tools:</strong> Developing computational and experimental approaches with clinicians and physicists to push cancer research forward.
+          </li>
+        </ul>
+        <a href="{{ '/research/' | relative_url }}"
+           style="color:#6495ED;text-decoration:none;transition:text-decoration .2s;"
+           onmouseover="this.style.textDecoration='underline';"
+           onmouseout="this.style.textDecoration='none';">
+          Read more about our research…
+        </a>
+      </div>
+    </div>
+
+    <aside class="col-xs-4" style="font-family:'Nunito';color:#000;display:block;">
+      <h2 style="font-weight:700;font-size:20px;margin-bottom:25px;">Latest News</h2>
+      <div style="flex-grow:1;max-height:clamp(35vw, 38vw, 40vw);
+        overflow-y:auto;padding-right:4px;">
+        {% assign items = site.data.news | sort: "date" | reverse %}
+        {% if items and items.size > 0 %}
+          {% for n in items %}
+            <div style="border:1px solid #eee;border-radius:10px;background:#fff;padding:10px 12px;margin-bottom:10px;">
+              <h4 style="font-weight:700;margin:0 0 4px;">
+                {% if n.link %}
+                  <a href="{{ n.link }}" target="_blank" rel="noopener"
+                     style="color:#000;text-decoration:none;"
+                     onmouseover="this.style.textDecoration='underline';"
+                     onmouseout="this.style.textDecoration='none';">
+                    {{ n.headline }}
+                  </a>
+                {% else %}
+                  {{ n.headline }}
+                {% endif %}
+              </h4>
+              <div style="font-size:.9rem;color:#777;margin-bottom:6px;">{{ n.date | date: "%b %-d, %Y" }}</div>
+              {% if n.body %}
+                <p style="margin:0;">{{ n.body }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% else %}
+          <div style="border:1px solid #eee;border-radius:10px;background:#fff;padding:10px 12px;">
+            <h4 style="margin:0 0 4px;">No news yet</h4>
+            <div style="font-size:.9rem;color:#777;">{{ "now" | date: "%b %-d, %Y" }}</div>
+            <p style="margin:0;">Check back soon for updates.</p>
+          </div>
+        {% endif %}
+      </div>
+    </aside>
+  </div>
 </div>

@@ -58,7 +58,7 @@
   color: #0D5295;
   font-weight: 800;
   font-family: 'Nunito', sans-serif;
-  font-size: clamp(26px, 4vw, 34px);
+  font-size: clamp(40px, 8vw, 50px); /* larger min size for mobile */
   line-height: 1;
   text-decoration: none;
 }
@@ -76,48 +76,44 @@
   display: none;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+  gap: 36px;
   padding: 40px 0;
   z-index: 1000;
   box-shadow: 0 12px 24px rgba(0,0,0,0.08);
 }
 
-/* --- UPDATED: larger base font for dropdown --- */
 .gurjaolab-navbar .nav-links li a {
   font-family: 'Nunito', sans-serif;
   font-weight: 700;
-  font-size: 24px;        
+  font-size: clamp(28px, 6vw, 36px); /* larger mobile font */
   color: #777;
   text-decoration: none;
-  padding: 14px 0;        
+  padding: 16px 0;
   line-height: 1.35;
   transition: color 0.2s ease;
 }
 
-.gurjaolab-navbar .nav-links { gap: 36px; }
-
+.gurjaolab-navbar .nav-links li a:hover { color: #000; }
 .gurjaolab-navbar .nav-links.open { display: flex; }
 .gurjaolab-navbar .nav-links[hidden] { display: none !important; }
-
-.gurjaolab-navbar .nav-links li a:hover { color: #000; }
 
 /* ===== Hamburger Button ===== */
 .gurjaolab-navbar .menu-toggle {
   position: relative;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   display: flex;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 5px;
+  padding: 10px;
 }
 
 .gurjaolab-navbar .menu-toggle span {
   position: absolute;
   left: 0;
   width: 100%;
-  height: 4px;
+  height: 5px;
   background: #bbb;
   border-radius: 2px;
   transition: transform .3s ease-out, opacity .1s ease-out, top .3s ease-out;
@@ -158,7 +154,6 @@
     padding: 14px 0 6px;
   }
 
-  /* UNDERLINE ACTIVE LINK ON DESKTOP ONLY */
   .gurjaolab-navbar .nav-links li.active a {
     color: #000;
     text-decoration: underline;
@@ -169,22 +164,8 @@
 
 /* Fallback for narrow screens */
 @media (max-width: 900px) {
-  .gurjaolab-navbar .nav-links li a { font-size: 50px; padding: 14px 0; }
+  .gurjaolab-navbar .nav-links li a { font-size: clamp(28px, 6vw, 36px); }
   .gurjaolab-navbar .nav-links { gap: 36px; }
-}
-
-/* Mobile brand adjustments */
-@media (hover: none) {
-  .gurjaolab-navbar .navbar-brand {
-    font-size: clamp(50px, 8vw, 48px);
-    line-height: 1.05;
-    letter-spacing: 0.2px;
-  }
-}
-
-@media (max-width: 360px) {
-  .gurjaolab-navbar .navbar-brand { font-size: clamp(50px, 9vw, 50px); }
-  .gurjaolab-navbar .nav-links li a { font-size: 23px; }
 }
 </style>
 

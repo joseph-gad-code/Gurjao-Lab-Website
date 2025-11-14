@@ -53,12 +53,12 @@
   justify-content: space-between;
 }
 
-/* ===== Brand ===== */  
+/* ===== Brand ===== */
 .gurjaolab-navbar .navbar-brand {
   color: #0D5295;
   font-weight: 800;
   font-family: 'Nunito', sans-serif;
-  font-size: clamp(40px, 8vw, 50px); /* large mobile-friendly */
+  font-size: clamp(40px, 8vw, 50px); /* larger on mobile */
   line-height: 1;
   text-decoration: none;
 }
@@ -73,19 +73,31 @@
   left: 0;
   width: 100%;
   background: #fff;
-  display: none;
+  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 36px;
-  padding: 40px 0;
+  padding: 0; /* remove top padding for smooth slide */
   z-index: 1000;
   box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+
+  /* Smooth slide animation */
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: max-height 0.45s ease, opacity 0.35s ease, padding 0.35s ease;
+}
+
+.gurjaolab-navbar .nav-links.open {
+  max-height: 1000px;
+  opacity: 1;
+  padding: 40px 0;
 }
 
 .gurjaolab-navbar .nav-links li a {
   font-family: 'Nunito', sans-serif;
   font-weight: 700;
-  font-size: 32px; /* fixed size for consistency across pages */
+  font-size: clamp(28px, 6vw, 36px); /* larger text for easy tap */
   color: #777;
   text-decoration: none;
   padding: 16px 0;
@@ -93,17 +105,16 @@
   transition: color 0.2s ease;
 }
 
-/* Active page underlined on all screens */
+.gurjaolab-navbar .nav-links li a:hover { color: #000; }
+.gurjaolab-navbar .nav-links[hidden] { display: none !important; }
+
+/* Active page underline on all screens */
 .gurjaolab-navbar .nav-links li.active a {
   color: #000;
   text-decoration: underline;
   text-underline-offset: 8px;
   text-decoration-thickness: 3px;
 }
-
-.gurjaolab-navbar .nav-links li a:hover { color: #000; }
-.gurjaolab-navbar .nav-links.open { display: flex; }
-.gurjaolab-navbar .nav-links[hidden] { display: none !important; }
 
 /* ===== Hamburger Button ===== */
 .gurjaolab-navbar .menu-toggle {
@@ -156,17 +167,12 @@
     box-shadow: none;
   }
 
-  .gurjaolab-navbar .navbar-brand {
-  font-size: clamp(150px, 1.9vw, 16px);
-  }
-
   .gurjaolab-navbar .nav-links li a {
     font-weight: 600;
-    font-size: clamp(150px, 1.9vw, 16px);
+    font-size: clamp(14px, 1.9vw, 16px);
     padding: 14px 0 6px;
   }
 
-  /* Active page underline (desktop) */
   .gurjaolab-navbar .nav-links li.active a {
     color: #000;
     text-decoration: underline;
@@ -175,9 +181,9 @@
   }
 }
 
-/* Fallback for narrow screens: same size for mobile dropdown */
+/* Fallback for mobile/narrow screens */
 @media (max-width: 900px) {
-  .gurjaolab-navbar .nav-links li a { font-size: 32px; }
+  .gurjaolab-navbar .nav-links li a { font-size: clamp(28px, 6vw, 36px); }
   .gurjaolab-navbar .nav-links { gap: 36px; }
 }
 </style>

@@ -3,153 +3,138 @@ layout: default
 title: Home
 nav: home
 ---
-
-
 <style>
-/* ================================
-   MOBILE OVERRIDES ONLY (<800px)
-   ================================ */
+  /* === Responsive adjustments for Home page === */
 @media (max-width: 800px) {
-
-  /* Center blurbs and mission/news columns */
-  .home-blurbs .col-xs-6,
-  .mission-news .col-xs-8,
-  .mission-news .col-xs-4 {
-    flex: 1 1 100% !important;
-    max-width: 100% !important;
-    width: 100% !important;
-    margin-bottom: 32px !important;
-    text-align: center !important; /* center blurbs on mobile */
+  /* Stack Mission and News vertically */
+  .container .row > .col-xs-8,
+  .container .row > .col-xs-4 {
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin-bottom: 24px;
   }
 
-  /* Main tagline: fill screen width */
-  .text-center {
-    font-size: clamp(48px, 8vw, 60px) !important;
-    line-height: 1.15 !important;
-    font-weight: 700 !important;
+  /* Increase heading sizes */
+  h2 {
+    font-size: clamp(24px, 6vw, 32px);
   }
 
-  #tag-prevention,
-  #tag-treatment {
-    font-size: clamp(48px, 8vw, 60px) !important;
+  h4 {
+    font-size: clamp(18px, 4vw, 22px);
   }
 
-  /* Keep other text left-aligned but slightly bigger for readability */
-  body, body p, body li, body a, body h1, body h2, body h3, body h4, body h5, body h6, body span {
-    font-size: 22px !important;
-    line-height: 1.45 !important;
-    text-align: left !important;
+  /* Increase paragraph size */
+  p, li, a {
+    font-size: clamp(16px, 4vw, 20px);
   }
 
-  /* Headings in blurbs */
-  .home-blurbs h2 {
-    font-size: clamp(28px, 5vw, 36px) !important;
-    line-height: 1.25 !important;
-    text-align: center !important;
+  /* Read more links */
+  a {
+    font-size: clamp(16px, 4vw, 20px);
   }
 
-  .home-blurbs p {
-    font-size: clamp(22px, 4.5vw, 28px) !important;
-    text-align: left !important;
-  }
-
-  /* Mission and news headings */
-  .mission-news h2 {
-    font-size: clamp(32px, 5vw, 40px) !important;
-    line-height: 1.25 !important;
-    text-align: center !important;
-  }
-
-  .mission-news p, .mission-news li {
-    font-size: clamp(20px, 4.5vw, 26px) !important;
-    text-align: left !important;
-  }
-
-  /* Mission list bullets larger */
-  .mission-list li span {
-    height: 2px !important;
-    width: 20px !important;
-    top: 1em !important;
-  }
-
-  /* Container padding for mobile */
-  .container {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-    width: 100% !important;
-  }
-
-  /* News box scroll height */
+  /* News box scroll height smaller */
   aside div[style*="overflow-y:auto"] {
-    max-height: 60vh !important;
-    margin-left: auto;
-    margin-right: auto;
-    width: 100% !important;
+    max-height: 60vh; /* shrink on small screens */
   }
 }
 
-/* Very small screens */
+/* Optional: minor spacing adjustments for small screens */
 @media (max-width: 500px) {
   .container {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 
-  .text-center {
-    font-size: clamp(52px, 9vw, 65px) !important;
-  }
-
-  #tag-prevention,
-  #tag-treatment {
-    font-size: clamp(52px, 9vw, 65px) !important;
+  .container .row > .col-xs-8,
+  .container .row > .col-xs-4 {
+    margin-bottom: 20px;
   }
 }
+
 </style>
-
-
-<!-- HERO IMAGE -->
+<!-- HERO IMAGE (same rail as navbar) -->
 <div style="max-width:1100px; margin:0 auto; padding:80px 15px 40px; margin-bottom:2rem;">
-  <img src="{{ '/Pages/Home/Images/homepage-hero-image.svg' | relative_url }}"
-       alt="Cancer genomes research hero"
-       class="img-responsive"
-       style="display:block; margin:0 auto; max-width:100%; height:auto;">
+  <img
+    src="{{ '/Pages/Home/Images/homepage-hero-image.svg' | relative_url }}"
+    alt="Cancer genomes research hero"
+    class="img-responsive"
+    style="display:block; margin:0 auto; max-width:100%; height:auto;">
 </div>
 
 <!-- TAGLINE -->
 <div class="text-center"
-     style="margin:20px auto 0;font-weight:700;font-family:'Nunito';">
+     style="margin:20px auto 0;font-size:30px;line-height:1.25;font-weight:400;font-family:'Nunito';">
   We study cancer genomes for <br>
-  <span id="tag-prevention">Prevention</span> and
-  <span id="tag-treatment">Treatment</span>
+  <span id="tag-prevention"
+        style="text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px;">Prevention</span>
+  and
+  <span id="tag-treatment"
+        style="text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px;">Treatment</span>
 </div>
 
-<!-- BLURBS -->
-<div class="container home-blurbs" style="margin:8px auto 28px;">
-  <div class="row text-center" style="font-family:'Nunito';word-wrap:break-word;word-break:break-word;">
+<!-- ARROWS -->
+<div style="
+  position:relative;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 5px;
+  margin-top:clamp(0px,0.4vw,6px);
+  margin-bottom:clamp(0px,0.8vw,8px);
+">
+  <svg viewBox="0 0 1000 110"
+       preserveAspectRatio="xMidYMid meet"
+       style="width:100%; height:clamp(88px,11vw,150px); display:block; pointer-events:none;">
+    <defs>
+      <style>
+        .arrow-stroke{
+          stroke:#4B85E8;
+          stroke-width:3;
+          stroke-linecap:butt;
+          stroke-linejoin:miter;
+          fill:none;
+          stroke-dasharray:10 10;
+        }
+      </style>
+      <marker id="headSmall" markerWidth="10" markerHeight="10"
+              refX="4" refY="3" orient="auto" markerUnits="strokeWidth">
+        <path d="M1,1 L5,3 L1,5 Q2.2,3 1,1 Z" fill="#4B85E8"/>
+      </marker>
+    </defs>
+    <path class="arrow-stroke" marker-end="url(#headSmall)"
+      d="M 395 8 A 200 200 0 0 0 280 100" />
+    <path class="arrow-stroke" marker-end="url(#headSmall)"
+      d="M 605 8 A 200 200 0 0 1 720 100" />
+  </svg>
+</div>
+
+<!-- BLURBS (ALWAYS TWO COLUMNS) -->
+<div class="container" style="margin:8px auto 28px;">
+  <div class="row text-center" style="font-size:18px;line-height:1.6;font-family:'Nunito';word-wrap:break-word;word-break:break-word;">
     <div class="col-xs-6" style="padding-bottom:16px;">
-      <h2 style="font-weight:700;margin-bottom:.5rem;">
+      <h2 style="font-weight:700;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
         While 80% of cancers are thought to be preventable, only about 5% of cancer funding goes toward prevention.
       </h2>
-      <p style="font-weight:400;margin-bottom:.5rem;">
+      <p style="font-weight:400;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
         By understanding how mutations occur, we are moving science closer to stopping cancer before it starts and spreads.
       </p>
     </div>
     <div class="col-xs-6">
-      <h2 style="font-weight:700;margin-bottom:.5rem;">
+      <h2 style="font-weight:700;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
         The number of cancer treatments has exploded in recent years, creating a new challenge: ensuring each patient is matched with the right drug(s).
       </h2>
-      <p style="font-weight:400;margin-bottom:.5rem;">
+      <p style="font-weight:400;font-size:20px;font-family:'Nunito';margin-bottom:.5rem;">
         By decoding each tumor’s genetic profile, we are informing tailored cancer treatments.
       </p>
     </div>
   </div>
 </div>
 
-<!-- MISSION + NEWS -->
-<div class="container mission-news" style="margin-top:40px;margin-bottom:24px;">
+<!-- MISSION + NEWS (ALWAYS 8/4 COLUMNS) -->
+<div class="container" style="margin-top:40px;margin-bottom:24px;">
   <div class="row" style="word-wrap:break-word;word-break:break-word;">
     <div class="col-xs-8" style="font-family:'Nunito';color:#000;display:block;margin-bottom:16px;">
-      <div class="mission-list">
+      <div>
         <h2 style="font-weight:700;font-size:20px;margin-top:0;margin-bottom:25px;">Our Mission</h2>
         <p style="margin-bottom:12px;">
           We aim to deliver data-driven precision prevention and precision treatment.<br>

@@ -58,12 +58,12 @@
   color: #0D5295;
   font-weight: 800;
   font-family: 'Nunito', sans-serif;
-  font-size: clamp(40px, 8vw, 50px); /* larger on mobile */
+  font-size: clamp(26px, 4vw, 34px);
   line-height: 1;
   text-decoration: none;
 }
 
-/* ===== Links (dropdown defaults) ===== */
+/* ===== Links (drawer defaults) ===== */
 .gurjaolab-navbar .nav-links {
   list-style: none;
   margin: 0;
@@ -73,42 +73,34 @@
   left: 0;
   width: 100%;
   background: #fff;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
-  gap: 36px;
-  padding: 0; /* remove top padding for smooth slide */
+  gap: 30px;
+  padding: 40px 0;
   z-index: 1000;
   box-shadow: 0 12px 24px rgba(0,0,0,0.08);
-
-  /* Smooth slide animation */
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.45s ease, opacity 0.35s ease, padding 0.35s ease;
 }
 
-.gurjaolab-navbar .nav-links.open {
-  max-height: 1000px;
-  opacity: 1;
-  padding: 40px 0;
-}
-
+/* --- UPDATED: larger base font for dropdown --- */
 .gurjaolab-navbar .nav-links li a {
   font-family: 'Nunito', sans-serif;
   font-weight: 700;
-  font-size: clamp(28px, 6vw, 36px); /* larger text for easy tap */
+  font-size: 24px;        /* was 20px */
   color: #777;
   text-decoration: none;
-  padding: 16px 0;
+  padding: 14px 0;        /* taller tap area */
   line-height: 1.35;
   transition: color 0.2s ease;
 }
 
-.gurjaolab-navbar .nav-links li a:hover { color: #000; }
+.gurjaolab-navbar .nav-links {
+  gap: 36px;              /* more spacing between items */
+}
+
+.gurjaolab-navbar .nav-links.open { display: flex; }
 .gurjaolab-navbar .nav-links[hidden] { display: none !important; }
 
-/* Active page underline on all screens */
 .gurjaolab-navbar .nav-links li.active a {
   color: #000;
   text-decoration: underline;
@@ -116,23 +108,25 @@
   text-decoration-thickness: 3px;
 }
 
-/* ===== Hamburger Button ===== */
+.gurjaolab-navbar .nav-links li a:hover { color: #000; }
+
+/* ===== Hamburger Button (CodePen-inspired) ===== */
 .gurjaolab-navbar .menu-toggle {
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: 50px;
+  height: 50px;
   display: flex;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 10px;
+  padding: 5px;
 }
 
 .gurjaolab-navbar .menu-toggle span {
   position: absolute;
   left: 0;
   width: 100%;
-  height: 5px;
+  height: 4px;
   background: #bbb;
   border-radius: 2px;
   transition: transform .3s ease-out, opacity .1s ease-out, top .3s ease-out;
@@ -143,15 +137,24 @@
 .gurjaolab-navbar .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
 .gurjaolab-navbar .menu-toggle span:nth-child(3) { top: 100%; transform: translateY(-100%); }
 
-.gurjaolab-navbar .menu-toggle.open span:nth-child(1) { top: 50%; transform: translateY(-50%) rotate(45deg); }
-.gurjaolab-navbar .menu-toggle.open span:nth-child(2) { opacity: 0; }
-.gurjaolab-navbar .menu-toggle.open span:nth-child(3) { top: 50%; transform: translateY(-50%) rotate(-45deg); }
+.gurjaolab-navbar .menu-toggle.open span:nth-child(1) {
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+.gurjaolab-navbar .menu-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+.gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
+  top: 50%;
+  transform: translateY(-50%) rotate(-45deg);
+}
 
+/* Hover affordance for desktop pointers */
 @media (hover:hover) and (pointer:fine) {
   .gurjaolab-navbar .menu-toggle:hover span { background: #000; }
 }
 
-/* ===== Desktop override ===== */
+/* ===== Desktop override: inline menu only on devices with hover+fine pointer ===== */
 @media (hover: hover) and (pointer: fine) {
   .gurjaolab-navbar .menu-toggle { display: none; }
 
@@ -167,24 +170,36 @@
     box-shadow: none;
   }
 
+  /* --- unchanged desktop sizes --- */
   .gurjaolab-navbar .nav-links li a {
     font-weight: 600;
     font-size: clamp(14px, 1.9vw, 16px);
     padding: 14px 0 6px;
   }
+}
 
-  .gurjaolab-navbar .nav-links li.active a {
-    color: #000;
-    text-decoration: underline;
-    text-underline-offset: 8px;
-    text-decoration-thickness: 3px;
+/* --- Fallback for devices misreporting hover (narrow screens) --- */
+@media (max-width: 900px) {
+  .gurjaolab-navbar .nav-links li a {
+    font-size: 50px;   /* same as base dropdown */
+    padding: 14px 0;
+  }
+  .gurjaolab-navbar .nav-links { gap: 36px; }
+}
+
+/* ===== Touch / mobile-first typography bump (brand + drawer) ===== */
+@media (hover: none) {
+  .gurjaolab-navbar .navbar-brand {
+    font-size: clamp(50px, 8vw, 48px);
+    line-height: 1.05;
+    letter-spacing: 0.2px;
   }
 }
 
-/* Fallback for mobile/narrow screens */
-@media (max-width: 900px) {
-  .gurjaolab-navbar .nav-links li a { font-size: clamp(28px, 6vw, 36px); }
-  .gurjaolab-navbar .nav-links { gap: 36px; }
+/* Extra-narrow phones: tiny nudge */
+@media (max-width: 360px) {
+  .gurjaolab-navbar .navbar-brand { font-size: clamp(50px, 9vw, 50px); }
+  .gurjaolab-navbar .nav-links li a { font-size: 23px; }
 }
 </style>
 

@@ -67,19 +67,28 @@
 .gurjaolab-navbar .nav-links {
   list-style: none;
   margin: 0;
-  padding: 0;
+  padding: 40px 0;
   position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
   background: #fff;
-  display: none;
   flex-direction: column;
   align-items: center;
   gap: 30px;
-  padding: 40px 0;
   z-index: 1000;
   box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+
+  max-height: 0;          /* initially hidden */
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.4s ease;
+  opacity: 0;
+}
+
+.gurjaolab-navbar .nav-links.open {
+  display: flex;          /* keep flex display */
+  max-height: 1000px;     /* large enough to show all items */
+  opacity: 1;
 }
 
 /* --- UPDATED: larger base font for dropdown --- */
@@ -98,7 +107,6 @@
   gap: 36px;              /* more spacing between items */
 }
 
-.gurjaolab-navbar .nav-links.open { display: flex; }
 .gurjaolab-navbar .nav-links[hidden] { display: none !important; }
 
 .gurjaolab-navbar .nav-links li.active a {

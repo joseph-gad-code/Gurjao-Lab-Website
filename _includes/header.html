@@ -5,10 +5,7 @@
     <a class="navbar-brand" href="{{ '/' | relative_url }}">GURJAOLAB</a>
 
     <!-- Hamburger Button -->
-    <button class="menu-toggle"
-            aria-label="Toggle navigation"
-            aria-expanded="false"
-            aria-controls="primary-nav">
+    <button class="menu-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="primary-nav">
       <span></span><span></span><span></span>
     </button>
 
@@ -73,33 +70,43 @@
   left: 0;
   width: 100%;
   background: #fff;
-  display: none;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+  gap: 36px;
   padding: 40px 0;
   z-index: 1000;
   box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+
+  /* Smooth dropdown animation */
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  display: flex;
+  transition: max-height 0.45s ease, opacity 0.35s ease;
+}
+
+/* When open */
+.gurjaolab-navbar .nav-links.open {
+  max-height: 500px;
+  opacity: 1;
+}
+
+/* Hidden override */
+.gurjaolab-navbar .nav-links[hidden] {
+  display: none !important;
 }
 
 /* --- UPDATED: larger base font for dropdown --- */
 .gurjaolab-navbar .nav-links li a {
   font-family: 'Nunito', sans-serif;
   font-weight: 700;
-  font-size: 24px;        /* was 20px */
+  font-size: 24px;
   color: #777;
   text-decoration: none;
-  padding: 14px 0;        /* taller tap area */
+  padding: 14px 0;
   line-height: 1.35;
   transition: color 0.2s ease;
 }
-
-.gurjaolab-navbar .nav-links {
-  gap: 36px;              /* more spacing between items */
-}
-
-.gurjaolab-navbar .nav-links.open { display: flex; }
-.gurjaolab-navbar .nav-links[hidden] { display: none !important; }
 
 .gurjaolab-navbar .nav-links li.active a {
   color: #000;
@@ -108,18 +115,23 @@
   text-decoration-thickness: 3px;
 }
 
-.gurjaolab-navbar .nav-links li a:hover { color: #000; }
+.gurjaolab-navbar .nav-links li a:hover {
+  color: #000;
+}
 
-/* ===== Hamburger Button (CodePen-inspired) ===== */
+/* ===== Hamburger Button (with enlarged click radius) ===== */
 .gurjaolab-navbar .menu-toggle {
   position: relative;
-  width: 50px;
-  height: 50px;
   display: flex;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 5px;
+
+  /* Option B: Large invisible hit area */
+  padding: 18px;
+  margin: -8px;
+  width: auto;
+  height: auto;
 }
 
 .gurjaolab-navbar .menu-toggle span {
@@ -133,28 +145,31 @@
   transform-origin: center;
 }
 
-.gurjaolab-navbar .menu-toggle span:nth-child(1) { top: 0; }
-.gurjaolab-navbar .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
-.gurjaolab-navbar .menu-toggle span:nth-child(3) { top: 100%; transform: translateY(-100%); }
+.gurjaolab-navbar .menu-toggle span:nth-child(1) {
+  top: 0;
+}
+.gurjaolab-navbar .menu-toggle span:nth-child(2) {
+  top: 50%; transform: translateY(-50%);
+}
+.gurjaolab-navbar .menu-toggle span:nth-child(3) {
+  top: 100%; transform: translateY(-100%);
+}
 
 .gurjaolab-navbar .menu-toggle.open span:nth-child(1) {
-  top: 50%;
-  transform: translateY(-50%) rotate(45deg);
+  top: 50%; transform: translateY(-50%) rotate(45deg);
 }
 .gurjaolab-navbar .menu-toggle.open span:nth-child(2) {
   opacity: 0;
 }
 .gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
-  top: 50%;
-  transform: translateY(-50%) rotate(-45deg);
+  top: 50%; transform: translateY(-50%) rotate(-45deg);
 }
 
-/* Hover affordance for desktop pointers */
 @media (hover:hover) and (pointer:fine) {
   .gurjaolab-navbar .menu-toggle:hover span { background: #000; }
 }
 
-/* ===== Desktop override: inline menu only on devices with hover+fine pointer ===== */
+/* ===== Desktop override ===== */
 @media (hover: hover) and (pointer: fine) {
   .gurjaolab-navbar .menu-toggle { display: none; }
 
@@ -168,9 +183,10 @@
     gap: clamp(24px, 3vw, 50px);
     padding: 0;
     box-shadow: none;
+    max-height: none;
+    opacity: 1;
   }
 
-  /* --- unchanged desktop sizes --- */
   .gurjaolab-navbar .nav-links li a {
     font-weight: 600;
     font-size: clamp(14px, 1.9vw, 16px);
@@ -178,16 +194,14 @@
   }
 }
 
-/* --- Fallback for devices misreporting hover (narrow screens) --- */
+/* --- Fallback for narrow screens --- */
 @media (max-width: 900px) {
   .gurjaolab-navbar .nav-links li a {
-    font-size: 50px;   /* same as base dropdown */
+    font-size: 50px;
     padding: 14px 0;
   }
-  .gurjaolab-navbar .nav-links { gap: 36px; }
 }
 
-/* ===== Touch / mobile-first typography bump (brand + drawer) ===== */
 @media (hover: none) {
   .gurjaolab-navbar .navbar-brand {
     font-size: clamp(50px, 8vw, 48px);
@@ -196,7 +210,6 @@
   }
 }
 
-/* Extra-narrow phones: tiny nudge */
 @media (max-width: 360px) {
   .gurjaolab-navbar .navbar-brand { font-size: clamp(50px, 9vw, 50px); }
   .gurjaolab-navbar .nav-links li a { font-size: 23px; }
@@ -212,17 +225,23 @@ document.addEventListener("DOMContentLoaded", function () {
   function openMenu() {
     toggle.classList.add("open");
     toggle.setAttribute("aria-expanded", "true");
-    links.classList.add("open");
+
     links.removeAttribute("hidden");
+    requestAnimationFrame(() => links.classList.add("open"));
+
     body.style.overflow = "hidden";
   }
+
   function closeMenu() {
     toggle.classList.remove("open");
     toggle.setAttribute("aria-expanded", "false");
+
     links.classList.remove("open");
     links.setAttribute("hidden", "");
+
     body.style.overflow = "";
   }
+
   const isOpen = () => toggle.classList.contains("open");
 
   toggle.addEventListener("click", () => (isOpen() ? closeMenu() : openMenu()));
@@ -246,6 +265,7 @@ document.addEventListener("DOMContentLoaded", function () {
       closeMenu();
     }
   }
+
   handleDesktopChange(desktopQuery);
   desktopQuery.addEventListener("change", handleDesktopChange);
 });

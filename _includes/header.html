@@ -123,15 +123,20 @@
 .gurjaolab-navbar .menu-toggle {
   position: relative;
   display: flex;
+  align-items: center;
+  justify-content: center;
+
   background: none;
   border: none;
   cursor: pointer;
 
-  /* Option B: Large invisible hit area */
+  /* restored visible size */
+  width: 50px;
+  height: 50px;
+
+  /* large clickable area without affecting layout */
   padding: 18px;
   margin: -8px;
-  width: auto;
-  height: auto;
 }
 
 .gurjaolab-navbar .menu-toggle span {

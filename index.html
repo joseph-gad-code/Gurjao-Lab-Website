@@ -4,77 +4,86 @@ title: Home
 nav: home
 ---
 <style>
-  /* === Responsive adjustments for Home page === */
+/* ================================
+   MOBILE OVERRIDES ONLY (<800px)
+   ================================ */
+@media (max-width: 800px) {
 
-  /* Mobile-only adjustments (max-width 800px) */
-  @media (max-width: 800px) {
-
-    /* 1️⃣ Remove arrows */
-    #mobile-hide-arrows {
-      display: none !important;
-    }
-
-    /* 2️⃣ Stack blurbs vertically */
-    .home-blurbs .col-xs-6 {
-      flex: 1 1 100%;
-      max-width: 100%;
-      margin-bottom: 24px;
-    }
-
-    /* 3️⃣ Stack Our Mission and Latest News */
-    .mission-news .col-xs-8,
-    .mission-news .col-xs-4 {
-      flex: 1 1 100%;
-      max-width: 100%;
-      margin-bottom: 32px;
-    }
-
-    /* 4️⃣ Increase only Mission and News headings to 50px */
-    .mission-news h2 {
-      font-size: 50px !important;
-      line-height: 1.2;
-    }
-
-    /* Optional: slightly scale subheadings */
-    .mission-news h4 {
-      font-size: 28px !important;
-      line-height: 1.25;
-    }
-
-    /* 5️⃣ Keep paragraphs and list items readable without breaking layout */
-    .mission-news p,
-    .mission-news li,
-    .mission-news a {
-      font-size: 20px !important;
-      line-height: 1.45;
-    }
-
-    /* 6️⃣ Adjust mission list bullets for larger heading */
-    .mission-list li span {
-      height: 2px !important;
-      width: 20px !important;
-      top: 1em !important;
-    }
-
-    /* 7️⃣ Adjust container padding for small screens */
-    .container {
-      padding-left: 16px;
-      padding-right: 16px;
-    }
-
-    /* 8️⃣ News box scroll height */
-    aside div[style*="overflow-y:auto"] {
-      max-height: 60vh !important;
-    }
+  /* 1️⃣ Remove arrows */
+  #mobile-hide-arrows {
+    display: none !important;
   }
 
-  /* Optional: minor spacing adjustments for very small screens */
-  @media (max-width: 500px) {
-    .container {
-      padding-left: 12px;
-      padding-right: 12px;
-    }
+  /* 2️⃣ Stack blurbs vertically */
+  .home-blurbs .row {
+    display: flex;
+    flex-direction: column;
   }
+  .home-blurbs .col-xs-6 {
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin-bottom: 24px;
+  }
+
+  /* 3️⃣ Stack Our Mission and Latest News vertically */
+  .mission-news .row {
+    display: flex;
+    flex-direction: column;
+  }
+  .mission-news .col-xs-8,
+  .mission-news .col-xs-4 {
+    flex: 1 1 100%;
+    max-width: 100%;
+    margin-bottom: 32px;
+  }
+
+  /* 4️⃣ Increase all text sizes */
+  .mission-news, .home-blurbs {
+    font-size: 26px !important;
+  }
+  .mission-news h2,
+  .home-blurbs h2,
+  .mission-news h4,
+  .home-blurbs h4 {
+    font-size: 50px !important;
+    line-height: 1.2;
+  }
+  .mission-news p,
+  .home-blurbs p,
+  .mission-news li,
+  .home-blurbs li,
+  .mission-news a,
+  .home-blurbs a {
+    font-size: 26px !important;
+    line-height: 1.45;
+  }
+
+  /* 5️⃣ Adjust mission list bullets for larger heading */
+  .mission-list li span {
+    height: 2px !important;
+    width: 20px !important;
+    top: 1em !important;
+  }
+
+  /* 6️⃣ Adjust container padding for small screens */
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  /* 7️⃣ News box scroll height */
+  aside div[style*="overflow-y:auto"] {
+    max-height: 60vh !important;
+  }
+}
+
+/* Optional: minor spacing adjustments for very small screens */
+@media (max-width: 500px) {
+  .container {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}
 </style>
 
 <!-- HERO IMAGE (same rail as navbar) -->
@@ -124,7 +133,7 @@ nav: home
   </svg>
 </div>
 
-<!-- BLURBS (ALWAYS TWO COLUMNS) -->
+<!-- BLURBS -->
 <div class="container home-blurbs" style="margin:8px auto 28px;">
   <div class="row text-center" style="font-size:18px;line-height:1.6;font-family:'Nunito';word-wrap:break-word;word-break:break-word;">
     <div class="col-xs-6" style="padding-bottom:16px;">
@@ -146,7 +155,7 @@ nav: home
   </div>
 </div>
 
-<!-- MISSION + NEWS (ALWAYS 8/4 COLUMNS) -->
+<!-- MISSION + NEWS -->
 <div class="container mission-news" style="margin-top:40px;margin-bottom:24px;">
   <div class="row" style="word-wrap:break-word;word-break:break-word;">
     <div class="col-xs-8" style="font-family:'Nunito';color:#000;display:block;margin-bottom:16px;">

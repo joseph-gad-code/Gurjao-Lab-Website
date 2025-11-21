@@ -2,16 +2,19 @@
 <nav class="gurjaolab-navbar" role="navigation" aria-label="Main navigation">
   <div class="nav-rail">
 
-    <!-- Brand (fixed size, no scaling) -->
+    <!-- Brand -->
     <a class="navbar-brand" href="{{ '/' | relative_url }}">GURJAOLAB</a>
 
-    <!-- Hamburger -->
-    <button class="menu-toggle" aria-expanded="false" aria-controls="primary-nav">
+    <!-- Hamburger Button -->
+    <button class="menu-toggle"
+            aria-label="Toggle navigation"
+            aria-expanded="false"
+            aria-controls="primary-nav">
       <span></span><span></span><span></span>
     </button>
 
-    <!-- Menu -->
-    <ul id="primary-nav" class="nav-links">
+    <!-- Menu Links -->
+    <ul id="primary-nav" class="nav-links" hidden>
       <li {% if page.url == '/' %}class="active"{% endif %}>
         <a href="{{ '/' | relative_url }}">Home</a>
       </li>
@@ -33,14 +36,15 @@
 </nav>
 
 <style>
-/* ===== Base ===== */
+/* ===== Base Layout ===== */
 .gurjaolab-navbar {
-  width: 100%;
   background: #fff;
-  margin-top: 24px;
+  width: 100%;
+  margin: 24px 0 0 0;
+  border-bottom: 0;
 }
 
-.nav-rail {
+.gurjaolab-navbar .nav-rail {
   max-width: 1100px;
   margin: 0 auto;
   padding: 20px 15px 8px;
@@ -49,151 +53,205 @@
   justify-content: space-between;
 }
 
-/* ===== Brand (FIXED SIZE) ===== */
-.navbar-brand {
+/* ===== Brand (FIXED — never shrinks now) ===== */
+.gurjaolab-navbar .navbar-brand {
   color: #0D5295;
-  font-family: "Nunito", sans-serif;
+  font-family: 'Nunito', sans-serif;
   font-weight: 800;
-  font-size: 34px;    /* FIXED SIZE */
+  font-size: 34px; /* FIXED SIZE */
   text-decoration: none;
   line-height: 1;
-  white-space: nowrap;
 }
 
-/* ===== Menu (mobile default) ===== */
-.nav-links {
+/* ===== Mobile Drawer (default) ===== */
+.gurjaolab-navbar .nav-links {
   list-style: none;
-  display: flex;
-  flex-direction: column;
+  margin: 0;
+  padding: 40px 0;
   position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
   background: #fff;
 
-  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   gap: 36px;
+
   box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+  z-index: 1000;
 
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: max-height .35s ease, opacity .35s ease;
+  transition: max-height .4s ease, opacity .4s ease;
 }
 
-.nav-links.open {
+.gurjaolab-navbar .nav-links.open {
   max-height: 1000px;
   opacity: 1;
 }
 
-/* Mobile menu links */
-.nav-links a {
-  font-family: "Nunito", sans-serif;
-  font-weight: 700;
-  font-size: 24px;
-  text-decoration: none;
-  color: #777;
+.gurjaolab-navbar .nav-links[hidden] {
+  display: none !important;
 }
 
-.nav-links li.active a {
+.gurjaolab-navbar .nav-links li a {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  color: #777;
+  text-decoration: none;
+  padding: 14px 0;
+  line-height: 1.35;
+  transition: color .2s ease;
+}
+
+.gurjaolab-navbar .nav-links li.active a {
   color: #000;
   text-decoration: underline;
   text-underline-offset: 8px;
   text-decoration-thickness: 3px;
 }
 
-/* ===== Hamburger ===== */
-.menu-toggle {
+.gurjaolab-navbar .nav-links li a:hover {
+  color: #000;
+}
+
+/* ===== Hamburger Button ===== */
+.gurjaolab-navbar .menu-toggle {
   width: 50px;
   height: 50px;
   background: none;
   border: none;
-  position: relative;
+  padding: 5px;
   cursor: pointer;
+  display: flex;
+  position: relative;
 }
 
-.menu-toggle span {
+.gurjaolab-navbar .menu-toggle span {
   position: absolute;
+  left: 0;
   width: 100%;
   height: 4px;
-  left: 0;
   background: #bbb;
   border-radius: 2px;
-  transition: all .3s ease;
+  transition:
+    transform .3s ease-out,
+    opacity .1s ease-out,
+    top .3s ease-out;
 }
 
-.menu-toggle span:nth-child(1) { top: 0; }
-.menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
-.menu-toggle span:nth-child(3) { top: 100%; transform: translateY(-100%); }
+.gurjaolab-navbar .menu-toggle span:nth-child(1) { top: 0; }
+.gurjaolab-navbar .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.gurjaolab-navbar .menu-toggle span:nth-child(3) { top: 100%; transform: translateY(-100%); }
 
-/* X */
-.menu-toggle.open span:nth-child(1) {
+.gurjaolab-navbar .menu-toggle.open span:nth-child(1) {
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
 }
-.menu-toggle.open span:nth-child(2) {
+.gurjaolab-navbar .menu-toggle.open span:nth-child(2) {
   opacity: 0;
 }
-.menu-toggle.open span:nth-child(3) {
+.gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
   top: 50%;
   transform: translateY(-50%) rotate(-45deg);
 }
 
-/* ===== Desktop ===== */
-@media (min-width: 900px) {
+/* ===== DESKTOP LAYOUT (unchanged except fixed brand size) ===== */
+@media (hover: hover) and (pointer: fine) {
 
-  .menu-toggle {
+  .gurjaolab-navbar .menu-toggle {
     display: none;
   }
 
-  .nav-links {
+  .gurjaolab-navbar .nav-links {
     position: static;
+    display: flex !important;
     flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+
     padding: 0;
+    margin-left: auto;
+
     gap: clamp(24px, 3vw, 50px);
     box-shadow: none;
 
-    opacity: 1;
     max-height: none;
     overflow: visible;
+    opacity: 1;
   }
 
-  .nav-links a {
-    font-size: 16px;
+  .gurjaolab-navbar .nav-links li a {
     font-weight: 600;
+    font-size: clamp(14px, 1.9vw, 16px);
     padding: 14px 0 6px;
   }
+}
+
+/* Extra-narrow phones */
+@media (max-width: 360px) {
+  .gurjaolab-navbar .navbar-brand { font-size: clamp(50px, 9vw, 50px); }
+  .gurjaolab-navbar .nav-links li a { font-size: 23px; }
 }
 </style>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.querySelector(".menu-toggle");
-  const menu   = document.querySelector(".nav-links");
-
-  if (!toggle || !menu) return;
+  const links  = document.querySelector("#primary-nav");
+  const body   = document.body;
 
   function openMenu() {
     toggle.classList.add("open");
-    menu.classList.add("open");
+    toggle.setAttribute("aria-expanded", "true");
+    links.classList.add("open");
+    links.removeAttribute("hidden");
+    body.style.overflow = "hidden";
   }
 
   function closeMenu() {
     toggle.classList.remove("open");
-    menu.classList.remove("open");
+    toggle.setAttribute("aria-expanded", "false");
+    links.classList.remove("open");
+    links.setAttribute("hidden", "");
+    body.style.overflow = "";
   }
 
+  const isOpen = () => toggle.classList.contains("open");
+
   toggle.addEventListener("click", () => {
-    menu.classList.contains("open") ? closeMenu() : openMenu();
+    isOpen() ? closeMenu() : openMenu();
   });
 
-  function onResize() {
-    if (window.innerWidth >= 900) {
-      closeMenu();  /* Reset to desktop */
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && isOpen()) closeMenu();
+  });
+
+  document.addEventListener("click", e => {
+    if (!e.target.closest(".gurjaolab-navbar") && isOpen()) closeMenu();
+  });
+
+  /* ===== FIXED RESIZE SYNCHRONIZATION ===== */
+  const desktopQuery = window.matchMedia("(min-width: 900px)");
+
+  function handleViewportChange(e) {
+    if (e.matches) {
+      // Switching into desktop mode
+      toggle.classList.remove("open");
+      links.classList.remove("open");
+      links.removeAttribute("hidden");
+      body.style.overflow = "";
+    } else {
+      // Switching into mobile mode
+      closeMenu();
     }
   }
 
-  window.addEventListener("resize", onResize);
-  onResize();
+  desktopQuery.addEventListener("change", handleViewportChange);
+  handleViewportChange(desktopQuery);
 });
 </script>

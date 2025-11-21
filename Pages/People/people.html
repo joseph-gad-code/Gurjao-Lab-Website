@@ -56,15 +56,16 @@ nav: people
 
 /* Image (MODIFIED: circle → squircle) */
 .person-photo-wrap {
-  width: 160px;
-  height: 160px;
-  border-radius: 30% / 30%;   /* SQUIRCLE SHAPE */
+  width: 100%;                 /* full card width */
+  aspect-ratio: 1.2 / 1;       /* adjust for aesthetic proportion */
+  border-radius: 30% / 30%;    /* squircle */
   overflow: hidden;
   margin-bottom: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 
 .person-photo {
   width: 100%;
@@ -178,11 +179,10 @@ nav: people
   }
 
   /* MODIFIED: keep squircle on mobile too */
-  .person-photo-wrap {
-    width: 400px;
-    height: 400px;
-    border-radius: 30% / 30%;   /* SQUIRCLE */
-    margin-bottom: 50px;
+  .person-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .person-photo {

@@ -2,18 +2,15 @@
 <nav class="gurjaolab-navbar" role="navigation" aria-label="Main navigation">
   <div class="nav-rail">
 
-    <!-- Brand -->
+    <!-- Brand (fixed size, no scaling) -->
     <a class="navbar-brand" href="{{ '/' | relative_url }}">GURJAOLAB</a>
 
-    <!-- Hamburger Button -->
-    <button class="menu-toggle"
-            aria-label="Toggle navigation"
-            aria-expanded="false"
-            aria-controls="primary-nav">
+    <!-- Hamburger -->
+    <button class="menu-toggle" aria-expanded="false" aria-controls="primary-nav">
       <span></span><span></span><span></span>
     </button>
 
-    <!-- Menu Links -->
+    <!-- Menu -->
     <ul id="primary-nav" class="nav-links">
       <li {% if page.url == '/' %}class="active"{% endif %}>
         <a href="{{ '/' | relative_url }}">Home</a>
@@ -36,15 +33,14 @@
 </nav>
 
 <style>
-/* ===== Base Layout ===== */
+/* ===== Base ===== */
 .gurjaolab-navbar {
-  background: #fff;
   width: 100%;
-  margin: 24px 0 0 0;
-  border-bottom: 0;
+  background: #fff;
+  margin-top: 24px;
 }
 
-.gurjaolab-navbar .nav-rail {
+.nav-rail {
   max-width: 1100px;
   margin: 0 auto;
   padding: 20px 15px 8px;
@@ -53,35 +49,31 @@
   justify-content: space-between;
 }
 
-/* ===== Brand ===== */
-.gurjaolab-navbar .navbar-brand {
+/* ===== Brand (FIXED SIZE) ===== */
+.navbar-brand {
   color: #0D5295;
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   font-weight: 800;
-  font-size: clamp(28px, 2.8vw, 34px); /* slightly safer scaling */
+  font-size: 34px;    /* FIXED SIZE */
   text-decoration: none;
   line-height: 1;
-  white-space: nowrap; /* prevents wrapping/shrinking */
+  white-space: nowrap;
 }
 
-/* ===== Mobile Drawer (default) ===== */
-.gurjaolab-navbar .nav-links {
+/* ===== Menu (mobile default) ===== */
+.nav-links {
   list-style: none;
-  margin: 0;
-  padding: 40px 0;
+  display: flex;
+  flex-direction: column;
   position: absolute;
   top: 100%;
   left: 0;
   width: 100%;
   background: #fff;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 40px 0;
   gap: 36px;
-
   box-shadow: 0 12px 24px rgba(0,0,0,0.08);
-  z-index: 1000;
 
   max-height: 0;
   opacity: 0;
@@ -89,182 +81,119 @@
   transition: max-height .35s ease, opacity .35s ease;
 }
 
-/* OPEN state (mobile) */
-.gurjaolab-navbar .nav-links.open {
+.nav-links.open {
   max-height: 1000px;
   opacity: 1;
 }
 
-/* Drawer link look */
-.gurjaolab-navbar .nav-links li a {
-  font-family: 'Nunito', sans-serif;
+/* Mobile menu links */
+.nav-links a {
+  font-family: "Nunito", sans-serif;
   font-weight: 700;
   font-size: 24px;
-  color: #777;
   text-decoration: none;
-  padding: 14px 0;
-  line-height: 1.35;
-  transition: color .2s ease;
+  color: #777;
 }
 
-.gurjaolab-navbar .nav-links li.active a {
+.nav-links li.active a {
   color: #000;
   text-decoration: underline;
   text-underline-offset: 8px;
   text-decoration-thickness: 3px;
 }
 
-.gurjaolab-navbar .nav-links li a:hover {
-  color: #000;
-}
-
-/* ===== Hamburger Button ===== */
-.gurjaolab-navbar .menu-toggle {
+/* ===== Hamburger ===== */
+.menu-toggle {
   width: 50px;
   height: 50px;
   background: none;
   border: none;
-  padding: 5px;
-  cursor: pointer;
-  display: flex;
   position: relative;
+  cursor: pointer;
 }
 
-.gurjaolab-navbar .menu-toggle span {
+.menu-toggle span {
   position: absolute;
-  left: 0;
   width: 100%;
   height: 4px;
+  left: 0;
   background: #bbb;
   border-radius: 2px;
-  transition:
-    transform .25s ease,
-    opacity .15s ease,
-    top .25s ease;
+  transition: all .3s ease;
 }
 
-.gurjaolab-navbar .menu-toggle span:nth-child(1) { top: 0; }
-.gurjaolab-navbar .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
-.gurjaolab-navbar .menu-toggle span:nth-child(3) { top: 100%; transform: translateY(-100%); }
+.menu-toggle span:nth-child(1) { top: 0; }
+.menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.menu-toggle span:nth-child(3) { top: 100%; transform: translateY(-100%); }
 
-/* transform into X */
-.gurjaolab-navbar .menu-toggle.open span:nth-child(1) {
+/* X */
+.menu-toggle.open span:nth-child(1) {
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
 }
-.gurjaolab-navbar .menu-toggle.open span:nth-child(2) {
+.menu-toggle.open span:nth-child(2) {
   opacity: 0;
 }
-.gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
+.menu-toggle.open span:nth-child(3) {
   top: 50%;
   transform: translateY(-50%) rotate(-45deg);
 }
 
-/* ===== DESKTOP LAYOUT ===== */
+/* ===== Desktop ===== */
 @media (min-width: 900px) {
 
-  .gurjaolab-navbar .menu-toggle {
+  .menu-toggle {
     display: none;
   }
 
-  .gurjaolab-navbar .nav-links {
+  .nav-links {
     position: static;
-    display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-
     padding: 0;
-    margin-left: auto;
-
     gap: clamp(24px, 3vw, 50px);
     box-shadow: none;
 
-    max-height: none;
     opacity: 1;
+    max-height: none;
     overflow: visible;
   }
 
-  .gurjaolab-navbar .nav-links li a {
+  .nav-links a {
+    font-size: 16px;
     font-weight: 600;
-    font-size: clamp(14px, 1.9vw, 16px);
     padding: 14px 0 6px;
-  }
-}
-
-/* Extra-narrow phones */
-@media (max-width: 360px) {
-  .gurjaolab-navbar .navbar-brand {
-    font-size: clamp(32px, 10vw, 50px);
-  }
-  .gurjaolab-navbar .nav-links li a {
-    font-size: 23px;
   }
 }
 </style>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const nav    = document.querySelector(".gurjaolab-navbar");
-  if (!nav) return; // safety guard
+  const toggle = document.querySelector(".menu-toggle");
+  const menu   = document.querySelector(".nav-links");
 
-  const toggle = nav.querySelector(".menu-toggle");
-  const menu   = nav.querySelector(".nav-links");
-  const body   = document.body;
-
-  if (!toggle || !menu) return; // safety guard
+  if (!toggle || !menu) return;
 
   function openMenu() {
     toggle.classList.add("open");
-    toggle.setAttribute("aria-expanded", "true");
     menu.classList.add("open");
-    body.style.overflow = "hidden";
   }
 
   function closeMenu() {
     toggle.classList.remove("open");
-    toggle.setAttribute("aria-expanded", "false");
     menu.classList.remove("open");
-    body.style.overflow = "";
   }
 
-  function isOpen() {
-    return menu.classList.contains("open");
-  }
-
-  // Toggle on button click
-  toggle.addEventListener("click", (e) => {
-    e.stopPropagation();
-    isOpen() ? closeMenu() : openMenu();
+  toggle.addEventListener("click", () => {
+    menu.classList.contains("open") ? closeMenu() : openMenu();
   });
 
-  // Close on ESC
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && isOpen()) {
-      closeMenu();
-    }
-  });
-
-  // Close when clicking outside navbar (on mobile)
-  document.addEventListener("click", (e) => {
-    if (!e.target.closest(".gurjaolab-navbar") && isOpen()) {
-      closeMenu();
-    }
-  });
-
-  // Keep state sane on resize
-  function handleResize() {
+  function onResize() {
     if (window.innerWidth >= 900) {
-      // desktop: ensure menu is in inline mode, no body lock
-      closeMenu();
-      body.style.overflow = "";
-    } else {
-      // mobile: keep menu closed by default
-      closeMenu();
+      closeMenu();  /* Reset to desktop */
     }
   }
 
-  window.addEventListener("resize", handleResize);
-  handleResize();
+  window.addEventListener("resize", onResize);
+  onResize();
 });
 </script>

@@ -14,7 +14,7 @@
     </button>
 
     <!-- Menu Links -->
-    <ul id="primary-nav" class="nav-links" hidden>
+    <ul id="primary-nav" class="nav-links">
       <li {% if page.url == '/' %}class="active"{% endif %}>
         <a href="{{ '/' | relative_url }}">Home</a>
       </li>
@@ -36,15 +36,14 @@
 </nav>
 
 <style>
-  /* ===== Base Layout ===== */
+/* ========== BASE NAVBAR LAYOUT ========== */
 .gurjaolab-navbar {
   background: #fff;
   width: 100%;
   margin: 24px 0 0 0;
-  border-bottom: 0;
 }
 
-.gurjaolab-navbar .nav-rail {
+.nav-rail {
   max-width: 1100px;
   margin: 0 auto;
   padding: 20px 15px 8px;
@@ -53,21 +52,22 @@
   justify-content: space-between;
 }
 
-/* ===== Brand ===== */
-.gurjaolab-navbar .navbar-brand {
+/* ========== BRAND ========== */
+.navbar-brand {
   color: #0D5295;
   font-family: 'Nunito', sans-serif;
   font-weight: 800;
-  font-size: clamp(26px, 4vw, 34px);
+  font-size: clamp(28px, 2.8vw, 34px); /* safer scaling */
   text-decoration: none;
   line-height: 1;
+  white-space: nowrap; /* Prevent shrinking/wrapping */
 }
 
-/* ===== Mobile Drawer (default) ===== */
-.gurjaolab-navbar .nav-links {
+/* ========== MOBILE MENU (default) ========== */
+.nav-links {
   list-style: none;
-  margin: 0;
   padding: 40px 0;
+  margin: 0;
   position: absolute;
   top: 100%;
   left: 0;
@@ -85,20 +85,16 @@
   max-height: 0;
   opacity: 0;
   overflow: hidden;
-  transition: max-height .4s ease, opacity .4s ease;
+  transition: max-height .35s ease, opacity .35s ease;
 }
 
-.gurjaolab-navbar .nav-links.open {
+/* OPEN STATE — JS adds this */
+.nav-links.open {
   max-height: 1000px;
   opacity: 1;
 }
 
-.gurjaolab-navbar .nav-links[hidden] {
-  display: none !important;
-}
-
-/* Drawer link look (unchanged aesthetic) */
-.gurjaolab-navbar .nav-links li a {
+.nav-links li a {
   font-family: 'Nunito', sans-serif;
   font-weight: 700;
   font-size: 24px;
@@ -109,69 +105,61 @@
   transition: color .2s ease;
 }
 
-.gurjaolab-navbar .nav-links li.active a {
+.nav-links li.active a {
   color: #000;
   text-decoration: underline;
   text-underline-offset: 8px;
   text-decoration-thickness: 3px;
 }
 
-.gurjaolab-navbar .nav-links li a:hover {
-  color: #000;
-}
+.nav-links li a:hover { color: #000; }
 
-/* ===== Hamburger Button ===== */
-.gurjaolab-navbar .menu-toggle {
-  width: 50px;
-  height: 50px;
+/* ========== HAMBURGER BUTTON ========== */
+.menu-toggle {
+  width: 48px;
+  height: 48px;
   background: none;
   border: none;
-  padding: 5px;
-  cursor: pointer;
-  display: flex;
   position: relative;
+  cursor: pointer;
 }
 
-.gurjaolab-navbar .menu-toggle span {
+.menu-toggle span {
   position: absolute;
   left: 0;
   width: 100%;
   height: 4px;
   background: #bbb;
   border-radius: 2px;
-  transition:
-    transform .3s ease-out,
-    opacity .1s ease-out,
-    top .3s ease-out;
+  transition: transform .25s ease, opacity .15s ease, top .25s ease;
 }
 
-.gurjaolab-navbar .menu-toggle span:nth-child(1) { top: 0; }
-.gurjaolab-navbar .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
-.gurjaolab-navbar .menu-toggle span:nth-child(3) { top: 100%; transform: translateY(-100%); }
+.menu-toggle span:nth-child(1) { top: 0; }
+.menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.menu-toggle span:nth-child(3) { top: 100%; transform: translateY(-100%); }
 
-/* transform into X */
-.gurjaolab-navbar .menu-toggle.open span:nth-child(1) {
+/* X icon when open */
+.menu-toggle.open span:nth-child(1) {
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
 }
-.gurjaolab-navbar .menu-toggle.open span:nth-child(2) {
+.menu-toggle.open span:nth-child(2) {
   opacity: 0;
 }
-.gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
+.menu-toggle.open span:nth-child(3) {
   top: 50%;
   transform: translateY(-50%) rotate(-45deg);
 }
 
-/* ===== DESKTOP LAYOUT (replaces all hover-based logic) ===== */
+/* ========== DESKTOP MODE ========== */
 @media (min-width: 900px) {
 
-  .gurjaolab-navbar .menu-toggle {
+  .menu-toggle {
     display: none;
   }
 
-  .gurjaolab-navbar .nav-links {
+  .nav-links {
     position: static;
-    display: flex !important;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
@@ -182,76 +170,67 @@
     gap: clamp(24px, 3vw, 50px);
     box-shadow: none;
 
-    max-height: none;
+    max-height: none !important;
+    opacity: 1 !important;
     overflow: visible;
-    opacity: 1;
   }
 
-  .gurjaolab-navbar .nav-links li a {
+  .nav-links li a {
     font-weight: 600;
     font-size: clamp(14px, 1.9vw, 16px);
     padding: 14px 0 6px;
   }
 }
 
-/* Extra-narrow phones (unchanged from original) */
+/* ========== VERY SMALL PHONES ========== */
 @media (max-width: 360px) {
-  .gurjaolab-navbar .navbar-brand { font-size: clamp(50px, 9vw, 50px); }
-  .gurjaolab-navbar .nav-links li a { font-size: 23px; }
+  .navbar-brand { font-size: clamp(32px, 10vw, 50px); }
 }
 </style>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
+
   const toggle = document.querySelector(".menu-toggle");
-  const links  = document.querySelector("#primary-nav");
+  const menu   = document.querySelector(".nav-links");
   const body   = document.body;
 
   function openMenu() {
     toggle.classList.add("open");
     toggle.setAttribute("aria-expanded", "true");
-    links.classList.add("open");
-    links.removeAttribute("hidden");
+    menu.classList.add("open");
     body.style.overflow = "hidden";
   }
 
   function closeMenu() {
     toggle.classList.remove("open");
     toggle.setAttribute("aria-expanded", "false");
-    links.classList.remove("open");
-    links.setAttribute("hidden", "");
+    menu.classList.remove("open");
     body.style.overflow = "";
   }
 
-  const isOpen = () => toggle.classList.contains("open");
-
   toggle.addEventListener("click", () => {
-    isOpen() ? closeMenu() : openMenu();
+    const isOpen = toggle.classList.contains("open");
+    isOpen ? closeMenu() : openMenu();
   });
 
   document.addEventListener("keydown", e => {
-    if (e.key === "Escape" && isOpen()) closeMenu();
+    if (e.key === "Escape") closeMenu();
   });
 
   document.addEventListener("click", e => {
-    if (!e.target.closest(".gurjaolab-navbar") && isOpen()) closeMenu();
+    if (!e.target.closest(".gurjaolab-navbar")) closeMenu();
   });
 
-  /* --- RESIZE LOGIC (clean + correct) --- */
-  function handleResize() {
+  /* --- RESIZE SYNC (100% correct) --- */
+  function syncState() {
     if (window.innerWidth >= 900) {
-      // force desktop state
-      toggle.classList.remove("open");
-      links.classList.remove("open");
-      links.removeAttribute("hidden");
-      body.style.overflow = "";
-    } else {
-      // force mobile state
-      closeMenu();
+      closeMenu(); // reset mobile menu
+      body.style.overflow = ""; // ensure scroll re-enabled
     }
   }
 
-  window.addEventListener("resize", handleResize);
-  handleResize();
+  window.addEventListener("resize", syncState);
+  syncState();
 });
 </script>

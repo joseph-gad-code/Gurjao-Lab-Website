@@ -30,64 +30,52 @@ nav: contact
   /* === Flex container for text + logo === */
   .contact-top {
     display: flex;
-    align-items: stretch;          /* Equal height columns */
+    align-items: flex-start;
     justify-content: space-between;
     gap: 2vw;
     margin-top: 40px;
-    flex-wrap: nowrap;             /* Never wrap vertically */
+    flex-wrap: nowrap;
     overflow-x: hidden;
   }
 
   /* === Text column === */
   .contact-left {
-    flex: 1 1 50%;
+    flex: 1 1 60%;
     background-color: #fff;
-    border-radius: 10px;
     padding: 2vw;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-width: 0; /* prevents overflow text from stretching flexbox */
   }
 
-  /* === Logo column === */
+  /* === Logo column (smaller image, right-aligned) === */
   .contact-right {
-    flex: 1 1 50%;
+    flex: 0 0 auto;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    border-radius: 10px;
-    padding: 2vw;
-    background-color: #fff;
-    min-width: 0;
+    padding: 1vw;
   }
 
   .contact-logo-box {
-    width: 100%;
-    height: 100%;
-    aspect-ratio: 1 / 1; /* keeps it proportional */
-    border: 1px solid #eee;
-    border-radius: 10px;
-    background-color: #fff;
+    width: auto;
+    max-width: 180px;      /* MUCH SMALLER */
+    border: none;
+    background: none;
     display: flex;
     justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    align-items: flex-start;
   }
 
   .contact-logo-box img {
-    width: 90%;
+    width: 100%;
     height: auto;
     object-fit: contain;
     display: block;
-    max-height: 100%;
   }
 
   /* === Text styling === */
   h2 {
     font-weight: 700;
-    font-size: clamp(16px, 2vw, 20px);
+    font-size: 20px;
     margin: 0 0 12px 0;
   }
 
@@ -97,10 +85,20 @@ nav: contact
     list-style: none;
   }
 
+  /* Dashes beside each affiliation */
+  .contact-left ul li::before {
+    content: "– ";
+  }
+
+  .contact-left li,
   .contact-left p {
     margin: 4px 0;
     line-height: 1.6;
-    font-size: clamp(14px, 1.8vw, 16px);
+    font-size: 16px;     /* MATCHES address/phone/email text */
+  }
+
+  .contact-left strong {
+    font-weight: 700;
   }
 
   /* === Secondary section === */
@@ -138,83 +136,89 @@ nav: contact
     line-height: 1.6;
   }
 
-  /* === Responsive: never stack, but scale === */
-/* === Mobile styles for Contact page === */
-@media (max-width: 500px) {
-  /* Reduce section padding */
-  section {
-    padding: 0 12px;
-  }
+  /* === MOBILE VERSION === */
+  @media (max-width: 500px) {
 
-  /* === STACK TOP COLUMNS ON MOBILE === */
-  .contact-top {
-    flex-wrap: wrap;       /* allow vertical stacking */
-    gap: 3vw;              /* spacing between stacked columns */
-  }
+    section {
+      padding: 0 12px;
+    }
 
-  .contact-left,
-  .contact-right {
-    flex: 1 1 100%;        /* full width */
-    max-width: 100%;       /* prevent side-by-side on mobile */
-    padding: 3vw;
-  }
-  
-  /* Scale text above the cards */
-  .contact-left h2 {
-    font-size: 50px;  /* larger heading */
-    margin-bottom: 16px;
-  }
+    /* stack items vertically */
+    .contact-top {
+      flex-wrap: wrap;
+      gap: 3vw;
+    }
 
-  .contact-left p,
-  .contact-left li {
-    font-size: 35px;  /* larger body text */
-    line-height: 1.4;
+    .contact-left,
+    .contact-right {
+      flex: 1 1 100%;
+      max-width: 100%;
+      padding: 3vw;
+    }
+
+    /* Logo small + centered */
+    .contact-logo-box {
+      max-width: 200px;
+      margin: 0 auto;
+    }
+
+    .contact-logo-box img {
+      width: 100%;
+      height: auto;
+    }
+
+    /* Larger text on mobile */
+    .contact-left h2 {
+      font-size: 50px;
+      margin-bottom: 16px;
+    }
+
+    .contact-left p,
+    .contact-left li {
+      font-size: 35px;
+      line-height: 1.4;
+    }
+
+    a.contact-link {
+      font-size: 35px;
+    }
+
+    /* Stack value cards */
+    .contact-values-grid {
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .contact-value-col {
+      width: 100%;
+      padding: 20px;
+    }
+
+    .contact-value-col h3 {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .contact-value-col p {
+      font-size: 35px;
+      line-height: 1.4;
+      margin-bottom: 0;
+    }
+
+    /* Ensure subtitles remain bold */
+    .contact-left strong {
+      font-weight: 700;
+    }
   }
-
-  a.contact-link {
-    font-size: 35px;  /* scale links too */
-  }
-
-  /* Logo scaling */
-  .contact-logo-box img {
-    width: 100%;
-    height: auto;
-  }
-
-  /* === Stack value cards === */
-  .contact-values-grid {
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .contact-value-col {
-    flex: 1 1 auto;      /* adapt to text size */
-    width: 100%;
-    padding: 20px;       /* smaller padding to shrink card vertically */
-  }
-
-  /* Scale card text */
-  .contact-value-col h3 {
-    font-size: 40px;
-    margin-bottom: 12px;
-  }
-
-  .contact-value-col p {
-    font-size: 35px;
-    line-height: 1.4;
-    margin-bottom: 0;
-  }
-}
-
-
 </style>
 
-<!-- === Main Contact Section === -->
+
+<!-- === MAIN CONTACT SECTION === -->
 <section>
 
   <div class="contact-top">
 
-    <!-- LEFT COLUMN: Info -->
+    <!-- LEFT COLUMN -->
     <div class="contact-left">
       <h2>Affiliations</h2>
       <ul>
@@ -236,16 +240,17 @@ nav: contact
       </div>
     </div>
 
-    <!-- RIGHT COLUMN: Logo -->
+    <!-- RIGHT COLUMN (Logo) -->
     <div class="contact-right">
       <div class="contact-logo-box">
         <img src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}"
              alt="Université de Montréal – IRIC Logo">
       </div>
     </div>
+
   </div>
 
-  <!-- === Secondary Section (Open Positions, Contribute) === -->
+  <!-- === SECONDARY SECTION === -->
   <section class="contact-values-section">
     <div class="contact-values-grid">
       <div class="contact-value-col">

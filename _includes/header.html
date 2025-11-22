@@ -13,7 +13,6 @@
     </button>
 
     <!-- Menu Links -->
-    <!-- MINIMAL CHANGE: removed `hidden` -->
     <ul id="primary-nav" class="nav-links">
       <li {% if page.url == '/' %}class="active"{% endif %}>
         <a href="{{ '/' | relative_url }}">Home</a>
@@ -65,7 +64,6 @@
 }
 
 /* ===== Links (drawer defaults) ===== */
-/* MINIMAL CHANGE: removed display:none and replaced with animated collapsed state */
 .gurjaolab-navbar .nav-links {
   list-style: none;
   margin: 0;
@@ -76,13 +74,11 @@
   width: 100%;
   background: #fff;
 
-  /* animation system (minimal change) */
   max-height: 0;
   opacity: 0;
   overflow: hidden;
   transition: max-height .35s ease, opacity .35s ease;
 
-  /* keep original layout */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -92,13 +88,11 @@
   box-shadow: 0 12px 24px rgba(0,0,0,0.08);
 }
 
-/* MINIMAL CHANGE: open state triggers animation */
 .gurjaolab-navbar .nav-links.open {
   max-height: 1000px;
   opacity: 1;
 }
 
-/* --- UPDATED: larger base font for dropdown --- */
 .gurjaolab-navbar .nav-links li a {
   font-family: 'Nunito', sans-serif;
   font-weight: 700;
@@ -113,9 +107,6 @@
 .gurjaolab-navbar .nav-links {
   gap: 36px;
 }
-
-/* MINIMAL CHANGE: removed display rules using `[hidden]` */
-/* (these are removed entirely because they break animation) */
 
 .gurjaolab-navbar .nav-links li.active a {
   color: #000;
@@ -170,8 +161,8 @@
   .gurjaolab-navbar .menu-toggle:hover span { background: #000; }
 }
 
-/* ===== Desktop override ===== */
-@media (hover: hover) and (pointer: fine) {
+/* ===== DESKTOP OVERRIDE (EDIT 1 APPLIED HERE) ===== */
+@media (min-width: 900px) {
   .gurjaolab-navbar .menu-toggle { display: none; }
 
   .gurjaolab-navbar .nav-links {
@@ -196,7 +187,8 @@
   }
 }
 
-@media (max-width: 900px) {
+/* ===== FALLBACK NARROW-SCREEN OVERRIDE (EDIT 2 APPLIED HERE) ===== */
+@media (max-width: 899px) {
   .gurjaolab-navbar .nav-links li a {
     font-size: 50px;
     padding: 14px 0;
@@ -224,22 +216,18 @@ document.addEventListener("DOMContentLoaded", function () {
   const links  = document.querySelector("#primary-nav");
   const body   = document.body;
 
-  /* MINIMAL CHANGE: removed hidden-attribute logic */
-
   function openMenu() {
     toggle.classList.add("open");
     toggle.setAttribute("aria-expanded", "true");
     links.classList.add("open");
     body.style.overflow = "hidden";
   }
-
   function closeMenu() {
     toggle.classList.remove("open");
     toggle.setAttribute("aria-expanded", "false");
     links.classList.remove("open");
     body.style.overflow = "";
   }
-
   const isOpen = () => toggle.classList.contains("open");
 
   toggle.addEventListener("click", () => (isOpen() ? closeMenu() : openMenu()));
@@ -252,7 +240,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!e.target.closest(".gurjaolab-navbar") && isOpen()) closeMenu();
   });
 
-  const desktopQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+  const desktopQuery = window.matchMedia("(min-width: 900px)");
   function handleDesktopChange(e) {
     if (e.matches) {
       body.style.overflow = "";

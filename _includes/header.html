@@ -13,7 +13,8 @@
     </button>
 
     <!-- Menu Links -->
-    <ul id="primary-nav" class="nav-links" hidden>
+    <!-- MINIMAL CHANGE: removed `hidden` -->
+    <ul id="primary-nav" class="nav-links">
       <li {% if page.url == '/' %}class="active"{% endif %}>
         <a href="{{ '/' | relative_url }}">Home</a>
       </li>
@@ -64,6 +65,7 @@
 }
 
 /* ===== Links (drawer defaults) ===== */
+/* MINIMAL CHANGE: removed display:none and replaced with animated collapsed state */
 .gurjaolab-navbar .nav-links {
   list-style: none;
   margin: 0;
@@ -73,7 +75,15 @@
   left: 0;
   width: 100%;
   background: #fff;
-  display: none;
+
+  /* animation system (minimal change) */
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height .35s ease, opacity .35s ease;
+
+  /* keep original layout */
+  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 30px;
@@ -82,24 +92,30 @@
   box-shadow: 0 12px 24px rgba(0,0,0,0.08);
 }
 
+/* MINIMAL CHANGE: open state triggers animation */
+.gurjaolab-navbar .nav-links.open {
+  max-height: 1000px;
+  opacity: 1;
+}
+
 /* --- UPDATED: larger base font for dropdown --- */
 .gurjaolab-navbar .nav-links li a {
   font-family: 'Nunito', sans-serif;
   font-weight: 700;
-  font-size: 24px;        /* was 20px */
+  font-size: 24px;
   color: #777;
   text-decoration: none;
-  padding: 14px 0;        /* taller tap area */
+  padding: 14px 0;
   line-height: 1.35;
   transition: color 0.2s ease;
 }
 
 .gurjaolab-navbar .nav-links {
-  gap: 36px;              /* more spacing between items */
+  gap: 36px;
 }
 
-.gurjaolab-navbar .nav-links.open { display: flex; }
-.gurjaolab-navbar .nav-links[hidden] { display: none !important; }
+/* MINIMAL CHANGE: removed display rules using `[hidden]` */
+/* (these are removed entirely because they break animation) */
 
 .gurjaolab-navbar .nav-links li.active a {
   color: #000;
@@ -110,7 +126,7 @@
 
 .gurjaolab-navbar .nav-links li a:hover { color: #000; }
 
-/* ===== Hamburger Button (CodePen-inspired) ===== */
+/* ===== Hamburger Button ===== */
 .gurjaolab-navbar .menu-toggle {
   position: relative;
   width: 50px;
@@ -149,18 +165,21 @@
   transform: translateY(-50%) rotate(-45deg);
 }
 
-/* Hover affordance for desktop pointers */
+/* Hover affordance */
 @media (hover:hover) and (pointer:fine) {
   .gurjaolab-navbar .menu-toggle:hover span { background: #000; }
 }
 
-/* ===== Desktop override: inline menu only on devices with hover+fine pointer ===== */
+/* ===== Desktop override ===== */
 @media (hover: hover) and (pointer: fine) {
   .gurjaolab-navbar .menu-toggle { display: none; }
 
   .gurjaolab-navbar .nav-links {
     position: static;
-    display: flex !important;
+    max-height: none;
+    opacity: 1;
+    overflow: visible;
+    display: flex;
     flex-direction: row;
     align-items: center;
     margin-left: auto;
@@ -170,7 +189,6 @@
     box-shadow: none;
   }
 
-  /* --- unchanged desktop sizes --- */
   .gurjaolab-navbar .nav-links li a {
     font-weight: 600;
     font-size: clamp(14px, 1.9vw, 16px);
@@ -178,16 +196,14 @@
   }
 }
 
-/* --- Fallback for devices misreporting hover (narrow screens) --- */
 @media (max-width: 900px) {
   .gurjaolab-navbar .nav-links li a {
-    font-size: 50px;   /* same as base dropdown */
+    font-size: 50px;
     padding: 14px 0;
   }
   .gurjaolab-navbar .nav-links { gap: 36px; }
 }
 
-/* ===== Touch / mobile-first typography bump (brand + drawer) ===== */
 @media (hover: none) {
   .gurjaolab-navbar .navbar-brand {
     font-size: clamp(50px, 8vw, 48px);
@@ -196,7 +212,6 @@
   }
 }
 
-/* Extra-narrow phones: tiny nudge */
 @media (max-width: 360px) {
   .gurjaolab-navbar .navbar-brand { font-size: clamp(50px, 9vw, 50px); }
   .gurjaolab-navbar .nav-links li a { font-size: 23px; }
@@ -209,20 +224,22 @@ document.addEventListener("DOMContentLoaded", function () {
   const links  = document.querySelector("#primary-nav");
   const body   = document.body;
 
+  /* MINIMAL CHANGE: removed hidden-attribute logic */
+
   function openMenu() {
     toggle.classList.add("open");
     toggle.setAttribute("aria-expanded", "true");
     links.classList.add("open");
-    links.removeAttribute("hidden");
     body.style.overflow = "hidden";
   }
+
   function closeMenu() {
     toggle.classList.remove("open");
     toggle.setAttribute("aria-expanded", "false");
     links.classList.remove("open");
-    links.setAttribute("hidden", "");
     body.style.overflow = "";
   }
+
   const isOpen = () => toggle.classList.contains("open");
 
   toggle.addEventListener("click", () => (isOpen() ? closeMenu() : openMenu()));
@@ -241,7 +258,6 @@ document.addEventListener("DOMContentLoaded", function () {
       body.style.overflow = "";
       toggle.classList.remove("open");
       links.classList.remove("open");
-      links.removeAttribute("hidden");
     } else {
       closeMenu();
     }

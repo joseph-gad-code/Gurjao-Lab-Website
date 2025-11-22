@@ -52,17 +52,18 @@
   justify-content: space-between;
 }
 
-/* ===== Brand (fixed size) ===== */
+/* ===== Brand ===== */
 .navbar-brand {
   color: #0D5295;
   font-family: 'Nunito', sans-serif;
   font-weight: 800;
-  font-size: 34px; /* fixed */
+  font-size: 34px;
   text-decoration: none;
   line-height: 1;
+  flex-shrink: 0;
 }
 
-/* ===== MOBILE NAV (default) ===== */
+/* ===== MOBILE NAV ===== */
 .nav-links {
   list-style: none;
   margin: 0;
@@ -79,14 +80,13 @@
   gap: 36px;
 
   box-shadow: 0 12px 24px rgba(0,0,0,0.08);
-  z-index: 1000;
 
   max-height: 0;
   opacity: 0;
+  overflow: hidden;
   transition: max-height .4s ease, opacity .4s ease;
 }
 
-/* OPEN STATE */
 .nav-links.open {
   max-height: 1000px;
   opacity: 1;
@@ -108,7 +108,7 @@
   text-decoration-thickness: 3px;
 }
 
-/* ===== Hamburger Button ===== */
+/* ===== Hamburger ===== */
 .menu-toggle {
   width: 50px;
   height: 50px;
@@ -132,7 +132,7 @@
 .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
 .menu-toggle span:nth-child(3) { top: 100%; transform: translateY(-100%); }
 
-/* turn into X */
+/* X-animation */
 .menu-toggle.open span:nth-child(1) {
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
@@ -145,22 +145,29 @@
   transform: translateY(-50%) rotate(-45deg);
 }
 
-/* ===== DESKTOP MODE ===== */
+/* ===== DESKTOP ===== */
 @media (min-width: 900px) {
 
   .menu-toggle {
     display: none;
   }
 
+  .nav-rail {
+    display: flex;
+    align-items: center;
+  }
+
   .nav-links {
     position: static;
     flex-direction: row;
-    opacity: 1 !important;
-    max-height: none !important;
-    box-shadow: none;
+    align-items: center;
     gap: clamp(24px, 3vw, 50px);
     padding: 0;
-    overflow: visible;
+    background: none;
+    box-shadow: none;
+    max-height: none;
+    opacity: 1;
+    margin-left: auto; /* RIGHT ALIGN THE LINKS */
   }
 
   .nav-links li a {
@@ -199,32 +206,43 @@ document.addEventListener("DOMContentLoaded", () => {
     body.style.overflow = "";
   }
 
+  /* Toggle click */
   toggle.addEventListener("click", () => {
     if (links.classList.contains("open")) closeMenu();
     else openMenu();
   });
 
+  /* Click outside closes mobile menu */
   document.addEventListener("click", e => {
-    if (!e.target.closest(".gurjaolab-navbar") && links.classList.contains("open"))
+    if (!e.target.closest(".gurjaolab-navbar") &&
+        links.classList.contains("open"))
       closeMenu();
   });
 
+  /* ESC closes menu */
   document.addEventListener("keydown", e => {
     if (e.key === "Escape") closeMenu();
   });
 
+  /* ===== HANDLE RESIZING ===== */
   const mq = window.matchMedia("(min-width: 900px)");
+
   mq.addEventListener("change", e => {
     if (e.matches) {
-      /* entering desktop */
+      /* ENTERING DESKTOP */
       closeMenu();
-      links.classList.add("open");       // ensure always visible
-      links.style.maxHeight = "none";    // bypass animation
+      links.classList.add("open");     /* always visible on desktop */
+      links.style.maxHeight = "none";  /* disable mobile animation cap */
+      links.style.opacity = "1";
+
     } else {
-      /* entering mobile */
-      links.classList.remove("open");    // closed by default
+      /* ENTERING MOBILE */
+      closeMenu();
+      links.classList.remove("open");
       links.style.maxHeight = null;
+      links.style.opacity = null;
     }
   });
+
 });
 </script>

@@ -5,52 +5,34 @@ nav: home
 ---
 <style>
   /* === Responsive adjustments for Home page === */
-  @media (max-width: 800px) {
-    /* Stack Mission and News vertically */
-    .container .row > .col-xs-8,
-    .container .row > .col-xs-4 {
-      flex: 1 1 100%;
-      max-width: 100%;
-      margin-bottom: 24px;
-    }
+ @media (max-width: 800px) {
 
-    /* Increase heading sizes */
-    h2 {
-      font-size: clamp(24px, 6vw, 32px);
-    }
-
-    h4 {
-      font-size: clamp(18px, 4vw, 22px);
-    }
-
-    /* Increase paragraph size */
-    p, li, a {
-      font-size: clamp(16px, 4vw, 20px);
-    }
-
-    /* Read more links */
-    a {
-      font-size: clamp(16px, 4vw, 20px);
-    }
-
-    /* News box scroll height smaller */
-    aside div[style*="overflow-y:auto"] {
-      max-height: 60vh; /* shrink on small screens */
-    }
+  /* Global text scaling */
+  body,
+  p, li, a, span, div,
+  .container,
+  .row,
+  .col-xs-4, .col-xs-6, .col-xs-8, .col-xs-12,
+  h1, h2, h3, h4, h5, h6 {
+    font-size: clamp(18px, 4.8vw, 22px) !important;
+    line-height: 1.55 !important;
   }
 
-  /* Optional: minor spacing adjustments for small screens */
-  @media (max-width: 500px) {
-    .container {
-      padding-left: 12px;
-      padding-right: 12px;
-    }
-
-    .container .row > .col-xs-8,
-    .container .row > .col-xs-4 {
-      margin-bottom: 20px;
-    }
+  /* Headings slightly larger than body text */
+  h1, h2 {
+    font-size: clamp(26px, 7vw, 32px) !important;
   }
+
+  /* Tagline (hero text) gets a bit more emphasis */
+  .text-center[style*="font-size:30px"] {
+    font-size: clamp(26px, 7vw, 34px) !important;
+  }
+
+  /* Mission + News titles */
+  h2[style*="font-weight:700"] {
+    font-size: clamp(22px, 6vw, 28px) !important;
+  }
+}
 </style>
 
 <!-- HERO IMAGE (same rail as navbar) -->

@@ -71,6 +71,16 @@ nav: contact
     object-fit: contain;
     display: block;
   }
+  @media (max-width: 500px) {
+  .contact-right {
+    order: 1;
+    text-align: center;
+  }
+
+  .contact-logo-box {
+    margin: 20px auto 10px;
+  }
+}
 
   /* === Text styling === */
   h2 {
@@ -219,7 +229,7 @@ nav: contact
   <div class="contact-top">
 
     <!-- LEFT COLUMN -->
-    <div class="contact-left">
+    <div class="contact-right">
       <h2>Affiliations</h2>
       <ul>
         <li>Institut de recherche en immunologie et en cancérologie (IRIC)</li>
@@ -241,7 +251,7 @@ nav: contact
     </div>
 
     <!-- RIGHT COLUMN (Logo) -->
-    <div class="contact-right">
+    <div class="contact-left">
       <div class="contact-logo-box">
         <img src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}"
              alt="Université de Montréal – IRIC Logo">

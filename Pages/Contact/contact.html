@@ -1,277 +1,179 @@
----
+--- 
 title: Contact
 layout: default
-permalink: /contact/
+permalink: /contact/ 
 nav: contact
 ---
-
 <style>
-  /* === General link styling === */
-  a.contact-link {
-    text-decoration: none;
-    color: #6495EC;
-    font-weight: 600;
-    transition: text-decoration 0.2s ease;
+  /* === General link styling === */ 
+  a.contact-link { 
+    text-decoration: none; 
+    color: #6495EC; 
+    font-weight: 600; 
+    transition: text-decoration 0.2s 
+      ease; 
+  } 
+  a.contact-link:hover { 
+    text-decoration: underline; 
+  } 
+  /* === Page container === */ 
+  section { 
+    max-width: 1100px; 
+    margin: 0 auto; 
+    padding: 0 15px; 
+    font-family: 'Nunito', sans-serif; 
+    color: #000; 
+    box-sizing: border-box; 
   }
-  a.contact-link:hover {
-    text-decoration: underline;
-  }
-
-  /* === Page container === */
-  section {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 15px;
-    font-family: 'Nunito', sans-serif;
-    color: #000;
-    box-sizing: border-box;
-  }
-
-  /* === Flex container for text + logo === */
+  /* === Flex container for text + logo === */ 
   .contact-top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 2vw;
-    margin-top: 40px;
-    flex-wrap: nowrap;
-    overflow-x: hidden;
-  }
-
-  /* === Text column === */
-  .contact-right {
-    flex: 1 1 60%;
-    background-color: #fff;
-    padding: 2vw;
-    box-sizing: border-box;
-  }
-
-  /* === Logo column (smaller image, right-aligned) === */
+    display: flex; 
+    align-items: flex-start; 
+    justify-content: space-between; 
+    gap: 2vw; 
+    margin-top: 40px; 
+    flex-wrap: nowrap; 
+    overflow-x: hidden; 
+  } 
+  /* === Text column === */ 
   .contact-left {
-    flex: 0 0 auto;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    padding: 1vw;
-  }
-
-  .contact-logo-box {
-    width: auto;
-    max-width: 180px;      /* MUCH SMALLER */
-    border: none;
-    background: none;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-  }
-
-  .contact-logo-box img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    display: block;
-  }
-  @media (max-width: 500px) {
+    flex: 1 1 60%; 
+    background-color: #fff; 
+    padding: 2vw; 
+    box-sizing: border-box; 
+  } 
+  /* === Logo column (smaller image, right-aligned) === */ 
   .contact-right {
-    order: 1;
-    text-align: center;
-  }
-
+    flex: 0 0 auto; display: flex; 
+    align-items: flex-start; 
+    justify-content: center; 
+    padding: 1vw; 
+  } 
   .contact-logo-box {
-    margin: 20px auto 10px;
-  }
-}
-
-  /* === Text styling === */
-  h2 {
-    font-weight: 700;
-    font-size: 20px;
-    margin: 0 0 12px 0;
-  }
-
-  .contact-right ul {
-    margin: 0 0 16px 0;
-    padding-left: 0;
-    list-style: none;
-  }
-
-  /* Dashes beside each affiliation */
-  .contact-right ul li::before {
-    content: "– ";
-  }
-
-  .contact-right li,
-  .contact-right p {
-    margin: 4px 0;
-    line-height: 1.6;
-    font-size: 16px;     /* MATCHES address/phone/email text */
-  }
-
+    width: auto; max-width: 180px; 
+    /* MUCH SMALLER */ 
+    border: none; background: none; display: flex; justify-content: center; align-items: flex-start; 
+  } 
+  .contact-logo-box img { 
+    width: 100%; height: auto; object-fit: contain; display: block; 
+  } 
+  /* === Text styling === */ 
+  h2 { font-weight: 700; font-size: 20px; margin: 0 0 12px 0; 
+     } 
+  .contact-left ul {
+    margin: 0 0 16px 0; padding-left: 0; list-style: none; 
+  } 
+  /* Dashes beside each affiliation */ 
+  .contact-left ul li::before { 
+    content: "– "; 
+  } 
+  .contact-left li, .contact-left p {
+    margin: 4px 0; line-height: 1.6; font-size: 16px; 
+    /* MATCHES address/phone/email text*/ 
+  } 
   .contact-left strong {
-    font-weight: 700;
-  }
-
-  /* === Secondary section === */
+    font-weight: 700; 
+  } 
+  /* === Secondary section === */ 
   .contact-values-section {
-    margin-top: 60px;
-    text-align: center;
-  }
-
+    margin-top: 60px; text-align: center; 
+  } 
   .contact-values-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 40px;
-    justify-content: center;
-    margin-top: 40px;
-  }
-
+    display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; margin-top: 40px; 
+  } 
   .contact-value-col {
-    flex: 1 1 400px;
-    background-color: #f8f9fa;
-    border-radius: 12px;
-    padding: 30px;
-    text-align: left;
-  }
-
-  .contact-value-col h3 {
-    color: #000;
-    font-size: 16px;
-    margin-bottom: 10px;
-    font-weight: 700;
-  }
-
+    flex: 1 1 400px; background-color: #f8f9fa; border-radius: 12px; padding: 30px; text-align: left; 
+  } 
+  .contact-value-col h3 { 
+    color: #000; font-size: 16px; margin-bottom: 10px; font-weight: 700; 
+  } 
   .contact-value-col p {
-    font-size: 15px;
-    color: #333;
-    line-height: 1.6;
-  }
-
-  /* === MOBILE VERSION === */
-  @media (max-width: 500px) {
-
-    section {
-      padding: 0 12px;
-    }
-
-    /* stack items vertically */
+    font-size: 15px; color: #333; line-height: 1.6; 
+  } 
+  /* === MOBILE VERSION === */ 
+  @media (max-width: 500px) { 
+    section { padding: 0 12px; 
+            } 
+    /* stack items vertically */ 
     .contact-top {
-      flex-wrap: wrap;
+      flex-direction: column-reverse; /* logo (second child) appears on top */
       gap: 3vw;
-    }
-
-    .contact-left,
-    .contact-right {
-      flex: 1 1 100%;
-      max-width: 100%;
-      padding: 3vw;
-    }
-
-    /* Logo small + centered */
+    } .contact-left, .contact-right {
+      flex: 1 1 100%; max-width: 100%; padding: 3vw; 
+    } 
+    /* Logo small + centered */ 
     .contact-logo-box {
-      max-width: 200px;
-      margin: 0 auto;
-    }
-
+      max-width: 200px; margin: 0 auto; 
+    } 
     .contact-logo-box img {
-      width: 100%;
-      height: auto;
-    }
-
-    /* Larger text on mobile */
-    .contact-left h2 {
-      font-size: 50px;
-      margin-bottom: 16px;
-    }
-
-    .contact-left p,
-    .contact-left li {
-      font-size: 35px;
-      line-height: 1.4;
-    }
-
+      width: 100%; height: auto; 
+    } 
+    /* Larger text on mobile */ 
+    .contact-left h2 { 
+      font-size: 50px; margin-bottom: 16px; 
+    } 
+    .contact-left p, .contact-left li { 
+      font-size: 35px; line-height: 1.4; 
+    } 
     a.contact-link {
-      font-size: 35px;
-    }
-
-    /* Stack value cards */
+      font-size: 35px; 
+    } 
+    /* Stack value cards */ 
     .contact-values-grid {
-      flex-direction: column;
-      gap: 20px;
-    }
-
+      flex-direction: column; gap: 20px; 
+    } 
     .contact-value-col {
-      width: 100%;
-      padding: 20px;
-    }
-
+      width: 100%; padding: 20px; 
+    } 
     .contact-value-col h3 {
-      font-size: 40px;
-      margin-bottom: 12px;
-    }
-
-    .contact-value-col p {
-      font-size: 35px;
-      line-height: 1.4;
-      margin-bottom: 0;
-    }
-
+      font-size: 40px; margin-bottom: 12px; 
+    } 
+    .contact-value-col p { 
+      font-size: 35px; line-height: 1.4; margin-bottom: 0; 
+    } 
     /* Ensure subtitles remain bold */
-    .contact-left strong {
-      font-weight: 700;
-    }
-  }
-</style>
-
-
+    .contact-left strong { 
+      font-weight: 700; 
+    } 
+  } 
+</style> 
 <!-- === MAIN CONTACT SECTION === -->
-<section>
-
-  <div class="contact-top">
-
-    <!-- LEFT COLUMN -->
-   <div class="contact-left">
-      <div class="contact-logo-box">
-        <img src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}"
-             alt="Université de Montréal – IRIC Logo">
-      </div>
-    </div>    
-    <div class="contact-right">
-      <h2>Affiliations</h2>
-      <ul>
-        <li>Institut de recherche en immunologie et en cancérologie (IRIC)</li>
-        <li>Department of Medicine, Faculty of Medicine, Université de Montréal</li>
-      </ul>
-
-      <div>
+<section> 
+  <div class="contact-top"> 
+    <!-- LEFT COLUMN --> 
+    <div class="contact-left"> 
+      <h2>Affiliations</h2> 
+      <ul> <li>Institut de recherche en immunologie et en cancérologie (IRIC)</li> 
+        <li>Department of Medicine, Faculty of Medicine, Université de Montréal</li> 
+      </ul> 
+      <div> 
         <p><strong>Address:</strong></p>
-        <p>Marcelle-Coutu Pavilion</p>
-        <p>2950 Chemin de Polytechnique</p>
-        <p>Montréal, QC H3T 1J4, Canada</p>
-
+        <p>Marcelle-Coutu Pavilion</p> <p>2950 Chemin de Polytechnique</p> 
+        <p>Montréal, QC H3T 1J4, Canada</p> 
         <p style="margin-top: 16px;"><strong>Phone:</strong></p>
         <p><a href="tel:+15143436111" class="contact-link">(514) 343-6111, ext. 17206</a></p>
-
         <p style="margin-top: 16px;"><strong>Email:</strong></p>
-        <p><a href="mailto:firstname.last[at]umontreal.ca" class="contact-link">firstname.last[at]umontreal.ca</a></p>
+        <p><a href="mailto:firstname.last[at]umontreal.ca" class="contact-link">firstname.last[at]umontreal.ca</a></p> 
       </div>
-    </div>
-
-    <!-- RIGHT COLUMN (Logo) -->
-    
-  </div>
-
-  <!-- === SECONDARY SECTION === -->
+    </div> 
+    <!-- RIGHT COLUMN (Logo) --> 
+    <div class="contact-right"> 
+      <div class="contact-logo-box"> 
+        <img src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}" alt="Université de Montréal – IRIC Logo">
+      </div> 
+    </div> 
+  </div> 
+  <!-- === SECONDARY SECTION === --> 
   <section class="contact-values-section">
-    <div class="contact-values-grid">
-      <div class="contact-value-col">
-        <h3>Open positions</h3>
-        <p>We are currently open to hiring at all levels. Please send applications to the e-mail address above.</p>
+    <div class="contact-values-grid"> 
+      <div class="contact-value-col"> 
+        <h3>Open positions</h3> 
+        <p>We are currently open to hiring at all levels. Please send applications to the e-mail address above.</p> 
       </div>
-      <div class="contact-value-col">
+      <div class="contact-value-col"> 
         <h3>Contribute</h3>
-        <p>We welcome all types of contributions — collaborations, donations, or ideas to make our science more accessible and open source. Get in touch by e-mail!</p>
+        <p>We welcome all types of contributions — collaborations, donations, or ideas to make our science more accessible and open source. Get in touch by e-mail </p> 
       </div>
-    </div>
+    </div> 
   </section>
-
 </section>

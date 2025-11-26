@@ -79,12 +79,12 @@ nav: contact
     margin-top: 60px; text-align: center; 
   } 
   .contact-values-grid {
-    display: flex; flex-wrap: wrap; gap: 40px; justify-content: center; 
-    margin-top: 40px; 
+    display: flex; flex-wrap: wrap; gap: 40px; justify-content: center;  
      align-items: flex-start;
   } 
   .contact-value-col {
-    flex: 0 0 400px; background-color: #f8f9fa; border-radius: 12px; padding: 30px; text-align: left; 
+    flex: 0 0 400px; b
+      ackground-color: #f8f9fa; border-radius: 12px; padding: 30px; text-align: left; 
   } 
   .contact-value-col h3 { 
     color: #000; font-size: 16px; margin-bottom: 10px; font-weight: 700; 
@@ -137,6 +137,15 @@ nav: contact
     .contact-left strong { 
       font-weight: 700; 
     } 
+    @media (max-width: 900px) {
+  .contact-values-grid {
+    flex-direction: column;
+  }
+  .contact-value-col {
+    flex: 0 1 auto;
+    width: 100%;
+  }
+}
   } 
 </style> 
 <!-- === MAIN CONTACT SECTION === -->

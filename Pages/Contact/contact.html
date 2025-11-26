@@ -86,12 +86,15 @@ nav: contact
   flex: 1 1 360px;       
   background-color: #f8f9fa;
   border-radius: 12px;
-  padding: 30px;
+  padding: 20px 24px 14px;  
   text-align: left;
   box-sizing: border-box;
 }
   .contact-value-col h3 { 
-    color: #000; font-size: 16px; margin-bottom: 10px; font-weight: 700; 
+    color: #000; font-size: 16px; 
+    margin-top: 0;
+  margin-bottom: 8px;
+  font-weight: 700; 
   } 
   .contact-value-col p {
     font-size: 15px; color: #333; line-height: 1.6; 
@@ -107,6 +110,9 @@ nav: contact
     } .contact-left, .contact-right {
       flex: 1 1 100%; max-width: 100%; padding: 3vw; 
     } 
+    .contact-value-col > *:last-child {
+    margin-bottom: 0;
+    }
     /* Logo small + centered */ 
     .contact-logo-box {
       max-width: 200px; margin: 0 auto; 
@@ -129,7 +135,8 @@ nav: contact
       flex-direction: column; gap: 20px; 
     } 
     .contact-value-col {
-      width: 100%; padding: 20px; 
+      width: 100%; 
+      padding: 14px 20px 10px;
     } 
     .contact-value-col h3 {
       font-size: 40px; margin-bottom: 12px; 

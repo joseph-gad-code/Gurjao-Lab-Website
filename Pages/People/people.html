@@ -167,18 +167,6 @@ nav: people
 /* Mobile responsiveness */
 @media (max-width: 600px) {
 
-  .person-photo {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .person-photo {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;   /* <- this overrides "cover" on mobile */
-  }
-
   .people-list {
     grid-template-columns: 1fr;
     gap: 30px;
@@ -190,17 +178,11 @@ nav: people
     padding: 40px;
   }
 
-  /* MODIFIED: keep squircle on mobile too */
+  /* FIX: ensure the image fills the rounded container */
   .person-photo {
     width: 100%;
     height: 100%;
-    object-fit: cover;
-  }
-
-  .person-photo {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
+    object-fit: cover;   /* keep cover, remove contain */
   }
 
   .person-name {

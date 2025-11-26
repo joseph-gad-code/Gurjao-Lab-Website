@@ -188,26 +188,72 @@
   }
 }
 
-/* ===== FALLBACK NARROW-SCREEN OVERRIDE (EDIT 2 APPLIED HERE) ===== */
+/* --- Main narrow-screen rules (phones + small tablets) --- */
 @media (max-width: 899px) {
-  .gurjaolab-navbar .nav-links li a {
-    font-size: 50px;
-    padding: 14px 0;
-  }
-  .gurjaolab-navbar .nav-links { gap: 36px; }
-}
 
-@media (hover: none) {
+  /* Brand text — slightly smaller & less rounded */
   .gurjaolab-navbar .navbar-brand {
-    font-size: clamp(70px, 8vw, 48px);
+    font-size: clamp(40px, 8vw, 60px);
     line-height: 1.05;
     letter-spacing: 0.2px;
+    display: flex;
+    align-items: center;
+    gap: 10px; /* spacing between logo + text */
+  }
+
+  /* Ensure logo stays 70px and does NOT overlap the hamburger */
+  .gurjaolab-navbar .navbar-brand img {
+    width: 70px;
+    height: 70px;
+    border-radius: 10px; /* less round */
+  }
+
+  /* Increase right padding so brand text does not sit under hamburger */
+  .gurjaolab-navbar {
+    padding-right: 90px;
+  }
+
+  /* Hamburger positioning fix */
+  .gurjaolab-navbar .hamburger-menu {
+    right: 15px;
+    top: 28px;  /* adjust if needed */
+  }
+
+  /* Nav links (expanded menu) */
+  .gurjaolab-navbar .nav-links li a {
+    font-size: 32px;
+    padding: 14px 0;
+  }
+
+  .gurjaolab-navbar .nav-links {
+    gap: 32px;
   }
 }
 
+/* --- Touchscreen-specific tweaks --- */
+@media (hover: none) {
+  .gurjaolab-navbar .navbar-brand {
+    font-size: clamp(40px, 9vw, 58px);
+  }
+}
+
+/* --- Ultra-narrow screens (<360px) --- */
 @media (max-width: 360px) {
-  .gurjaolab-navbar .navbar-brand { font-size: clamp(70px, 9vw, 50px); }
-  .gurjaolab-navbar .nav-links li a { font-size: 23px; }
+
+  /* Reduce brand text further while preserving layout */
+  .gurjaolab-navbar .navbar-brand {
+    font-size: clamp(34px, 10vw, 50px);
+  }
+
+  /* Slightly smaller menu items */
+  .gurjaolab-navbar .nav-links li a {
+    font-size: 23px;
+  }
+
+  /* More padding so hamburger never overlaps brand */
+  .gurjaolab-navbar {
+    padding-right: 100px;
+  }
 }
 </style>
 

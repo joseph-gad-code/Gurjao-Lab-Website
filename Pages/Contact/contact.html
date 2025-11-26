@@ -39,7 +39,7 @@ nav: contact
   }
 
   /* === Text column === */
-  .contact-left {
+  .contact-right {
     flex: 1 1 60%;
     background-color: #fff;
     padding: 2vw;
@@ -47,7 +47,7 @@ nav: contact
   }
 
   /* === Logo column (smaller image, right-aligned) === */
-  .contact-right {
+  .contact-left {
     flex: 0 0 auto;
     display: flex;
     align-items: flex-start;
@@ -89,19 +89,19 @@ nav: contact
     margin: 0 0 12px 0;
   }
 
-  .contact-left ul {
+  .contact-right ul {
     margin: 0 0 16px 0;
     padding-left: 0;
     list-style: none;
   }
 
   /* Dashes beside each affiliation */
-  .contact-left ul li::before {
+  .contact-right ul li::before {
     content: "– ";
   }
 
-  .contact-left li,
-  .contact-left p {
+  .contact-right li,
+  .contact-right p {
     margin: 4px 0;
     line-height: 1.6;
     font-size: 16px;     /* MATCHES address/phone/email text */
@@ -229,6 +229,12 @@ nav: contact
   <div class="contact-top">
 
     <!-- LEFT COLUMN -->
+   <div class="contact-left">
+      <div class="contact-logo-box">
+        <img src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}"
+             alt="Université de Montréal – IRIC Logo">
+      </div>
+    </div>    
     <div class="contact-right">
       <h2>Affiliations</h2>
       <ul>
@@ -251,13 +257,7 @@ nav: contact
     </div>
 
     <!-- RIGHT COLUMN (Logo) -->
-    <div class="contact-left">
-      <div class="contact-logo-box">
-        <img src="{{ '/Pages/Contact/Images/udem-iric-logo.svg' | relative_url }}"
-             alt="Université de Montréal – IRIC Logo">
-      </div>
-    </div>
-
+    
   </div>
 
   <!-- === SECONDARY SECTION === -->

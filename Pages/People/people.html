@@ -167,11 +167,17 @@ nav: people
 /* Mobile responsiveness */
 @media (max-width: 600px) {
 
-.person-photo-wrap {
-  border-radius: 10% / 10%;   /* or whatever radius you want */
-  overflow: hidden;
-}
-
+  .person-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .person-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;   /* <- this overrides "cover" on mobile */
+  }
 
   .people-list {
     grid-template-columns: 1fr;

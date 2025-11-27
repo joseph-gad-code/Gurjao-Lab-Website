@@ -17,17 +17,17 @@ permalink: /news/
   box-sizing: border-box;
 }
 
-/* News page title */
+/* News page title — match Selected Publications */
 .page-title {
   font-weight: 700;
-  font-size: 20px;
+  font-size: 20px; /* desktop size */
   margin-bottom: 30px;
 }
 
 /* News items layout */
 .news-item {
   display: flex;
-  flex-direction: row-reverse; /* image on the right by default */
+  flex-direction: row-reverse; /* image on right by default */
   align-items: flex-start;
   gap: 20px;
   margin-bottom: 25px;
@@ -72,8 +72,13 @@ permalink: /news/
 
 /* Mobile adjustments */
 @media (max-width: 900px) {
+  .page-title {
+    font-size: 50px; /* match Selected Publications title size */
+    margin-bottom: 40px;
+  }
+
   .news-item {
-    flex-direction: row;  /* image on the left on mobile */
+    flex-direction: row;  /* image on left */
     gap: 12px;
     align-items: flex-start;
   }
@@ -85,7 +90,7 @@ permalink: /news/
   }
 
   .news-item h2 {
-    font-size: 40px; /* match Publications page title size */
+    font-size: 40px; /* headline size matches publications */
   }
 
   .news-item .news-date {
@@ -93,7 +98,7 @@ permalink: /news/
   }
 
   .news-item p {
-    font-size: 28px; /* enlarged body text */
+    font-size: 28px; /* body text enlarged */
     line-height: 1.6;
   }
 }

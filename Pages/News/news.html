@@ -17,14 +17,14 @@ permalink: /news/
   box-sizing: border-box;
 }
 
-/* News title to match Home section headers */
+/* News page title — match Home page section headers */
 .page-title {
   font-weight: 700;
   font-size: 20px;
   margin-bottom: 30px;
 }
 
-/* Individual news items */
+/* News items layout */
 .news-item {
   display: flex;
   flex-direction: row-reverse; /* image on the right */
@@ -44,7 +44,7 @@ permalink: /news/
 }
 
 .news-item h2 {
-  font-size: 20px; /* match Home headers */
+  font-size: 20px;
   margin: 0 0 6px;
 }
 
@@ -62,10 +62,9 @@ permalink: /news/
   flex-shrink: 0;
 }
 
-/* Body text */
 .news-item p {
   line-height: 1.6;
-  margin: 0;
+  margin: 0 0 8px;
 }
 
 /* Responsive adjustments */
@@ -112,6 +111,10 @@ permalink: /news/
 
           {% if n.body %}
             <p>{{ n.body }}</p>
+          {% endif %}
+
+          {% if n.extended-description %}
+            <p>{{ n.extended-description }}</p>
           {% endif %}
         </div>
 

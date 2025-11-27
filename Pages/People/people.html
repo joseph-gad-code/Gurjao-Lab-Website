@@ -322,8 +322,6 @@ nav: people
         <article class="person-card">
          <div class="person-meta">
             <h3 class="person-name">{{ p.name }}</h3>
-
-            {# description – reuse p.bio as the alumni description #}
             {% if p.bio %}
               <p class="person-bio">{{ p.bio }}</p>
             {% endif %}

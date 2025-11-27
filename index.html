@@ -4,18 +4,14 @@ title: Home
 nav: home
 ---
 
-<!-- ===========================================================
-     Wrapper needed to prevent scrolling past the footer
-     =========================================================== -->
-<div class="page-wrapper">
-
 <style>
 /* ===========================================================
-   GLOBAL FOOTER-SCROLL PREVENTION (correct version)
+   PREVENT BLANK SPACE BELOW FOOTER (minimal required fix)
    =========================================================== */
 html, body {
   min-height: 100%;
   margin: 0;
+  padding: 0;
 }
 
 body {
@@ -29,8 +25,6 @@ body {
 
 .site-footer {
   flex-shrink: 0;
-  margin: 0 !important;
-  padding-bottom: 0;
 }
 
 /* ===========================================================
@@ -124,6 +118,7 @@ html, body {
 /* ===========================================================
    MOBILE VERSION — EXACT OPTION A SCALING
    =========================================================== */
+
 @media (max-width: 899px) {
 
   /* Stack Mission + News vertically */
@@ -138,7 +133,7 @@ html, body {
     flex: 1 1 100%;
   }
 
-  /* Section titles */
+  /* Mission + News section titles (Option A) */
   .mission-col h2,
   .news-col h2 {
     font-size: 40px !important;
@@ -147,7 +142,7 @@ html, body {
     text-align: left !important;
   }
 
-  /* Body text */
+  /* Mission + News body text (Option A) */
   .mission-col p,
   .mission-col ul,
   .mission-col li {
@@ -168,7 +163,7 @@ html, body {
     max-height: 50vh !important;
   }
 
-  /* Tagline */
+  /* ---------- TAGLINE (Option A: 56px, centered) ---------- */
   .home-tagline {
     font-size: 56px !important;
     font-weight: 800 !important;
@@ -177,7 +172,7 @@ html, body {
     margin-top: 20px;
   }
 
-  /* Intro blurb */
+  /* ---------- Intro blurb (Option A: 40px, centered) ---------- */
   .home-intro p {
     font-size: 40px !important;
     font-weight: 400;
@@ -186,6 +181,7 @@ html, body {
     margin-top: 30px;
   }
 
+  /* Section spacing */
   .home-section {
     margin: 60px 0;
   }
@@ -200,6 +196,11 @@ html, body {
 }
 
 </style>
+
+<!-- ===========================================================
+     PAGE WRAPPER (required for footer behavior)
+     =========================================================== -->
+<div class="page-wrapper">
 
 <!-- ===========================================================
      HERO IMAGE
@@ -287,11 +288,9 @@ html, body {
                     {{ n.headline }}
                   {% endif %}
                 </h4>
-
                 <div style="font-size:0.9rem; color:#777; margin-bottom:6px;">
                   {{ n.date | date: "%b %-d, %Y" }}
                 </div>
-
                 {% if n.body %}
                   <p style="margin:0;">{{ n.body }}</p>
                 {% endif %}
@@ -311,4 +310,4 @@ html, body {
   </div>
 </div>
 
-</div><!-- end page-wrapper -->
+</div><!-- END .page-wrapper -->

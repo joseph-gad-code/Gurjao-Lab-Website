@@ -1,43 +1,51 @@
 - headline: Lab awarded multi-year grant on early cancer detection
   date: 2025-09-15
   body: Funding will support our work modeling mutational processes in precancerous tissue.
+  extended-description: This grant will allow us to expand our research team and invest in high-throughput DNA sequencing equipment to better understand early mutational changes in precancerous tissues.
   link: https://example.com/grant
   image: /Pages/Home/Images/News/example-news-item.jpg
 
 - headline: Welcome to two new trainees!
   date: 2025-09-16
   body: We’re excited to welcome Taylor and Maya to the team this fall.
-  image:
+  extended-description: Taylor and Maya bring expertise in computational biology and bioinformatics and will work closely on mutation signature projects.
+  image: 
 
 - headline: Lab awarded multi-year grant on early cancer detection
   date: 2025-09-17
   body: Funding will support our work modeling mutational processes in precancerous tissue.
+  extended-description: This additional grant funding will help strengthen collaborations with clinical partners to accelerate precision prevention strategies.
   link: https://example.com/grant
   image: /Pages/Home/Images/News/example-news-item.jpg
 
 - headline: Welcome to two new trainees!
   date: 2025-09-18
   body: We’re excited to welcome Taylor and Maya to the team this fall.
-  image:
+  extended-description: They will focus on integrating genomic and clinical data to identify novel biomarkers.
+  image: 
 
-  - headline: Lab awarded multi-year grant on early cancer detection
+- headline: Lab awarded multi-year grant on early cancer detection
   date: 2025-09-19
   body: Funding will support our work modeling mutational processes in precancerous tissue.
+  extended-description: The funding will be used to develop computational models of early tumorigenesis.
   link: https://example.com/grant
   image: /Pages/Home/Images/News/example-news-item.jpg
 
 - headline: Welcome to two new trainees!
   date: 2025-09-20
   body: We’re excited to welcome Taylor and Maya to the team this fall.
-  image:
+  extended-description: The new trainees will also assist with data analysis pipelines for large-scale sequencing projects.
+  image: 
 
 - headline: Lab awarded multi-year grant on early cancer detection
   date: 2025-09-21
   body: Funding will support our work modeling mutational processes in precancerous tissue.
+  extended-description: This funding enables the lab to explore new experimental assays to capture mutational signatures in different tissues.
   link: https://example.com/grant
   image: /Pages/Home/Images/News/example-news-item.jpg
 
 - headline: Welcome to two new trainees!
   date: 2025-07-28
   body: We’re excited to welcome Taylor and Maya to the team this fall.
-  image:
+  extended-description: Both trainees will collaborate with our research team to enhance cancer prevention strategies.
+  image: 

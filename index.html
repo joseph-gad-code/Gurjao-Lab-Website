@@ -91,7 +91,7 @@ html, body {
 }
 
 /* ===========================================================
-   NEWS SCROLL — fixed height, images, fit cards
+   NEWS SCROLL — LEFT IMAGE STYLE
    =========================================================== */
 .news-scroll {
   max-height: 540px; /* ~4 items tall */
@@ -100,8 +100,11 @@ html, body {
 }
 
 .news-scroll > div {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
   box-sizing: border-box;
-  width: 100%;
   padding: 12px;
   margin-bottom: 10px;
   border: 1px solid #eee;
@@ -110,11 +113,16 @@ html, body {
 }
 
 .news-scroll img {
-  width: 100%;
-  max-height: 150px;
-  object-fit: cover;
+  width: 80px;        /* square image */
+  height: 80px;
+  object-fit: cover;  /* crop image */
   border-radius: 8px;
-  margin-bottom: 8px;
+  flex-shrink: 0;
+  margin-bottom: 0;
+}
+
+.news-text {
+  flex: 1;
 }
 
 /* ===========================================================
@@ -159,6 +167,7 @@ html, body {
 
   .news-scroll {
     max-height: 50vh !important;
+    flex-direction: column;
   }
 
   .home-tagline {
@@ -179,6 +188,16 @@ html, body {
 
   .home-section {
     margin: 60px 0;
+  }
+
+  .news-scroll > div {
+    flex-direction: row;
+    gap: 12px;
+  }
+
+  .news-scroll img {
+    width: 60px;
+    height: 60px;
   }
 }
 
@@ -269,30 +288,32 @@ html, body {
               <div>
                 
                 {% if n.image %}
-                  <img src="{{ n.image | relative_url }}" 
-                       alt="{{ n.headline }}">
+                  <img src="{{ n.image | relative_url }}" alt="{{ n.headline }}">
                 {% endif %}
                 
-                <h4 style="margin:0 0 4px; font-weight:700;">
-                  {% if n.link %}
-                    <a href="{{ n.link }}" target="_blank" rel="noopener"
-                       style="color:#000; text-decoration:none;"
-                       onmouseover="this.style.textDecoration='underline';"
-                       onmouseout="this.style.textDecoration='none';">
+                <div class="news-text">
+                  <h4 style="margin:0 0 4px; font-weight:700;">
+                    {% if n.link %}
+                      <a href="{{ n.link }}" target="_blank" rel="noopener"
+                         style="color:#000; text-decoration:none;"
+                         onmouseover="this.style.textDecoration='underline';"
+                         onmouseout="this.style.textDecoration='none';">
+                        {{ n.headline }}
+                      </a>
+                    {% else %}
                       {{ n.headline }}
-                    </a>
-                  {% else %}
-                    {{ n.headline }}
-                  {% endif %}
-                </h4>
+                    {% endif %}
+                  </h4>
 
-                <div style="font-size:0.9rem; color:#777; margin-bottom:6px;">
-                  {{ n.date | date: "%b %-d, %Y" }}
+                  <div style="font-size:0.9rem; color:#777; margin-bottom:6px;">
+                    {{ n.date | date: "%b %-d, %Y" }}
+                  </div>
+
+                  {% if n.body %}
+                    <p style="margin:0;">{{ n.body }}</p>
+                  {% endif %}
                 </div>
 
-                {% if n.body %}
-                  <p style="margin:0;">{{ n.body }}</p>
-                {% endif %}
               </div>
             {% endfor %}
           {% else %}

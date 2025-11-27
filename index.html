@@ -6,13 +6,6 @@ nav: home
 
 <style>
 /* ===========================================================
-   OVERSCROLL FIX — PREVENT RUBBER-BAND EFFECT ON MOBILE
-   =========================================================== */
-html, body {
-  overscroll-behavior: none; /* Prevent vertical bounce/overscroll on mobile */
-}
-
-/* ===========================================================
    BASE LAYOUT — PAGE CONTENT ONLY (navbar untouched)
    =========================================================== */
 
@@ -20,24 +13,17 @@ html, body {
 *,
 *::before,
 *::after {
-  box-sizing: border-box; /* Include padding/borders in width calculations */
+  box-sizing: border-box;
 }
 
 html, body {
+  overflow-x: hidden;
   width: 100%;
 }
 
-/* Ensure all main containers fit within viewport */
-.home-rail,
-.news-scroll,
-.mission-col,
-.news-col {
-  width: 100%; /* force to not exceed viewport */
-  max-width: 100%;
-}
-
-/* Home rail styling */
 .home-rail {
+  width: 100%;
+  max-width: 1100px;
   margin: 0 auto;
   padding-left: 15px;
   padding-right: 15px;

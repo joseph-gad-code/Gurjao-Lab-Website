@@ -6,28 +6,6 @@ nav: home
 
 <style>
 /* ===========================================================
-   PREVENT BLANK SPACE BELOW FOOTER (minimal required fix)
-   =========================================================== */
-html, body {
-  min-height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-.page-wrapper {
-  flex: 1 0 auto;
-}
-
-.site-footer {
-  flex-shrink: 0;
-}
-
-/* ===========================================================
    BASE LAYOUT — PAGE CONTENT ONLY (navbar untouched)
    =========================================================== */
 
@@ -96,7 +74,7 @@ html, body {
   margin-bottom: 8px;
   padding-left: 28px;
   position: relative;
-  word-wrap: break-word;
+  word-wrap: break-word; /* prevent overflow from long words */
 }
 
 .mission-col li span {
@@ -198,11 +176,6 @@ html, body {
 </style>
 
 <!-- ===========================================================
-     PAGE WRAPPER (required for footer behavior)
-     =========================================================== -->
-<div class="page-wrapper">
-
-<!-- ===========================================================
      HERO IMAGE
      =========================================================== -->
 <div class="home-rail">
@@ -214,7 +187,7 @@ html, body {
 </div>
 
 <!-- ===========================================================
-     TAGLINE
+     TAGLINE — center on all devices, very large on mobile
      =========================================================== -->
 <div class="home-rail">
   <div class="home-tagline"
@@ -224,7 +197,7 @@ html, body {
 </div>
 
 <!-- ===========================================================
-     INTRO PARAGRAPH
+     INTRO PARAGRAPH — centered, large on mobile
      =========================================================== -->
 <div class="home-rail home-intro" style="max-width:850px; margin:20px auto 60px;">
   <p style="font-style:italic; font-size:20px; line-height:1.55; text-align:center;">
@@ -309,5 +282,3 @@ html, body {
     </div>
   </div>
 </div>
-
-</div><!-- END .page-wrapper -->

@@ -2,205 +2,112 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-
-  <!-- Required for correct mobile viewport behavior on iOS Safari -->
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 
   <title>GURJAOLAB | {{ page.title }}</title>
 
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="{{ '/Images/favicon.svg' | relative_url }}">
   <link rel="alternate icon" type="image/x-icon" href="{{ '/Images/favicon.ico' | relative_url }}">
 
-  <!-- Fonts + CSS -->
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
 
   <style>
-  /* ========================================================
-     GLOBAL BASE
-     ======================================================== */
-  html {
-    box-sizing: border-box;
-  }
-  *, *::before, *::after {
-    box-sizing: inherit;
-  }
+    html { box-sizing: border-box; }
+    *, *::before, *::after { box-sizing: inherit; }
 
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: "Nunito", sans-serif;
-    color: #000;
-    line-height: 1.55;
-    overflow-x: hidden;
-  }
-
-  /* ========================================================
-     CSS VARIABLES
-     ======================================================== */
-  :root {
-    --base-width: 1100px;          /* your design width */
-    --gutter: clamp(16px, 6vw, 28px);
-    --sai-l: env(safe-area-inset-left, 0px);
-    --sai-r: env(safe-area-inset-right, 0px);
-    --page-pad: calc(var(--sai-l) + var(--sai-r) + var(--gutter) * 2);
-  }
-
-  /* ========================================================
-     OUTER WRAPPER — SAFARI-SAFE SCROLL FIX
-     ======================================================== */
-  .page-scale-outer {
-    width: 100vw;
-    padding-left:  calc(var(--gutter) + var(--sai-l));
-    padding-right: calc(var(--gutter) + var(--sai-r));
-
-    /* The scroll container — MUST be full viewport height */
-    height: 100vh;   /* fallback */
-    height: 100dvh;  /* modern browsers */
-    height: 100svh;  /* Safari ≥ 16.4 */
-
-    overflow-y: auto !important;   /* the ONLY scroll host */
-    overflow-x: clip;
-
-    -webkit-overflow-scrolling: touch;
-    position: relative;
-  }
-
-  /* ========================================================
-     SCALED FRAME — CONTENT SCALES BUT DOESN’T SCROLL
-     ======================================================== */
-  .page-scale-frame {
-    width: var(--base-width);
-    transform-origin: top left;
-    min-height: 100%;             /* ensures it fills the scroll host */
-    overflow: visible !important; /* prevents Safari clipping bugs */
-  }
-
-  @media (max-width: 1100px) {
-    .page-scale-frame {
-      transform: scale(
-        calc(
-          (
-            max(320px, 100vw)      /* viewport width */
-            - var(--page-pad)
-            - 1px
-          ) / var(--base-width)
-        )
-      );
+    body {
+      margin: 0;
+      font-family: 'Nunito', sans-serif;
+      color: #000;
+      line-height: 1.55;
+      overflow: hidden; /* body should not scroll */
     }
-  }
 
-  @media (min-width: 1100px) {
+    :root {
+      --base-width: 1100px;
+      --gutter: clamp(16px, 6vw, 28px);
+      --sai-l: env(safe-area-inset-left, 0px);
+      --sai-r: env(safe-area-inset-right, 0px);
+      --page-pad: calc(var(--sai-l) + var(--sai-r) + var(--gutter)*2);
+    }
+
+    /* ======================================================
+       NEW STRUCTURE — REAL SCROLL WRAPPER
+       ====================================================== */
+    .page-scroll-inner {
+      height: 100vh;
+      height: 100dvh;
+      height: 100svh;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+
+      width: 100vw;
+      padding-left: calc(var(--gutter) + var(--sai-l));
+      padding-right: calc(var(--gutter) + var(--sai-r));
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ======================================================
+       TRANSFORMED VISUAL LAYER
+       ====================================================== */
     .page-scale-frame {
-      transform: none;
+      width: var(--base-width);
+      transform-origin: top left;
+      display: block;
+    }
+
+    @media (max-width: 1100px) {
+      .page-scale-frame {
+        transform: scale(
+          calc(
+            (max(320px, 100vw) - var(--page-pad) - 1px)
+            / var(--base-width)
+          )
+        );
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .page-scale-frame {
+        transform: none;
+        margin: 0 auto;
+      }
+    }
+
+    .container-narrow {
+      max-width: var(--base-width);
       margin: 0 auto;
+      padding-left: var(--gutter);
+      padding-right: var(--gutter);
+      padding-bottom: clamp(16px, 2vw, 28px);
     }
-  }
 
-  /* Fallback for older browsers without dvh/svh support */
-  @supports not (height: 100dvh) {
-    .page-scale-outer { height: 100vh; }
-  }
-
-  /* ========================================================
-     PAGE CONTAINER
-     ======================================================== */
-  .container-narrow {
-    width: 100%;
-    max-width: var(--base-width);
-    margin: 0 auto;
-    padding-left: var(--gutter);
-    padding-right: var(--gutter);
-    padding-bottom: clamp(16px, 2vw, 28px);
-  }
-
-  /* Navbar rail uses same gutter system */
-  nav[aria-label="Main navigation"] .nav-rail {
-    padding-left: var(--gutter) !important;
-    padding-right: var(--gutter) !important;
-  }
-
-  /* ========================================================
-     MEDIA DEFAULTS
-     ======================================================== */
-  img, video, svg, canvas {
-    max-width: 100%;
-    height: auto;
-    display: block;
-  }
-  iframe { max-width: 100%; }
-
-  /* ========================================================
-     NAVBAR VISUALS
-     ======================================================== */
-  .navbar {
-    border: none;
-    border-radius: 0;
-    margin-bottom: 0;
-    background: #fff;
-  }
-
-  .navbar-brand {
-    font-weight: 800;
-    color: #0D5295 !important;
-  }
-
-  .navbar-nav > li > a {
-    color: #666 !important;
-    font-weight: 600;
-    position: relative;
-  }
-
-  .navbar-nav > li > a:hover {
-    color: #000 !important;
-    background: transparent !important;
-  }
-
-  .navbar-nav > .active > a,
-  .navbar-nav > .active > a:hover,
-  .navbar-nav > .active > a:focus {
-    color: #000 !important;
-    background: transparent !important;
-  }
-
-  .navbar-nav > .active > a::after {
-    content: "";
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    height: 2px;
-    background: #000;
-  }
-
-  /* ========================================================
-     FOOTER
-     ======================================================== */
-  footer {
-    margin-top: clamp(24px, 3vw, 40px);
-    padding: 24px 0;
-    text-align: center;
-    font-size: 14px;
-    color: #555;
-    border-top: 1px solid #eee;
-  }
-
+    footer {
+      margin-top: clamp(24px, 3vw, 40px);
+      padding: 24px 0;
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+      border-top: 1px solid #eee;
+    }
   </style>
 
-  <!-- Scripts -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 </head>
-
 <body>
 
-  <div class="page-scale-outer">
+  <!-- NEW STRUCTURE -->
+  <div class="page-scroll-inner">
     <div class="page-scale-frame">
 
       {% include header.html %}
 
-      <div class="container-narrow content-wrap">
+      <div class="container-narrow">
         {{ content }}
       </div>
 

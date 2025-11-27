@@ -5,43 +5,85 @@ nav: home
 ---
 <style>
 /* ===========================================================
-   GLOBAL RESET AND MOBILE FIXES
+   GLOBAL FIXES
    =========================================================== */
 html, body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;  /* prevent horizontal overflow */
   min-height: 100%;
-  box-sizing: border-box;
-}
-
-*, *::before, *::after {
-  box-sizing: inherit;
+  font-family: 'Nunito', sans-serif;
+  color: #000;
 }
 
 /* ===========================================================
-   BASE LAYOUT — PAGE CONTENT ONLY (navbar untouched)
+   PAGE LAYOUT
    =========================================================== */
 .home-rail {
   width: 100%;
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 15px;
-  font-family: 'Nunito', sans-serif;
-  color: #000;
+  box-sizing: border-box;
 }
 
-/* Section spacing */
 .home-section {
   margin: 120px 0;
 }
 
-/* Mission + News desktop layout */
+/* ===========================================================
+   HERO IMAGE
+   =========================================================== */
+.home-hero {
+  padding: 80px 0 40px;
+  text-align: center;
+}
+
+.home-hero img {
+  max-width: 100%;
+  height: auto;
+  max-height: 80vh; /* prevents image from creating vertical overflow */
+  display: block;
+  margin: 0 auto;
+}
+
+/* ===========================================================
+   TAGLINE
+   =========================================================== */
+.home-tagline {
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* ===========================================================
+   INTRO PARAGRAPH
+   =========================================================== */
+.home-intro {
+  max-width: 850px;
+  margin: 20px auto 60px;
+  text-align: center;
+}
+
+.home-intro p {
+  font-style: italic;
+  font-size: 20px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* ===========================================================
+   MISSION + NEWS (DESKTOP)
+   =========================================================== */
 .mission-news-flex {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
   gap: 80px;
+  flex-wrap: wrap; /* prevent overflow */
 }
 
 .mission-col { flex: 0 0 65%; max-width: 65%; }
@@ -54,7 +96,6 @@ html, body {
   margin-bottom: 20px;
 }
 
-/* Mission list */
 .mission-col ul {
   margin: 0;
   padding: 0;
@@ -76,69 +117,27 @@ html, body {
   background-color: #000;
 }
 
-/* News scroll */
 .news-scroll {
   max-height: 25vw;
   overflow-y: auto;
   padding-right: 4px;
-  margin-bottom: 0;
-}
-
-/* ===========================================================
-   HERO IMAGE
-   =========================================================== */
-.home-hero img {
-  display: block;
-  margin: 0 auto;
-  max-width: 100%;
-  height: auto;
-}
-
-/* ===========================================================
-   TAGLINE & INTRO
-   =========================================================== */
-.home-tagline {
-  font-size: 30px;
-  font-weight: 600;
-  line-height: 1.25;
-  text-align: center;
-  margin: 20px 0;
-}
-
-.home-intro {
-  max-width: 850px;
-  margin: 20px auto 40px;
-  text-align: center;
-}
-
-.home-intro p {
-  font-style: italic;
-  font-size: 20px;
-  line-height: 1.55;
-  margin: 0;
 }
 
 /* ===========================================================
    MOBILE VERSION
    =========================================================== */
 @media (max-width: 899px) {
-
-  /* Reduce section spacing */
-  .home-section { margin: 40px 0; }
-
-  /* Mission + News stacked */
   .mission-news-flex {
     flex-direction: column !important;
-    gap: 40px !important;
+    gap: 50px !important;
   }
 
-  .mission-col, .news-col {
-    width: 100%;
-    max-width: 100%;
-    flex: 0 0 auto;
+  .mission-col,
+  .news-col {
+    max-width: 100% !important;
+    flex: 1 1 100%;
   }
 
-  /* Mission + News titles */
   .mission-col h2,
   .news-col h2 {
     font-size: 40px !important;
@@ -147,10 +146,14 @@ html, body {
     text-align: left !important;
   }
 
-  /* Mission + News body text */
   .mission-col p,
   .mission-col ul,
-  .mission-col li,
+  .mission-col li {
+    font-size: 28px !important;
+    line-height: 1.6 !important;
+    text-align: left !important;
+  }
+
   .news-col p,
   .news-col h4,
   .news-col div {
@@ -159,25 +162,33 @@ html, body {
     text-align: left !important;
   }
 
-  /* Limit news scroll height */
   .news-scroll {
     max-height: 50vh !important;
+    overflow-y: auto !important;
   }
 
-  /* Tagline */
   .home-tagline {
     font-size: 56px !important;
     font-weight: 800 !important;
     line-height: 1.15 !important;
     text-align: center !important;
-    margin: 10px 0 !important;
+    margin-top: 20px;
   }
 
-  /* Intro paragraph */
   .home-intro p {
     font-size: 40px !important;
+    font-weight: 400;
     line-height: 1.45 !important;
     text-align: center !important;
+    margin-top: 30px;
+  }
+
+  .home-section {
+    margin: 60px 0;
+  }
+
+  .home-hero img {
+    max-height: 60vh; /* reduces vertical overflow on mobile */
   }
 }
 </style>
@@ -185,10 +196,9 @@ html, body {
 <!-- ===========================================================
      HERO IMAGE
      =========================================================== -->
-<div class="home-rail home-hero" style="padding:80px 0 40px;">
-  <img
-    src="{{ '/Pages/Home/Images/homepage-hero-image.svg' | relative_url }}"
-    alt="Cancer genomes research hero">
+<div class="home-rail home-hero">
+  <img src="{{ '/Pages/Home/Images/homepage-hero-image.svg' | relative_url }}"
+       alt="Cancer genomes research hero">
 </div>
 
 <!-- ===========================================================
@@ -218,21 +228,18 @@ html, body {
 <div class="home-rail">
   <div class="home-section">
     <div class="mission-news-flex">
-
-      <!-- OUR MISSION -->
+      <!-- Mission -->
       <div class="mission-col">
         <h2>Our Mission</h2>
-        <p>
-          We aim to deliver data-driven precision prevention and precision treatment.<br>
-          Our work broadly focuses on:
-        </p>
+        <p>We aim to deliver data-driven precision prevention and precision treatment.<br>Our work broadly focuses on:</p>
         <ul>
           <li><span></span><strong>Why mutations occur:</strong> How lifestyle, microbes, the immune system, and DNA structure leave their mark on the genome.</li>
           <li><span></span><strong>How this knowledge guides treatment:</strong> Using tumor mutations to predict which therapies will work best.</li>
           <li><span></span><strong>Building new tools:</strong> Developing computational and experimental approaches with clinicians and physicists to push cancer research forward.</li>
         </ul>
         <p style="margin-top:20px;">
-          <a href="{{ '/research/' | relative_url }}" style="color:#6495ED; text-decoration:none;"
+          <a href="{{ '/research/' | relative_url }}"
+             style="color:#6495ED; text-decoration:none;"
              onmouseover="this.style.textDecoration='underline';"
              onmouseout="this.style.textDecoration='none';">
             Read more about our research…
@@ -240,7 +247,7 @@ html, body {
         </p>
       </div>
 
-      <!-- LATEST NEWS -->
+      <!-- News -->
       <div class="news-col">
         <h2>Latest News</h2>
         <div class="news-scroll">
@@ -277,7 +284,6 @@ html, body {
           {% endif %}
         </div>
       </div>
-
     </div>
   </div>
 </div>

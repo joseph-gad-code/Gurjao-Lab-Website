@@ -364,13 +364,14 @@ nav: people
 
       {% if is_alumni %}
         <div class="alumni-entry">
-          <div class="alumni-name">{{ p.name }}</div>
-
-          {% if p.bio %}
-            <div class="alumni-desc">{{ p.bio }}</div>
-          {% elsif p.status %}
-            <div class="alumni-desc">{{ p.status }}</div>
-          {% endif %}
+          <span class="alumni-name">{{ p.name }}</span>
+          <span class="alumni-desc">
+            {% if p.bio %}
+              {{ p.bio }}
+            {% elsif p.status %}
+              {{ p.status }}
+            {% endif %}
+          </span>
         </div>
       {% endif %}
     {% endfor %}

@@ -4,6 +4,17 @@ title: Home
 nav: home
 ---
 <style>
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;  /* prevent horizontal overflow that creates extra vertical scroll */
+  min-height: 100%;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
 /* ===========================================================
    BASE LAYOUT — PAGE CONTENT ONLY (navbar untouched)
    =========================================================== */

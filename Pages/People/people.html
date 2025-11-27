@@ -299,32 +299,36 @@ nav: people
     {% endfor %}
   </div>
 </section>
-<section class="people-page">
-  <h2 style="font-weight:700;font-size:20px;margin-top:0;margin-bottom:50px;text-align:left;">Alumni</h2>
+{% assign folks = site.data.people | default: empty %}
+{% assign alumni_list = folks | where_exp: "p", "p.alumni == 1 or p.alumni == '1' or p.alumni == true or p.alumni == 'yes'" %}
+{% if alumni_list.size > 0 %}
+  <section class="people-page">
+    <h2 style="font-weight:700;font-size:20px;margin-top:0;margin-bottom:50px;text-align:left;">Alumni</h2>
+  
+    {% assign folks = site.data.people | default: empty %}
+    <div class="people-list">
+      {% for p in folks %}
+        {% assign is_alumni = false %}
+        {% if p.alumni == 1 or p.alumni == '1' or p.alumni == true or p.alumni == 'yes' %}
+          {% assign is_alumni = true %}
+        {% endif %}
 
-  {% assign folks = site.data.people | default: empty %}
-  <div class="people-list">
-    {% for p in folks %}
-      {% assign is_alumni = false %}
-      {% if p.alumni == 1 or p.alumni == '1' or p.alumni == true or p.alumni == 'yes' %}
-        {% assign is_alumni = true %}
-      {% endif %}
+        {% if is_alumni %}
+        <article class="person-card">
+         <div class="person-meta">
+            <h3 class="person-name">{{ p.name }}</h3>
 
-      {% if is_alumni %}
-      <article class="person-card">
-        <div class="person-meta">
-          <h3 class="person-name">{{ p.name }}</h3>
-
-          {# description – reuse p.bio as the alumni description #}
-          {% if p.bio %}
-            <p class="person-bio">{{ p.bio }}</p>
-          {% endif %}
-        </div>
+            {# description – reuse p.bio as the alumni description #}
+            {% if p.bio %}
+              <p class="person-bio">{{ p.bio }}</p>
+            {% endif %}
+          </div>
       </article>
       {% endif %}
     {% endfor %}
   </div>
 </section>
+{% endif %}
 <section class="values-section">
   <h2 style="font-weight:700;font-size:20px;margin-top:0;text-align:left;margin-bottom:50px;">Core Values</h2>
 

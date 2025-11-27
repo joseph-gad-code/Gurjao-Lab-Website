@@ -3,10 +3,23 @@ layout: default
 title: Home
 nav: home
 ---
+
 <style>
 /* ===========================================================
    BASE LAYOUT — PAGE CONTENT ONLY (navbar untouched)
    =========================================================== */
+
+/* === Universal fixes to prevent horizontal scrolling === */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
 
 .home-rail {
   width: 100%;
@@ -16,10 +29,13 @@ nav: home
   padding-right: 15px;
   font-family: 'Nunito', sans-serif;
   color: #000;
+  overflow-x: hidden;
 }
 
 /* Section spacing on desktop */
-.home-section { margin: 120px 0; }
+.home-section { 
+  margin: 120px 0; 
+}
 
 /* Mission + News desktop layout */
 .mission-news-flex {
@@ -30,8 +46,15 @@ nav: home
   gap: 80px;
 }
 
-.mission-col { flex: 0 0 65%; max-width: 65%; }
-.news-col    { flex: 0 0 35%; max-width: 35%; }
+.mission-col { 
+  flex: 0 0 65%; 
+  max-width: 65%; 
+}
+
+.news-col { 
+  flex: 0 0 35%; 
+  max-width: 35%; 
+}
 
 .mission-col h2,
 .news-col h2 {
@@ -51,6 +74,7 @@ nav: home
   margin-bottom: 8px;
   padding-left: 28px;
   position: relative;
+  word-wrap: break-word; /* prevent overflow from long words */
 }
 
 .mission-col li span {
@@ -68,8 +92,6 @@ nav: home
   overflow-y: auto;
   padding-right: 4px;
 }
-
-
 
 /* ===========================================================
    MOBILE VERSION — EXACT OPTION A SCALING
@@ -142,9 +164,16 @@ nav: home
     margin: 60px 0;
   }
 }
+
+/* Ensure hero images are responsive */
+.home-rail img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
 </style>
-
-
 
 <!-- ===========================================================
      HERO IMAGE
@@ -153,12 +182,9 @@ nav: home
   <div style="padding:80px 0 40px;">
     <img
       src="{{ '/Pages/Home/Images/homepage-hero-image.svg' | relative_url }}"
-      alt="Cancer genomes research hero"
-      style="display:block; margin:0 auto; max-width:100%; height:auto;">
+      alt="Cancer genomes research hero">
   </div>
 </div>
-
-
 
 <!-- ===========================================================
      TAGLINE — center on all devices, very large on mobile
@@ -169,8 +195,6 @@ nav: home
     We study genomes to prevent and treat cancer.
   </div>
 </div>
-
-
 
 <!-- ===========================================================
      INTRO PARAGRAPH — centered, large on mobile
@@ -183,8 +207,6 @@ nav: home
     By decoding each person’s genetic profile, we predict which therapies will work best – saving precious time for patients.
   </p>
 </div>
-
-
 
 <!-- ===========================================================
      MISSION + NEWS
@@ -217,8 +239,6 @@ nav: home
           </a>
         </p>
       </div>
-
-
 
       <!-- ====================== LATEST NEWS ====================== -->
       <div class="news-col">

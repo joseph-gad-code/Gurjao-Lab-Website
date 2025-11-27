@@ -300,8 +300,13 @@ nav: people
   </div>
 </section>
 {% assign folks = site.data.people | default: empty %}
-{% assign alumni_list = folks | where_exp: "p", "p.alumni == 1 or p.alumni == '1' or p.alumni == true or p.alumni == 'yes'" %}
-{% if alumni_list.size > 0 %}
+ {% assign has_alumni = false %}
+  {% for p in folks %}
+    {% if p.alumni == 1 or p.alumni == '1' or p.alumni == true or p.alumni == 'yes' %}
+      {% assign has_alumni = true %}
+    {% endif %}
+  {% endfor %}
+{% if has_alumni %}
   <section class="people-page">
     <h2 style="font-weight:700;font-size:20px;margin-top:0;margin-bottom:50px;text-align:left;">Alumni</h2>
   

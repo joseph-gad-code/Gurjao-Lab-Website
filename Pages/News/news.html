@@ -33,6 +33,7 @@ permalink: /news/
   margin-bottom: 25px;
   border-bottom: 1px solid #eee;
   padding-bottom: 15px;
+  box-sizing: border-box;
 }
 
 .news-item:last-child {
@@ -40,12 +41,14 @@ permalink: /news/
 }
 
 .news-item .news-text {
-  flex: 1;
+  flex: 1 1 0;
+  box-sizing: border-box;
 }
 
 .news-item h2 {
   font-size: 20px;
   margin: 0 0 6px;
+  font-weight: 700;
 }
 
 .news-item .news-date {
@@ -55,8 +58,8 @@ permalink: /news/
 }
 
 .news-item img {
-  width: 100px;     /* square image */
-  height: 100px;
+  width: 120px;
+  height: 120px;
   object-fit: cover;
   border-radius: 8px;
   flex-shrink: 0;
@@ -67,21 +70,31 @@ permalink: /news/
   margin: 0 0 8px;
 }
 
-/* Responsive adjustments */
-@media (max-width: 899px) {
+/* Mobile adjustments */
+@media (max-width: 900px) {
   .news-item {
     flex-direction: column;
     gap: 12px;
   }
 
   .news-item img {
-    width: 80px;
-    height: 80px;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
     margin: 0 auto;
   }
 
   .news-item h2 {
-    font-size: 28px;
+    font-size: 40px; /* match Publications page title size */
+  }
+
+  .news-item .news-date {
+    font-size: 25px; /* match Publications page author/journal size */
+  }
+
+  .news-item p {
+    font-size: 28px; /* body text enlarged */
+    line-height: 1.6;
   }
 }
 </style>

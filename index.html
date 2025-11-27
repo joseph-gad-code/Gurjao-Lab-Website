@@ -28,6 +28,7 @@ html, body {
   font-family: 'Nunito', sans-serif;
   color: #000;
   overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 /* ===========================================================
@@ -45,19 +46,19 @@ html, body {
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 40px; /* reduced to fit column */
+  gap: 40px;
 }
 
-.mission-col { 
-  flex: 0 0 60%;
-  max-width: 60%;
+.mission-col {
+  flex: 0 0 calc(60% - 20px); /* subtract half of the gap */
+  max-width: calc(60% - 20px);
+  box-sizing: border-box;
 }
 
-.news-col { 
-  flex: 0 0 40%;
-  max-width: 40%;
-  padding-left: 0;
-  padding-right: 0;
+.news-col {
+  flex: 0 0 calc(40% - 20px); /* subtract half of the gap */
+  max-width: calc(40% - 20px);
+  box-sizing: border-box;
 }
 
 .mission-col h2,

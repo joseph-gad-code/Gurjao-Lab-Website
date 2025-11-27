@@ -8,17 +8,6 @@ nav: home
    BASE LAYOUT — PAGE CONTENT ONLY (navbar untouched)
    =========================================================== */
 
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;       /* prevent horizontal scroll */
-}
-
-body {
-  min-height: 100vh;        /* ensure body always at least viewport height */
-  position: relative;        /* for bottom blocker reference */
-}
-
 .home-rail {
   width: 100%;
   max-width: 1100px;
@@ -80,12 +69,15 @@ body {
   padding-right: 4px;
 }
 
+
+
 /* ===========================================================
    MOBILE VERSION — EXACT OPTION A SCALING
    =========================================================== */
 
 @media (max-width: 899px) {
 
+  /* Stack Mission + News vertically */
   .mission-news-flex {
     flex-direction: column !important;
     gap: 50px !important;
@@ -97,6 +89,7 @@ body {
     flex: 1 1 100%;
   }
 
+  /* Mission + News section titles (Option A) */
   .mission-col h2,
   .news-col h2 {
     font-size: 40px !important;
@@ -105,6 +98,7 @@ body {
     text-align: left !important;
   }
 
+  /* Mission + News body text (Option A) */
   .mission-col p,
   .mission-col ul,
   .mission-col li {
@@ -125,6 +119,7 @@ body {
     max-height: 50vh !important;
   }
 
+  /* ---------- TAGLINE (Option A: 56px, centered) ---------- */
   .home-tagline {
     font-size: 56px !important;
     font-weight: 800 !important;
@@ -133,6 +128,7 @@ body {
     margin-top: 20px;
   }
 
+  /* ---------- Intro blurb (Option A: 40px, centered) ---------- */
   .home-intro p {
     font-size: 40px !important;
     font-weight: 400;
@@ -141,25 +137,14 @@ body {
     margin-top: 30px;
   }
 
+  /* Section spacing */
   .home-section {
     margin: 60px 0;
   }
 }
-
-/* ===========================================================
-   BOTTOM BLOCKER
-   =========================================================== */
-
-.bottom-blocker {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;          /* block vertical overflow */
-  pointer-events: none;   /* allow interactions with underlying content */
-  z-index: 9999;
-}
 </style>
+
+
 
 <!-- ===========================================================
      HERO IMAGE
@@ -173,8 +158,10 @@ body {
   </div>
 </div>
 
+
+
 <!-- ===========================================================
-     TAGLINE
+     TAGLINE — center on all devices, very large on mobile
      =========================================================== -->
 <div class="home-rail">
   <div class="home-tagline"
@@ -183,8 +170,10 @@ body {
   </div>
 </div>
 
+
+
 <!-- ===========================================================
-     INTRO PARAGRAPH
+     INTRO PARAGRAPH — centered, large on mobile
      =========================================================== -->
 <div class="home-rail home-intro" style="max-width:850px; margin:20px auto 60px;">
   <p style="font-style:italic; font-size:20px; line-height:1.55; text-align:center;">
@@ -195,6 +184,8 @@ body {
   </p>
 </div>
 
+
+
 <!-- ===========================================================
      MISSION + NEWS
      =========================================================== -->
@@ -202,7 +193,7 @@ body {
   <div class="home-section">
     <div class="mission-news-flex">
 
-      <!-- OUR MISSION -->
+      <!-- ===================== OUR MISSION ===================== -->
       <div class="mission-col">
         <h2>Our Mission</h2>
 
@@ -227,7 +218,9 @@ body {
         </p>
       </div>
 
-      <!-- LATEST NEWS -->
+
+
+      <!-- ====================== LATEST NEWS ====================== -->
       <div class="news-col">
         <h2>Latest News</h2>
 
@@ -269,8 +262,3 @@ body {
     </div>
   </div>
 </div>
-
-<!-- ===========================================================
-     BOTTOM BLOCKER
-     =========================================================== -->
-<div class="bottom-blocker"></div>

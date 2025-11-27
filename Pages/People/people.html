@@ -237,6 +237,51 @@ nav: people
     line-height: 1.6;
   }
 }
+  /* Alumni list – simple text layout, similar to pub list */
+.alumni-section {
+  padding-top: 40px;
+}
+
+.alumni-list {
+  margin-top: 0;
+}
+
+.alumni-entry {
+  padding: 10px 0 12px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 8px;
+}
+
+.alumni-name {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #000;
+}
+
+.alumni-desc {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Mobile sizing for alumni (match your general mobile scale) */
+@media (max-width: 600px) {
+  .alumni-entry {
+    padding: 20px 0 24px;
+    margin-bottom: 16px;
+  }
+
+  .alumni-name {
+    font-size: 40px;
+  }
+
+  .alumni-desc {
+    font-size: 35px;
+    line-height: 1.5;
+  }
+}
+  
 </style>
 
 <section class="people-page">
@@ -307,31 +352,32 @@ nav: people
     {% endif %}
   {% endfor %}
 {% if has_alumni %}
-  <section class="people-page">
-    <h2 style="font-weight:700;font-size:20px;margin-top:0;margin-bottom:50px;text-align:left;">Alumni</h2>
-  
-    {% assign folks = site.data.people | default: empty %}
-    <div class="people-list">
-      {% for p in folks %}
-        {% assign is_alumni = false %}
-        {% if p.alumni == 1 or p.alumni == '1' or p.alumni == true or p.alumni == 'yes' %}
-          {% assign is_alumni = true %}
-        {% endif %}
+<section class="people-page alumni-section">
+  <h2 style="font-weight:700;font-size:20px;margin-top:0;margin-bottom:30px;text-align:left;">Alumni</h2>
 
-        {% if is_alumni %}
-        <article class="person-card">
-         <div class="person-meta">
-            <h3 class="person-name">{{ p.name }}</h3>
-            {% if p.bio %}
-              <p class="person-bio">{{ p.bio }}</p>
-            {% endif %}
-          </div>
-      </article>
+  <div class="alumni-list">
+    {% for p in folks %}
+      {%- assign is_alumni = false -%}
+      {% if p.alumni == 1 or p.alumni == '1' or p.alumni == true or p.alumni == 'yes' %}
+        {% assign is_alumni = true %}
+      {% endif %}
+
+      {% if is_alumni %}
+        <div class="alumni-entry">
+          <div class="alumni-name">{{ p.name }}</div>
+
+          {% if p.bio %}
+            <div class="alumni-desc">{{ p.bio }}</div>
+          {% elsif p.status %}
+            <div class="alumni-desc">{{ p.status }}</div>
+          {% endif %}
+        </div>
       {% endif %}
     {% endfor %}
   </div>
 </section>
 {% endif %}
+
 <section class="values-section">
   <h2 style="font-weight:700;font-size:20px;margin-top:0;text-align:left;margin-bottom:50px;">Core Values</h2>
 

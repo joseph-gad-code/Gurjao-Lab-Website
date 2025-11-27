@@ -11,10 +11,10 @@ nav: home
 
 <style>
 /* ===========================================================
-   GLOBAL FOOTER-SCROLL PREVENTION
+   GLOBAL FOOTER-SCROLL PREVENTION (correct version)
    =========================================================== */
 html, body {
-  height: 100%;
+  min-height: 100%;
   margin: 0;
 }
 
@@ -138,7 +138,7 @@ html, body {
     flex: 1 1 100%;
   }
 
-  /* Mission + News section titles (Option A) */
+  /* Section titles */
   .mission-col h2,
   .news-col h2 {
     font-size: 40px !important;
@@ -147,7 +147,7 @@ html, body {
     text-align: left !important;
   }
 
-  /* Mission + News body text (Option A) */
+  /* Body text */
   .mission-col p,
   .mission-col ul,
   .mission-col li {
@@ -168,7 +168,7 @@ html, body {
     max-height: 50vh !important;
   }
 
-  /* ---------- TAGLINE (Option A: 56px, centered) ---------- */
+  /* Tagline */
   .home-tagline {
     font-size: 56px !important;
     font-weight: 800 !important;
@@ -177,7 +177,7 @@ html, body {
     margin-top: 20px;
   }
 
-  /* ---------- Intro blurb (Option A: 40px, centered) ---------- */
+  /* Intro blurb */
   .home-intro p {
     font-size: 40px !important;
     font-weight: 400;
@@ -186,7 +186,6 @@ html, body {
     margin-top: 30px;
   }
 
-  /* Section spacing */
   .home-section {
     margin: 60px 0;
   }

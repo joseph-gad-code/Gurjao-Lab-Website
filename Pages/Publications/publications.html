@@ -118,9 +118,14 @@ h2 {
 
 /* Full List heading with Google Scholar icon */
 .full-list-heading {
-  display: inline-flex; /* or flex */
+  display: flex;               /* keep icon beside text */
   align-items: center;
-  gap: 10px;  /* spacing between text and icon */
+  gap: 10px;
+
+  width: 100%;                 /* makes the bottom border full-width */
+  margin-bottom: 25px;         /* match spacing under “Selected Publications” */
+  border-bottom: 2px solid #eee; /* ensure line appears consistently */
+  padding-bottom: 8px;         /* match your h2 style */
 }
 
 /* keep base h2 aesthetics from global h2 rule */

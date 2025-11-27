@@ -245,11 +245,11 @@ nav: people
   {% assign folks = site.data.people | default: empty %}
   <div class="people-list">
     {% for p in folks %}
-    {% assign is_alumni = false %}
-    {% if p.alumni == 1 or p.alumni == '1' or p.alumni == true or p.alumni == 'yes' %}
-          {% assign is_alumni = true %}
-    {% endif %}
-    {% unless is_alumni %}
+      {% assign not_alumni = true %}
+      {% if p.alumni == 1 or p.alumni == '1' or p.alumni == true or p.alumni == 'yes' %}
+          {% assign not_alumni = false %}
+      {% endif %}
+    {% if not_alumni %}
     <article class="person-card">
       <div class="person-photo-wrap">
         {% if p.image %}
@@ -295,7 +295,7 @@ nav: people
         {% endif %}
       </div>
     </article>
-    {%endunless %}
+    {%endif %}
     {% endfor %}
   </div>
 </section>

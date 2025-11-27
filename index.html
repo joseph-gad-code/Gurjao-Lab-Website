@@ -34,7 +34,7 @@ html, body {
    SECTION SPACING
    =========================================================== */
 .home-section { 
-  margin: 50px 0;  /* reduced from 120px to tighten layout */
+  margin: 50px 0;
 }
 
 /* ===========================================================
@@ -45,7 +45,7 @@ html, body {
   flex-direction: row;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 80px;
+  gap: 40px; /* reduced to fit column */
 }
 
 .mission-col { 
@@ -56,6 +56,8 @@ html, body {
 .news-col { 
   flex: 0 0 40%;
   max-width: 40%;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .mission-col h2,
@@ -88,16 +90,28 @@ html, body {
 }
 
 /* ===========================================================
-   NEWS SCROLL — fixed height, optional images
+   NEWS SCROLL — fixed height, images, fit cards
    =========================================================== */
 .news-scroll {
-  max-height: 540px;   /* ~4 items tall */
+  max-height: 540px; /* ~4 items tall */
   overflow-y: auto;
-  padding-right: 4px;
+  padding-right: 0;
+}
+
+.news-scroll > div {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 10px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  background: #fff;
 }
 
 .news-scroll img {
   width: 100%;
+  max-height: 150px;
+  object-fit: cover;
   border-radius: 8px;
   margin-bottom: 8px;
 }
@@ -251,7 +265,7 @@ html, body {
           {% assign items = site.data.news | sort: "date" | reverse %}
           {% if items and items.size > 0 %}
             {% for n in items %}
-              <div style="border:1px solid #eee; border-radius:10px; background:#fff; padding:12px; margin-bottom:10px;">
+              <div>
                 
                 {% if n.image %}
                   <img src="{{ n.image | relative_url }}" 
@@ -281,7 +295,7 @@ html, body {
               </div>
             {% endfor %}
           {% else %}
-            <div style="border:1px solid #eee; border-radius:10px; background:#fff; padding:12px;">
+            <div>
               <h4 style="margin:0 0 4px;">No news yet</h4>
               <div style="font-size:0.9rem; color:#777;">{{ "now" | date: "%b %-d, %Y" }}</div>
               <p style="margin:0;">Check back soon for updates.</p>

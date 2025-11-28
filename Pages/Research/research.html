@@ -97,17 +97,18 @@ html, body {
 
   /* Stack content vertically */
   .research-flex {
-    flex-direction: flex-start; !important;
+    flex-direction: column !important;   /* was flex-start */
+    align-items: stretch;
     gap: 40px;
   }
 
   /* IMAGE BEHAVIOR */
   .research-image {
-    order: -1; /* move image above text */
-    width: 100%; 
+    order: -1;              /* image above text; remove if you prefer text first */
+    width: 100%;
     max-width: 100%;
     padding: 0;
-    margin: 0 auto; /* center inside parent */
+    margin: 0 auto;
   }
 
   .research-image img {
@@ -119,7 +120,7 @@ html, body {
     transform: none !important;
   }
 
-  /* TEXT BEHAVIOR */
+  /* TEXT BEHAVIOR – keep as you had */
   .research-text {
     flex: 1 1 100%;
     max-width: 100%;
@@ -127,7 +128,6 @@ html, body {
     padding-right: var(--gutter);
   }
 
-  /* LARGER TEXT */
   .research-text h2 {
     font-size: 50px !important;
     line-height: 1.3;
@@ -143,15 +143,8 @@ html, body {
     line-height: 1.7;
   }
 
-  /* Section spacing */
   .research-section {
     margin: 60px 0;
-  }
-
-  /* Remove rotations */
-  .research-image.rotate-right img,
-  .research-image.rotate-left img {
-    transform: rotate(0deg) !important;
   }
 }
 </style>

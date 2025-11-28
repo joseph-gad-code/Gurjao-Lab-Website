@@ -212,34 +212,59 @@
     letter-spacing: 0.2px;
     display: flex;
     align-items: center;
-    gap: 10px; /* spacing between logo + text */
+    gap: 10px;
   }
 
-  /* Ensure logo image stays 70px and less rounded */
+  /* Logo remains correct size */
   .gurjaolab-navbar .navbar-brand img {
     width: 70px;
     height: 70px;
     border-radius: 10px;
   }
 
-  /* Prevent hamburger overlap */
+  /* === BIGGER HAMBURGER BUTTON === */
   .gurjaolab-navbar .menu-toggle {
-    flex-shrink: 0;
+    width: 70px;       /* was 50px */
+    height: 70px;      /* was 50px */
+    padding: 8px;      /* bigger tap target */
   }
 
-  /* Extra padding so brand + hamburger never collide */
+  /* Thicker hamburger lines */
+  .gurjaolab-navbar .menu-toggle span {
+    height: 6px;       /* was 4px */
+    background: #999;
+    border-radius: 3px;
+  }
+
+  /* Adjust top/middle/bottom bars */
+  .gurjaolab-navbar .menu-toggle span:nth-child(1) { top: 8px; }
+  .gurjaolab-navbar .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+  .gurjaolab-navbar .menu-toggle span:nth-child(3) { bottom: 8px; top: auto; }
+
+  /* Transform to X is scaled too */
+  .gurjaolab-navbar .menu-toggle.open span:nth-child(1),
+  .gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  .gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
+    transform: translateY(-50%) rotate(-45deg);
+  }
+
+  /* Extra space so text never collides with hamburger */
   .gurjaolab-navbar .nav-rail {
-    padding-right: 100px;
+    padding-right: 120px;   /* was 100px */
   }
 
-  /* Nav links in mobile menu */
+  /* === BIGGER MENU ITEMS === */
   .gurjaolab-navbar .nav-links li a {
-    font-size: 50px;
-    padding: 14px 0;
+    font-size: 60px;   /* was 50px */
+    padding: 18px 0;   /* better touch spacing */
   }
 
+  /* spacing between menu items */
   .gurjaolab-navbar .nav-links {
-    gap: 36px;
+    gap: 45px;         /* was 36px */
   }
 }
 

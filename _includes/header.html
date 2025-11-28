@@ -238,9 +238,9 @@
   }
 
   /* Adjust top/middle/bottom bars */
-  .gurjaolab-navbar .menu-toggle span:nth-child(1) { top: 8px; }
+  .gurjaolab-navbar .menu-toggle span:nth-child(1) { top: 12px; }
   .gurjaolab-navbar .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
-  .gurjaolab-navbar .menu-toggle span:nth-child(3) { bottom: 8px; top: auto; }
+  .gurjaolab-navbar .menu-toggle span:nth-child(3) { top: calc(100% - 12px - 6px); } /* 6px = bar height */
 
   /* Transform to X is scaled too */
   .gurjaolab-navbar .menu-toggle.open span:nth-child(1),

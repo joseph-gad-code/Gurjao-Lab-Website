@@ -130,7 +130,6 @@
   border: none;
   cursor: pointer;
   padding: 5px;
-  justify-content: space-between;
 }
 
 .gurjaolab-navbar .menu-toggle span {
@@ -193,9 +192,8 @@
 
   .gurjaolab-navbar .nav-links li a {
     font-weight: 600;
+    font-size: clamp(14px, 1.9vw, 16px);
     padding: 14px 0 6px;
-    font-size: 60px;  /* keep large for mobile */
-    line-height: 1.2;
   }
 
   /* Make navbar brand smaller on desktop */
@@ -239,9 +237,9 @@
   }
 
   /* Adjust top/middle/bottom bars */
-  /*.gurjaolab-navbar .menu-toggle span:nth-child(1) { top: 8px; } */
-  /* .gurjaolab-navbar .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); } */
-  /* .gurjaolab-navbar .menu-toggle span:nth-child(3) { bottom: 8px; top: auto; } */
+  .gurjaolab-navbar .menu-toggle span:nth-child(1) { top: 8px; }
+  .gurjaolab-navbar .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+  .gurjaolab-navbar .menu-toggle span:nth-child(3) { bottom: 8px; top: auto; }
 
   /* Transform to X is scaled too */
   .gurjaolab-navbar .menu-toggle.open span:nth-child(1),
@@ -260,15 +258,13 @@
 
   /* === BIGGER MENU ITEMS === */
   .gurjaolab-navbar .nav-links li a {
-    font-size: 60px;   /* keep large for touch */
-    padding: 8px 0;    /* reduced vertical padding for even spacing */
-    line-height: 1.2;  /* optional: keeps wrapped lines closer */
+    font-size: 60px;   /* was 50px */
+    padding: 18px 0;   /* better touch spacing */
   }
 
   /* spacing between menu items */
   .gurjaolab-navbar .nav-links {
-    gap: 30px;         /* was 36px */
-    padding: 0;
+    gap: 45px;         /* was 36px */
   }
 }
 

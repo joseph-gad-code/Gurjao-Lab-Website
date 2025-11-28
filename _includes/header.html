@@ -119,32 +119,34 @@
 
 .gurjaolab-navbar .nav-links li a:hover { color: #000; }
 
-/* ===== Hamburger Button (flexbox spacing only) ===== */
+/* ===== Hamburger Button ===== */
 .gurjaolab-navbar .menu-toggle {
   flex-shrink: 0;
   position: relative;
-  width: 70px;       /* keep your existing mobile size */
-  height: 70px;      /* keep your existing mobile size */
+  width: 50px;
+  height: 50px;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* evenly space bars */
-  padding: 8px;      /* keep your existing mobile padding */
   background: none;
   border: none;
   cursor: pointer;
+  padding: 5px;
 }
 
 .gurjaolab-navbar .menu-toggle span {
-  position: relative; /* change from absolute to relative for spacing */
+  position: absolute;
+  left: 0;
   width: 100%;
-  height: 6px;        /* keep your existing thickness */
-  background: #999;   /* keep your existing color */
-  border-radius: 3px; /* keep your existing border-radius */
-  transition: transform .3s ease-out, opacity .1s ease-out, top .3s ease-out; /* keep existing transition */
+  height: 4px;
+  background: #bbb;
+  border-radius: 2px;
+  transition: transform .3s ease-out, opacity .1s ease-out, top .3s ease-out;
   transform-origin: center;
 }
 
-/* X transformation for open state */
+.gurjaolab-navbar .menu-toggle span:nth-child(1) { top: 0; }
+.gurjaolab-navbar .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
+.gurjaolab-navbar .menu-toggle span:nth-child(3) { top: 100%; transform: translateY(-100%); }
+
 .gurjaolab-navbar .menu-toggle.open span:nth-child(1) {
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
@@ -157,7 +159,7 @@
   transform: translateY(-50%) rotate(-45deg);
 }
 
-/* Hover affordance */
+/* ===== Hover affordance ===== */
 @media (hover:hover) and (pointer:fine) {
   .gurjaolab-navbar .menu-toggle:hover span { 
     background: #000; 
@@ -194,47 +196,57 @@
     padding: 14px 0 6px;
   }
 
+  /* Make navbar brand smaller on desktop */
   .gurjaolab-navbar .navbar-brand {
-    font-size: 40px; 
+    font-size: 40px; /* adjust as needed */
   }
 }
 
 /* ===== NARROW-SCREEN / MOBILE OVERRIDES ===== */
 @media (max-width: 899px) {
 
+  /* Brand text fixed at 70px */
   .gurjaolab-navbar .navbar-brand {
     font-size: 70px;
     line-height: 1.05;
     letter-spacing: 0.2px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 10px; /* spacing between logo + text */
   }
 
+  /* Ensure logo image stays 70px and less rounded */
   .gurjaolab-navbar .navbar-brand img {
     width: 70px;
     height: 70px;
     border-radius: 10px;
   }
 
-  .gurjaolab-navbar .nav-rail {
-    padding-right: 120px; 
+  /* Prevent hamburger overlap */
+  .gurjaolab-navbar .menu-toggle {
+    flex-shrink: 0;
   }
 
+  /* Extra padding so brand + hamburger never collide */
+  .gurjaolab-navbar .nav-rail {
+    padding-right: 100px;
+  }
+
+  /* Nav links in mobile menu */
   .gurjaolab-navbar .nav-links li a {
-    font-size: 60px;
-    padding: 18px 0; 
+    font-size: 50px;
+    padding: 14px 0;
   }
 
   .gurjaolab-navbar .nav-links {
-    gap: 45px;
+    gap: 36px;
   }
 }
 
 /* ===== Touchscreen-specific tweaks ===== */
 @media (hover: none) {
   .gurjaolab-navbar .navbar-brand {
-    font-size: 70px; 
+    font-size: 70px; /* keep fixed 70px */
     line-height: 1.05;
     letter-spacing: 0.2px;
   }
@@ -242,10 +254,23 @@
 
 /* ===== Ultra-narrow screens (<360px) ===== */
 @media (max-width: 360px) {
-  .gurjaolab-navbar .navbar-brand { font-size: 70px; }
-  .gurjaolab-navbar .nav-links li a { font-size: 23px; }
-  .gurjaolab-navbar .nav-rail { padding-right: 100px; }
+
+  /* Keep brand 70px */
+  .gurjaolab-navbar .navbar-brand {
+    font-size: 70px;
+  }
+
+  /* Shrink menu items only */
+  .gurjaolab-navbar .nav-links li a {
+    font-size: 23px;
+  }
+
+  /* Maintain spacing to avoid overlap */
+  .gurjaolab-navbar .nav-rail {
+    padding-right: 100px;
+  }
 }
+
 </style>
 
 <script>

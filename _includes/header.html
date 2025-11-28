@@ -229,17 +229,26 @@
     padding: 8px;      /* bigger tap target */
   }
 
-  /* Thicker hamburger lines */
-  .gurjaolab-navbar .menu-toggle span {
-    height: 6px;       /* was 4px */
-    background: #999;
-    border-radius: 3px;
-  }
+ .gurjaolab-navbar .menu-toggle span {
+  width: 100%;
+  height: 6px;              /* thicker lines */
+  background-color: #999;
+  border-radius: 4px;
+  transition: transform .3s ease, opacity .2s ease;
+}
 
-  /* Adjust top/middle/bottom bars */
-  .gurjaolab-navbar .menu-toggle span:nth-child(1) { top: 8px; }
-  .gurjaolab-navbar .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
-  .gurjaolab-navbar .menu-toggle span:nth-child(3) { bottom: 8px; top: auto; }
+ /* Open state animations */
+.gurjaolab-navbar .menu-toggle.open span:nth-child(1) {
+  transform: translateY(18px) rotate(45deg);
+}
+
+.gurjaolab-navbar .menu-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
+  transform: translateY(-18px) rotate(-45deg);
+}
 
   /* Transform to X is scaled too */
   .gurjaolab-navbar .menu-toggle.open span:nth-child(1),

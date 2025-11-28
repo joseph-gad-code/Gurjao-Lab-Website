@@ -119,47 +119,42 @@
 
 .gurjaolab-navbar .nav-links li a:hover { color: #000; }
 
-/* ===== Hamburger Button ===== */
+/* ===== Hamburger Button (flexbox spacing) ===== */
 .gurjaolab-navbar .menu-toggle {
   flex-shrink: 0;
   position: relative;
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 70px;
   display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* evenly space bars */
   background: none;
   border: none;
   cursor: pointer;
-  padding: 5px;
+  padding: 8px;
 }
 
 .gurjaolab-navbar .menu-toggle span {
-  position: absolute;
-  left: 0;
+  position: relative; /* remove absolute positioning */
   width: 100%;
-  height: 4px;
-  background: #bbb;
-  border-radius: 2px;
-  transition: transform .3s ease-out, opacity .1s ease-out, top .3s ease-out;
+  height: 6px;
+  background: #999;
+  border-radius: 3px;
+  transition: transform .3s ease-out, opacity .1s ease-out;
   transform-origin: center;
 }
 
-.gurjaolab-navbar .menu-toggle span:nth-child(1) { top: 0; }
-.gurjaolab-navbar .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
-.gurjaolab-navbar .menu-toggle span:nth-child(3) { top: 100%; transform: translateY(-100%); }
-
 .gurjaolab-navbar .menu-toggle.open span:nth-child(1) {
-  top: 50%;
-  transform: translateY(-50%) rotate(45deg);
+  transform: rotate(45deg);
 }
 .gurjaolab-navbar .menu-toggle.open span:nth-child(2) {
   opacity: 0;
 }
 .gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
-  top: 50%;
-  transform: translateY(-50%) rotate(-45deg);
+  transform: rotate(-45deg);
 }
 
-/* ===== Hover affordance ===== */
+/* Hover affordance */
 @media (hover:hover) and (pointer:fine) {
   .gurjaolab-navbar .menu-toggle:hover span { 
     background: #000; 
@@ -196,16 +191,14 @@
     padding: 14px 0 6px;
   }
 
-  /* Make navbar brand smaller on desktop */
   .gurjaolab-navbar .navbar-brand {
-    font-size: 40px; /* adjust as needed */
+    font-size: 40px; 
   }
 }
 
 /* ===== NARROW-SCREEN / MOBILE OVERRIDES ===== */
 @media (max-width: 899px) {
 
-  /* Brand text fixed at 70px */
   .gurjaolab-navbar .navbar-brand {
     font-size: 70px;
     line-height: 1.05;
@@ -215,63 +208,30 @@
     gap: 10px;
   }
 
-  /* Logo remains correct size */
   .gurjaolab-navbar .navbar-brand img {
     width: 70px;
     height: 70px;
     border-radius: 10px;
   }
 
-  /* === BIGGER HAMBURGER BUTTON === */
-  .gurjaolab-navbar .menu-toggle {
-    width: 70px;       /* was 50px */
-    height: 70px;      /* was 50px */
-    padding: 8px;      /* bigger tap target */
-  }
-
-  /* Thicker hamburger lines */
-  .gurjaolab-navbar .menu-toggle span {
-    height: 6px;       /* was 4px */
-    background: #999;
-    border-radius: 3px;
-  }
-
-  /* Adjust top/middle/bottom bars */
-  .gurjaolab-navbar .menu-toggle span:nth-child(1) { top: 8px; }
-  .gurjaolab-navbar .menu-toggle span:nth-child(2) { top: 50%; transform: translateY(-50%); }
-  .gurjaolab-navbar .menu-toggle span:nth-child(3) { bottom: 8px; top: auto; }
-
-  /* Transform to X is scaled too */
-  .gurjaolab-navbar .menu-toggle.open span:nth-child(1),
-  .gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
-    top: 50%;
-    transform: translateY(-50%) rotate(45deg);
-  }
-  .gurjaolab-navbar .menu-toggle.open span:nth-child(3) {
-    transform: translateY(-50%) rotate(-45deg);
-  }
-
-  /* Extra space so text never collides with hamburger */
   .gurjaolab-navbar .nav-rail {
-    padding-right: 120px;   /* was 100px */
+    padding-right: 120px; 
   }
 
-  /* === BIGGER MENU ITEMS === */
   .gurjaolab-navbar .nav-links li a {
-    font-size: 60px;   /* was 50px */
-    padding: 18px 0;   /* better touch spacing */
+    font-size: 60px;
+    padding: 18px 0; 
   }
 
-  /* spacing between menu items */
   .gurjaolab-navbar .nav-links {
-    gap: 45px;         /* was 36px */
+    gap: 45px;
   }
 }
 
 /* ===== Touchscreen-specific tweaks ===== */
 @media (hover: none) {
   .gurjaolab-navbar .navbar-brand {
-    font-size: 70px; /* keep fixed 70px */
+    font-size: 70px; 
     line-height: 1.05;
     letter-spacing: 0.2px;
   }
@@ -279,23 +239,10 @@
 
 /* ===== Ultra-narrow screens (<360px) ===== */
 @media (max-width: 360px) {
-
-  /* Keep brand 70px */
-  .gurjaolab-navbar .navbar-brand {
-    font-size: 70px;
-  }
-
-  /* Shrink menu items only */
-  .gurjaolab-navbar .nav-links li a {
-    font-size: 23px;
-  }
-
-  /* Maintain spacing to avoid overlap */
-  .gurjaolab-navbar .nav-rail {
-    padding-right: 100px;
-  }
+  .gurjaolab-navbar .navbar-brand { font-size: 70px; }
+  .gurjaolab-navbar .nav-links li a { font-size: 23px; }
+  .gurjaolab-navbar .nav-rail { padding-right: 100px; }
 }
-
 </style>
 
 <script>

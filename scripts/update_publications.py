@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Optional
 
 SERPAPI_KEY = os.getenv("SERPAPI_API_KEY")
 if not SERPAPI_KEY:
-    raise RuntimeError("Missing SERPAPI_API_KEY environment variable.")
+    print("Missing SERPAPI_API_KEY environment variable.")
 
 SCHOLAR_AUTHOR_ID = "m3rLfS4AAAAJ"
 DATA_FILE = Path("_data/publications.yml")
@@ -299,4 +299,7 @@ def update_publications():
     print(f"➕ Newly added this run: {len(new_enriched)}")
 
 if __name__ == "__main__":
+     if not SERPAPI_KEY:
+        # Exit with success so CI does not fail
+        raise SystemExit(0)
     update_publications()

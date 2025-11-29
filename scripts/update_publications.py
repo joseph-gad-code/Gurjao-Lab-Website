@@ -299,7 +299,7 @@ def update_publications():
     print(f"➕ Newly added this run: {len(new_enriched)}")
 
 if __name__ == "__main__":
-     if not SERPAPI_KEY:
+    if not SERPAPI_KEY:
         # Exit with success so CI does not fail
         raise SystemExit(0)
     update_publications()
